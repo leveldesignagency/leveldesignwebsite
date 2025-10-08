@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0e0e12" />
+    <title>LEVEL — Design, Web, AI Systems</title>
+    <meta name="description" content="LEVEL: Graphic & Web Design. AI-driven systems, portals, and database backends for modern businesses." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000'/><path d='M18 50 H82' stroke='%23ff2d2d' stroke-width='8'/></svg>">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" data-animate="fade-up">
+        <div class="header-inner">
+            <div class="logo" aria-label="LEVEL Logo">
+                <img src="LEVEL LOGO MAIN.svg" alt="LEVEL" class="logo-img" />
+            </div>
+            <nav class="nav" aria-label="Primary">
+                <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="sr-only">Menu</span>
+                </button>
+                <ul id="nav-links" class="nav-links">
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#work">Work</a></li>
+                    <li><a href="#process">Process</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact" class="cta">Start a Project</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero" data-animate="fade-up">
+            <div class="hero-bg" aria-hidden="true"></div>
+            <div class="hero-parallax" aria-hidden="true">
+                <div class="layer l1"></div>
+                <div class="layer l2"></div>
+            </div>
+            <canvas id="hero-cursor-canvas"></canvas>
+            <div class="hero-logo-fullscreen">
+                <img src="LEVEL LOGO MAIN.svg" alt="LEVEL" class="hero-logo-fullscreen-img" />
+            </div>
+            <div class="container hero-inner">
+                <h1 class="headline" id="hero-headline">
+                    <span class="phrase phrase1">Design that ships.</span>
+                    <span class="phrase phrase2">Systems that scale.</span>
+                    <br>
+                    <span class="phrase phrase3">Interfaces that think.</span>
+                </h1>
+            </div>
+        </section>
+
+        <section id="services" class="services section" data-animate="fade-up">
+            <div class="container">
+                <h2>What we do</h2>
+                <div class="grid services-grid">
+                    <article class="card">
+                        <span class="glow"></span>
+                        <div>
+                            <h3>Brand & Identity</h3>
+                            <p>Logos, typography systems, and visual languages that are distinct and enduring.</p>
+                            <ul>
+                                <li>Naming & Strategy</li>
+                                <li>Logo & Visual System</li>
+                                <li>Design Guidelines</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <span class="glow"></span>
+                        <div>
+                            <h3>Web Design & Build</h3>
+                            <p>Fast, accessible sites with modern stacks. SEO-first, conversion-forward.</p>
+                            <ul>
+                                <li>Marketing Sites</li>
+                                <li>CMS & Content Systems</li>
+                                <li>Component Libraries</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <span class="glow"></span>
+                        <div>
+                            <h3>AI Systems & Portals</h3>
+                            <p>Internal tools and customer portals powered by AI that augment your team.</p>
+                            <ul>
+                                <li>Workflow Automations</li>
+                                <li>Chat & Agent Integrations</li>
+                                <li>Dashboards & Data Backends</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <span class="glow"></span>
+                        <div>
+                            <h3>Consulting & Growth</h3>
+                            <p>Roadmaps, experiments, and measurable outcomes. We partner for results.</p>
+                            <ul>
+                                <li>Product & UX Strategy</li>
+                                <li>Funnel & Experimentation</li>
+                                <li>Data & Analytics</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="work" class="work section" data-animate="fade-up">
+            <div class="container">
+                <h2>Selected work</h2>
+                <div class="grid work-grid">
+                    <a class="work-card" href="#" aria-label="Case Study 1">
+                        <span class="glow"></span>
+                        <div class="work-media"></div>
+                        <div class="work-meta">
+                            <span>AI Client Portal</span>
+                            <strong>From clutter to clarity with a unified dashboard</strong>
+                        </div>
+                    </a>
+                    <a class="work-card" href="#" aria-label="Case Study 2">
+                        <span class="glow"></span>
+                        <div class="work-media"></div>
+                        <div class="work-meta">
+                            <span>Brand System</span>
+                            <strong>Revitalized identity for a global SaaS</strong>
+                        </div>
+                    </a>
+                    <a class="work-card" href="#" aria-label="Case Study 3">
+                        <span class="glow"></span>
+                        <div class="work-media"></div>
+                        <div class="work-meta">
+                            <span>Web Platform</span>
+                            <strong>Sub-second UX on a content platform</strong>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Custom Background Element -->
+        <div id="custom-background" class="custom-bg">
+            <div class="bg-layer bg-black"></div>
+            <div class="bg-layer bg-red"></div>
+            <div class="bg-layer bg-pattern"></div>
+        </div>
+
+        <!-- Projects List Section -->
+        <section id="projects" class="projects section" data-animate="fade-up">
+            <div id="background-image-container">
+                <img id="background-image" crossorigin="anonymous" alt="">
+            </div>
+            
+            <div class="container">
+                <div class="projects-container">
+                    <!-- Projects will be rendered here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <section id="process" class="process section" data-animate="fade-up">
+            <div class="container">
+                <h2>How we work</h2>
+                <ol class="steps">
+                    <li>
+                        <span class="glow"></span>
+                        <span class="step-num">01</span>
+                        <div>
+                            <h3>Discover</h3>
+                            <p>We map objectives, constraints, and success metrics. Clarity creates speed.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="glow"></span>
+                        <span class="step-num">02</span>
+                        <div>
+                            <h3>Design</h3>
+                            <p>We prototype experiences and brand systems that people actually love using.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="glow"></span>
+                        <span class="step-num">03</span>
+                        <div>
+                            <h3>Build</h3>
+                            <p>We engineer performant websites and AI-enabled tools that scale with you.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="glow"></span>
+                        <span class="step-num">04</span>
+                        <div>
+                            <h3>Grow</h3>
+                            <p>We measure, iterate, and compound wins. The goal is outcomes, not output.</p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="about" class="about section">
+        </section>
+
+        <section id="contact" class="contact section" data-animate="fade-up">
+            <div class="container">
+                <h2>Start a project</h2>
+                <div class="contact-wrapper">
+                    <form class="contact-form" name="contact" netlify>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>
+                                    <span>Name</span>
+                                    <input type="text" name="name" required />
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <span>Email</span>
+                                    <input type="email" name="email" required />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <span>What are you building?</span>
+                                <textarea name="message" rows="4" required></textarea>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn primary">
+                            <span>Send Message</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22,2 15,22 11,13 2,9 22,2"></polygon>
+                            </svg>
+                        </button>
+                    </form>
+                    <div class="contact-info">
+                        <h3>Let's build something amazing</h3>
+                        <p>Ready to transform your business with cutting-edge design and AI-powered systems? We're here to help you scale.</p>
+                        <div class="contact-methods">
+                            <a href="#" class="contact-method" id="email-copy" data-email="help@leveldesignagency.com">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                                <span>help@leveldesignagency.com</span>
+                            </a>
+                            <p class="copy-notice" style="display: none;">Copied email to clipboard</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer" data-animate="fade-up">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <img src="LEVEL LOGO MAIN.svg" alt="LEVEL" class="footer-logo" />
+                <strong>LEVEL</strong>
+            </div>
+            <nav aria-label="Footer">
+                <ul class="footer-links">
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#work">Work</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="footer-meta">
+                <span>© <span id="year"></span> LEVEL Design Agency</span>
+                <a href="https://vercel.com" target="_blank" rel="noopener">Deployed on Vercel</a>
+            </div>
+        </div>
+    </footer>
+
+    <canvas id="cursor-canvas"></canvas>
+    <script src="script.js" defer></script>
+</body>
+</html>
+
+
