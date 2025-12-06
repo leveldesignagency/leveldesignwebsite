@@ -70,15 +70,15 @@ function startServiceCycling() {
   heroHeadline.style.transition = 'opacity 1s ease-in-out';
   heroHeadline.style.opacity = '0';
   
-  // Create wave effect right after text fades
-  setTimeout(() => {
-    createLightWave();
-  }, 500);
+  // Make sure all image wrappers are hidden when cycling starts
+  document.querySelectorAll('.hero-service-image-wrapper').forEach(wrapper => {
+    wrapper.classList.remove('active');
+  });
   
-  // Start the service cycling after wave
+  // Start the service cycling immediately
   setTimeout(() => {
     showNextSlide();
-  }, 2000);
+  }, 1000);
 }
 
 function showNextSlide() {
@@ -91,6 +91,17 @@ function showNextSlide() {
   if (currentSlide) {
     currentSlide.classList.remove('active');
     
+    // Hide service image wrapper for current service - fade out
+    const currentService = services[(currentSlideIndex - 1 + services.length) % services.length];
+    const normalizedCurrentService = currentService.replace(/\n/g, ' ');
+    const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
+    allImageWrappers.forEach(wrapper => {
+      const wrapperService = wrapper.getAttribute('data-service');
+      if (wrapperService === normalizedCurrentService) {
+        wrapper.classList.remove('active');
+      }
+    });
+    
     // Wait for fade out to complete, then create and show next slide
     setTimeout(() => {
       if (currentSlide.parentNode) {
@@ -101,6 +112,21 @@ function showNextSlide() {
       const nextService = services[currentSlideIndex];
       const newSlide = createServiceSlide(nextService);
       heroInner.appendChild(newSlide);
+      
+      // Show service image wrapper for next service if it exists
+      // Normalize service name for comparison (remove \n and compare)
+      const normalizedNextService = nextService.replace(/\n/g, ' ');
+      const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
+      allImageWrappers.forEach(wrapper => {
+        const wrapperService = wrapper.getAttribute('data-service');
+        if (wrapperService === normalizedNextService) {
+          setTimeout(() => {
+            wrapper.classList.add('active');
+          }, 200);
+        } else {
+          wrapper.classList.remove('active');
+        }
+      });
       
       // Fade in after a brief delay
       setTimeout(() => {
@@ -113,21 +139,31 @@ function showNextSlide() {
       // Schedule next slide or return to initial text
       setTimeout(() => {
         if (isCycling) {
-          // Check if we've completed all services
-          if (currentSlideIndex === 0) {
-            // All services completed, return to initial text
-            returnToInitialText();
-          } else {
-            showNextSlide();
-          }
+          // Continue cycling - loop constantly
+          showNextSlide();
         }
-      }, 3000);
+      }, 5000); // Increased from 3000ms to 5000ms
     }, 1000);
   } else {
     // No current slide, create and show first slide
     const nextService = services[currentSlideIndex];
     const newSlide = createServiceSlide(nextService);
     heroInner.appendChild(newSlide);
+    
+    // Show service image wrapper for first service if it exists
+    // Normalize service name for comparison (remove \n and compare)
+    const normalizedNextService = nextService.replace(/\n/g, ' ');
+    const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
+    allImageWrappers.forEach(wrapper => {
+      const wrapperService = wrapper.getAttribute('data-service');
+      if (wrapperService === normalizedNextService) {
+        setTimeout(() => {
+          wrapper.classList.add('active');
+        }, 200);
+      } else {
+        wrapper.classList.remove('active');
+      }
+    });
     
     // Fade in
     setTimeout(() => {
@@ -140,110 +176,14 @@ function showNextSlide() {
     // Schedule next slide or return to initial text
     setTimeout(() => {
       if (isCycling) {
-        // Check if we've completed all services
-        if (currentSlideIndex === 0) {
-          // All services completed, return to initial text
-          returnToInitialText();
-        } else {
-          showNextSlide();
-        }
+        // Continue cycling - loop constantly
+        showNextSlide();
       }
-    }, 3000);
+    }, 5000); // Increased from 3000ms to 5000ms
   }
 }
 
-function createLightWave() {
-  
-  // Create wave container in hero section
-  const heroSection = document.querySelector('.hero');
-  if (!heroSection) {
-    return;
-  }
-  
-  const waveContainer = document.createElement('div');
-  waveContainer.style.cssText = `
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-    overflow: hidden;
-  `;
-  
-  // Create waving gradient from top left to bottom right
-  const waveGradient = document.createElement('div');
-  waveGradient.style.cssText = `
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(ellipse at center, 
-      rgba(255, 45, 45, 0.8) 0%, 
-      rgba(255, 45, 45, 0.4) 30%, 
-      rgba(255, 255, 255, 0.6) 50%, 
-      rgba(255, 45, 45, 0.4) 70%, 
-      transparent 100%);
-    transform: rotate(-45deg) scale(0);
-    animation: waveExpand 2s ease-out forwards;
-    filter: blur(20px);
-  `;
-  
-  // Add CSS animation
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes waveExpand {
-      0% { 
-        transform: rotate(-45deg) scale(0) translateX(-100px);
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% { 
-        transform: rotate(-45deg) scale(1.5) translateX(100px);
-        opacity: 0;
-      }
-    }
-  `;
-  document.head.appendChild(style);
-  
-  // Add element to container and append to hero section
-  waveContainer.appendChild(waveGradient);
-  heroSection.appendChild(waveContainer);
-  
-  // Remove after animation
-  setTimeout(() => {
-    if (waveContainer.parentNode) {
-      waveContainer.parentNode.removeChild(waveContainer);
-    }
-    document.head.removeChild(style);
-  }, 2500);
-}
 
-function returnToInitialText() {
-  // Stop cycling
-  isCycling = false;
-  
-  // Remove current slide
-  const currentSlide = document.querySelector('.hero-slide');
-  if (currentSlide) {
-    currentSlide.remove();
-  }
-  
-  // Fade in the original text
-  const heroHeadline = document.getElementById('hero-headline');
-  heroHeadline.style.transition = 'opacity 1s ease-in-out';
-  heroHeadline.style.opacity = '1';
-  
-  // Reset for next cycle
-  setTimeout(() => {
-    isInitialAnimation = true;
-    currentSlideIndex = 0;
-  }, 1000);
-}
 
 // Headline animation: each phrase fades in over 3s; next starts 1s after previous start
 const phrases = document.querySelectorAll('.headline .phrase');
@@ -374,7 +314,7 @@ const cardObserver = new IntersectionObserver((entries) => {
     if (entry.isIntersecting) {
       setTimeout(() => {
         entry.target.classList.add('animate-in');
-      }, index * 200); // 200ms stagger between cards
+      }, 1300 + (index * 200)); // 1300ms initial delay + 200ms stagger between cards
     }
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
@@ -718,219 +658,226 @@ const projects = [
     id: 1,
     title: "APX - FULL REBRAND",
     year: "2024",
-    image: "APX - FULL REBRAND"
+    image: "public/__apx.png"
   },
   {
     id: 2,
     title: "ONTIMELY - DESKTOP APP, MOBILE APP, BACKEND AND PORTAL",
     year: "2024",
-    image: "ONTIMELY - DESKTOP APP, MOBILE APP, BACKEND AND PORTAL"
+    image: "public/__ontimely.png"
   },
   {
     id: 3,
     title: "RICHTONS - BRANDING",
     year: "2024",
-    image: "RICHTONS - BRANDING"
+    image: "public/__richtons.png"
   },
   {
     id: 4,
     title: "WOMBATS - SOCIAL MEDIA MANAGEMENT",
-    year: "2024",
-    image: "WOMBATS - SOCIAL MEDIA MANAGEMENT"
+    year: "2023",
+    image: null
   },
   {
     id: 5,
     title: "HOSTELWORLD - CAMPAIGINS",
-    year: "2024",
-    image: "HOSTELWORLD - CAMPAIGINS"
+    year: "2023",
+    image: null
   },
   {
     id: 6,
     title: "PERSONAL BRANDS",
     year: "2024",
-    image: "PERSONAL BRANDS"
+    image: "public/work/PERSONAL BRANDS.png"
+  },
+  {
+    id: 7,
+    title: "LUKIS TECHNOLOGIES",
+    year: "2023",
+    image: "public/__lukis.png"
   }
 ];
 
 // Initialize projects section
 function initProjectsSection() {
   const projectsContainer = document.querySelector('.projects-container');
-  const backgroundImage = document.getElementById('background-image');
   
-  if (!projectsContainer || !backgroundImage) return;
+  if (!projectsContainer) return;
   
   // Render projects
   renderProjects(projectsContainer);
   
-  // Initialize animations
-  initialAnimation();
-  
-  // DISABLED - Image preloading removed to prevent console flooding
-  // preloadImages();
-  
-  // DISABLED - Image hover events removed to prevent console flooding
-  // setupHoverEvents(backgroundImage, projectsContainer);
+  // Initialize scroll animations
+  initScrollAnimations();
 }
 
-// Render project items
+// Render project items with alternating layout
 function renderProjects(container) {
-  projects.forEach((project) => {
+  projects.forEach((project, index) => {
     const projectItem = document.createElement('div');
     projectItem.classList.add('project-item');
     projectItem.dataset.id = project.id;
-    projectItem.dataset.image = project.image;
-
-    projectItem.innerHTML = `
-      <div class="project-title">${project.title}</div>
-      <div class="project-year">${project.year}</div>
+    
+    // Alternate left/right: even indices (0, 2, 4) = image left, odd (1, 3, 5) = image right
+    const isImageLeft = index % 2 === 0;
+    projectItem.classList.add(isImageLeft ? 'image-left' : 'image-right');
+    
+    const imageHTML = project.image 
+      ? `<div class="project-image"><img src="${project.image}" alt="${project.title}" loading="lazy"></div>`
+      : `<div class="project-image placeholder"></div>`;
+    
+    const textHTML = `
+      <div class="project-content">
+        <div class="project-year">${project.year}</div>
+        <div class="project-title">${project.title}</div>
+      </div>
     `;
+    
+    if (isImageLeft) {
+      projectItem.innerHTML = imageHTML + textHTML;
+    } else {
+      projectItem.innerHTML = textHTML + imageHTML;
+    }
 
     container.appendChild(projectItem);
   });
 }
 
-// Initial animation for project items
-function initialAnimation() {
+// Initialize scroll animations for project items
+function initScrollAnimations() {
   const projectItems = document.querySelectorAll('.project-item');
-
-  // Set initial state
-  projectItems.forEach((item, index) => {
-    item.style.opacity = '0';
-    item.style.transform = 'translateY(20px)';
-
-    // Animate in with staggered delay
-    setTimeout(() => {
-      item.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-      item.style.opacity = '1';
-      item.style.transform = 'translateY(0)';
-    }, index * 60);
+  
+  const observerOptions = {
+    threshold: 0.2,
+    rootMargin: '0px 0px -100px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+  
+  projectItems.forEach((item) => {
+    observer.observe(item);
   });
-}
-
-// Setup hover events for project items - DISABLED TO STOP CONSOLE FLOODING
-function setupHoverEvents(backgroundImage, projectsContainer) {
-  // DISABLED - All image loading removed to prevent console flooding
-}
-
-// Preload images
-function preloadImages() {
-  // DISABLED - Image preloading to prevent console flooding
 }
 
 // Initialize projects section when DOM is loaded
 document.addEventListener('DOMContentLoaded', initProjectsSection);
 
-// Transform "What we do" bullet lists into underlapping sub-cards
+// Bullet points are now integrated directly into the main cards - no separate sub-cards needed
+
+// CLIENT LOGOS MARQUEE INTERACTIONS
 document.addEventListener('DOMContentLoaded', function() {
+  const marqueeRows = document.querySelectorAll('.marquee-row');
+  const clientLogos = document.querySelectorAll('.client-logo');
   
-  const serviceCards = document.querySelectorAll('#services .card');
+  if (!marqueeRows.length || !clientLogos.length) return;
   
-  serviceCards.forEach((card, cardIndex) => {
-    
-    const list = card.querySelector('ul');
-    if (!list) {
-      return;
-    }
-
-    const items = Array.from(list.querySelectorAll('li'));
-    
-    if (items.length === 0) return;
-
-    // Create sub-card container
-    const subList = document.createElement('div');
-    subList.className = 'subcard-list';
-    subList.style.cssText = `
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      z-index: 1;
-    `;
-
-    // Create individual sub-cards
-    items.forEach((li, idx) => {
-      const sub = document.createElement('div');
-      sub.className = 'sub-card';
-      sub.style.cssText = `
-        position: relative;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: rgba(255, 255, 255, 0.1) 0px 10px 16px -8px, rgba(255, 255, 255, 0.15) 0px 20px 36px -14px;
-        padding: 12px 14px;
-        margin-bottom: 8px;
-        transform: translateY(-20px);
-        opacity: 0;
-        transition: all 0.4s cubic-bezier(0.5, 1, 0.89, 1);
-        cursor: pointer;
-      `;
-      sub.innerHTML = `<span style="display: block; color: var(--text); font-size: 15px; letter-spacing: .2px; margin: 0;">${li.innerHTML}</span>`;
-      sub.style.setProperty('--drop-delay', `${idx * 100}ms`);
-      subList.appendChild(sub);
-    });
-
-    // Make card relative positioned
-    card.style.position = 'relative';
-    
-    // Add sub-list to card
-    card.appendChild(subList);
-    
-    // Remove original list
-    list.parentNode.removeChild(list);
-    
-  });
-
-  // Animate sub-cards on intersection
-  const subCards = document.querySelectorAll('.sub-card');
-  
-  const subObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const delay = parseInt(getComputedStyle(entry.target).getPropertyValue('--drop-delay') || '0', 10);
-        setTimeout(() => {
-          entry.target.classList.add('in');
-          entry.target.style.transform = 'translateY(0)';
-          entry.target.style.opacity = '1';
-        }, delay);
+  // Client logo hover effects
+  clientLogos.forEach((logo, index) => {
+    logo.addEventListener('mouseenter', () => {
+      // Pause the marquee when hovering over a logo
+      const parentRow = logo.closest('.marquee-row');
+      if (parentRow) {
+        const track = parentRow.querySelector('.marquee-track');
+        if (track) {
+          track.style.animationPlayState = 'paused';
+        }
       }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
-
-  subCards.forEach(c => subObserver.observe(c));
-
-  // Add hover effects to sub-cards
-  subCards.forEach(subCard => {
-    // Add glow element
-    const glow = document.createElement('span');
-    glow.className = 'glow';
-    glow.style.cssText = `
-      position: absolute;
-      inset: -2px;
-      border-radius: inherit;
-      background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-      z-index: -1;
-    `;
-    subCard.appendChild(glow);
-
-    // Hover effects
-    subCard.addEventListener('mouseenter', () => {
-      subCard.style.background = 'rgba(255, 255, 255, 0.15)';
-      subCard.style.transform = 'translateY(-2px)';
-      subCard.style.boxShadow = 'rgba(255, 255, 255, 0.2) 0px 15px 25px -8px, rgba(255, 255, 255, 0.25) 0px 25px 45px -14px';
-      glow.style.opacity = '1';
+    
+    logo.addEventListener('mouseleave', () => {
+      // Resume the marquee when leaving a logo
+      const parentRow = logo.closest('.marquee-row');
+      if (parentRow) {
+        const track = parentRow.querySelector('.marquee-track');
+        if (track) {
+          track.style.animationPlayState = 'running';
+        }
+      }
     });
-
-    subCard.addEventListener('mouseleave', () => {
-      subCard.style.background = 'rgba(255, 255, 255, 0.1)';
-      subCard.style.transform = 'translateY(0)';
-      subCard.style.boxShadow = 'rgba(255, 255, 255, 0.1) 0px 10px 16px -8px, rgba(255, 255, 255, 0.15) 0px 20px 36px -14px';
-      glow.style.opacity = '0';
+    
+    // Click interaction with ripple effect
+    logo.addEventListener('click', () => {
+      // Add ripple effect
+      const ripple = document.createElement('div');
+      ripple.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 45, 45, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        animation: ripple 0.6s ease-out;
+        pointer-events: none;
+        z-index: 1000;
+      `;
+      
+      logo.appendChild(ripple);
+      
+      setTimeout(() => {
+        ripple.remove();
+      }, 600);
     });
   });
+  
+  // Add ripple animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes ripple {
+      to {
+        width: 200px;
+        height: 200px;
+        opacity: 0;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Intersection observer for animation triggers
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Start marquee animations
+        marqueeRows.forEach((row, index) => {
+          const track = row.querySelector('.marquee-track');
+          if (track) {
+            track.style.animationPlayState = 'running';
+          }
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  
+  observer.observe(document.querySelector('.clients'));
+  
+  // Dynamic speed adjustment based on content
+  function adjustMarqueeSpeed() {
+    marqueeRows.forEach(row => {
+      const track = row.querySelector('.marquee-track');
+      if (track) {
+        const items = track.querySelectorAll('.client-logo');
+        const totalWidth = items.length * 420; // 300px width + 120px margin
+        const speed = totalWidth / 30; // 30 seconds duration
+        
+        // Adjust animation duration based on content
+        track.style.animationDuration = `${30}s`;
+      }
+    });
+  }
+  
+  adjustMarqueeSpeed();
+  
+  // Recalculate on resize
+  window.addEventListener('resize', adjustMarqueeSpeed);
 });
+
 
 // About section - sticky with text animation
 document.addEventListener('DOMContentLoaded', function() {
@@ -944,12 +891,12 @@ document.addEventListener('DOMContentLoaded', function() {
   
   const words = ['LEVEL', 'Creatives', 'Innovators', 'Visionaries', 'Architects', 'Storytellers'];
   const descriptions = [
-    'A multi-service design agency that blends brand craft with technical execution—shipping websites, portals, and AI agents that create leverage.',
-    'A team built with common interests and the love for marketing with understanding on what sells, creating campaigns that resonate and convert.',
-    'We push boundaries and challenge conventions, developing cutting-edge solutions that set new standards in digital experience design.',
-    'We see beyond the present, crafting strategic roadmaps and future-focused solutions that position brands for long-term success.',
-    'We build the foundation of digital experiences, creating robust systems and scalable solutions that stand the test of time.',
-    'We craft compelling narratives that connect brands with their audiences, turning complex ideas into engaging stories that inspire action.'
+    'At LEVEL we are defined by balance, precision and levelling up. Front to Back, we got you covered.',
+    'We are creative minds who transform ideas into visually stunning and functionally brilliant digital experiences.',
+    'As innovators, we constantly explore new technologies and methodologies to stay ahead of the curve.',
+    'We are visionaries who see the potential in every brand and help them realize their digital future.',
+    'We architect robust, scalable solutions that form the foundation of your digital presence.',
+    'We are storytellers who craft compelling narratives that connect your brand with your audience.'
   ];
   let currentWordIndex = 0;
   
@@ -982,7 +929,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const descriptionItems = aboutSection.querySelectorAll('.description-item');
   
   function updateWordPosition() {
-    const translateY = -currentWordIndex * 120; // 120px per word (taller)
+    const translateY = -currentWordIndex * 200; // 200px per word (taller)
     wordList.style.transform = `translateY(${translateY}px)`;
     descriptionList.style.transform = `translateY(${translateY}px)`;
     
