@@ -10,7 +10,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000'/><path d='M18 50 H82' stroke='%23ff2d2d' stroke-width='8'/></svg>">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+    <link rel="shortcut icon" href="favicon.ico">
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -49,6 +54,25 @@
             <div class="hero-logo-fullscreen">
                 <img src="LEVEL LOGO MAIN.svg" alt="LEVEL" class="hero-logo-fullscreen-img" />
             </div>
+            <!-- Service Images/Videos - Show for corresponding services -->
+            <div class="hero-service-image-wrapper" data-service="Web Design">
+                <img src="public/webdesign.png" alt="Web Design" class="hero-service-image" />
+            </div>
+            <div class="hero-service-image-wrapper" data-service="Brand & Marketing">
+                <img src="public/branding.png" alt="Brand & Marketing" class="hero-service-image" />
+            </div>
+            <div class="hero-service-image-wrapper" data-service="Social Media">
+                <img src="public/socialmedia.png" alt="Social Media" class="hero-service-image" />
+            </div>
+            <div class="hero-service-image-wrapper" data-service="Drone Services">
+                <img src="public/drone.png" alt="Drone Services" class="hero-service-image" />
+            </div>
+            <div class="hero-service-image-wrapper" data-service="Commercial Photography">
+                <img src="public/commercialphotography.png" alt="Commercial Photography" class="hero-service-image" />
+            </div>
+            <div class="hero-service-image-wrapper" data-service="Video Editing">
+                <img src="public/videoediting.png" alt="Video Editing" class="hero-service-image" />
+            </div>
             <div class="container hero-inner">
                 <h1 class="headline" id="hero-headline">
                     <span class="phrase phrase1">Design that ships.</span>
@@ -59,8 +83,127 @@
             </div>
         </section>
 
-        <section id="services" class="services section" data-animate="fade-up">
+        <!-- CLIENT LOGOS SECTION -->
+        <section id="clients" class="clients section" data-animate="fade-up">
             <div class="container">
+                <!-- Single Row - Scrolling Client Logos -->
+                <div class="marquee-row">
+                    <div class="marquee-track">
+                        <!-- Client Logo 1 -->
+                        <div class="client-logo">
+                            <a href="#" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-01.svg" alt="Client Logo 1">
+                            </a>
+                        </div>
+                        
+                        <!-- Client Logo 2 -->
+                        <div class="client-logo">
+                            <a href="https://kellehergroupm.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-02.svg" alt="Kelleher Group Maintenance">
+                            </a>
+                        </div>
+                        
+                        <!-- Client Logo 3 -->
+                        <div class="client-logo">
+                            <a href="https://www.hostelworld.com/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-03.svg" alt="Hostelworld">
+                            </a>
+                        </div>
+                        
+                        <!-- Client Logo 4 -->
+                        <div class="client-logo">
+                            <a href="https://www.wombats-hostels.com/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-04.svg" alt="Wombats Hostels">
+                            </a>
+                        </div>
+                        
+                        <!-- Client Logo 5 -->
+                        <div class="client-logo">
+                            <a href="https://www.ndsurgeon.com/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-05.svg" alt="ND Surgeon">
+                            </a>
+                        </div>
+                        
+                        <!-- Client Logo 6 -->
+                        <div class="client-logo">
+                            <a href="http://apx-mep.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-06.svg" alt="APX MEP">
+                            </a>
+                        </div>
+                        
+                        <!-- Client Logo 7 -->
+                        <div class="client-logo">
+                            <a href="https://www.richtons.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-07.svg" alt="Richtons">
+                            </a>
+                        </div>
+                        
+                        <!-- Client Logo 8 -->
+                        <div class="client-logo">
+                            <a href="https://www.osamamoussa.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-08.svg" alt="Osama Moussa">
+                            </a>
+                        </div>
+                        
+                        <!-- Repeat for seamless loop -->
+                        <div class="client-logo">
+                            <a href="#" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-01.svg" alt="Client Logo 1">
+                            </a>
+                        </div>
+                        
+                        <div class="client-logo">
+                            <a href="https://kellehergroupm.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-02.svg" alt="Kelleher Group Maintenance">
+                            </a>
+                        </div>
+                        
+                        <div class="client-logo">
+                            <a href="https://www.hostelworld.com/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-03.svg" alt="Hostelworld">
+                            </a>
+                        </div>
+                        
+                        <div class="client-logo">
+                            <a href="https://www.wombats-hostels.com/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-04.svg" alt="Wombats Hostels">
+                            </a>
+                        </div>
+                        
+                        <div class="client-logo">
+                            <a href="https://www.ndsurgeon.com/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-05.svg" alt="ND Surgeon">
+                            </a>
+                        </div>
+                        
+                        <div class="client-logo">
+                            <a href="http://apx-mep.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-06.svg" alt="APX MEP">
+                            </a>
+                        </div>
+                        
+                        <div class="client-logo">
+                            <a href="https://www.richtons.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-07.svg" alt="Richtons">
+                            </a>
+                        </div>
+                        
+                        <div class="client-logo">
+                            <a href="https://www.osamamoussa.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Logos-08.svg" alt="Osama Moussa">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services section">
+            <div class="container">
+                <h2 class="creative-title">
+                    <span class="title-line title-top">Crafting Digital</span>
+                    <span class="title-line title-bottom">Experiences</span>
+                </h2>
                 <h2>What we do</h2>
                 <div class="grid services-grid">
                     <article class="card">
@@ -111,28 +254,87 @@
                             </ul>
                         </div>
                     </article>
+                    <article class="card">
+                        <span class="glow"></span>
+                        <div>
+                            <h3>Photography</h3>
+                            <p>Professional photography services for commercial, wedding, and event needs. We capture moments that matter.</p>
+                            <ul>
+                                <li>Commercial Photography</li>
+                                <li>Wedding & Event Coverage</li>
+                                <li>Product & Lifestyle Shoots</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <span class="glow"></span>
+                        <div>
+                            <h3>Videography & Editing</h3>
+                            <p>Complete video production from concept to final cut. Including drone services for stunning aerial perspectives.</p>
+                            <ul>
+                                <li>Video Production</li>
+                                <li>Post-Production Editing</li>
+                                <li>Drone Services</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <span class="glow"></span>
+                        <div>
+                            <h3>Social Media Management</h3>
+                            <p>Strategic social media presence that builds communities and drives engagement across all platforms.</p>
+                            <ul>
+                                <li>Content Strategy & Creation</li>
+                                <li>Community Management</li>
+                                <li>Analytics & Growth</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <span class="glow"></span>
+                        <div>
+                            <h3>Packaging & Merchandise</h3>
+                            <p>Eye-catching packaging designs and merchandise that extends your brand into physical touchpoints.</p>
+                            <ul>
+                                <li>Product Packaging Design</li>
+                                <li>Merchandise Development</li>
+                                <li>Print Production</li>
+                            </ul>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
+
 
         <section id="work" class="work section" data-animate="fade-up">
             <div class="container">
                 <h2>Selected work</h2>
                 <div class="grid work-grid">
-                    <a class="work-card" href="#" aria-label="Case Study 1">
+                    <a class="work-card" href="https://www.ontimely.co.uk" target="_blank" rel="noopener noreferrer" aria-label="OnTimely - Event Management Portal">
                         <span class="glow"></span>
-                        <div class="work-media"></div>
+                        <div class="work-media">
+                            <video autoplay muted loop playsinline>
+                                <source src="public/OnTimelyLoadingScreen.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
                         <div class="work-meta">
-                            <span>AI Client Portal</span>
-                            <strong>From clutter to clarity with a unified dashboard</strong>
+                            <span>Event Management Portal</span>
+                            <strong>Front-to-back design of a complete event management platform and mobile app</strong>
                         </div>
                     </a>
-                    <a class="work-card" href="#" aria-label="Case Study 2">
+                    <a class="work-card" href="#" aria-label="APX Fire and Security">
                         <span class="glow"></span>
-                        <div class="work-media"></div>
+                        <div class="work-media">
+                            <video autoplay muted loop playsinline>
+                                <source src="public/APX MEP INTRO.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
                         <div class="work-meta">
-                            <span>Brand System</span>
-                            <strong>Revitalized identity for a global SaaS</strong>
+                            <span>APX Fire and Security</span>
+                            <strong>Complete rebrand and website build for two merging organizations. Full branding including logo, internal documents, van designs and website.</strong>
                         </div>
                     </a>
                     <a class="work-card" href="#" aria-label="Case Study 3">
@@ -156,10 +358,6 @@
 
         <!-- Projects List Section -->
         <section id="projects" class="projects section" data-animate="fade-up">
-            <div id="background-image-container">
-                <img id="background-image" crossorigin="anonymous" alt="">
-            </div>
-            
             <div class="container">
                 <div class="projects-container">
                     <!-- Projects will be rendered here by JavaScript -->
@@ -208,6 +406,43 @@
         </section>
 
         <section id="about" class="about section">
+        </section>
+
+        <section id="reviews" class="reviews section" data-animate="fade-up">
+            <div class="container">
+                <h2>What our clients say</h2>
+                <div class="reviews-grid">
+                    <article class="review-card">
+                        <div class="review-content">
+                            <p class="review-text">"We brought LEVEL in at the start of our corporate journey. They branded our entire company, and they built as a phenomenal website and we could not be happier with their workflow.</p>
+                            <p class="review-text">We recommend their services for their ability to understand exactly what you want for your companies identity."</p>
+                        </div>
+                        <div class="review-author">
+                            <strong>Tony N</strong>
+                            <span>Richtons LTD</span>
+                        </div>
+                    </article>
+                    <article class="review-card">
+                        <div class="review-content">
+                            <p class="review-text">"We as Wombat's City Hostel are working sucessfully together now since early 2022.</p>
+                            <p class="review-text">We can reccomend Level Design especially for it's Video Design but also the passionate creativity in all social media aspects we are very much appreciating."</p>
+                        </div>
+                        <div class="review-author">
+                            <strong>Marcus P.</strong>
+                            <span>Wombats Hostels</span>
+                        </div>
+                    </article>
+                    <article class="review-card">
+                        <div class="review-content">
+                            <p class="review-text">"We brought LEVEL in to produce headshots for our 80 employees. They took stunning photography of all of our staff, ranging from Recruiters, Market Specialists and even our Directors. This has helped boost our companies presence online and we recommend them for all your photography needs."</p>
+                        </div>
+                        <div class="review-author">
+                            <strong>Sam D.</strong>
+                            <span>Debt Dealt</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
         </section>
 
         <section id="contact" class="contact section" data-animate="fade-up">
@@ -266,7 +501,6 @@
         <div class="container footer-inner">
             <div class="footer-brand">
                 <img src="LEVEL LOGO MAIN.svg" alt="LEVEL" class="footer-logo" />
-                <strong>LEVEL</strong>
             </div>
             <nav aria-label="Footer">
                 <ul class="footer-links">
@@ -278,7 +512,6 @@
             </nav>
             <div class="footer-meta">
                 <span>© <span id="year"></span> LEVEL Design Agency</span>
-                <a href="https://vercel.com" target="_blank" rel="noopener">Deployed on Vercel</a>
             </div>
         </div>
     </footer>
