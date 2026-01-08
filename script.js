@@ -65,15 +65,30 @@ function createServiceSlide(service) {
 }
 
 function startServiceCycling() {
+  // Check if mobile
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  
   // Fade out the original text
   const heroHeadline = document.getElementById('hero-headline');
   heroHeadline.style.transition = 'opacity 1s ease-in-out';
   heroHeadline.style.opacity = '0';
   
-  // Make sure all image wrappers are hidden when cycling starts
-  document.querySelectorAll('.hero-service-image-wrapper').forEach(wrapper => {
-    wrapper.classList.remove('active');
-  });
+  // On mobile, keep Brand & Marketing image constant
+  if (isMobile) {
+    const brandingWrapper = document.querySelector('.hero-service-image-wrapper[data-service="Brand & Marketing"]');
+    if (brandingWrapper) {
+      brandingWrapper.classList.add('active');
+    }
+    // Hide all other images
+    document.querySelectorAll('.hero-service-image-wrapper:not([data-service="Brand & Marketing"])').forEach(wrapper => {
+      wrapper.classList.remove('active');
+    });
+  } else {
+    // Desktop: hide all images when cycling starts
+    document.querySelectorAll('.hero-service-image-wrapper').forEach(wrapper => {
+      wrapper.classList.remove('active');
+    });
+  }
   
   // Start the service cycling immediately
   setTimeout(() => {
@@ -91,16 +106,19 @@ function showNextSlide() {
   if (currentSlide) {
     currentSlide.classList.remove('active');
     
-    // Hide service image wrapper for current service - fade out
-    const currentService = services[(currentSlideIndex - 1 + services.length) % services.length];
-    const normalizedCurrentService = currentService.replace(/\n/g, ' ');
-    const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
-    allImageWrappers.forEach(wrapper => {
-      const wrapperService = wrapper.getAttribute('data-service');
-      if (wrapperService === normalizedCurrentService) {
-        wrapper.classList.remove('active');
-      }
-    });
+    // Hide service image wrapper for current service - fade out (desktop only)
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (!isMobile) {
+      const currentService = services[(currentSlideIndex - 1 + services.length) % services.length];
+      const normalizedCurrentService = currentService.replace(/\n/g, ' ');
+      const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
+      allImageWrappers.forEach(wrapper => {
+        const wrapperService = wrapper.getAttribute('data-service');
+        if (wrapperService === normalizedCurrentService) {
+          wrapper.classList.remove('active');
+        }
+      });
+    }
     
     // Wait for fade out to complete, then create and show next slide
     setTimeout(() => {
@@ -113,20 +131,23 @@ function showNextSlide() {
       const newSlide = createServiceSlide(nextService);
       heroInner.appendChild(newSlide);
       
-      // Show service image wrapper for next service if it exists
-      // Normalize service name for comparison (remove \n and compare)
-      const normalizedNextService = nextService.replace(/\n/g, ' ');
-      const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
-      allImageWrappers.forEach(wrapper => {
-        const wrapperService = wrapper.getAttribute('data-service');
-        if (wrapperService === normalizedNextService) {
-          setTimeout(() => {
-            wrapper.classList.add('active');
-          }, 200);
-        } else {
-          wrapper.classList.remove('active');
-        }
-      });
+      // Show service image wrapper for next service if it exists (desktop only)
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      if (!isMobile) {
+        // Normalize service name for comparison (remove \n and compare)
+        const normalizedNextService = nextService.replace(/\n/g, ' ');
+        const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
+        allImageWrappers.forEach(wrapper => {
+          const wrapperService = wrapper.getAttribute('data-service');
+          if (wrapperService === normalizedNextService) {
+            setTimeout(() => {
+              wrapper.classList.add('active');
+            }, 200);
+          } else {
+            wrapper.classList.remove('active');
+          }
+        });
+      }
       
       // Fade in after a brief delay
       setTimeout(() => {
@@ -150,20 +171,29 @@ function showNextSlide() {
     const newSlide = createServiceSlide(nextService);
     heroInner.appendChild(newSlide);
     
-    // Show service image wrapper for first service if it exists
-    // Normalize service name for comparison (remove \n and compare)
-    const normalizedNextService = nextService.replace(/\n/g, ' ');
-    const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
-    allImageWrappers.forEach(wrapper => {
-      const wrapperService = wrapper.getAttribute('data-service');
-      if (wrapperService === normalizedNextService) {
-        setTimeout(() => {
-          wrapper.classList.add('active');
-        }, 200);
-      } else {
-        wrapper.classList.remove('active');
+    // Show service image wrapper for first service if it exists (desktop only)
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (!isMobile) {
+      // Normalize service name for comparison (remove \n and compare)
+      const normalizedNextService = nextService.replace(/\n/g, ' ');
+      const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
+      allImageWrappers.forEach(wrapper => {
+        const wrapperService = wrapper.getAttribute('data-service');
+        if (wrapperService === normalizedNextService) {
+          setTimeout(() => {
+            wrapper.classList.add('active');
+          }, 200);
+        } else {
+          wrapper.classList.remove('active');
+        }
+      });
+    } else {
+      // Mobile: keep Brand & Marketing image constant
+      const brandingWrapper = document.querySelector('.hero-service-image-wrapper[data-service="Brand & Marketing"]');
+      if (brandingWrapper) {
+        brandingWrapper.classList.add('active');
       }
-    });
+    }
     
     // Fade in
     setTimeout(() => {
@@ -320,6 +350,34 @@ const cardObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
 cards.forEach(card => cardObserver.observe(card));
+
+// Scroll animations for process steps
+const processSteps = document.querySelectorAll('.steps li');
+const processObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, index) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('animate-in');
+      }, index * 150); // Stagger animation
+    }
+  });
+}, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
+
+processSteps.forEach(step => processObserver.observe(step));
+
+// Scroll animations for review cards
+const reviewCards = document.querySelectorAll('.review-card');
+const reviewObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, index) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('animate-in');
+      }, index * 200); // Stagger animation
+    }
+  });
+}, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
+
+reviewCards.forEach(card => reviewObserver.observe(card));
 
 // Pointer tracking for service cards, work cards, and steps glow effect
 const setupPointerTracking = () => {
