@@ -389,16 +389,21 @@ const setupPointerTracking = () => {
     $card.classList.remove('animating');
   };
 
-  cards.forEach(card => {
-    card.addEventListener('pointermove', cardUpdate);
-    card.addEventListener('mousemove', cardUpdate); // Fallback for mouse events
-  });
+  // Only enable pointer tracking on devices with hover capability
+  if (window.matchMedia('(hover: hover)').matches) {
+    cards.forEach(card => {
+      card.addEventListener('pointermove', cardUpdate);
+      card.addEventListener('mousemove', cardUpdate); // Fallback for mouse events
+    });
+  }
 
   return () => {
-    cards.forEach(card => {
-      card.removeEventListener('pointermove', cardUpdate);
-      card.removeEventListener('mousemove', cardUpdate);
-    });
+    if (window.matchMedia('(hover: hover)').matches) {
+      cards.forEach(card => {
+        card.removeEventListener('pointermove', cardUpdate);
+        card.removeEventListener('mousemove', cardUpdate);
+      });
+    }
   };
 };
 
@@ -472,9 +477,9 @@ window.addEventListener('scroll', updateCustomBackground);
 // Update on resize
 window.addEventListener('resize', updateCustomBackground);
 
-// Parallax: subtle mouse parallax on hero layers
+// Parallax: subtle mouse parallax on hero layers (disabled on touch devices)
 const parallax = document.querySelector('.hero-parallax');
-if (parallax) {
+if (parallax && window.matchMedia('(hover: hover)').matches) {
   const layers = parallax.querySelectorAll('.layer');
   window.addEventListener('mousemove', (e) => {
     const { innerWidth: w, innerHeight: h } = window;
@@ -484,16 +489,25 @@ if (parallax) {
       const depth = (i + 1) * 4; // small movement for elegance
       layer.style.transform = `translate(${x * depth}px, ${y * depth}px)`;
     });
-  });
+  }, { passive: true });
 }
 
-// Glowing canvas cursor trail
+// Glowing canvas cursor trail (only on devices with hover capability)
 const canvas = document.getElementById('cursor-canvas');
-const ctx = canvas.getContext('2d');
-
-// Hero-specific cursor trail for behind logo effect
 const heroCanvas = document.getElementById('hero-cursor-canvas');
-const heroCtx = heroCanvas.getContext('2d');
+
+// Only initialize canvas on devices with hover capability
+const hasHover = window.matchMedia('(hover: hover)').matches;
+let ctx, heroCtx;
+
+if (hasHover && canvas && heroCanvas) {
+  ctx = canvas.getContext('2d');
+  heroCtx = heroCanvas.getContext('2d');
+} else {
+  // Hide canvas on touch devices
+  if (canvas) canvas.style.display = 'none';
+  if (heroCanvas) heroCanvas.style.display = 'none';
+}
 
 // for intro motion
 let mouseMoved = false;
@@ -536,23 +550,32 @@ window.addEventListener("mousemove", e => {
 });
 window.addEventListener("touchmove", e => {
     mouseMoved = true;
-    updateMousePosition(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
-});
+    if (e.targetTouches && e.targetTouches[0]) {
+        updateMousePosition(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+    }
+}, { passive: true });
 
 function updateMousePosition(eX, eY) {
     pointer.x = eX;
     pointer.y = eY;
 }
 
-setupCanvas();
-setupHeroCanvas();
-update(0);
-window.addEventListener("resize", () => {
-    setupCanvas();
-    setupHeroCanvas();
-});
+if (hasHover) {
+  setupCanvas();
+  setupHeroCanvas();
+  update(0);
+  window.addEventListener("resize", () => {
+      setupCanvas();
+      setupHeroCanvas();
+  });
+}
 
 function update(t) {
+    // Only update canvas on devices with hover capability
+    if (!hasHover || !ctx || !heroCtx || !canvas || !heroCanvas) {
+        return;
+    }
+    
     // for intro motion
     if (!mouseMoved) {
         pointer.x = (.5 + .3 * Math.cos(.002 * t) * (Math.sin(.005 * t))) * window.innerWidth;
