@@ -1528,9 +1528,29 @@ section#services .container .grid.services-grid {
 .work-card:hover .work-media video {
   transform: scale(1.05);
 }
-.work-card .work-meta { padding: 16px; border-top: 1px solid rgba(255,255,255,.06); }
-.work-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
-.work-card .work-meta { padding: 16px; border-top: 1px solid rgba(255,255,255,.06); }
+.work-card .work-meta { 
+  padding: 16px; 
+  border-top: 1px solid rgba(255,255,255,.06);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.work-card .work-meta span {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.work-card .work-meta strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.4;
+  font-family: "Inter", sans-serif;
+}
 .work-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
 
 .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 18px; }
@@ -2289,6 +2309,10 @@ textarea {
     border-radius: 0;
     box-shadow: 0 4px 20px rgba(255, 45, 45, 0.3);
     transition: all 0.3s ease;
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1001;
   }
   
   .nav-toggle:hover,
@@ -2318,26 +2342,44 @@ textarea {
     transform: rotate(-45deg) translate(6px, -6px);
   }
   
+  /* Full page menu overlay */
   .nav-links { 
     position: fixed; 
-    right: 24px; 
-    bottom: 90px; 
-    background: rgba(0,0,0,.95); 
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,.15); 
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #000000;
+    backdrop-filter: none;
+    border: none;
     border-radius: 0; 
-    padding: 20px; 
+    padding: 0;
     flex-direction: column; 
-    align-items: flex-start; 
-    gap: 12px; 
+    align-items: center; 
+    justify-content: center;
+    gap: 32px; 
     display: none;
-    min-width: 200px;
-    z-index: 999;
-    box-shadow: 0 10px 40px rgba(0,0,0,.5);
+    z-index: 1000;
+    box-shadow: none;
+    width: 100%;
+    height: 100vh;
   }
   
   .nav-links.open { 
     display: flex; 
+  }
+  
+  .nav-links a {
+    font-size: 24px;
+    padding: 16px 0;
+    width: auto;
+    text-align: center;
+  }
+  
+  .nav-links a.cta {
+    border: 2px solid var(--brand);
+    padding: 16px 32px;
+    margin-top: 16px;
   }
   
   .nav-links a {
@@ -2378,31 +2420,40 @@ textarea {
     display: none;
   }
   
-  /* Hero slide - scrolling service titles */
+  /* Hero slide - center aligned, large text, scroll-triggered */
   .hero-slide {
-    bottom: 30px;
-    right: 24px;
-    left: 24px;
-    width: auto;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 16px;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    width: 90%;
+    max-width: 600px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
   }
   
   .hero-slide .border-line {
-    width: 2px;
-    height: 80px;
+    width: 100%;
+    height: 3px;
     flex-shrink: 0;
   }
   
   .hero-slide .text-content {
-    width: auto;
-    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
   }
   
   .hero-slide .word {
-    font-size: clamp(28px, 6vw, 48px);
+    font-size: clamp(48px, 12vw, 80px);
     white-space: nowrap;
+    text-align: center;
+    font-weight: 400;
+    line-height: 1.1;
   }
   
   .hero-logo-fullscreen-img {
@@ -2426,7 +2477,7 @@ textarea {
     padding: 120px 0 60px 0;
   }
   
-  /* Services Grid - Vertically stacked */
+  /* Services Grid - Vertically stacked, left aligned */
   .services-grid { 
     grid-template-columns: 1fr !important; 
     gap: 32px !important;
@@ -2435,53 +2486,84 @@ textarea {
   
   .card {
     padding: 24px 20px;
-    text-align: center; /* Center align on mobile */
+    text-align: left; /* Left align on mobile */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  
+  .card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
   }
   
   .card h3 {
     font-size: clamp(20px, 4vw, 24px);
-    text-align: center;
+    text-align: left;
   }
   
   .card h3::after {
-    margin: 8px auto 0;
+    margin: 8px 0 0 0;
   }
   
   .card p {
     font-size: clamp(14px, 2vw, 16px);
     margin-top: 8px;
-    text-align: center;
+    text-align: left;
   }
   
   .card ul {
     margin-top: 16px;
     font-size: clamp(13px, 1.8vw, 15px);
-    text-align: center;
-    list-style: none;
-    padding-left: 0;
+    text-align: left;
+    list-style: disc;
+    padding-left: 20px;
   }
   
   .card ul li {
-    text-align: center;
+    text-align: left;
     padding: 4px 0;
   }
   
   .card ul li::before {
-    content: '• ';
-    color: var(--brand);
-    margin-right: 8px;
+    display: none;
   }
   
-  /* Creative Title - Much bigger on mobile */
+  /* Creative Title - Much bigger, 3 lines, full-width red lines */
   .creative-title {
-    font-size: clamp(64px, 15vw, 120px);
-    margin-bottom: 120px; /* Much bigger gap */
+    font-size: clamp(72px, 18vw, 140px);
+    margin-bottom: 120px;
     line-height: 0.9;
-    min-height: 60vh; /* Almost take up mobile viewport */
+    min-height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 8px;
+  }
+  
+  .title-line {
+    display: block;
+    width: 100%;
+    position: relative;
+    text-align: center;
+  }
+  
+  .title-line::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--brand);
+    box-shadow: 0 0 20px rgba(255, 45, 45, 0.6);
+  }
+  
+  /* Add third line */
+  .creative-title .title-line:nth-child(3) {
+    display: block;
   }
   
   /* Work Grid */
@@ -2496,17 +2578,30 @@ textarea {
   
   .work-card .work-meta {
     padding: 16px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
   
   .work-card .work-meta span {
-    font-size: 13px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
   }
   
   .work-card .work-meta strong {
     font-size: clamp(16px, 3vw, 20px);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.4;
+    font-family: "Inter", sans-serif;
+    display: block;
   }
   
-  /* Steps - Center aligned, scroll animations */
+  /* Steps - Left aligned */
   .steps { 
     grid-template-columns: 1fr; 
     gap: 24px;
@@ -2514,7 +2609,7 @@ textarea {
   
   .steps li {
     padding: 32px 24px;
-    text-align: center;
+    text-align: left;
     opacity: 0;
     transform: translateY(40px);
     transition: opacity 0.6s ease, transform 0.6s ease;
@@ -2527,26 +2622,26 @@ textarea {
   
   .step-num {
     font-size: 28px;
-    text-align: center;
+    text-align: left;
     display: block;
   }
   
   .steps li h3 {
     font-size: clamp(20px, 3vw, 24px);
-    text-align: center;
+    text-align: left;
   }
   
   .steps li h3::after {
-    margin: 8px auto 0;
+    margin: 8px 0 0 0;
   }
   
   .steps li p {
     font-size: clamp(14px, 2vw, 16px);
-    text-align: center;
+    text-align: left;
   }
   
   .steps li > div {
-    text-align: center;
+    text-align: left;
   }
   
   /* About Section - Hide on mobile for now (or implement scroll version) */
@@ -2726,21 +2821,21 @@ textarea {
     font-size: 12px;
   }
   
-  /* Client Logos - Make bigger on mobile */
+  /* Client Logos - Make even bigger on mobile */
   .clients {
     padding: 80px 0 60px 0;
     margin-top: 40px;
   }
   
   .marquee-row {
-    height: 150px; /* Increased from 100px */
+    height: 180px; /* Even bigger */
     margin: 20px 0;
   }
   
   .client-logo {
-    width: 270px; /* 1.5x bigger (180px * 1.5) */
-    height: 135px; /* 1.5x bigger (90px * 1.5) */
-    margin: 0 30px;
+    width: 360px; /* Even bigger */
+    height: 180px; /* Even bigger */
+    margin: 0 40px;
   }
 }
 

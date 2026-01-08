@@ -46,6 +46,8 @@ const services = [
 let currentSlideIndex = 0;
 let isInitialAnimation = true;
 let isCycling = false;
+let isMobile = window.matchMedia('(max-width: 768px)').matches;
+let scrollBasedServiceIndex = 0;
 
 function createServiceSlide(service) {
   const slide = document.createElement('div');
@@ -66,7 +68,7 @@ function createServiceSlide(service) {
 
 function startServiceCycling() {
   // Check if mobile
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  isMobile = window.matchMedia('(max-width: 768px)').matches;
   
   // Fade out the original text
   const heroHeadline = document.getElementById('hero-headline');
@@ -83,17 +85,71 @@ function startServiceCycling() {
     document.querySelectorAll('.hero-service-image-wrapper:not([data-service="Brand & Marketing"])').forEach(wrapper => {
       wrapper.classList.remove('active');
     });
+    
+    // On mobile, use scroll-based service changes instead of auto-cycling
+    setupScrollBasedServices();
   } else {
     // Desktop: hide all images when cycling starts
     document.querySelectorAll('.hero-service-image-wrapper').forEach(wrapper => {
       wrapper.classList.remove('active');
     });
+    
+    // Start the service cycling immediately for desktop
+    setTimeout(() => {
+      showNextSlide();
+    }, 1000);
+  }
+}
+
+// Scroll-based service text changes for mobile
+function setupScrollBasedServices() {
+  const heroSection = document.querySelector('.hero');
+  if (!heroSection) return;
+  
+  let lastScrollY = window.scrollY;
+  let scrollThreshold = 100; // Change service every 100px of scroll
+  
+  function updateServiceOnScroll() {
+    const currentScrollY = window.scrollY;
+    const scrollDelta = Math.abs(currentScrollY - lastScrollY);
+    
+    if (scrollDelta >= scrollThreshold) {
+      scrollBasedServiceIndex = Math.floor(currentScrollY / scrollThreshold) % services.length;
+      updateServiceSlide(scrollBasedServiceIndex);
+      lastScrollY = currentScrollY;
+    }
   }
   
-  // Start the service cycling immediately
-  setTimeout(() => {
-    showNextSlide();
-  }, 1000);
+  function updateServiceSlide(index) {
+    const heroInner = document.querySelector('.hero-inner');
+    if (!heroInner) return;
+    
+    // Remove existing slide
+    const existingSlide = heroInner.querySelector('.hero-slide');
+    if (existingSlide) {
+      existingSlide.classList.remove('active');
+      setTimeout(() => {
+        if (existingSlide.parentNode) {
+          existingSlide.parentNode.removeChild(existingSlide);
+        }
+      }, 300);
+    }
+    
+    // Create and show new slide
+    const service = services[index];
+    const newSlide = createServiceSlide(service);
+    heroInner.appendChild(newSlide);
+    
+    setTimeout(() => {
+      newSlide.classList.add('active');
+    }, 100);
+  }
+  
+  // Initial service
+  updateServiceSlide(0);
+  
+  // Update on scroll
+  window.addEventListener('scroll', updateServiceOnScroll, { passive: true });
 }
 
 function showNextSlide() {
@@ -337,17 +393,17 @@ window.addEventListener('scroll', () => {
   }
 }, { passive: true });
 
-// Staggered card animations
+// Faster card animations - almost immediately
 const cards = document.querySelectorAll('.card');
 const cardObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry, index) => {
     if (entry.isIntersecting) {
       setTimeout(() => {
         entry.target.classList.add('animate-in');
-      }, 1300 + (index * 200)); // 1300ms initial delay + 200ms stagger between cards
+      }, index * 50); // Much faster - 50ms stagger
     }
   });
-}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+}, { threshold: 0.1, rootMargin: '100px 0px 0px 0px' }); // Trigger earlier
 
 cards.forEach(card => cardObserver.observe(card));
 
