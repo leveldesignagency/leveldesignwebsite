@@ -2060,8 +2060,8 @@ textarea {
 
   .project-item {
     position: relative;
-    width: 600px; /* Fixed width */
-    height: 85vh; /* Fixed height */
+    width: 600px !important; /* Fixed width */
+    height: 85vh !important; /* Fixed height */
     flex-shrink: 0;
     cursor: pointer;
     border: 1px solid #000000; /* Thin black border */
@@ -2071,6 +2071,9 @@ textarea {
       inset 0 0 30px rgba(0, 0, 0, 0.3), /* Inner shadow */
       0 10px 40px rgba(0, 0, 0, 0.2);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
   }
 
   .project-item::before {
