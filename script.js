@@ -588,6 +588,7 @@ const projects = [
 // Initialize projects section
 function initProjectsSection() {
   const projectsContainer = document.querySelector('.projects-container');
+  const projectsSection = document.querySelector('#projects');
   
   if (!projectsContainer) {
     console.error('Projects container not found');
@@ -598,6 +599,21 @@ function initProjectsSection() {
   
   // Render projects
   renderProjects(projectsContainer);
+  
+  // Force visibility
+  if (projectsSection) {
+    projectsSection.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
+  }
+  projectsContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
+  
+  // Force all project items visible
+  setTimeout(() => {
+    const projectItems = document.querySelectorAll('.project-item');
+    console.log('Project items found:', projectItems.length);
+    projectItems.forEach(item => {
+      item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
+    });
+  }, 100);
   
   // Initialize horizontal scroll with page lock
   initScrollAnimations();

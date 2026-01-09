@@ -231,28 +231,47 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 /* Sections - Alternating backgrounds */
 .section { padding: 120px 0; }
 
-/* Hero Section */
+/* Hero Section - Bottom left, large text, ready for alternating images */
 .hero { 
   position: relative; 
   padding: 0; 
   overflow: visible; 
   min-height: 100vh; 
   display: flex; 
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: flex-start;
   background: var(--bg);
+  padding: 0 48px 80px 48px;
 }
 .hero-inner { 
   display: flex; 
   flex-direction: column; 
-  align-items: center; 
-  text-align: center; 
+  align-items: flex-start; 
+  text-align: left; 
   gap: 0; 
   position: relative; 
   z-index: 10; 
   width: 100%;
-  margin: 0 auto;
-  padding: 120px 48px;
+  max-width: 1200px;
+}
+.headline {
+  font-family: "Bebas Neue", Impact, system-ui, sans-serif;
+  font-weight: 400;
+  font-size: clamp(72px, 10vw, 160px);
+  line-height: 0.9;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.headline .phrase {
+  display: block;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+.headline .phrase.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 #services.section { background: var(--bg); }
 #clients.section { 
@@ -2019,7 +2038,7 @@ textarea {
   }
 
   .projects-container {
-    display: flex;
+    display: flex !important;
     flex-direction: row;
     align-items: center;
     gap: 8px; /* Minimal gap */
@@ -2031,6 +2050,8 @@ textarea {
     scroll-behavior: smooth;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE/Edge */
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 
   .projects-container::-webkit-scrollbar {
