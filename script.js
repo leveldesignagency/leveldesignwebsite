@@ -19,16 +19,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (!isDesktop) return; // Only fade on desktop
     
-    // Fade out on scroll down - only change opacity
-    if (scrollY > 50) {
-      const fadeStart = 50;
-      const fadeEnd = 200;
+    // Fade out on scroll down - fade completely and faster
+    if (scrollY > 20) {
+      const fadeStart = 20;
+      const fadeEnd = 100; // Faster fade
       const fadeProgress = Math.min(Math.max((scrollY - fadeStart) / (fadeEnd - fadeStart), 0), 1);
-      header.style.opacity = String(1 - fadeProgress);
-      header.style.pointerEvents = fadeProgress > 0.9 ? 'none' : 'auto';
+      header.style.opacity = String(Math.max(0, 1 - fadeProgress)); // Ensure it goes to 0
+      header.style.pointerEvents = fadeProgress > 0.5 ? 'none' : 'auto';
+      header.style.visibility = fadeProgress > 0.95 ? 'hidden' : 'visible';
     } else {
       header.style.opacity = '1';
       header.style.pointerEvents = 'auto';
+      header.style.visibility = 'visible';
     }
   }
   
