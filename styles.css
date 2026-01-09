@@ -2085,7 +2085,9 @@ textarea {
 
 /* Projects Section - Desktop: Horizontal scroll lock */
 @media (min-width: 769px) {
-  #projects.projects.section {
+  #projects.projects.section,
+  #projects.section,
+  section#projects {
     position: relative;
     padding: 0;
     overflow: visible;
@@ -2095,7 +2097,9 @@ textarea {
     display: block !important;
   }
 
-  #projects.projects.section .container {
+  #projects.projects.section .container,
+  #projects.section .container,
+  section#projects .container {
     padding: 0;
     max-width: 100%;
     margin: 0;

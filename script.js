@@ -882,28 +882,28 @@ function initProjectsSection() {
   
   // Force visibility after render
   setTimeout(() => {
-    const projectsSection = document.querySelector('#projects.projects.section');
+    const projectsSection = document.querySelector('#projects');
     if (projectsSection) {
-      projectsSection.style.opacity = '1';
-      projectsSection.style.visibility = 'visible';
-      projectsSection.classList.add('in');
+      projectsSection.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
     }
     
     const container = document.querySelector('.projects-container');
     if (container) {
-      container.style.display = 'flex';
-      container.style.visibility = 'visible';
-      container.style.opacity = '1';
+      container.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
     }
     
     const projectItems = document.querySelectorAll('.project-item');
     console.log('Project items found:', projectItems.length);
     projectItems.forEach((item, index) => {
+      item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important;';
       if (index === 0) {
         item.classList.add('active');
+        item.style.transform = 'translateX(0) !important';
+      } else {
+        item.style.transform = 'translateX(100%) !important';
       }
     });
-  }, 100);
+  }, 200);
 }
 
 // Render project items - image left, text right, all in same container
@@ -946,7 +946,7 @@ function renderProjects(container) {
 // Initialize scroll animations - horizontal scroll lock effect
 function initScrollAnimations() {
   const projectItems = document.querySelectorAll('.project-item');
-  const projectsSection = document.querySelector('#projects.projects.section');
+  const projectsSection = document.querySelector('#projects');
   const isDesktop = window.matchMedia('(min-width: 769px)').matches;
   
   if (!isDesktop || !projectsSection || projectItems.length === 0) {
