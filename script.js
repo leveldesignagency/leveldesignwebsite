@@ -395,27 +395,41 @@ window.addEventListener('scroll', requestTick, { passive: true });
 window.addEventListener('scroll', () => {
 }, { passive: true });
 
-// Header fade on scroll - only on mobile, keep visible on desktop
+// Header hide/show on scroll - hide on scroll down, show on scroll up
+let lastScrollY = 0;
+let scrollThreshold = 100;
+
 window.addEventListener('scroll', () => {
   const scrollY = window.scrollY;
   const header = document.querySelector('.site-header');
   const isDesktop = window.matchMedia('(min-width: 769px)').matches;
   
-  if (header) {
-    if (isDesktop) {
-      // Desktop: Always keep header visible and fixed
+  if (header && isDesktop) {
+    // Desktop: Hide on scroll down, show on scroll up
+    if (scrollY > scrollThreshold) {
+      if (scrollY > lastScrollY) {
+        // Scrolling down - hide header
+        header.style.transform = 'translateY(-100%)';
+        header.style.opacity = '0';
+      } else {
+        // Scrolling up - show header
+        header.style.transform = 'translateY(0)';
+        header.style.opacity = '1';
+      }
+    } else {
+      // Near top - always show
+      header.style.transform = 'translateY(0)';
+      header.style.opacity = '1';
+    }
+    lastScrollY = scrollY;
+  } else if (header) {
+    // Mobile: Original fade behavior
+    if (scrollY > 100) {
+      header.style.opacity = '0';
+      header.style.visibility = 'hidden';
+    } else {
       header.style.opacity = '1';
       header.style.visibility = 'visible';
-      header.style.position = 'fixed';
-    } else {
-      // Mobile: Original fade behavior
-      if (scrollY > 100) {
-        header.style.opacity = '0';
-        header.style.visibility = 'hidden';
-      } else {
-        header.style.opacity = '1';
-        header.style.visibility = 'visible';
-      }
     }
   }
 }, { passive: true });
@@ -881,6 +895,14 @@ function initProjectsSection() {
   
   // Force visibility after render
   setTimeout(() => {
+    const projectsSection = document.querySelector('.projects.section');
+    if (projectsSection) {
+      projectsSection.style.opacity = '1';
+      projectsSection.style.visibility = 'visible';
+      projectsSection.style.transform = 'none';
+      projectsSection.classList.add('in');
+    }
+    
     const projectItems = document.querySelectorAll('.project-item');
     console.log('Project items found:', projectItems.length);
     projectItems.forEach((item, index) => {
@@ -888,8 +910,17 @@ function initProjectsSection() {
       item.style.visibility = 'visible';
       item.style.display = 'flex';
       item.style.transform = 'translateY(0)';
+      item.style.position = 'relative';
+      item.style.zIndex = '1';
       console.log(`Project ${index} forced visible`);
     });
+    
+    const container = document.querySelector('.projects-container');
+    if (container) {
+      container.style.display = 'flex';
+      container.style.visibility = 'visible';
+      container.style.opacity = '1';
+    }
   }, 100);
 }
 
