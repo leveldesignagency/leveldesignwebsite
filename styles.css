@@ -124,6 +124,54 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
     position: relative;
     right: auto;
   }
+
+  /* Hero slide - Desktop: positioned correctly with Bebas Neue font */
+  .hero-slide {
+    position: fixed;
+    bottom: 80px;
+    left: 60px;
+    right: auto;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    width: auto;
+  }
+
+  .hero-slide .border-line {
+    display: none; /* Remove vertical red line on desktop */
+  }
+
+  .hero-slide .text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    text-align: left;
+  }
+
+  .hero-slide .word {
+    font-family: "Bebas Neue", Impact, system-ui, sans-serif;
+    font-size: clamp(64px, 8vw, 120px);
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    line-height: 0.9;
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    display: block;
+    white-space: nowrap;
+    text-align: left;
+  }
+
+  .hero-slide.active {
+    opacity: 1;
+  }
 }
 
 /* Header - Mobile: Absolute position (unchanged) */
