@@ -2010,8 +2010,8 @@ input, textarea {
   width: 100%; 
   padding: 16px 18px; 
   border-radius: 0; 
-  border: 1px solid rgba(255,255,255,.15); 
-  background: rgba(255,255,255,.06); 
+  border: 2px solid var(--bg-alt); 
+  background: var(--bg); 
   color: var(--text); 
   font: inherit; 
   transition: all 0.3s ease;
