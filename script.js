@@ -335,16 +335,20 @@ function updateScrollEffects() {
     hero.style.transform = `translate3d(0, ${yPos}px, 0)`;
   }
   
-  // Header fade out based on scroll
+  // Header fade out based on scroll - only on mobile
   if (header) {
-    const fadeStart = 50; // Start fading after 50px scroll
-    const fadeEnd = 200; // Complete fade at 200px scroll
-    const fadeProgress = Math.min(Math.max((scrollY - fadeStart) / (fadeEnd - fadeStart), 0), 1);
-    const opacity = 1 - fadeProgress;
-    header.style.opacity = opacity;
-    
-    // Debug logging (only when opacity changes significantly)
-    if (scrollY > 30 && (opacity < 0.9 || opacity > 0.1)) {
+    const isDesktop = window.matchMedia('(min-width: 769px)').matches;
+    if (isDesktop) {
+      // Desktop: Keep header always visible
+      header.style.opacity = '1';
+      header.style.visibility = 'visible';
+    } else {
+      // Mobile: Original fade behavior
+      const fadeStart = 50; // Start fading after 50px scroll
+      const fadeEnd = 200; // Complete fade at 200px scroll
+      const fadeProgress = Math.min(Math.max((scrollY - fadeStart) / (fadeEnd - fadeStart), 0), 1);
+      const opacity = 1 - fadeProgress;
+      header.style.opacity = opacity;
     }
   }
   
@@ -391,19 +395,27 @@ window.addEventListener('scroll', requestTick, { passive: true });
 window.addEventListener('scroll', () => {
 }, { passive: true });
 
-// Header fade on scroll
+// Header fade on scroll - only on mobile, keep visible on desktop
 window.addEventListener('scroll', () => {
   const scrollY = window.scrollY;
   const header = document.querySelector('.site-header');
-  
+  const isDesktop = window.matchMedia('(min-width: 769px)').matches;
   
   if (header) {
-    if (scrollY > 100) {
-      header.style.opacity = '0';
-      header.style.visibility = 'hidden';
-    } else {
+    if (isDesktop) {
+      // Desktop: Always keep header visible and fixed
       header.style.opacity = '1';
       header.style.visibility = 'visible';
+      header.style.position = 'fixed';
+    } else {
+      // Mobile: Original fade behavior
+      if (scrollY > 100) {
+        header.style.opacity = '0';
+        header.style.visibility = 'hidden';
+      } else {
+        header.style.opacity = '1';
+        header.style.visibility = 'visible';
+      }
     }
   }
 }, { passive: true });
