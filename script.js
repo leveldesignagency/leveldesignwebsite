@@ -372,22 +372,7 @@ function updateScrollEffects() {
     hero.style.transform = `translate3d(0, ${yPos}px, 0)`;
   }
   
-  // Header fade out based on scroll - only on mobile
-  if (header) {
-    const isDesktop = window.matchMedia('(min-width: 769px)').matches;
-    if (isDesktop) {
-      // Desktop: Keep header always visible
-      header.style.opacity = '1';
-      header.style.visibility = 'visible';
-    } else {
-      // Mobile: Original fade behavior
-      const fadeStart = 50; // Start fading after 50px scroll
-      const fadeEnd = 200; // Complete fade at 200px scroll
-      const fadeProgress = Math.min(Math.max((scrollY - fadeStart) / (fadeEnd - fadeStart), 0), 1);
-      const opacity = 1 - fadeProgress;
-      header.style.opacity = opacity;
-    }
-  }
+  // Header fade handled by separate event listener
   
   // Parallax effects for "What we do" section cards
   const servicesSection = document.querySelector('#services');
