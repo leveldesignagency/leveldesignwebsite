@@ -1825,7 +1825,7 @@ section#services .container .grid.services-grid {
 
 .bottom-row .reviews-track {
   animation: scrollReviews 40s linear infinite;
-  animation-delay: 10s; /* Delay for bottom row */
+  animation-delay: -20s; /* Out of sync - starts halfway through animation */
 }
 
 @keyframes scrollReviews {
