@@ -900,9 +900,12 @@ function initScrollAnimations() {
   const projectItems = document.querySelectorAll('.project-item');
   const isDesktop = window.matchMedia('(min-width: 769px)').matches;
   
-  // All items are visible by default now
+  // All items are visible by default now - force visibility
   projectItems.forEach((item) => {
     item.classList.add('visible');
+    item.style.opacity = '1';
+    item.style.visibility = 'visible';
+    item.style.transform = 'translateY(0)';
   });
   
   // On desktop, add smooth scroll-based parallax effect
