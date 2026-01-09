@@ -231,42 +231,44 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 /* Sections - Alternating backgrounds */
 .section { padding: 120px 0; }
 
-/* Hero Section - Bottom left, large text, ready for alternating images */
+/* Hero Section - Centered with even gaps, alternating services */
 .hero { 
   position: relative; 
   padding: 0; 
   overflow: visible; 
   min-height: 100vh; 
   display: flex; 
-  align-items: flex-end;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
   background: var(--bg);
-  padding: 0 48px 80px 48px;
 }
 .hero-inner { 
   display: flex; 
   flex-direction: column; 
-  align-items: flex-start; 
-  text-align: left; 
+  align-items: center; 
+  text-align: center; 
   gap: 0; 
   position: relative; 
   z-index: 10; 
   width: 100%;
-  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 48px;
 }
 .headline {
   font-family: "Bebas Neue", Impact, system-ui, sans-serif;
   font-weight: 400;
-  font-size: clamp(72px, 10vw, 160px);
-  line-height: 0.9;
+  font-size: clamp(44px, 6.2vw, 92px);
+  line-height: 1.2;
   color: var(--text);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px; /* Even gaps between phrases */
 }
 .headline .phrase {
   display: block;
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(30px);
   transition: opacity 1s ease-out, transform 1s ease-out;
 }
 .headline .phrase.show {
@@ -2459,7 +2461,9 @@ textarea {
   }
   
   .hero-slide .word {
+    font-family: "Bebas Neue", Impact, system-ui, sans-serif;
     font-size: clamp(36px, 5vw, 64px);
+    color: var(--text);
   }
   
   /* About section */
@@ -2651,12 +2655,14 @@ textarea {
   }
   
   .hero-slide .word {
+    font-family: "Bebas Neue", Impact, system-ui, sans-serif;
     font-size: clamp(48px, 12vw, 80px);
     white-space: nowrap;
     text-align: center;
     font-weight: 400;
     line-height: 1.1;
     display: block;
+    color: var(--text);
   }
   
   .hero-logo-fullscreen-img {
