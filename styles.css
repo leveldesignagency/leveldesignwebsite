@@ -179,19 +179,19 @@ h2 { font-size: clamp(32px, 4vw, 56px); }
 h3 { font-size: clamp(22px, 2.2vw, 28px); }
 p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 
-/* Header - Desktop only */
-.site-header {
-  position: fixed; 
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  background: transparent;
-  backdrop-filter: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
+/* Header - Desktop: Fixed position, logo left */
 @media (min-width: 769px) {
+  .site-header {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: transparent;
+    backdrop-filter: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
   .header-inner { 
     display: flex; 
     align-items: center; 
@@ -222,6 +222,18 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   }
 }
 
+/* Header - Mobile: Absolute position (unchanged) */
+.site-header {
+  position: absolute; 
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: transparent;
+  backdrop-filter: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .header-inner { 
   display: flex; 
   align-items: center; 
@@ -238,9 +250,6 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   align-items: center; 
   gap: 10px; 
   color: var(--text);
-  position: relative;
-  left: auto;
-  transform: none;
 }
 .logo-mark { display: block; color: var(--brand); }
 .logo-img { height: 56px; width: auto; filter: drop-shadow(0 0 0 rgba(0,0,0,0)); }
@@ -249,8 +258,6 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   display: flex; 
   align-items: center; 
   gap: 18px; 
-  position: relative;
-  right: auto;
 }
 .nav-toggle { display: none; background: transparent; border: 0; cursor: pointer; padding: 8px; }
 .nav-toggle .bar { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; border-radius: 0; }
