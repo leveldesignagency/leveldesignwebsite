@@ -643,16 +643,8 @@ function renderProjects(container) {
       ? `<div class="project-image"><img src="${imagePath}" alt="${project.title}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`
       : `<div class="project-image placeholder"></div>`;
     
-    const description = descriptions[project.id] || "Professional design and development services.";
-    
-    const textHTML = `
-      <div class="project-content">
-        <div class="project-title">${project.title}</div>
-        <div class="project-description">${description}</div>
-      </div>
-    `;
-    
-    projectItem.innerHTML = imageHTML + textHTML;
+    // Remove text overlay - just images for now
+    projectItem.innerHTML = imageHTML;
     container.appendChild(projectItem);
   });
 }

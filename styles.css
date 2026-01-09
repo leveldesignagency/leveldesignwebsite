@@ -125,11 +125,12 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
     right: auto;
   }
 
-  /* Hero slide - Desktop: positioned with even padding */
+  /* Hero slide - Desktop: center vertically, left aligned */
   .hero-slide {
-    position: fixed;
-    bottom: 48px; /* Even padding from bottom */
-    left: 48px; /* Even padding from left */
+    position: absolute; /* Absolute within hero, not fixed */
+    top: 50%;
+    left: 48px; /* Left aligned */
+    transform: translateY(-50%); /* Center vertically */
     right: auto;
     opacity: 0;
     transition: opacity 1s ease-in-out;
@@ -279,7 +280,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 /* Sections - Alternating backgrounds */
 .section { padding: 120px 0; }
 
-/* Hero Section - Viewport relative, centered with even gaps, alternating services */
+/* Hero Section - Center vertically, left align horizontally */
 .hero { 
   position: relative; 
   padding: 0; 
@@ -287,44 +288,44 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   height: 100vh; /* Viewport height - adapts to screen */
   min-height: 100vh;
   display: flex; 
-  align-items: center;
-  justify-content: center;
+  align-items: center; /* Center vertically */
+  justify-content: flex-start; /* Left align horizontally */
   background: var(--bg);
+  padding-left: 48px;
 }
 .hero-inner { 
   display: flex; 
   flex-direction: column; 
-  align-items: center; 
-  text-align: center; 
+  align-items: flex-start; /* Left align */
+  text-align: left; /* Left align */
   gap: 0; 
   position: relative; 
   z-index: 10; 
   width: 100%;
-  margin: 0 auto;
-  padding: 0 48px; /* Even horizontal padding */
+  max-width: 1200px;
 }
 .headline {
   font-family: "Bebas Neue", Impact, system-ui, sans-serif;
   font-weight: 400;
   font-size: clamp(44px, 6.2vw, 92px);
-  line-height: 1.2;
+  line-height: 1.1; /* Tighter line height */
   color: var(--text);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; /* Left align */
   justify-content: center;
   gap: 0;
 }
 .headline .phrase {
   margin: 0;
   padding: 0;
-  line-height: 1.2;
+  line-height: 1.1; /* Even line height */
 }
 .headline .phrase1 {
-  margin-bottom: 15px; /* 15px gap */
+  margin-bottom: 8px; /* Closer gap */
 }
 .headline .phrase2 {
-  margin-bottom: 15px; /* 15px gap */
+  margin-bottom: 8px; /* Closer gap */
 }
 .headline .phrase3 {
   margin-bottom: 0;
@@ -2092,6 +2093,16 @@ textarea {
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
+    border-top: 1px solid #000000; /* Top border on section */
+    border-bottom: 1px solid #000000; /* Bottom border on section */
+  }
+
+  #projects.section h2 {
+    padding: 48px 48px 24px 48px;
+    margin: 0;
+    font-family: "Bebas Neue", Impact, system-ui, sans-serif;
+    font-size: clamp(32px, 4vw, 56px);
+    color: var(--text);
   }
 
   #projects.section.locked {
@@ -2109,8 +2120,8 @@ textarea {
     align-items: center;
     gap: 0 !important; /* Gap handled by margin on items */
     width: fit-content;
-    height: 100vh;
-    padding: 0 24px;
+    height: calc(100vh - 120px); /* Account for title */
+    padding: 0;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-behavior: smooth;
@@ -2118,6 +2129,10 @@ textarea {
     -ms-overflow-style: none; /* IE/Edge */
     opacity: 1 !important;
     visibility: visible !important;
+    position: relative;
+    /* Feathered/masked edges */
+    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
   }
 
   .projects-container::-webkit-scrollbar {
@@ -2130,15 +2145,13 @@ textarea {
     height: 600px !important; /* Fixed height for landscape aspect */
     flex-shrink: 0;
     cursor: pointer;
-    border: 1px solid #000000; /* Thin black border */
-    padding: 16px; /* Padding inside border */
-    margin-right: 16px; /* Gap between items */
+    border: none !important; /* No border */
+    padding: 0; /* No padding */
+    margin-right: 5px; /* 5px gap between items */
     overflow: hidden;
-    background: var(--bg);
-    box-shadow: 
-      inset 0 0 30px rgba(0, 0, 0, 0.3), /* Inner shadow */
-      0 10px 40px rgba(0, 0, 0, 0.2);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    box-shadow: none !important; /* No inner shadow */
+    transition: none; /* No hover bounce */
     opacity: 1 !important;
     visibility: visible !important;
     display: flex !important;
@@ -2160,10 +2173,7 @@ textarea {
   }
 
   .project-item:hover {
-    transform: translateY(-8px);
-    box-shadow: 
-      inset 0 0 40px rgba(0, 0, 0, 0.4),
-      0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: none; /* No bounce effect */
   }
 
   .project-item:hover::before {
