@@ -2103,6 +2103,12 @@ textarea {
   }
 
   .project-item.visible {
+    opacity: 1 !important;
+    transform: translateY(0);
+  }
+  
+  /* Make first project visible by default */
+  .project-item:first-child {
     opacity: 1;
     transform: translateY(0);
   }

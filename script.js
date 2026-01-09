@@ -899,8 +899,13 @@ function renderProjects(container) {
 function initScrollAnimations() {
   const projectItems = document.querySelectorAll('.project-item');
   
+  // Make first item visible by default
+  if (projectItems.length > 0) {
+    projectItems[0].classList.add('visible');
+  }
+  
   const observerOptions = {
-    threshold: 0.5, // Show when 50% visible
+    threshold: 0.3, // Show when 30% visible
     rootMargin: '0px'
   };
   
@@ -908,12 +913,14 @@ function initScrollAnimations() {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        // Hide other items for slideshow effect
-        projectItems.forEach((item) => {
-          if (item !== entry.target) {
-            item.classList.remove('visible');
-          }
-        });
+        // Hide other items for slideshow effect (desktop only)
+        if (window.matchMedia('(min-width: 769px)').matches) {
+          projectItems.forEach((item) => {
+            if (item !== entry.target) {
+              item.classList.remove('visible');
+            }
+          });
+        }
       }
     });
   }, observerOptions);
