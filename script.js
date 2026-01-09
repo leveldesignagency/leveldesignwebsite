@@ -70,10 +70,16 @@ function startServiceCycling() {
   // Check if mobile
   isMobile = window.matchMedia('(max-width: 768px)').matches;
   
-  // Fade out the original text
+  // On mobile, keep the original headline visible and add service text below
   const heroHeadline = document.getElementById('hero-headline');
-  heroHeadline.style.transition = 'opacity 1s ease-in-out';
-  heroHeadline.style.opacity = '0';
+  if (!isMobile) {
+    // Desktop: fade out original text
+    heroHeadline.style.transition = 'opacity 1s ease-in-out';
+    heroHeadline.style.opacity = '0';
+  } else {
+    // Mobile: keep original text visible
+    heroHeadline.style.opacity = '1';
+  }
   
   // On mobile, keep Brand & Marketing image constant
   if (isMobile) {
@@ -101,20 +107,21 @@ function startServiceCycling() {
   }
 }
 
-// Scroll-based service text changes for mobile
+// Scroll-based service text changes for mobile - keep alternating
 function setupScrollBasedServices() {
   const heroSection = document.querySelector('.hero');
   if (!heroSection) return;
   
+  // Keep the auto-cycling but make it scroll-triggered
   let lastScrollY = window.scrollY;
-  let scrollThreshold = 100; // Change service every 100px of scroll
+  let scrollThreshold = 150; // Change service every 150px of scroll
   
   function updateServiceOnScroll() {
     const currentScrollY = window.scrollY;
-    const scrollDelta = Math.abs(currentScrollY - lastScrollY);
+    const scrollDelta = currentScrollY - lastScrollY;
     
-    if (scrollDelta >= scrollThreshold) {
-      scrollBasedServiceIndex = Math.floor(currentScrollY / scrollThreshold) % services.length;
+    if (Math.abs(scrollDelta) >= scrollThreshold) {
+      scrollBasedServiceIndex = (scrollBasedServiceIndex + (scrollDelta > 0 ? 1 : -1) + services.length) % services.length;
       updateServiceSlide(scrollBasedServiceIndex);
       lastScrollY = currentScrollY;
     }
@@ -150,6 +157,14 @@ function setupScrollBasedServices() {
   
   // Update on scroll
   window.addEventListener('scroll', updateServiceOnScroll, { passive: true });
+  
+  // Also keep auto-cycling as backup
+  setInterval(() => {
+    if (window.scrollY < 500) { // Only auto-cycle if near top
+      scrollBasedServiceIndex = (scrollBasedServiceIndex + 1) % services.length;
+      updateServiceSlide(scrollBasedServiceIndex);
+    }
+  }, 4000);
 }
 
 function showNextSlide() {

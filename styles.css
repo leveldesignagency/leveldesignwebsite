@@ -2271,11 +2271,12 @@ textarea {
 @media (max-width: 768px) {
   .container { padding: 0 24px; }
   
-  /* Header - Logo centered, Menu FAB bottom right */
+  /* Header - Logo centered, Menu icon on same line */
   .header-inner { 
     height: 64px; 
     padding: 12px 24px;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
   }
   
   .logo {
@@ -2289,10 +2290,8 @@ textarea {
   }
   
   .nav {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 1000;
+    position: relative;
+    right: auto;
   }
   
   .nav-toggle { 
@@ -2300,32 +2299,27 @@ textarea {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
-    padding: 0;
-    background: rgba(255, 45, 45, 0.9);
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    width: auto;
+    height: auto;
+    padding: 8px;
+    background: transparent;
+    backdrop-filter: none;
+    border: none;
     border-radius: 0;
-    box-shadow: 0 4px 20px rgba(255, 45, 45, 0.3);
+    box-shadow: none;
     transition: all 0.3s ease;
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
+    position: relative;
     z-index: 1001;
   }
   
-  .nav-toggle:hover,
-  .nav-toggle[aria-expanded="true"] {
-    background: var(--brand);
-    box-shadow: 0 6px 30px rgba(255, 45, 45, 0.5);
-    transform: scale(1.05);
+  .nav-toggle:hover {
+    opacity: 0.7;
   }
   
   .nav-toggle .bar {
     width: 24px;
     height: 2px;
-    background: white;
+    background: var(--text);
     margin: 3px 0;
     transition: all 0.3s ease;
   }
@@ -2420,9 +2414,9 @@ textarea {
     display: none;
   }
   
-  /* Hero slide - center aligned, large text, scroll-triggered */
+  /* Hero slide - center aligned, vertically stacked, large text */
   .hero-slide {
-    bottom: 80px;
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
     right: auto;
@@ -2430,7 +2424,7 @@ textarea {
     max-width: 600px;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
     text-align: center;
   }
   
@@ -2445,7 +2439,7 @@ textarea {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
   }
   
   .hero-slide .word {
@@ -2454,6 +2448,7 @@ textarea {
     text-align: center;
     font-weight: 400;
     line-height: 1.1;
+    display: block;
   }
   
   .hero-logo-fullscreen-img {
@@ -2529,7 +2524,7 @@ textarea {
     display: none;
   }
   
-  /* Creative Title - Much bigger, 3 lines, full-width red lines */
+  /* Creative Title - Much bigger, 3 lines, full-width red lines, consistent padding */
   .creative-title {
     font-size: clamp(72px, 18vw, 140px);
     margin-bottom: 120px;
@@ -2539,8 +2534,8 @@ textarea {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 16px;
-    padding: 40px 0;
+    gap: 12px;
+    padding: 40px 24px; /* Consistent padding */
   }
   
   .title-line {
@@ -2548,7 +2543,7 @@ textarea {
     width: 100%;
     position: relative;
     text-align: center;
-    padding-bottom: 20px;
+    padding-bottom: 16px;
   }
   
   .title-line::after {
@@ -2651,7 +2646,7 @@ textarea {
     display: none; /* Hide on mobile as requested */
   }
   
-  /* Projects Section - Title, Year, Image stacked */
+  /* Projects Section - Title, Year, Image stacked (mobile only) */
   .projects-container {
     gap: 60px;
   }
@@ -2662,6 +2657,8 @@ textarea {
       "content"
       "image";
     gap: 20px;
+    display: flex;
+    flex-direction: column;
   }
   
   .project-item.image-right {
@@ -2673,22 +2670,28 @@ textarea {
   .project-content {
     grid-area: content;
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    order: 1;
   }
   
   .project-title {
     font-size: clamp(24px, 6vw, 36px);
     margin-bottom: 8px;
+    order: 1;
   }
   
   .project-year {
     font-size: 12px;
     margin-bottom: 16px;
     display: block;
+    order: 2;
   }
   
   .project-image {
     grid-area: image;
     width: 100%;
+    order: 3;
   }
   
   /* Reviews - Center aligned with animations */
@@ -2823,21 +2826,21 @@ textarea {
     font-size: 12px;
   }
   
-  /* Client Logos - Make even bigger on mobile */
+  /* Client Logos - Make even bigger, smaller gaps on mobile */
   .clients {
     padding: 80px 0 60px 0;
     margin-top: 40px;
   }
   
   .marquee-row {
-    height: 180px; /* Even bigger */
+    height: 200px;
     margin: 20px 0;
   }
   
   .client-logo {
-    width: 360px; /* Even bigger */
-    height: 180px; /* Even bigger */
-    margin: 0 40px;
+    width: 400px; /* Even bigger */
+    height: 200px; /* Even bigger */
+    margin: 0 20px; /* Smaller gaps */
   }
 }
 
