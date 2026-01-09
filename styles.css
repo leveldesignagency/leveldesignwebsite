@@ -163,7 +163,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
     font-size: clamp(64px, 8vw, 120px); /* Original size - DO NOT CHANGE */
     font-weight: 400;
     letter-spacing: 0.3px;
-    line-height: 1.1; /* Match headline line height */
+    line-height: 0.8; /* Match headline line height */
     color: var(--text);
     margin: 0;
     padding: 0;
@@ -318,7 +318,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   font-family: "Bebas Neue", Impact, system-ui, sans-serif;
   font-weight: 400;
   font-size: clamp(64px, 8vw, 120px) !important;
-  line-height: 1.1;
+  line-height: 0.8;
   color: var(--text);
   display: flex;
   flex-direction: column;
@@ -331,7 +331,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 .headline .phrase {
   margin: 0 !important;
   padding: 0 !important;
-  line-height: 1.1;
+  line-height: 0.8;
   display: block;
   font-size: clamp(64px, 8vw, 120px) !important;
 }
