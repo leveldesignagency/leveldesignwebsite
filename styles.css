@@ -1399,19 +1399,6 @@ section#services .container .grid.services-grid {
 
 /* Card base (glow disabled for now) */
 .card, .work-card { position: relative; overflow: visible; }
-.work-card {
-  text-decoration: none !important; /* Remove all underlines from links */
-  color: inherit !important;
-}
-.work-card:hover {
-  text-decoration: none !important;
-}
-.work-card:visited {
-  text-decoration: none !important;
-}
-.work-card:active {
-  text-decoration: none !important;
-}
 
 .work-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
 /* Work cards with same glow style as service cards */
@@ -1441,7 +1428,8 @@ section#services .container .grid.services-grid {
   opacity: 1;
   transform: translateY(0);
 }
-  
+
+.work-card {
   /* Glow effect variables */
   --glow-sens: 15; /* More sensitive to cursor proximity */
   --glow-color: 0deg 0% 100%; /* White glow */
@@ -1456,7 +1444,7 @@ section#services .container .grid.services-grid {
   --white: hsl(0, 0%, 100%);
   
   display: block;
-  text-decoration: none; 
+  text-decoration: none !important; 
   color: var(--text);
 }
 
