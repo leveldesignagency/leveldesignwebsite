@@ -895,13 +895,18 @@ function initProjectsSection() {
     const projectItems = document.querySelectorAll('.project-item');
     console.log('Project items found:', projectItems.length);
     projectItems.forEach((item, index) => {
-      item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important;';
       if (index === 0) {
         item.classList.add('active');
-        item.style.transform = 'translateX(0) !important';
+        item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important; transform: translateX(0) !important; position: absolute !important; width: 100% !important; height: 100vh !important;';
       } else {
-        item.style.transform = 'translateX(100%) !important';
+        item.style.cssText = 'opacity: 0 !important; visibility: visible !important; display: flex !important; transform: translateX(100%) !important; position: absolute !important; width: 100% !important; height: 100vh !important;';
       }
+      
+      // Force image and text visibility
+      const image = item.querySelector('.project-image');
+      const content = item.querySelector('.project-content');
+      if (image) image.style.cssText = 'display: block !important; opacity: 1 !important; visibility: visible !important;';
+      if (content) content.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important;';
     });
   }, 200);
 }
