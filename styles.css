@@ -130,12 +130,12 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
     position: absolute; /* Absolute within hero, not fixed */
     top: 50%;
     left: 48px; /* Match logo left edge */
-    transform: translateY(-50%); /* Center vertically */
+    transform: translateY(-50%); /* Center vertically through middle */
     right: auto;
     opacity: 0;
     transition: opacity 1s ease-in-out;
     display: flex;
-    align-items: flex-start;
+    align-items: center; /* Center vertically through middle */
     gap: 0;
     margin: 0;
     padding: 0;
@@ -154,6 +154,8 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
     padding: 0;
     width: auto;
     text-align: left;
+    align-items: flex-start; /* Left align */
+    justify-content: center; /* Center vertically */
   }
 
   .hero-slide .word {
@@ -161,7 +163,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
     font-size: clamp(64px, 8vw, 120px); /* Original size - DO NOT CHANGE */
     font-weight: 400;
     letter-spacing: 0.3px;
-    line-height: 0.9;
+    line-height: 1.1; /* Match headline line height */
     color: var(--text);
     margin: 0;
     padding: 0;
@@ -290,24 +292,25 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   padding-top: 88px; /* Account for header */
   display: flex; 
   align-items: center; /* Center vertically */
-  justify-content: flex-start; /* Left align horizontally */
+  justify-content: center; /* Center horizontally */
   background: var(--bg);
-  padding-left: 48px; /* Hard left align with logo */
 }
 .hero-inner { 
   display: flex; 
   flex-direction: column; 
-  align-items: flex-start; /* Left align */
-  text-align: left; /* Left align */
+  align-items: flex-start; /* Left align text */
+  text-align: left; /* Left align text */
   gap: 0; 
   position: relative; 
   z-index: 10; 
   width: 100%;
+  max-width: 1200px;
+  padding-left: 48px; /* Match logo left edge */
 }
 .headline {
   font-family: "Bebas Neue", Impact, system-ui, sans-serif;
   font-weight: 400;
-  font-size: clamp(64px, 8vw, 120px); /* Same size as alternating text */
+  font-size: clamp(64px, 8vw, 120px) !important; /* Match alternating text exactly */
   line-height: 1.1; /* Even line height */
   color: var(--text);
   display: flex;
@@ -323,6 +326,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   padding: 0;
   line-height: 1.1; /* Even line height */
   display: block;
+  font-size: clamp(64px, 8vw, 120px) !important; /* Match alternating text exactly */
 }
 .headline .phrase1 {
   margin-bottom: 12px; /* Even gap */
@@ -2106,6 +2110,7 @@ textarea {
     justify-content: flex-start;
     padding: 0;
     margin: 0;
+    margin-bottom: 10px; /* 10px gap to images */
     background: var(--bg);
     border-top: 1px solid #000000; /* Top border full width */
     border-bottom: 1px solid #000000; /* Bottom border full width */
@@ -2122,9 +2127,9 @@ textarea {
   /* Projects Gallery Section - Images only */
   #projects.section {
     position: relative;
-    padding: 10px 0 0 0; /* 10px top padding, no other padding */
-    min-height: calc(100vh - 150px);
-    height: calc(100vh - 150px);
+    padding: 0 0 10px 0; /* 10px bottom padding only */
+    min-height: calc(100vh - 150px - 10px);
+    height: calc(100vh - 150px - 10px);
     overflow: hidden;
     background: var(--bg) !important;
     opacity: 1 !important;
@@ -2217,6 +2222,11 @@ textarea {
     background: transparent;
     display: block;
     border-radius: 0 !important; /* No rounded corners */
+    transform: none !important; /* No position change */
+  }
+
+  .project-image:hover {
+    transform: scale(1.05) !important; /* Grow inside only */
   }
 
   .project-image img {
@@ -2227,6 +2237,12 @@ textarea {
     object-fit: contain; /* Show full image, maintain aspect ratio */
     display: block;
     border-radius: 0 !important; /* No rounded corners */
+    transition: transform 0.3s ease !important; /* Smooth scale */
+    transform-origin: center center !important; /* Scale from center */
+  }
+
+  .project-image:hover img {
+    transform: scale(1.05) !important; /* Grow inside only */
   }
 
   .project-image.placeholder {
