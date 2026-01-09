@@ -186,9 +186,10 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
     background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(10px) !important;
     transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: opacity;
-    transform: translateY(0);
+    will-change: opacity, transform;
+    transform: translateZ(0) translateY(0) !important;
     opacity: 1;
+    isolation: isolate;
   }
   
   /* Ensure header doesn't get transformed by any scroll effects */
@@ -442,7 +443,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   color: var(--text) !important;
 }
 #contact.section label span {
-  color: var(--text-alt) !important;
+  color: var(--text) !important;
 }
 
 /* Work section and beyond should have transparent background for custom bg */
@@ -1420,25 +1421,7 @@ section#services .container .grid.services-grid {
   transform: translate3d(0, -2px, 0.01px);
 }
 
-.card::before,
-.card::after {
-  border-radius: 0; /* LEVEL brand - no rounded edges */
-  content: "";
-  display: block;
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.card::before {
-  border: 1px solid var(--white);
-  mask-image: linear-gradient(135deg, var(--white), var(--white0) 50%);
-}
-
-.card::after {
-  border: 1px solid var(--white);
-  mask-image: linear-gradient(135deg, var(--white0) 50%, var(--white));
-}
+/* Removed conflicting card::before and card::after - using gradient flash effect instead */
 
 .card > .glow {
   /* glowing border edges */
