@@ -441,8 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
   workCards.forEach(card => cardObserver.observe(card));
   steps.forEach(step => cardObserver.observe(step));
   reviewCards.forEach(card => cardObserver.observe(card));
-
-// All card animations handled by the observer above
+});
 
 // Pointer tracking for service cards, work cards, and steps glow effect
 const setupPointerTracking = () => {
