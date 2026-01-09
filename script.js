@@ -854,13 +854,31 @@ const projects = [
 function initProjectsSection() {
   const projectsContainer = document.querySelector('.projects-container');
   
-  if (!projectsContainer) return;
+  if (!projectsContainer) {
+    console.error('Projects container not found');
+    return;
+  }
+  
+  console.log('Initializing projects section, projects count:', projects.length);
   
   // Render projects
   renderProjects(projectsContainer);
   
   // Initialize scroll animations
   initScrollAnimations();
+  
+  // Force visibility after render
+  setTimeout(() => {
+    const projectItems = document.querySelectorAll('.project-item');
+    console.log('Project items found:', projectItems.length);
+    projectItems.forEach((item, index) => {
+      item.style.opacity = '1';
+      item.style.visibility = 'visible';
+      item.style.display = 'flex';
+      item.style.transform = 'translateY(0)';
+      console.log(`Project ${index} forced visible`);
+    });
+  }, 100);
 }
 
 // Render project items with alternating layout
