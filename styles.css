@@ -125,11 +125,11 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
     right: auto;
   }
 
-  /* Hero slide - Desktop: positioned correctly with Bebas Neue font */
+  /* Hero slide - Desktop: positioned with even padding */
   .hero-slide {
     position: fixed;
-    bottom: 80px;
-    left: 60px;
+    bottom: 48px; /* Even padding from bottom */
+    left: 48px; /* Even padding from left */
     right: auto;
     opacity: 0;
     transition: opacity 1s ease-in-out;
@@ -279,12 +279,13 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 /* Sections - Alternating backgrounds */
 .section { padding: 120px 0; }
 
-/* Hero Section - Centered with even gaps, alternating services */
+/* Hero Section - Viewport relative, centered with even gaps, alternating services */
 .hero { 
   position: relative; 
   padding: 0; 
   overflow: visible; 
-  min-height: 100vh; 
+  height: 100vh; /* Viewport height - adapts to screen */
+  min-height: 100vh;
   display: flex; 
   align-items: center;
   justify-content: center;
@@ -300,7 +301,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   z-index: 10; 
   width: 100%;
   margin: 0 auto;
-  padding: 120px 48px 60px 48px; /* Reduced bottom padding */
+  padding: 0 48px; /* Even horizontal padding */
 }
 .headline {
   font-family: "Bebas Neue", Impact, system-ui, sans-serif;
@@ -312,17 +313,18 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0; /* No gap, use margin for even spacing */
+  gap: 0;
 }
 .headline .phrase {
   margin: 0;
   padding: 0;
+  line-height: 1.2;
 }
 .headline .phrase1 {
-  margin-bottom: 24px; /* Even gap */
+  margin-bottom: 15px; /* 15px gap */
 }
 .headline .phrase2 {
-  margin-bottom: 24px; /* Even gap */
+  margin-bottom: 15px; /* 15px gap */
 }
 .headline .phrase3 {
   margin-bottom: 0;
@@ -2103,9 +2105,9 @@ textarea {
 
   .projects-container {
     display: flex !important;
-    flex-direction: row;
+    flex-direction: row !important; /* Horizontal row */
     align-items: center;
-    gap: 0; /* Gap handled by margin on items */
+    gap: 0 !important; /* Gap handled by margin on items */
     width: fit-content;
     height: 100vh;
     padding: 0 24px;
@@ -2174,16 +2176,13 @@ textarea {
     position: relative;
     overflow: hidden;
     background: var(--bg-alt);
-    display: flex;
-    align-items: center; /* Vertically center */
-    justify-content: center;
+    display: block;
   }
 
   .project-image img {
     width: 100%;
-    height: auto; /* Maintain aspect ratio */
-    max-height: 100%;
-    object-fit: contain; /* Show full image, not cropped */
+    height: 100%;
+    object-fit: contain; /* Show full image, maintain aspect ratio */
     display: block;
   }
 
