@@ -436,6 +436,10 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 #about.section { background: var(--bg-alt); color: var(--text-alt); }
 #reviews.section { background: var(--bg); }
 #contact.section { background: var(--bg-alt); color: var(--text-alt); }
+#contact.section h2,
+#contact.section label span {
+  color: var(--text-alt) !important;
+}
 
 /* Work section and beyond should have transparent background for custom bg */
 #work.section {
@@ -586,12 +590,12 @@ section#services .container .grid.services-grid {
 
 .marquee-row::before {
   left: 0;
-  background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
 }
 
 .marquee-row::after {
   right: 0;
-  background: linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
 }
 
 .marquee-track {
@@ -1654,9 +1658,10 @@ section#services .container .grid.services-grid {
 .work-card {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   transition: all 0.4s cubic-bezier(0.5, 1, 0.89, 1);
+  transform: translate3d(0, 0, 0);
 }
 .work-card:hover { 
-  transform: translateY(-4px) rotate(1deg); 
+  transform: translate3d(0, -4px, 0) rotate(1deg); 
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
@@ -1696,6 +1701,14 @@ section#services .container .grid.services-grid {
 .steps li > div {
   position: relative;
   z-index: 2;
+}
+
+.steps li p {
+  color: var(--text-alt) !important;
+}
+
+.steps li h3 {
+  color: var(--text-alt) !important;
 }
 
 /* Glow effect for steps */
@@ -1830,6 +1843,15 @@ section#services .container .grid.services-grid {
 .review-author {
   position: relative;
   z-index: 2;
+}
+
+.review-text {
+  color: var(--text-alt) !important;
+}
+
+.review-author strong,
+.review-author span {
+  color: var(--text-alt) !important;
 }
 
 .review-card:nth-child(1) {
@@ -2134,7 +2156,7 @@ textarea {
   }
 }
 
-/* Projects Section - Desktop: Gallery with 30% images, vertical stack, slow left-right movement, red hover */
+/* Projects Section - Desktop: Gallery with 65% images, click to scroll, red hover with text */
 @media (min-width: 769px) {
   #projects.projects.section,
   #projects.section,
@@ -2151,45 +2173,56 @@ textarea {
 
   .projects-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 120px;
+    justify-content: center;
+    gap: 0;
     width: 100%;
-    min-height: calc(100vh - 240px);
+    height: 80vh;
+    position: relative;
     opacity: 1 !important;
     visibility: visible !important;
+    overflow: hidden;
   }
 
   .project-item {
-    position: relative;
-    width: 30%;
-    max-width: 30%;
+    position: absolute;
+    width: 65%;
+    max-width: 65%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    opacity: 1 !important;
-    visibility: visible !important;
-    animation: slowMove 20s linear infinite;
+    justify-content: center;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    z-index: 1;
+    cursor: pointer;
   }
 
-  .project-item:nth-child(even) {
-    animation-direction: reverse;
-    animation-duration: 25s;
+  .project-item.active {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 2;
   }
 
-  @keyframes slowMove {
-    0% { transform: translateX(-20px); }
-    50% { transform: translateX(20px); }
-    100% { transform: translateX(-20px); }
+  .project-item.prev {
+    opacity: 0;
+    transform: translateX(-100%);
+    z-index: 0;
   }
 
   .project-image {
     width: 100%;
-    aspect-ratio: 4/3;
+    height: 100%;
     position: relative;
     overflow: hidden;
     background: var(--bg-alt);
     transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .project-image img {
@@ -2197,7 +2230,7 @@ textarea {
     height: 100%;
     object-fit: cover;
     transition: all 0.4s ease;
-    filter: grayscale(0);
+    display: block;
   }
 
   .project-image.placeholder {
@@ -2226,10 +2259,10 @@ textarea {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 24px;
+    padding: 40px;
     opacity: 0;
     transition: opacity 0.4s ease;
-    z-index: 2;
+    z-index: 3;
     pointer-events: none;
   }
 
@@ -2238,8 +2271,7 @@ textarea {
   }
 
   .project-item:hover .project-image img {
-    opacity: 0.3;
-    filter: grayscale(100%);
+    opacity: 0.2;
   }
 
   .project-item:hover .project-content {
@@ -2248,8 +2280,8 @@ textarea {
 
   .project-year {
     position: absolute;
-    top: 24px;
-    right: 24px;
+    top: 40px;
+    right: 40px;
     font-family: "Inter", sans-serif;
     font-size: 0.9rem;
     font-weight: 600;
@@ -2260,21 +2292,52 @@ textarea {
 
   .project-title {
     font-family: "Bebas Neue", Impact, system-ui, sans-serif;
-    font-size: clamp(24px, 3vw, 48px);
+    font-size: clamp(32px, 4vw, 64px);
     font-weight: 700;
     line-height: 1.1;
     color: var(--text-alt);
     text-transform: uppercase;
     letter-spacing: 0.02em;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
 
   .project-description {
     font-family: "Inter", sans-serif;
-    font-size: clamp(14px, 1.2vw, 16px);
+    font-size: clamp(16px, 1.5vw, 20px);
     font-weight: 400;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  /* Navigation arrows */
+  .project-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--text-alt);
+    border: none;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.3s ease;
+  }
+
+  .project-nav:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .project-nav.prev {
+    left: 20px;
+  }
+
+  .project-nav.next {
+    right: 20px;
   }
 }
 

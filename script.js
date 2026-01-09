@@ -718,125 +718,78 @@ function renderProjects(container) {
   });
 }
 
-// Initialize scroll animations - horizontal scroll lock effect
+// Initialize projects gallery - click to navigate
 function initScrollAnimations() {
   const projectItems = document.querySelectorAll('.project-item');
   const projectsSection = document.querySelector('#projects');
+  const projectsContainer = document.querySelector('.projects-container');
   const isDesktop = window.matchMedia('(min-width: 769px)').matches;
   
-  if (!isDesktop || !projectsSection || projectItems.length === 0) {
-    console.log('Projects scroll init failed:', { isDesktop, hasSection: !!projectsSection, itemsCount: projectItems.length });
+  if (!isDesktop || !projectsSection || !projectsContainer || projectItems.length === 0) {
     return;
   }
   
   let currentIndex = 0;
-  let isLocked = false;
-  let scrollLockStart = 0;
-  let scrollLockEnd = 0;
-  let lastScrollY = window.scrollY;
   
-  // Calculate section bounds
-  function calculateBounds() {
-    const rect = projectsSection.getBoundingClientRect();
-    const sectionTop = rect.top + window.scrollY;
-    const viewportCenter = window.innerHeight / 2;
-    // Lock starts when section center reaches viewport center
-    scrollLockStart = sectionTop - viewportCenter + (projectsSection.offsetHeight / 2);
-    // Each project takes 100vh of scroll
-    scrollLockEnd = scrollLockStart + (projectItems.length * window.innerHeight);
+  // Add navigation buttons
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'project-nav prev';
+  prevBtn.innerHTML = '‹';
+  prevBtn.setAttribute('aria-label', 'Previous project');
+  
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'project-nav next';
+  nextBtn.innerHTML = '›';
+  nextBtn.setAttribute('aria-label', 'Next project');
+  
+  projectsContainer.appendChild(prevBtn);
+  projectsContainer.appendChild(nextBtn);
+  
+  function showProject(index) {
+    if (index < 0 || index >= projectItems.length) return;
+    
+    projectItems.forEach((item, i) => {
+      item.classList.remove('active', 'prev');
+      if (i < index) {
+        item.classList.add('prev');
+      }
+    });
+    
+    projectItems[index].classList.add('active');
+    currentIndex = index;
+    
+    // Update button states
+    prevBtn.style.opacity = index === 0 ? '0.3' : '1';
+    nextBtn.style.opacity = index === projectItems.length - 1 ? '0.3' : '1';
   }
   
-  function updateProjectsOnScroll() {
-    const scrollY = window.scrollY;
-    calculateBounds();
-    
-    // Check if we should lock scrolling
-    if (scrollY >= scrollLockStart && scrollY < scrollLockEnd) {
-      if (!isLocked) {
-        isLocked = true;
-        document.body.style.overflow = 'hidden';
-        document.documentElement.style.overflow = 'hidden';
-      }
-      
-      // Calculate which project to show based on scroll position within lock zone
-      const scrollProgress = (scrollY - scrollLockStart) / (scrollLockEnd - scrollLockStart);
-      const newIndex = Math.min(Math.floor(scrollProgress * projectItems.length), projectItems.length - 1);
-      
-      // Update active project
-      if (newIndex !== currentIndex && newIndex >= 0 && newIndex < projectItems.length) {
-        projectItems.forEach((item, index) => {
-          item.classList.remove('active', 'prev');
-          if (index < newIndex) {
-            item.classList.add('prev');
-          }
-        });
-        
-        projectItems[newIndex].classList.add('active');
-        currentIndex = newIndex;
-      }
-      
-      // Lock scroll position - convert vertical scroll to horizontal project transitions
-      const scrollDelta = scrollY - lastScrollY;
-      if (scrollDelta !== 0 && isLocked) {
-        // Allow controlled scrolling within lock zone
-        const clampedScroll = Math.max(scrollLockStart, Math.min(scrollY, scrollLockEnd));
-        if (Math.abs(clampedScroll - scrollY) > 1) {
-          window.scrollTo({ top: clampedScroll, behavior: 'auto' });
-        }
-      }
-    } else {
-      if (isLocked) {
-        isLocked = false;
-        document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
-      }
+  function nextProject() {
+    if (currentIndex < projectItems.length - 1) {
+      showProject(currentIndex + 1);
     }
-    
-    lastScrollY = scrollY;
   }
   
-  // Set section height for scrolling (each project = 100vh)
-  projectsSection.style.height = `${projectItems.length * 100}vh`;
+  function prevProject() {
+    if (currentIndex > 0) {
+      showProject(currentIndex - 1);
+    }
+  }
   
-  // Set first item as active
-  projectItems[0].classList.add('active');
+  // Click navigation
+  nextBtn.addEventListener('click', nextProject);
+  prevBtn.addEventListener('click', prevProject);
   
-  // Handle wheel events - convert vertical scroll to horizontal transitions
-  let isScrolling = false;
-  projectsSection.addEventListener('wheel', (e) => {
-    if (!isLocked) return;
-    
-    e.preventDefault();
-    e.stopPropagation();
-    
-    if (isScrolling) return;
-    isScrolling = true;
-    
-    const scrollY = window.scrollY;
-    const delta = e.deltaY * 0.5; // Slow down scroll speed
-    const newScrollY = Math.max(scrollLockStart, Math.min(scrollY + delta, scrollLockEnd));
-    
-    window.scrollTo({ top: newScrollY, behavior: 'auto' });
-    
-    setTimeout(() => {
-      isScrolling = false;
-    }, 50);
-  }, { passive: false });
-  
-  window.addEventListener('scroll', updateProjectsOnScroll, { passive: true });
-  window.addEventListener('resize', () => {
-    calculateBounds();
-    updateProjectsOnScroll();
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (projectsSection.getBoundingClientRect().top < window.innerHeight && 
+        projectsSection.getBoundingClientRect().bottom > 0) {
+      if (e.key === 'ArrowRight') nextProject();
+      if (e.key === 'ArrowLeft') prevProject();
+    }
   });
   
-  calculateBounds();
-  updateProjectsOnScroll();
-  
-  console.log('Projects scroll initialized:', { 
-    itemsCount: projectItems.length, 
-    lockStart: scrollLockStart, 
-    lockEnd: scrollLockEnd 
-  });
+  // Initialize first project
+  showProject(0);
 }
 
 // Initialize projects section when DOM is loaded
