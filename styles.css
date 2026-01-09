@@ -2096,21 +2096,10 @@ textarea {
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 1s ease, transform 1s ease;
+    opacity: 1; /* Always visible */
+    transform: translateY(0);
+    transition: opacity 1.2s ease, transform 1.2s ease;
     overflow: hidden;
-  }
-
-  .project-item.visible {
-    opacity: 1 !important;
-    transform: translateY(0);
-  }
-  
-  /* Make first project visible by default */
-  .project-item:first-child {
-    opacity: 1;
-    transform: translateY(0);
   }
 
   .project-image {
@@ -2127,11 +2116,12 @@ textarea {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: scale(1.05); /* Slight zoom for depth */
   }
 
   .project-item:hover .project-image img {
-    transform: scale(1.1);
+    transform: scale(1.15);
   }
 
   .project-image.placeholder {
@@ -2159,7 +2149,7 @@ textarea {
     left: 0;
     right: 0;
     height: 60%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, transparent 100%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.75) 50%, rgba(0, 0, 0, 0.3) 100%);
     z-index: 2;
     pointer-events: none;
   }
@@ -2167,33 +2157,41 @@ textarea {
   .project-content {
     position: relative;
     z-index: 3;
-    padding: 80px 60px;
+    padding: 100px 80px;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
+    transform: translateY(0);
+    transition: transform 0.8s ease;
+  }
+
+  .project-item:hover .project-content {
+    transform: translateY(-10px);
   }
 
   .project-year {
     font-family: "Inter", sans-serif;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: var(--brand);
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    margin-bottom: 8px;
+    letter-spacing: 0.2em;
+    margin-bottom: 12px;
+    opacity: 0.9;
   }
 
   .project-title {
     font-family: "Bebas Neue", Impact, system-ui, sans-serif;
-    font-size: clamp(48px, 6vw, 96px);
+    font-size: clamp(56px, 7vw, 120px);
     font-weight: 400;
     line-height: 1.1;
     color: var(--text);
     text-transform: uppercase;
     letter-spacing: 0.02em;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   }
 }
 

@@ -895,39 +895,57 @@ function renderProjects(container) {
   });
 }
 
-// Initialize scroll animations for project items - slideshow style
+// Initialize scroll animations for project items - all visible, smooth transitions
 function initScrollAnimations() {
   const projectItems = document.querySelectorAll('.project-item');
+  const isDesktop = window.matchMedia('(min-width: 769px)').matches;
   
-  // Make first item visible by default
-  if (projectItems.length > 0) {
-    projectItems[0].classList.add('visible');
-  }
-  
-  const observerOptions = {
-    threshold: 0.3, // Show when 30% visible
-    rootMargin: '0px'
-  };
-  
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        // Hide other items for slideshow effect (desktop only)
-        if (window.matchMedia('(min-width: 769px)').matches) {
-          projectItems.forEach((item) => {
-            if (item !== entry.target) {
-              item.classList.remove('visible');
-            }
-          });
-        }
-      }
-    });
-  }, observerOptions);
-  
+  // All items are visible by default now
   projectItems.forEach((item) => {
-    observer.observe(item);
+    item.classList.add('visible');
   });
+  
+  // On desktop, add smooth scroll-based parallax effect
+  if (isDesktop) {
+    let ticking = false;
+    
+    function updateParallax() {
+      projectItems.forEach((item, index) => {
+        const rect = item.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const itemCenter = rect.top + rect.height / 2;
+        const viewportCenter = windowHeight / 2;
+        const distanceFromCenter = itemCenter - viewportCenter;
+        const scrollProgress = Math.max(0, Math.min(1, 1 - Math.abs(distanceFromCenter) / windowHeight));
+        
+        // Parallax effect on image
+        const image = item.querySelector('.project-image img');
+        if (image) {
+          const parallaxOffset = distanceFromCenter * 0.3;
+          image.style.transform = `scale(1.05) translateY(${parallaxOffset}px)`;
+        }
+        
+        // Fade content based on scroll position
+        const content = item.querySelector('.project-content');
+        if (content) {
+          content.style.opacity = scrollProgress;
+          content.style.transform = `translateY(${Math.max(0, 20 * (1 - scrollProgress))}px)`;
+        }
+      });
+      
+      ticking = false;
+    }
+    
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }
+    
+    window.addEventListener('scroll', requestTick, { passive: true });
+    updateParallax(); // Initial call
+  }
 }
 
 // Initialize projects section when DOM is loaded
