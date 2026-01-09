@@ -74,7 +74,13 @@ h1.headline { font-size: clamp(44px, 6.2vw, 92px); }
 .headline .phrase.show { opacity: 1; }
 
 /* Hero section completely removed - all CSS deleted */
-h2 { font-size: clamp(32px, 4vw, 56px); }
+h2 { 
+  font-size: clamp(32px, 4vw, 56px);
+  transition: color 0.3s ease;
+}
+h2:hover {
+  color: var(--brand) !important; /* Red on hover */
+}
 h3 { font-size: clamp(22px, 2.2vw, 28px); }
 p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 
@@ -280,7 +286,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 .btn:hover { transform: translateY(-1px); transition: transform var(--dur-slow) var(--ease-slow); }
 
 /* Sections - Alternating backgrounds */
-.section { padding: 120px 0; }
+.section { padding: 60px 0; } /* Reduced from 120px */
 
 /* Hero Section - COMPLETELY RESET, NO PADDING */
 .hero { 
@@ -353,7 +359,10 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   opacity: 1;
   transform: translateY(0);
 }
-#services.section { background: var(--bg); }
+#services.section { 
+  background: var(--bg);
+  padding: 60px 0 !important; /* Reduced padding */
+}
 #clients.section { 
   background: var(--bg); 
   color: var(--text); 
@@ -364,7 +373,10 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   padding-top: 10px !important;
   padding-bottom: 10px !important;
 }
-#work.section { background: var(--bg); }
+#work.section { 
+  background: var(--bg);
+  padding: 60px 0 !important; /* Reduced padding */
+}
 #projects.section { background: var(--bg-alt); color: var(--text-alt); }
 #process.section { background: var(--bg); }
 #about.section { background: var(--bg-alt); color: var(--text-alt); }
@@ -379,7 +391,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 
 /* Work section and beyond should have transparent background for custom bg */
 #work.section {
-  padding: 200px 0 80px 0; /* Much more top padding to move it down further */
+  padding: 60px 0 !important; /* Reduced padding to match other sections */
   background: transparent;
 }
 
@@ -2134,7 +2146,7 @@ textarea {
   /* Projects Gallery Section - Images only */
   #projects.section {
     position: relative;
-    padding: 0 0 10px 0; /* 10px bottom padding only */
+    padding: 5px 0 !important; /* 5px top and bottom padding */
     min-height: calc(100vh - 150px - 10px);
     height: calc(100vh - 150px - 10px);
     overflow: hidden;
