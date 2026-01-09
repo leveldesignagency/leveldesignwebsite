@@ -13,41 +13,36 @@ document.addEventListener('DOMContentLoaded', function() {
   const header = document.querySelector('.site-header');
   if (!header) return;
   
-  let lastScrollY = window.scrollY;
-  
   function updateHeaderOpacity() {
     const scrollY = window.scrollY;
-    const isDesktop = window.matchMedia('(min-width: 769px)').matches;
     
-    if (isDesktop) {
-      // Desktop: Fade out on any scroll down
-      if (scrollY > 50) {
-        const fadeStart = 50;
-        const fadeEnd = 200;
-        const fadeProgress = Math.min(Math.max((scrollY - fadeStart) / (fadeEnd - fadeStart), 0), 1);
-        header.style.opacity = 1 - fadeProgress;
-        header.style.pointerEvents = fadeProgress > 0.9 ? 'none' : 'auto';
-      } else {
-        header.style.opacity = '1';
-        header.style.pointerEvents = 'auto';
-      }
+    // Fade out on scroll down
+    if (scrollY > 50) {
+      const fadeStart = 50;
+      const fadeEnd = 200;
+      const fadeProgress = Math.min(Math.max((scrollY - fadeStart) / (fadeEnd - fadeStart), 0), 1);
+      header.style.opacity = String(1 - fadeProgress);
+      header.style.pointerEvents = fadeProgress > 0.9 ? 'none' : 'auto';
     } else {
-      // Mobile: Keep existing behavior or fade out
-      if (scrollY > 50) {
-        const fadeStart = 50;
-        const fadeEnd = 200;
-        const fadeProgress = Math.min(Math.max((scrollY - fadeStart) / (fadeEnd - fadeStart), 0), 1);
-        header.style.opacity = 1 - fadeProgress;
-      } else {
-        header.style.opacity = '1';
-      }
+      header.style.opacity = '1';
+      header.style.pointerEvents = 'auto';
     }
-    
-    lastScrollY = scrollY;
   }
   
   window.addEventListener('scroll', updateHeaderOpacity, { passive: true });
   updateHeaderOpacity(); // Initial call
+});
+
+// Logo click to refresh page
+document.addEventListener('DOMContentLoaded', function() {
+  const logo = document.querySelector('.logo');
+  if (logo) {
+    logo.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '/';
+    });
+    logo.style.cursor = 'pointer';
+  }
 });
 
 // Intersection animations
@@ -437,31 +432,7 @@ window.addEventListener('scroll', requestTick, { passive: true });
 window.addEventListener('scroll', () => {
 }, { passive: true });
 
-// Header fade on scroll - simple fade away
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  const header = document.querySelector('.site-header');
-  const isDesktop = window.matchMedia('(min-width: 769px)').matches;
-  
-  if (header && isDesktop) {
-    // Desktop: Fade away as user scrolls
-    const fadeStart = 50;
-    const fadeEnd = 200;
-    const fadeProgress = Math.min(Math.max((scrollY - fadeStart) / (fadeEnd - fadeStart), 0), 1);
-    const opacity = 1 - fadeProgress;
-    header.style.opacity = opacity;
-    header.style.transform = 'translateY(0)'; // Keep it fixed, just fade
-  } else if (header) {
-    // Mobile: Original fade behavior
-    if (scrollY > 100) {
-      header.style.opacity = '0';
-      header.style.visibility = 'hidden';
-    } else {
-      header.style.opacity = '1';
-      header.style.visibility = 'visible';
-    }
-  }
-}, { passive: true });
+// Header fade handled by DOMContentLoaded listener above
 
 // Faster card animations - almost immediately
 const cards = document.querySelectorAll('.card');

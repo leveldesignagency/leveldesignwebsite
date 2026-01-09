@@ -629,7 +629,7 @@ section#services .container .grid.services-grid {
   justify-content: center;
   width: 400px;
   height: 200px;
-  margin: 0 2px;
+  margin: 0 1px;
   transition: all 0.3s ease;
   filter: brightness(0);
   opacity: 1;
@@ -639,7 +639,7 @@ section#services .container .grid.services-grid {
 .client-logo:hover {
   transform: scale(1.1);
   opacity: 1;
-  filter: brightness(0) drop-shadow(0 0 20px rgba(255, 45, 45, 0.5));
+  filter: brightness(0);
 }
 
 .client-logo svg {
@@ -1267,25 +1267,13 @@ section#services .container .grid.services-grid {
   transform: translateY(0);
 }
 
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  transition: left 0.6s ease;
-  z-index: 1;
+.card {
+  border: none !important;
 }
 
 .card:hover {
   transform: translate3d(0, -4px, 0) rotate(1deg);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-}
-
-.card:hover::before {
-  left: 100%;
 }
 
 .card > div {
@@ -1775,14 +1763,20 @@ section#services .container .grid.services-grid {
 }
 
 #reviews.section .container {
-  padding: 0 !important;
+  padding: 0 48px !important;
   max-width: 100% !important;
 }
 
+#reviews.section h2 {
+  padding: 0 48px;
+  margin-bottom: 60px;
+}
+
 .reviews-wrapper {
-  margin-top: 60px;
+  margin-top: 0;
   overflow: hidden;
   width: 100%;
+  padding: 0 !important;
 }
 
 .reviews-row {
@@ -2517,8 +2511,8 @@ textarea {
 /* Footer */
 .site-footer { 
   padding: 60px 0 40px; 
-  border-top: 1px solid rgba(255,255,255,.1); 
-  background: linear-gradient(to top, rgba(255, 45, 45, 0.03) 0%, transparent 100%);
+  border-top: 2px solid #000000; 
+  background: transparent;
   margin-top: 80px;
 }
 .footer-inner { 
@@ -2534,12 +2528,13 @@ textarea {
 .footer-logo { 
   height: 40px; 
   width: auto; 
-  filter: brightness(0) invert(1); 
+  filter: brightness(0); 
   opacity: 0.9;
   transition: opacity 0.3s ease;
 }
 .footer-logo:hover {
   opacity: 1;
+  filter: brightness(0);
 }
 .footer-links { 
   display: flex; 
