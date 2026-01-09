@@ -552,47 +552,7 @@ const setupPointerTracking = () => {
 // Initialize pointer tracking
 const cleanupPointerTracking = setupPointerTracking();
 
-// Cursor trail fade after hero section
-let trailFadeActive = false;
-let trailFadeProgress = 0;
-
-const heroSection = document.querySelector('.hero');
-
-function getHeroHeight() {
-  if (!heroSection) return 0;
-  const rect = heroSection.getBoundingClientRect();
-  return rect.height + rect.top + window.scrollY;
-}
-
-function updateTrailFade() {
-  const scrollY = window.scrollY;
-  const heroHeight = getHeroHeight();
-  const fadeStart = heroHeight * 0.9; // Start fading at 90% of hero height
-  const fadeEnd = heroHeight; // Complete fade at end of hero
-  
-  if (scrollY > fadeStart) {
-    trailFadeActive = true;
-    trailFadeProgress = Math.min((scrollY - fadeStart) / (fadeEnd - fadeStart), 1);
-  } else {
-    trailFadeActive = false;
-    trailFadeProgress = 0;
-  }
-
-  // Hard toggle the global canvas visibility beyond the hero
-  if (canvas) {
-    if (scrollY >= fadeEnd) {
-      canvas.style.display = 'none';
-    } else {
-      canvas.style.display = 'block';
-    }
-  }
-}
-
-// Update trail fade on scroll
-window.addEventListener('scroll', updateTrailFade);
-
-// Recalculate on resize (hero height can change)
-window.addEventListener('resize', updateTrailFade);
+// Cursor trail removed per design requirements
 
 // Custom background activation at "selected work" section
 const customBackground = document.getElementById('custom-background');
@@ -619,203 +579,7 @@ window.addEventListener('scroll', updateCustomBackground);
 // Update on resize
 window.addEventListener('resize', updateCustomBackground);
 
-// Parallax: subtle mouse parallax on hero layers (disabled on touch devices)
-const parallax = document.querySelector('.hero-parallax');
-if (parallax && window.matchMedia('(hover: hover)').matches) {
-  const layers = parallax.querySelectorAll('.layer');
-  window.addEventListener('mousemove', (e) => {
-    const { innerWidth: w, innerHeight: h } = window;
-    const x = (e.clientX / w - 0.5);
-    const y = (e.clientY / h - 0.5);
-    layers.forEach((layer, i) => {
-      const depth = (i + 1) * 4; // small movement for elegance
-      layer.style.transform = `translate(${x * depth}px, ${y * depth}px)`;
-    });
-  }, { passive: true });
-}
-
-// Glowing canvas cursor trail (only on devices with hover capability)
-const canvas = document.getElementById('cursor-canvas');
-const heroCanvas = document.getElementById('hero-cursor-canvas');
-
-// Only initialize canvas on devices with hover capability
-const hasHover = window.matchMedia('(hover: hover)').matches;
-let ctx, heroCtx;
-
-if (hasHover && canvas && heroCanvas) {
-  ctx = canvas.getContext('2d');
-  heroCtx = heroCanvas.getContext('2d');
-} else {
-  // Hide canvas on touch devices
-  if (canvas) canvas.style.display = 'none';
-  if (heroCanvas) heroCanvas.style.display = 'none';
-}
-
-// for intro motion
-let mouseMoved = false;
-
-const pointer = {
-    x: .5 * window.innerWidth,
-    y: .5 * window.innerHeight,
-}
-const params = {
-    pointsNumber: 40,
-    widthFactor: .3,
-    mouseThreshold: .6,
-    spring: .4,
-    friction: .5
-};
-
-const trail = new Array(params.pointsNumber);
-const heroTrail = new Array(params.pointsNumber);
-for (let i = 0; i < params.pointsNumber; i++) {
-    trail[i] = {
-        x: pointer.x,
-        y: pointer.y,
-        dx: 0,
-        dy: 0,
-    }
-    heroTrail[i] = {
-        x: pointer.x,
-        y: pointer.y,
-        dx: 0,
-        dy: 0,
-    }
-}
-
-window.addEventListener("click", e => {
-    updateMousePosition(e.clientX, e.clientY);
-});
-window.addEventListener("mousemove", e => {
-    mouseMoved = true;
-    updateMousePosition(e.clientX, e.clientY);
-});
-window.addEventListener("touchmove", e => {
-    mouseMoved = true;
-    if (e.targetTouches && e.targetTouches[0]) {
-        updateMousePosition(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
-    }
-}, { passive: true });
-
-function updateMousePosition(eX, eY) {
-    pointer.x = eX;
-    pointer.y = eY;
-}
-
-if (hasHover) {
-  setupCanvas();
-  setupHeroCanvas();
-  update(0);
-  window.addEventListener("resize", () => {
-      setupCanvas();
-      setupHeroCanvas();
-  });
-}
-
-function update(t) {
-    // Only update canvas on devices with hover capability
-    if (!hasHover || !ctx || !heroCtx || !canvas || !heroCanvas) {
-        return;
-    }
-    
-    // for intro motion
-    if (!mouseMoved) {
-        pointer.x = (.5 + .3 * Math.cos(.002 * t) * (Math.sin(.005 * t))) * window.innerWidth;
-        pointer.y = (.5 + .2 * (Math.cos(.005 * t)) + .1 * Math.cos(.01 * t)) * window.innerHeight;
-    }
-
-    // Update main canvas trail with fade effect
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    updateTrail(trail, pointer);
-    
-    // Apply fade effect after hero section
-    const trailAlpha = trailFadeActive ? 1 - trailFadeProgress : 1;
-    const trailBlur = trailFadeActive ? 8 * (1 - trailFadeProgress) : 8;
-    
-    if (trailAlpha > 0) {
-      drawTrail(ctx, trail, {
-        color: '#ff2d2d',
-        shadowBlur: trailBlur,
-        widthScale: 1,
-        alpha: trailAlpha
-      });
-    }
-
-    // Update hero canvas trail (behind logo). Use pointer relative to hero.
-    const heroRect = heroCanvas.getBoundingClientRect();
-    const heroPointer = { x: pointer.x - heroRect.left, y: pointer.y - heroRect.top };
-    // Clear canvas completely so trail fades naturally
-    heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
-    updateTrail(heroTrail, heroPointer);
-    drawTrail(heroCtx, heroTrail, {
-      // bigger but subtler white backlight
-      color: 'white',
-      shadowBlur: 28,
-      widthScale: 1.6,
-      alpha: 0.25,
-      gradientCenter: heroPointer,
-      gradientRadius: 200
-    });
-    
-    window.requestAnimationFrame(update);
-}
-
-function updateTrail(trailArray, targetPointer) {
-    trailArray.forEach((p, pIdx) => {
-        const prev = pIdx === 0 ? targetPointer : trailArray[pIdx - 1];
-        const spring = pIdx === 0 ? .4 * params.spring : params.spring;
-        p.dx += (prev.x - p.x) * spring;
-        p.dy += (prev.y - p.y) * spring;
-        p.dx *= params.friction;
-        p.dy *= params.friction;
-        p.x += p.dx;
-        p.y += p.dy;
-    });
-}
-
-function drawTrail(context, trailArray, opts) {
-    const { color = '#ff2d2d', shadowBlur = 8, widthScale = 1, alpha = 1, gradientCenter, gradientRadius } = opts || {};
-    context.save();
-    context.globalAlpha = alpha;
-    context.lineCap = 'round';
-    let stroke = color;
-    if (gradientCenter && gradientRadius) {
-      const g = context.createRadialGradient(gradientCenter.x, gradientCenter.y, 0, gradientCenter.x, gradientCenter.y, gradientRadius);
-      g.addColorStop(0, 'rgba(255,255,255,0.9)');
-      g.addColorStop(1, 'rgba(255,255,255,0)');
-      stroke = g;
-    }
-    context.strokeStyle = stroke;
-    context.shadowColor = color;
-    context.shadowBlur = shadowBlur;
-    context.beginPath();
-    context.moveTo(trailArray[0].x, trailArray[0].y);
-
-    for (let i = 1; i < trailArray.length - 1; i++) {
-        const xc = .5 * (trailArray[i].x + trailArray[i + 1].x);
-        const yc = .5 * (trailArray[i].y + trailArray[i + 1].y);
-        context.quadraticCurveTo(trailArray[i].x, trailArray[i].y, xc, yc);
-        context.lineWidth = widthScale * params.widthFactor * (params.pointsNumber - i);
-        context.stroke();
-    }
-    context.lineTo(trailArray[trailArray.length - 1].x, trailArray[trailArray.length - 1].y);
-    context.stroke();
-    context.restore();
-}
-
-function setupCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-
-function setupHeroCanvas() {
-    const heroSection = document.querySelector('.hero');
-    if (heroSection) {
-        const rect = heroSection.getBoundingClientRect();
-        heroCanvas.width = rect.width;
-        heroCanvas.height = rect.height;
-    }
-}
+// Cursor trail and parallax removed per design requirements
 
 // Projects Section
 const projects = [
@@ -911,18 +675,23 @@ function initProjectsSection() {
   }, 200);
 }
 
-// Render project items - image left, text right, all in same container
+// Render project items - gallery style with hover effects
 function renderProjects(container) {
+  const descriptions = {
+    1: "Complete brand transformation including logo, visual identity, and digital presence.",
+    2: "Full-stack platform development with desktop, mobile, and backend infrastructure.",
+    3: "Comprehensive branding solution with modern visual language and guidelines.",
+    4: "Strategic social media management and content creation services.",
+    5: "Multi-channel marketing campaigns with creative direction and execution.",
+    6: "Personal brand development and identity design for professionals.",
+    7: "Technology branding and digital platform design."
+  };
+
   projects.forEach((project, index) => {
     const projectItem = document.createElement('div');
     projectItem.classList.add('project-item');
     projectItem.dataset.id = project.id;
     projectItem.dataset.index = index;
-    
-    // First item is active
-    if (index === 0) {
-      projectItem.classList.add('active');
-    }
     
     // Fix image paths - remove 'public/' prefix if present
     let imagePath = project.image;
@@ -934,16 +703,17 @@ function renderProjects(container) {
       ? `<div class="project-image"><img src="${imagePath}" alt="${project.title}" loading="lazy"></div>`
       : `<div class="project-image placeholder"></div>`;
     
+    const description = descriptions[project.id] || "Professional design and development services.";
+    
     const textHTML = `
       <div class="project-content">
         <div class="project-year">${project.year}</div>
         <div class="project-title">${project.title}</div>
+        <div class="project-description">${description}</div>
       </div>
     `;
     
-    // Always image left, text right
     projectItem.innerHTML = imageHTML + textHTML;
-
     container.appendChild(projectItem);
   });
 }
