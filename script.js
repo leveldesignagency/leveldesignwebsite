@@ -9,34 +9,7 @@ if (navToggle && navLinks) {
 }
 
 // Header fade out on scroll
-document.addEventListener('DOMContentLoaded', function() {
-  const header = document.querySelector('.site-header');
-  if (!header) return;
-  
-  function updateHeaderOpacity() {
-    const scrollY = window.scrollY;
-    const isDesktop = window.matchMedia('(min-width: 769px)').matches;
-    
-    if (!isDesktop) return; // Only fade on desktop
-    
-    // Fade out on scroll down - fade completely and faster
-    if (scrollY > 20) {
-      const fadeStart = 20;
-      const fadeEnd = 100; // Faster fade
-      const fadeProgress = Math.min(Math.max((scrollY - fadeStart) / (fadeEnd - fadeStart), 0), 1);
-      header.style.opacity = String(Math.max(0, 1 - fadeProgress)); // Ensure it goes to 0
-      header.style.pointerEvents = fadeProgress > 0.5 ? 'none' : 'auto';
-      header.style.visibility = fadeProgress > 0.95 ? 'hidden' : 'visible';
-    } else {
-      header.style.opacity = '1';
-      header.style.pointerEvents = 'auto';
-      header.style.visibility = 'visible';
-    }
-  }
-  
-  window.addEventListener('scroll', updateHeaderOpacity, { passive: true });
-  updateHeaderOpacity(); // Initial call
-});
+// Header removed - no fade, just scrolls with page
 
 // Logo click to refresh page
 document.addEventListener('DOMContentLoaded', function() {
