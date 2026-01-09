@@ -8,6 +8,48 @@ if (navToggle && navLinks) {
   });
 }
 
+// Header fade out on scroll
+document.addEventListener('DOMContentLoaded', function() {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+  
+  let lastScrollY = window.scrollY;
+  
+  function updateHeaderOpacity() {
+    const scrollY = window.scrollY;
+    const isDesktop = window.matchMedia('(min-width: 769px)').matches;
+    
+    if (isDesktop) {
+      // Desktop: Fade out on any scroll down
+      if (scrollY > 50) {
+        const fadeStart = 50;
+        const fadeEnd = 200;
+        const fadeProgress = Math.min(Math.max((scrollY - fadeStart) / (fadeEnd - fadeStart), 0), 1);
+        header.style.opacity = 1 - fadeProgress;
+        header.style.pointerEvents = fadeProgress > 0.9 ? 'none' : 'auto';
+      } else {
+        header.style.opacity = '1';
+        header.style.pointerEvents = 'auto';
+      }
+    } else {
+      // Mobile: Keep existing behavior or fade out
+      if (scrollY > 50) {
+        const fadeStart = 50;
+        const fadeEnd = 200;
+        const fadeProgress = Math.min(Math.max((scrollY - fadeStart) / (fadeEnd - fadeStart), 0), 1);
+        header.style.opacity = 1 - fadeProgress;
+      } else {
+        header.style.opacity = '1';
+      }
+    }
+    
+    lastScrollY = scrollY;
+  }
+  
+  window.addEventListener('scroll', updateHeaderOpacity, { passive: true });
+  updateHeaderOpacity(); // Initial call
+});
+
 // Intersection animations
 const animated = document.querySelectorAll('[data-animate]');
 const io = new IntersectionObserver((entries) => {
@@ -693,14 +735,11 @@ function renderProjects(container) {
     projectItem.dataset.id = project.id;
     projectItem.dataset.index = index;
     
-    // Fix image paths - remove 'public/' prefix if present
-    let imagePath = project.image;
-    if (imagePath && imagePath.startsWith('public/')) {
-      imagePath = imagePath.replace('public/', '');
-    }
+    // Use image path as-is (images are in public/ folder)
+    const imagePath = project.image;
     
     const imageHTML = imagePath 
-      ? `<div class="project-image"><img src="${imagePath}" alt="${project.title}" loading="lazy"></div>`
+      ? `<div class="project-image"><img src="${imagePath}" alt="${project.title}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`
       : `<div class="project-image placeholder"></div>`;
     
     const description = descriptions[project.id] || "Professional design and development services.";

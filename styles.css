@@ -185,9 +185,10 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
     z-index: 1000 !important;
     background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(10px) !important;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform, opacity;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity;
     transform: translateY(0);
+    opacity: 1;
   }
   
   /* Ensure header doesn't get transformed by any scroll effects */
@@ -257,7 +258,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   color: var(--text);
 }
 .logo-mark { display: block; color: var(--brand); }
-.logo-img { height: 56px; width: auto; filter: drop-shadow(0 0 0 rgba(0,0,0,0)); }
+.logo-img { height: 56px; width: auto; filter: brightness(0); }
 
 .nav { 
   display: flex; 
@@ -282,7 +283,8 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   content: '';
   position: absolute;
   bottom: -4px;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 0;
   height: 2px;
   background: var(--brand);
@@ -306,7 +308,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 .nav a.cta:hover { 
   background: var(--brand);
   color: white;
-  box-shadow: 0 0 0 3px rgba(255,45,45,0.25); 
+  box-shadow: none; 
 }
 
 .nav a.cta::after {
@@ -436,7 +438,9 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 #about.section { background: var(--bg-alt); color: var(--text-alt); }
 #reviews.section { background: var(--bg); }
 #contact.section { background: var(--bg-alt); color: var(--text-alt); }
-#contact.section h2,
+#contact.section h2 {
+  color: var(--text) !important;
+}
 #contact.section label span {
   color: var(--text-alt) !important;
 }
@@ -1248,7 +1252,7 @@ section#services .container .grid.services-grid {
 .card { 
   position: relative;
   padding: 32px;
-  background: var(--bg-alt);
+  background: #000000 !important;
   color: var(--text-alt);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   transition: all 0.4s cubic-bezier(0.5, 1, 0.89, 1);
@@ -1770,9 +1774,15 @@ section#services .container .grid.services-grid {
   background: transparent;
 }
 
+#reviews.section .container {
+  padding: 0 !important;
+  max-width: 100% !important;
+}
+
 .reviews-wrapper {
   margin-top: 60px;
   overflow: hidden;
+  width: 100%;
 }
 
 .reviews-row {
@@ -1833,6 +1843,7 @@ section#services .container .grid.services-grid {
 .review-card:hover {
   transform: translate3d(0, -4px, 0) rotate(1deg);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  background: var(--bg) !important;
 }
 
 .review-card:hover::before {
@@ -1852,6 +1863,12 @@ section#services .container .grid.services-grid {
 .review-author strong,
 .review-author span {
   color: var(--text-alt) !important;
+}
+
+.review-card:hover .review-text,
+.review-card:hover .review-author strong,
+.review-card:hover .review-author span {
+  color: var(--text) !important;
 }
 
 .review-card:nth-child(1) {
@@ -2038,6 +2055,12 @@ input, textarea {
   font: inherit; 
   transition: all 0.3s ease;
   font-size: 16px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #666666;
+  opacity: 1;
 }
 
 input:focus, textarea:focus { 
@@ -2231,6 +2254,8 @@ textarea {
     object-fit: cover;
     transition: all 0.4s ease;
     display: block;
+    opacity: 1;
+    visibility: visible;
   }
 
   .project-image.placeholder {
