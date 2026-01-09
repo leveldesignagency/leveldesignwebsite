@@ -1448,6 +1448,19 @@ section#services .container .grid.services-grid {
   color: var(--text);
 }
 
+/* Remove ALL underlines from work-card links */
+a.work-card,
+.work-card,
+.work-card:link,
+.work-card:visited,
+.work-card:hover,
+.work-card:active,
+.work-card:focus {
+  text-decoration: none !important;
+  border-bottom: none !important;
+  outline: none !important;
+}
+
 .work-card:hover {
   transform: translate3d(0, -2px, 0.01px);
   box-shadow: rgba(255, 255, 255, 0.2) 0px 15px 25px -8px, rgba(255, 255, 255, 0.25) 0px 25px 45px -14px;
