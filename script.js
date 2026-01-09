@@ -13,19 +13,41 @@ document.addEventListener('DOMContentLoaded', function() {
   const header = document.querySelector('.site-header');
   if (!header) return;
   
+  // Ensure header is always fixed - force it
+  const isDesktop = window.matchMedia('(min-width: 769px)').matches;
+  if (isDesktop) {
+    header.style.position = 'fixed';
+    header.style.top = '0';
+    header.style.left = '0';
+    header.style.right = '0';
+    header.style.width = '100%';
+    header.style.zIndex = '9999';
+    header.style.transform = 'none';
+    header.style.margin = '0';
+    header.style.padding = '0';
+  }
+  
   function updateHeaderOpacity() {
     const scrollY = window.scrollY;
+    const isDesktop = window.matchMedia('(min-width: 769px)').matches;
     
-    // Fade out on scroll down
+    if (!isDesktop) return; // Only fade on desktop
+    
+    // Fade out on scroll down - only change opacity, never transform
     if (scrollY > 50) {
       const fadeStart = 50;
       const fadeEnd = 200;
       const fadeProgress = Math.min(Math.max((scrollY - fadeStart) / (fadeEnd - fadeStart), 0), 1);
       header.style.opacity = String(1 - fadeProgress);
       header.style.pointerEvents = fadeProgress > 0.9 ? 'none' : 'auto';
+      // NEVER change transform or position
+      header.style.transform = 'none';
+      header.style.position = 'fixed';
     } else {
       header.style.opacity = '1';
       header.style.pointerEvents = 'auto';
+      header.style.transform = 'none';
+      header.style.position = 'fixed';
     }
   }
   
