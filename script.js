@@ -395,33 +395,20 @@ window.addEventListener('scroll', requestTick, { passive: true });
 window.addEventListener('scroll', () => {
 }, { passive: true });
 
-// Header hide/show on scroll - hide on scroll down, show on scroll up
-let lastScrollY = 0;
-let scrollThreshold = 100;
-
+// Header fade on scroll - simple fade away
 window.addEventListener('scroll', () => {
   const scrollY = window.scrollY;
   const header = document.querySelector('.site-header');
   const isDesktop = window.matchMedia('(min-width: 769px)').matches;
   
   if (header && isDesktop) {
-    // Desktop: Hide on scroll down, show on scroll up
-    if (scrollY > scrollThreshold) {
-      if (scrollY > lastScrollY) {
-        // Scrolling down - hide header
-        header.style.transform = 'translateY(-100%)';
-        header.style.opacity = '0';
-      } else {
-        // Scrolling up - show header
-        header.style.transform = 'translateY(0)';
-        header.style.opacity = '1';
-      }
-    } else {
-      // Near top - always show
-      header.style.transform = 'translateY(0)';
-      header.style.opacity = '1';
-    }
-    lastScrollY = scrollY;
+    // Desktop: Fade away as user scrolls
+    const fadeStart = 50;
+    const fadeEnd = 200;
+    const fadeProgress = Math.min(Math.max((scrollY - fadeStart) / (fadeEnd - fadeStart), 0), 1);
+    const opacity = 1 - fadeProgress;
+    header.style.opacity = opacity;
+    header.style.transform = 'translateY(0)'; // Keep it fixed, just fade
   } else if (header) {
     // Mobile: Original fade behavior
     if (scrollY > 100) {
@@ -893,35 +880,43 @@ function initProjectsSection() {
   // Initialize scroll animations
   initScrollAnimations();
   
-  // Force visibility after render
+  // Force visibility after render - COMPLETE OVERRIDE
   setTimeout(() => {
-    const projectsSection = document.querySelector('.projects.section');
+    const projectsSection = document.querySelector('#projects.projects.section');
     if (projectsSection) {
-      projectsSection.style.opacity = '1';
-      projectsSection.style.visibility = 'visible';
-      projectsSection.style.transform = 'none';
+      projectsSection.style.cssText = 'opacity: 1 !important; visibility: visible !important; transform: none !important; display: block !important;';
       projectsSection.classList.add('in');
+    }
+    
+    const container = document.querySelector('.projects-container');
+    if (container) {
+      container.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important; width: 100% !important;';
     }
     
     const projectItems = document.querySelectorAll('.project-item');
     console.log('Project items found:', projectItems.length);
     projectItems.forEach((item, index) => {
-      item.style.opacity = '1';
-      item.style.visibility = 'visible';
-      item.style.display = 'flex';
-      item.style.transform = 'translateY(0)';
-      item.style.position = 'relative';
-      item.style.zIndex = '1';
+      item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important; transform: none !important; position: relative !important; width: 100% !important; height: 100vh !important;';
+      
+      // Force image visibility
+      const image = item.querySelector('.project-image');
+      if (image) {
+        image.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important; position: absolute !important; width: 100% !important; height: 100% !important;';
+        const img = image.querySelector('img');
+        if (img) {
+          img.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important; width: 100% !important; height: 100% !important; object-fit: cover !important;';
+        }
+      }
+      
+      // Force content visibility
+      const content = item.querySelector('.project-content');
+      if (content) {
+        content.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important; position: relative !important; z-index: 3 !important;';
+      }
+      
       console.log(`Project ${index} forced visible`);
     });
-    
-    const container = document.querySelector('.projects-container');
-    if (container) {
-      container.style.display = 'flex';
-      container.style.visibility = 'visible';
-      container.style.opacity = '1';
-    }
-  }, 100);
+  }, 200);
 }
 
 // Render project items with alternating layout
