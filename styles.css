@@ -1759,21 +1759,50 @@ section#services .container .grid.services-grid {
   background: transparent;
 }
 
-.reviews-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+.reviews-wrapper {
   margin-top: 60px;
+  overflow: hidden;
+}
+
+.reviews-row {
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+.reviews-track {
+  display: flex;
+  gap: 24px;
+  width: fit-content;
+  animation: scrollReviews 40s linear infinite;
+}
+
+.bottom-row .reviews-track {
+  animation: scrollReviewsReverse 40s linear infinite;
+  animation-delay: -20s; /* Half offset for out of sync */
+}
+
+@keyframes scrollReviews {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scrollReviewsReverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 }
 
 .review-card {
-  position: relative;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 40px;
-  transition: all 0.4s ease;
-  animation: gentleFloat 6s ease-in-out infinite;
+  flex: 0 0 400px;
+  padding: 32px;
+  background: var(--bg-alt);
+  color: var(--text-alt);
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .review-card:nth-child(1) {
