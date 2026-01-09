@@ -420,17 +420,19 @@ window.addEventListener('scroll', () => {
 // Header fade handled by DOMContentLoaded listener above
 
 // Scroll animations for all card sections
-const cardObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, index) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        entry.target.classList.add('animate-in');
-      }, index * 50); // Much faster - 50ms stagger
-    }
-  });
-}, { threshold: 0.1, rootMargin: '100px 0px 0px 0px' }); // Trigger earlier
+document.addEventListener('DOMContentLoaded', function() {
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('animate-in');
+        }, index * 50);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '100px 0px 0px 0px' });
 
-cards.forEach(card => cardObserver.observe(card));
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card => cardObserver.observe(card));
 
 // Scroll animations for process steps
 const processSteps = document.querySelectorAll('.steps li');
