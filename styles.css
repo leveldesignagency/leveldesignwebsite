@@ -2083,13 +2083,13 @@ textarea {
   }
 }
 
-/* Projects Section - Desktop: START FRESH - Full view images with overlayed text */
+/* Projects Section - Desktop: Sticky horizontal scroll with image left, text right */
 @media (min-width: 769px) {
   #projects.projects.section {
     position: relative;
     padding: 0;
     overflow: visible;
-    min-height: auto;
+    min-height: 100vh;
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
@@ -2103,36 +2103,53 @@ textarea {
   }
 
   .projects-container {
+    position: sticky;
+    top: 0;
     width: 100%;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 0;
+    overflow: hidden;
     opacity: 1 !important;
     visibility: visible !important;
   }
 
   .project-item {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    min-height: 100vh;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-    overflow: hidden;
-    z-index: 1;
-  }
-
-  .project-image {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 60px;
+    padding: 0 80px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.8s ease, transform 0.8s ease;
     z-index: 1;
+  }
+
+  .project-item.active {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 2;
+  }
+
+  .project-item.prev {
+    opacity: 0;
+    transform: translateX(-100%);
+    z-index: 0;
+  }
+
+  .project-image {
+    flex: 0 0 40%;
+    max-width: 40%;
+    height: 70vh;
+    position: relative;
+    overflow: hidden;
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
@@ -2164,41 +2181,25 @@ textarea {
     letter-spacing: 0.1em;
   }
 
-  /* Overlay gradient for text readability */
-  .project-item::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 60%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.75) 50%, rgba(0, 0, 0, 0.3) 100%);
-    z-index: 2;
-    pointer-events: none;
-  }
-
   .project-content {
-    position: relative;
-    z-index: 3;
-    padding: 100px 80px;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    justify-content: center;
+    gap: 20px;
+    padding-left: 40px;
     opacity: 1 !important;
     visibility: visible !important;
   }
 
   .project-year {
     font-family: "Inter", sans-serif;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--brand);
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
@@ -2206,13 +2207,12 @@ textarea {
 
   .project-title {
     font-family: "Bebas Neue", Impact, system-ui, sans-serif;
-    font-size: clamp(56px, 7vw, 120px);
+    font-size: clamp(48px, 6vw, 96px);
     font-weight: 400;
     line-height: 1.1;
     color: var(--text);
     text-transform: uppercase;
     letter-spacing: 0.02em;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;

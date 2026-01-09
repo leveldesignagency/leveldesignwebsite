@@ -880,55 +880,44 @@ function initProjectsSection() {
   // Initialize scroll animations
   initScrollAnimations();
   
-  // Force visibility after render - COMPLETE OVERRIDE
+  // Force visibility after render
   setTimeout(() => {
     const projectsSection = document.querySelector('#projects.projects.section');
     if (projectsSection) {
-      projectsSection.style.cssText = 'opacity: 1 !important; visibility: visible !important; transform: none !important; display: block !important;';
+      projectsSection.style.opacity = '1';
+      projectsSection.style.visibility = 'visible';
       projectsSection.classList.add('in');
     }
     
     const container = document.querySelector('.projects-container');
     if (container) {
-      container.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important; width: 100% !important;';
+      container.style.display = 'flex';
+      container.style.visibility = 'visible';
+      container.style.opacity = '1';
     }
     
     const projectItems = document.querySelectorAll('.project-item');
     console.log('Project items found:', projectItems.length);
     projectItems.forEach((item, index) => {
-      item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important; transform: none !important; position: relative !important; width: 100% !important; height: 100vh !important;';
-      
-      // Force image visibility
-      const image = item.querySelector('.project-image');
-      if (image) {
-        image.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important; position: absolute !important; width: 100% !important; height: 100% !important;';
-        const img = image.querySelector('img');
-        if (img) {
-          img.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important; width: 100% !important; height: 100% !important; object-fit: cover !important;';
-        }
+      if (index === 0) {
+        item.classList.add('active');
       }
-      
-      // Force content visibility
-      const content = item.querySelector('.project-content');
-      if (content) {
-        content.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important; position: relative !important; z-index: 3 !important;';
-      }
-      
-      console.log(`Project ${index} forced visible`);
     });
-  }, 200);
+  }, 100);
 }
 
-// Render project items with alternating layout
+// Render project items - image left, text right, all in same container
 function renderProjects(container) {
   projects.forEach((project, index) => {
     const projectItem = document.createElement('div');
     projectItem.classList.add('project-item');
     projectItem.dataset.id = project.id;
+    projectItem.dataset.index = index;
     
-    // Alternate left/right: even indices (0, 2, 4) = image left, odd (1, 3, 5) = image right
-    const isImageLeft = index % 2 === 0;
-    projectItem.classList.add(isImageLeft ? 'image-left' : 'image-right');
+    // First item is active
+    if (index === 0) {
+      projectItem.classList.add('active');
+    }
     
     const imageHTML = project.image 
       ? `<div class="project-image"><img src="${project.image}" alt="${project.title}" loading="lazy"></div>`
@@ -941,70 +930,61 @@ function renderProjects(container) {
       </div>
     `;
     
-    if (isImageLeft) {
-      projectItem.innerHTML = imageHTML + textHTML;
-    } else {
-      projectItem.innerHTML = textHTML + imageHTML;
-    }
+    // Always image left, text right
+    projectItem.innerHTML = imageHTML + textHTML;
 
     container.appendChild(projectItem);
   });
 }
 
-// Initialize scroll animations for project items - all visible, smooth transitions
+// Initialize scroll animations - sticky horizontal scroll effect
 function initScrollAnimations() {
   const projectItems = document.querySelectorAll('.project-item');
+  const projectsSection = document.querySelector('#projects.projects.section');
   const isDesktop = window.matchMedia('(min-width: 769px)').matches;
   
-  // All items are visible by default now - force visibility
-  projectItems.forEach((item) => {
-    item.classList.add('visible');
-    item.style.opacity = '1';
-    item.style.visibility = 'visible';
-    item.style.transform = 'translateY(0)';
-  });
+  if (!isDesktop || !projectsSection || projectItems.length === 0) return;
   
-  // On desktop, add smooth scroll-based parallax effect
-  if (isDesktop) {
-    let ticking = false;
+  let currentIndex = 0;
+  const itemHeight = 100; // Each project takes 100vh of scroll
+  const sectionTop = projectsSection.offsetTop;
+  
+  function updateProjectsOnScroll() {
+    const scrollY = window.scrollY;
+    const sectionRect = projectsSection.getBoundingClientRect();
+    const sectionTop = sectionRect.top + window.scrollY;
+    const sectionHeight = projectsSection.offsetHeight;
     
-    function updateParallax() {
-      projectItems.forEach((item, index) => {
-        const rect = item.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        const itemCenter = rect.top + rect.height / 2;
-        const viewportCenter = windowHeight / 2;
-        const distanceFromCenter = itemCenter - viewportCenter;
-        const scrollProgress = Math.max(0, Math.min(1, 1 - Math.abs(distanceFromCenter) / windowHeight));
-        
-        // Parallax effect on image
-        const image = item.querySelector('.project-image img');
-        if (image) {
-          const parallaxOffset = distanceFromCenter * 0.3;
-          image.style.transform = `scale(1.05) translateY(${parallaxOffset}px)`;
-        }
-        
-        // Fade content based on scroll position
-        const content = item.querySelector('.project-content');
-        if (content) {
-          content.style.opacity = scrollProgress;
-          content.style.transform = `translateY(${Math.max(0, 20 * (1 - scrollProgress))}px)`;
-        }
-      });
+    // Check if we're in the projects section
+    if (scrollY >= sectionTop - window.innerHeight && scrollY < sectionTop + sectionHeight) {
+      const scrollProgress = (scrollY - (sectionTop - window.innerHeight)) / (sectionHeight + window.innerHeight);
+      const newIndex = Math.min(Math.floor(scrollProgress * projectItems.length), projectItems.length - 1);
       
-      ticking = false;
-    }
-    
-    function requestTick() {
-      if (!ticking) {
-        requestAnimationFrame(updateParallax);
-        ticking = true;
+      if (newIndex !== currentIndex && newIndex >= 0 && newIndex < projectItems.length) {
+        // Remove active from all
+        projectItems.forEach((item, index) => {
+          item.classList.remove('active', 'prev');
+          if (index < newIndex) {
+            item.classList.add('prev');
+          }
+        });
+        
+        // Add active to current
+        projectItems[newIndex].classList.add('active');
+        currentIndex = newIndex;
       }
     }
-    
-    window.addEventListener('scroll', requestTick, { passive: true });
-    updateParallax(); // Initial call
   }
+  
+  // Make section tall enough for scrolling
+  const totalHeight = projectItems.length * 100; // 100vh per project
+  projectsSection.style.height = `${totalHeight}vh`;
+  
+  // Set first item as active
+  projectItems[0].classList.add('active');
+  
+  window.addEventListener('scroll', updateProjectsOnScroll, { passive: true });
+  updateProjectsOnScroll(); // Initial call
 }
 
 // Initialize projects section when DOM is loaded
