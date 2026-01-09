@@ -419,8 +419,7 @@ window.addEventListener('scroll', () => {
 
 // Header fade handled by DOMContentLoaded listener above
 
-// Faster card animations - almost immediately
-const cards = document.querySelectorAll('.card');
+// Scroll animations for all card sections
 const cardObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry, index) => {
     if (entry.isIntersecting) {
