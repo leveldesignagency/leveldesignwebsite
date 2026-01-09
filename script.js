@@ -895,19 +895,25 @@ function renderProjects(container) {
   });
 }
 
-// Initialize scroll animations for project items
+// Initialize scroll animations for project items - slideshow style
 function initScrollAnimations() {
   const projectItems = document.querySelectorAll('.project-item');
   
   const observerOptions = {
-    threshold: 0.2,
-    rootMargin: '0px 0px -100px 0px'
+    threshold: 0.5, // Show when 50% visible
+    rootMargin: '0px'
   };
   
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+        // Hide other items for slideshow effect
+        projectItems.forEach((item) => {
+          if (item !== entry.target) {
+            item.classList.remove('visible');
+          }
+        });
       }
     });
   }, observerOptions);
