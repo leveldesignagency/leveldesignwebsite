@@ -431,36 +431,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }, { threshold: 0.1, rootMargin: '100px 0px 0px 0px' });
 
+  // Observe all card types
   const cards = document.querySelectorAll('.card');
+  const workCards = document.querySelectorAll('.work-card');
+  const steps = document.querySelectorAll('.steps li');
+  const reviewCards = document.querySelectorAll('.review-card');
+  
   cards.forEach(card => cardObserver.observe(card));
+  workCards.forEach(card => cardObserver.observe(card));
+  steps.forEach(step => cardObserver.observe(step));
+  reviewCards.forEach(card => cardObserver.observe(card));
 
-// Scroll animations for process steps
-const processSteps = document.querySelectorAll('.steps li');
-const processObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, index) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        entry.target.classList.add('animate-in');
-      }, index * 150); // Stagger animation
-    }
-  });
-}, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
-
-processSteps.forEach(step => processObserver.observe(step));
-
-// Scroll animations for review cards
-const reviewCards = document.querySelectorAll('.review-card');
-const reviewObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, index) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        entry.target.classList.add('animate-in');
-      }, index * 200); // Stagger animation
-    }
-  });
-}, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
-
-reviewCards.forEach(card => reviewObserver.observe(card));
+// All card animations handled by the observer above
 
 // Pointer tracking for service cards, work cards, and steps glow effect
 const setupPointerTracking = () => {
