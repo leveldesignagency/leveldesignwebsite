@@ -182,13 +182,13 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 /* Header - Desktop: Fixed position, logo left */
 @media (min-width: 769px) {
   .site-header {
-    position: fixed; 
+    position: fixed !important; 
     top: 0;
     left: 0;
     right: 0;
-    z-index: 100;
-    background: transparent;
-    backdrop-filter: none;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -223,15 +223,17 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 }
 
 /* Header - Mobile: Absolute position (unchanged) */
-.site-header {
-  position: absolute; 
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  background: transparent;
-  backdrop-filter: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+@media (max-width: 768px) {
+  .site-header {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: transparent;
+    backdrop-filter: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 }
 
 .header-inner { 
