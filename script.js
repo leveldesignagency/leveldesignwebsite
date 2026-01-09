@@ -599,41 +599,11 @@ function initProjectsSection() {
   // Render projects
   renderProjects(projectsContainer);
   
-  // Initialize scroll animations
+  // Initialize horizontal scroll with page lock
   initScrollAnimations();
-  
-  // Force visibility after render
-  setTimeout(() => {
-    const projectsSection = document.querySelector('#projects');
-    if (projectsSection) {
-      projectsSection.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
-    }
-    
-    const container = document.querySelector('.projects-container');
-    if (container) {
-      container.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
-    }
-    
-    const projectItems = document.querySelectorAll('.project-item');
-    console.log('Project items found:', projectItems.length);
-    projectItems.forEach((item, index) => {
-      if (index === 0) {
-        item.classList.add('active');
-        item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important; transform: translateX(0) !important; position: absolute !important; width: 100% !important; height: 100vh !important;';
-      } else {
-        item.style.cssText = 'opacity: 0 !important; visibility: visible !important; display: flex !important; transform: translateX(100%) !important; position: absolute !important; width: 100% !important; height: 100vh !important;';
-      }
-      
-      // Force image and text visibility
-      const image = item.querySelector('.project-image');
-      const content = item.querySelector('.project-content');
-      if (image) image.style.cssText = 'display: block !important; opacity: 1 !important; visibility: visible !important;';
-      if (content) content.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important;';
-    });
-  }, 200);
 }
 
-// Render project items - gallery style with hover effects
+// Render project items - horizontal scroll gallery
 function renderProjects(container) {
   const descriptions = {
     1: "Complete brand transformation including logo, visual identity, and digital presence.",
@@ -651,7 +621,6 @@ function renderProjects(container) {
     projectItem.dataset.id = project.id;
     projectItem.dataset.index = index;
     
-    // Use image path as-is (images are in public/ folder)
     const imagePath = project.image;
     
     const imageHTML = imagePath 
@@ -662,7 +631,6 @@ function renderProjects(container) {
     
     const textHTML = `
       <div class="project-content">
-        <div class="project-year">${project.year}</div>
         <div class="project-title">${project.title}</div>
         <div class="project-description">${description}</div>
       </div>
@@ -673,78 +641,55 @@ function renderProjects(container) {
   });
 }
 
-// Initialize projects gallery - click to navigate
+// Initialize horizontal scroll with page lock
 function initScrollAnimations() {
-  const projectItems = document.querySelectorAll('.project-item');
   const projectsSection = document.querySelector('#projects');
   const projectsContainer = document.querySelector('.projects-container');
   const isDesktop = window.matchMedia('(min-width: 769px)').matches;
   
-  if (!isDesktop || !projectsSection || !projectsContainer || projectItems.length === 0) {
+  if (!isDesktop || !projectsSection || !projectsContainer) {
     return;
   }
   
-  let currentIndex = 0;
+  let isLocked = false;
+  let scrollStart = 0;
   
-  // Add navigation buttons
-  const prevBtn = document.createElement('button');
-  prevBtn.className = 'project-nav prev';
-  prevBtn.innerHTML = '‹';
-  prevBtn.setAttribute('aria-label', 'Previous project');
-  
-  const nextBtn = document.createElement('button');
-  nextBtn.className = 'project-nav next';
-  nextBtn.innerHTML = '›';
-  nextBtn.setAttribute('aria-label', 'Next project');
-  
-  projectsContainer.appendChild(prevBtn);
-  projectsContainer.appendChild(nextBtn);
-  
-  function showProject(index) {
-    if (index < 0 || index >= projectItems.length) return;
+  // Check if section is in view
+  function checkSectionInView() {
+    const rect = projectsSection.getBoundingClientRect();
+    const isInView = rect.top <= 0 && rect.bottom >= window.innerHeight;
     
-    projectItems.forEach((item, i) => {
-      item.classList.remove('active', 'prev');
-      if (i < index) {
-        item.classList.add('prev');
-      }
-    });
-    
-    projectItems[index].classList.add('active');
-    currentIndex = index;
-    
-    // Update button states
-    prevBtn.style.opacity = index === 0 ? '0.3' : '1';
-    nextBtn.style.opacity = index === projectItems.length - 1 ? '0.3' : '1';
-  }
-  
-  function nextProject() {
-    if (currentIndex < projectItems.length - 1) {
-      showProject(currentIndex + 1);
+    if (isInView && !isLocked) {
+      // Lock the page
+      isLocked = true;
+      projectsSection.classList.add('locked');
+      document.body.style.overflow = 'hidden';
+      scrollStart = window.scrollY;
+    } else if (!isInView && isLocked) {
+      // Unlock the page
+      isLocked = false;
+      projectsSection.classList.remove('locked');
+      document.body.style.overflow = '';
     }
   }
   
-  function prevProject() {
-    if (currentIndex > 0) {
-      showProject(currentIndex - 1);
-    }
+  // Convert vertical scroll to horizontal scroll when locked
+  function handleWheel(e) {
+    if (!isLocked) return;
+    
+    e.preventDefault();
+    
+    // Convert vertical scroll to horizontal
+    const delta = e.deltaY;
+    projectsContainer.scrollLeft += delta;
   }
   
-  // Click navigation
-  nextBtn.addEventListener('click', nextProject);
-  prevBtn.addEventListener('click', prevProject);
+  // Listen for scroll events
+  window.addEventListener('scroll', checkSectionInView, { passive: true });
+  window.addEventListener('wheel', handleWheel, { passive: false });
   
-  // Keyboard navigation
-  document.addEventListener('keydown', (e) => {
-    if (projectsSection.getBoundingClientRect().top < window.innerHeight && 
-        projectsSection.getBoundingClientRect().bottom > 0) {
-      if (e.key === 'ArrowRight') nextProject();
-      if (e.key === 'ArrowLeft') prevProject();
-    }
-  });
-  
-  // Initialize first project
-  showProject(0);
+  // Initial check
+  checkSectionInView();
 }
 
 // Initialize projects section when DOM is loaded
