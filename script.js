@@ -937,7 +937,7 @@ function renderProjects(container) {
   });
 }
 
-// Initialize scroll animations - sticky horizontal scroll effect
+// Initialize scroll animations - horizontal scroll lock effect
 function initScrollAnimations() {
   const projectItems = document.querySelectorAll('.project-item');
   const projectsSection = document.querySelector('#projects.projects.section');
@@ -946,18 +946,32 @@ function initScrollAnimations() {
   if (!isDesktop || !projectsSection || projectItems.length === 0) return;
   
   let currentIndex = 0;
-  const itemHeight = 100; // Each project takes 100vh of scroll
-  const sectionTop = projectsSection.offsetTop;
+  let isLocked = false;
+  let scrollLockStart = 0;
+  let scrollLockEnd = 0;
+  
+  // Calculate section bounds
+  function calculateBounds() {
+    const rect = projectsSection.getBoundingClientRect();
+    const sectionTop = rect.top + window.scrollY;
+    const viewportCenter = window.innerHeight / 2;
+    scrollLockStart = sectionTop - viewportCenter;
+    scrollLockEnd = scrollLockStart + (projectItems.length * window.innerHeight);
+  }
   
   function updateProjectsOnScroll() {
     const scrollY = window.scrollY;
-    const sectionRect = projectsSection.getBoundingClientRect();
-    const sectionTop = sectionRect.top + window.scrollY;
-    const sectionHeight = projectsSection.offsetHeight;
+    calculateBounds();
     
-    // Check if we're in the projects section
-    if (scrollY >= sectionTop - window.innerHeight && scrollY < sectionTop + sectionHeight) {
-      const scrollProgress = (scrollY - (sectionTop - window.innerHeight)) / (sectionHeight + window.innerHeight);
+    // Check if we should lock scrolling
+    if (scrollY >= scrollLockStart && scrollY < scrollLockEnd) {
+      if (!isLocked) {
+        isLocked = true;
+        document.body.style.overflow = 'hidden';
+      }
+      
+      // Calculate which project to show based on scroll position
+      const scrollProgress = (scrollY - scrollLockStart) / (scrollLockEnd - scrollLockStart);
       const newIndex = Math.min(Math.floor(scrollProgress * projectItems.length), projectItems.length - 1);
       
       if (newIndex !== currentIndex && newIndex >= 0 && newIndex < projectItems.length) {
@@ -973,18 +987,41 @@ function initScrollAnimations() {
         projectItems[newIndex].classList.add('active');
         currentIndex = newIndex;
       }
+      
+      // Prevent default scroll when locked
+      if (scrollY > scrollLockStart && scrollY < scrollLockEnd - 10) {
+        window.scrollTo(0, Math.max(scrollLockStart, Math.min(scrollY, scrollLockEnd - 10)));
+      }
+    } else {
+      if (isLocked) {
+        isLocked = false;
+        document.body.style.overflow = '';
+      }
     }
   }
   
-  // Make section tall enough for scrolling
-  const totalHeight = projectItems.length * 100; // 100vh per project
-  projectsSection.style.height = `${totalHeight}vh`;
+  // Set section height for scrolling
+  projectsSection.style.height = `${projectItems.length * 100}vh`;
   
   // Set first item as active
   projectItems[0].classList.add('active');
   
+  // Handle wheel events for horizontal scrolling when locked
+  let wheelTimeout;
+  projectsSection.addEventListener('wheel', (e) => {
+    if (isLocked) {
+      e.preventDefault();
+      const scrollY = window.scrollY;
+      const delta = e.deltaY;
+      const newScrollY = Math.max(scrollLockStart, Math.min(scrollY + delta, scrollLockEnd));
+      window.scrollTo(0, newScrollY);
+    }
+  }, { passive: false });
+  
   window.addEventListener('scroll', updateProjectsOnScroll, { passive: true });
-  updateProjectsOnScroll(); // Initial call
+  window.addEventListener('resize', calculateBounds);
+  calculateBounds();
+  updateProjectsOnScroll();
 }
 
 // Initialize projects section when DOM is loaded
