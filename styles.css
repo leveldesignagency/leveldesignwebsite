@@ -617,9 +617,11 @@ section#services .container .grid.services-grid {
   height: 100% !important;
 }
 
-/* ITD logo - keep original colors (no black filter) */
+/* ITD logo - keep original colors (no black filter) and make smaller */
 .client-logo-color {
   filter: none !important; /* Keep original colors */
+  width: 300px !important; /* Smaller container */
+  height: 150px !important;
 }
 
 .client-logo-color:hover {
@@ -628,6 +630,9 @@ section#services .container .grid.services-grid {
 
 .client-logo-color img {
   filter: none !important; /* Keep original colors */
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
 }
 
 /* RESPONSIVE DESIGN */
