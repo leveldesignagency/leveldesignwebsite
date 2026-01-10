@@ -47,6 +47,31 @@ document.addEventListener('click', (e) => {
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
+// Auto Dark Mode based on local time zone
+// Dark mode: 6 PM (18:00) to 6 AM (06:00)
+// Light mode: 6 AM (06:00) to 6 PM (18:00)
+function initDarkMode() {
+  const now = new Date();
+  const hour = now.getHours();
+  
+  // Dark mode between 6 PM (18:00) and 6 AM (06:00)
+  const isDarkMode = hour >= 18 || hour < 6;
+  
+  if (isDarkMode) {
+    document.body.classList.add('dark-mode');
+    document.documentElement.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+    document.documentElement.classList.remove('dark-mode');
+  }
+}
+
+// Initialize dark mode on page load
+initDarkMode();
+
+// Update dark mode every minute to handle time changes
+setInterval(initDarkMode, 60000);
+
 // Hero cycling animation system
 const services = [
   "Web\nDesign",
