@@ -774,8 +774,12 @@ function renderProjects(container) {
     
     const imagePath = project.image;
     
+    // Extract filename for descriptive alt text
+    const filename = imagePath ? imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ') : '';
+    const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Project ${project.id} - Credit: LEVEL DESIGN AGENCY LTD`;
+    
     const imageHTML = imagePath 
-      ? `<div class="project-image"><img src="${imagePath}" alt="Project ${project.id}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`
+      ? `<div class="project-image"><img src="${imagePath}" alt="${altText}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`
       : `<div class="project-image placeholder"></div>`;
     
     projectItem.innerHTML = imageHTML;
