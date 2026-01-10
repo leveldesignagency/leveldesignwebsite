@@ -743,55 +743,10 @@ function renderProjects(container) {
   });
 }
 
-// Initialize horizontal scroll with page lock
+// Collage layout - no scroll lock needed
 function initScrollAnimations() {
-  const projectsSection = document.querySelector('#projects');
-  const projectsContainer = document.querySelector('.projects-container');
-  const isDesktop = window.matchMedia('(min-width: 769px)').matches;
-  
-  if (!isDesktop || !projectsSection || !projectsContainer) {
-    return;
-  }
-  
-  let isLocked = false;
-  let scrollStart = 0;
-  
-  // Check if section is in view
-  function checkSectionInView() {
-    const rect = projectsSection.getBoundingClientRect();
-    const isInView = rect.top <= 0 && rect.bottom >= window.innerHeight;
-    
-    if (isInView && !isLocked) {
-      // Lock the page
-      isLocked = true;
-      projectsSection.classList.add('locked');
-      document.body.style.overflow = 'hidden';
-      scrollStart = window.scrollY;
-    } else if (!isInView && isLocked) {
-      // Unlock the page
-      isLocked = false;
-      projectsSection.classList.remove('locked');
-      document.body.style.overflow = '';
-    }
-  }
-  
-  // Convert vertical scroll to horizontal scroll when locked
-  function handleWheel(e) {
-    if (!isLocked) return;
-    
-    e.preventDefault();
-    
-    // Convert vertical scroll to horizontal
-    const delta = e.deltaY;
-    projectsContainer.scrollLeft += delta;
-  }
-  
-  // Listen for scroll events
-  window.addEventListener('scroll', checkSectionInView, { passive: true });
-  window.addEventListener('wheel', handleWheel, { passive: false });
-  
-  // Initial check
-  checkSectionInView();
+  // Disabled for collage layout - images scroll normally with page
+  return;
 }
 
 // Initialize projects section when DOM is loaded
