@@ -426,6 +426,11 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   position: relative;
 }
 
+/* Dark mode - about section becomes white */
+.dark-mode #about.section {
+  background: #ffffff;
+}
+
 .about-content {
   position: sticky;
   top: 0;
@@ -1265,6 +1270,13 @@ section#services .container .grid.services-grid {
   overflow: hidden !important;
   opacity: 0;
   transform: translateY(40px);
+}
+
+/* Dark mode - cards become white */
+.dark-mode .card {
+  background: #ffffff !important;
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2) !important;
+}
   border: none !important;
 }
 
@@ -2766,7 +2778,12 @@ textarea {
     border: none;
     border-radius: 0; 
     padding: 0;
-    flex-direction: column; 
+    flex-direction: column;
+  }
+  
+  /* Dark mode mobile menu - becomes white */
+  .dark-mode .nav-links {
+    background: #ffffff; 
     align-items: center; 
     justify-content: center;
     gap: 32px; 
