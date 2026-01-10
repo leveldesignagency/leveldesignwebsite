@@ -617,6 +617,19 @@ section#services .container .grid.services-grid {
   height: 100% !important;
 }
 
+/* ITD logo - keep original colors (no black filter) */
+.client-logo-color {
+  filter: none !important; /* Keep original colors */
+}
+
+.client-logo-color:hover {
+  filter: none !important; /* Keep original colors on hover */
+}
+
+.client-logo-color img {
+  filter: none !important; /* Keep original colors */
+}
+
 /* RESPONSIVE DESIGN */
 @media (max-width: 768px) {
   .clients {
