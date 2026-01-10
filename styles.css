@@ -2157,7 +2157,7 @@ textarea {
   /* Projects Gallery Section - Images only */
   #projects.section {
     position: relative;
-    padding: 5px 0 !important; /* 5px top and bottom padding */
+    padding: 5px 0 5px 0 !important; /* Match top and bottom padding */
     min-height: 500px;
     height: 500px;
     overflow: hidden;
@@ -2182,7 +2182,7 @@ textarea {
     display: flex !important;
     flex-direction: row !important;
     align-items: flex-start;
-    gap: 10px !important;
+    gap: 30px !important; /* Increased gap between images */
     width: fit-content;
     height: 500px !important;
     padding: 0 48px;
@@ -2197,6 +2197,16 @@ textarea {
     /* Feathered/masked edges */
     mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    animation: autoScroll 60s linear infinite; /* Slow auto-scroll */
+  }
+
+  @keyframes autoScroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-100% + 100vw));
+    }
   }
 
   .projects-container::-webkit-scrollbar {
@@ -2216,10 +2226,10 @@ textarea {
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
-    overflow: hidden; /* Contain the scale on hover */
+    overflow: visible;
     background: transparent;
     box-shadow: none !important;
-    transition: transform 0.3s ease !important;
+    transition: none !important; /* No transitions */
     opacity: 1 !important;
     visibility: visible !important;
     display: flex !important;
@@ -2243,10 +2253,9 @@ textarea {
     object-fit: contain; /* Maintain aspect ratio */
   }
 
-  /* Grow inside container on hover - no overlap */
+  /* No hover effect - removed grow */
   .project-item:hover {
-    transform: scale(1.05) !important;
-    z-index: 10;
+    transform: none !important;
   }
 
   .project-image {
