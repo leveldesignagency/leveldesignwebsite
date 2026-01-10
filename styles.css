@@ -2164,6 +2164,11 @@ textarea {
   background-attachment: fixed;
 }
 
+/* Dark mode - bg-black becomes white */
+.dark-mode .bg-black {
+  background: radial-gradient(ellipse 2000px 1500px at 20% 30%, #ffffff 0%, #f5f5f5 40%, #ffffff 100%);
+}
+
 .bg-red {
   background: 
     radial-gradient(ellipse 800px 600px at 80% 20%, rgba(255, 45, 45, 0.15) 0%, transparent 60%),
