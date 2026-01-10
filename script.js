@@ -719,8 +719,8 @@ function initProjectsSection() {
     });
   }, 100);
   
-  // Initialize horizontal scroll with page lock
-  initScrollAnimations();
+  // Collage layout - no scroll lock needed
+  // initScrollAnimations(); // Disabled for collage layout
 }
 
 // Render project items - horizontal scroll gallery with varying sizes
