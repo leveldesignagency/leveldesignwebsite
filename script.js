@@ -552,16 +552,6 @@ const projectFolders = {
     'public/Projects/commercial photography/IMG_1303 (1).jpg',
     'public/Projects/commercial photography/IMG_1499.jpg'
   ],
-  'extras': [
-    'public/Projects/extras/11872.jpg',
-    'public/Projects/extras/3d-render-code-testing-functional-test-usability.jpg',
-    'public/Projects/extras/Bring Out The Branding Iron.jpg',
-    'public/Projects/extras/Build Your Brand.jpg',
-    'public/Projects/extras/Phone-Girl_2.png',
-    'public/Projects/extras/Phone-Girl.png',
-    'public/Projects/extras/pretty-smiling-girl-black-classic-costume-happily-covering-face-with-retro-camera-white-background-isolated.jpg',
-    'public/Projects/extras/top-view-desk-arrangement-with-copy-space.jpg'
-  ],
   'graphic design': [
     'public/Projects/graphic design/bc298ad2-d03a-485f-b161-76d37995eaa3.png',
     'public/Projects/graphic design/Beer Pong Tournament.jpg',
@@ -718,7 +708,7 @@ function initProjectsSection() {
   if (projectsSection) {
     projectsSection.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
   }
-  projectsContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
+  projectsContainer.style.cssText = 'display: grid !important; visibility: visible !important; opacity: 1 !important;';
   
   // Force all project items visible
   setTimeout(() => {

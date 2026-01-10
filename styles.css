@@ -2158,9 +2158,9 @@ textarea {
   #projects.section {
     position: relative;
     padding: 5px 0 !important; /* 5px top and bottom padding */
-    min-height: calc(100vh - 150px - 10px);
-    height: calc(100vh - 150px - 10px);
-    overflow: hidden;
+    min-height: auto;
+    height: auto;
+    overflow: visible;
     background: var(--bg) !important;
     opacity: 1 !important;
     visibility: visible !important;
@@ -2179,24 +2179,20 @@ textarea {
   }
 
   .projects-container {
-    display: flex !important;
-    flex-direction: row !important; /* Horizontal row */
-    align-items: center;
-    gap: 0 !important; /* Gap handled by margin on items */
-    width: fit-content;
-    height: calc(100vh - 150px - 10px); /* Account for title section (150px) and top padding (10px) */
-    padding: 0;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-behavior: smooth;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-auto-rows: auto;
+    gap: 15px !important;
+    width: 100%;
+    padding: 20px 48px;
+    overflow-y: auto;
+    overflow-x: hidden;
     opacity: 1 !important;
     visibility: visible !important;
     position: relative;
-    /* Feathered/masked edges */
-    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    /* Remove feathered edges for collage */
+    mask-image: none;
+    -webkit-mask-image: none;
   }
 
   .projects-container::-webkit-scrollbar {
@@ -2205,75 +2201,44 @@ textarea {
 
   .project-item {
     position: relative;
-    width: auto !important;
+    width: 100% !important;
     height: auto !important;
-    flex-shrink: 0;
     cursor: pointer;
     border: none !important;
     padding: 0 !important;
-    margin-right: 5px;
-    overflow: visible;
+    margin: 0 !important;
+    overflow: hidden; /* Contain the scale on hover */
     background: transparent;
     box-shadow: none !important;
-    transition: none !important;
+    transition: transform 0.3s ease !important;
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
     border-radius: 0 !important;
     transform: none !important;
-    align-self: flex-start; /* Align to top for varying heights */
   }
 
-  /* Varying image sizes - cleverly fitting into section height */
-  .project-item.project-size-small .project-image img {
-    max-height: 40vh;
-    max-width: 300px;
-    height: auto;
-    width: auto;
+  /* Varying image sizes for collage layout */
+  .project-item.project-size-small {
+    grid-row: span 1;
   }
 
-  .project-item.project-size-medium .project-image img {
-    max-height: 60vh;
-    max-width: 450px;
-    height: auto;
-    width: auto;
+  .project-item.project-size-medium {
+    grid-row: span 2;
   }
 
-  .project-item.project-size-large .project-image img {
-    max-height: 75vh;
-    max-width: 600px;
-    height: auto;
-    width: auto;
+  .project-item.project-size-large {
+    grid-row: span 3;
   }
 
-  .project-item.project-size-xlarge .project-image img {
-    max-height: 85vh;
-    max-width: 700px;
-    height: auto;
-    width: auto;
+  .project-item.project-size-xlarge {
+    grid-row: span 4;
   }
 
-  .project-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-    transition: left 0.8s ease;
-    z-index: 3;
-    pointer-events: none;
-  }
-
+  /* Grow inside container on hover - no overlap */
   .project-item:hover {
-    transform: none !important;
-    box-shadow: none !important;
-    transition: none !important;
-  }
-
-  .project-item:hover::before {
-    left: 100%;
+    transform: scale(1.05) !important;
+    z-index: 10;
   }
 
   .project-image {
@@ -2293,20 +2258,24 @@ textarea {
     transition: none !important;
   }
 
+  .project-image {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
   .project-image img {
-    width: auto;
-    height: auto;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
     border-radius: 0 !important;
-    transition: none !important;
-    transform: none !important;
+    transition: transform 0.3s ease !important;
   }
   
-  /* Fallback size if no size class is applied */
-  .project-item:not([class*="project-size-"]) .project-image img {
-    max-height: 60vh;
-    max-width: 450px;
+  /* Grow image inside container on hover */
+  .project-item:hover .project-image img {
+    transform: scale(1.1) !important;
   }
 
   .project-image:hover img {
