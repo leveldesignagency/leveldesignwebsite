@@ -426,9 +426,9 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   position: relative;
 }
 
-/* Dark mode - about section becomes white */
+/* Dark mode - about section stays black */
 .dark-mode #about.section {
-  background: #ffffff;
+  background: #000000;
 }
 
 .about-content {
@@ -574,6 +574,15 @@ section#services .container .grid.services-grid {
 .marquee-row::after {
   right: 0;
   background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+}
+
+/* Dark mode - feathered edges should be black */
+.dark-mode .marquee-row::before {
+  background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}
+
+.dark-mode .marquee-row::after {
+  background: linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
 
 .marquee-track {
@@ -2224,6 +2233,12 @@ textarea {
     border-top: 1px solid #000000; /* Top border full width */
     border-bottom: 1px solid #000000; /* Bottom border full width */
   }
+  
+  /* Dark mode - projects title borders should be white */
+  .dark-mode #projects-title.projects-title-section {
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+  }
 
   #projects-title.projects-title-section h2 {
     padding: 0 48px; /* Left padding only */
@@ -2570,12 +2585,19 @@ textarea {
 }
 .footer-links { 
   display: flex; 
+  flex-direction: row !important; /* Force horizontal */
   gap: 32px; 
-  list-style: none; 
+  list-style: none !important; /* Remove bullet points */
   padding: 0; 
   margin: 0; 
   justify-content: center;
 }
+
+.footer-links li {
+  list-style: none !important; /* Remove bullet points from list items */
+  display: inline-block;
+}
+
 .footer-links a { 
   color: var(--muted); 
   text-decoration: none; 
@@ -2585,20 +2607,25 @@ textarea {
   text-transform: uppercase;
   transition: color 0.3s ease;
   position: relative;
+  display: inline-block;
 }
+
 .footer-links a::after {
   content: '';
   position: absolute;
   bottom: -4px;
-  left: 0;
+  left: 50%; /* Start from center */
+  transform: translateX(-50%); /* Center the underline */
   width: 0;
   height: 2px;
   background: var(--brand);
   transition: width 0.3s ease;
 }
+
 .footer-links a:hover { 
   color: var(--text); 
 }
+
 .footer-links a:hover::after {
   width: 100%;
 }
