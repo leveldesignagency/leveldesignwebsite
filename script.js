@@ -727,7 +727,7 @@ function initProjectsSection() {
 function initAutoScroll(container) {
   if (!container) return;
   
-  let scrollSpeed = 0.5; // Pixels per frame (slow)
+  let scrollSpeed = 1.5; // Pixels per frame (faster)
   let isScrolling = true;
   let animationFrame;
   

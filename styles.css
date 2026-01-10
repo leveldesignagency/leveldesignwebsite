@@ -2169,6 +2169,10 @@ textarea {
     border-top: none;
   }
 
+  .projects-container {
+    padding-bottom: 5px !important; /* Add bottom padding to match top */
+  }
+
   #projects.section.locked {
     position: fixed;
     top: 0;
