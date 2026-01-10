@@ -2221,6 +2221,36 @@ textarea {
     display: block !important;
     border-radius: 0 !important;
     transform: none !important;
+    align-self: flex-start; /* Align to top for varying heights */
+  }
+
+  /* Varying image sizes - cleverly fitting into section height */
+  .project-item.project-size-small .project-image img {
+    max-height: 40vh;
+    max-width: 300px;
+    height: auto;
+    width: auto;
+  }
+
+  .project-item.project-size-medium .project-image img {
+    max-height: 60vh;
+    max-width: 450px;
+    height: auto;
+    width: auto;
+  }
+
+  .project-item.project-size-large .project-image img {
+    max-height: 75vh;
+    max-width: 600px;
+    height: auto;
+    width: auto;
+  }
+
+  .project-item.project-size-xlarge .project-image img {
+    max-height: 85vh;
+    max-width: 700px;
+    height: auto;
+    width: auto;
   }
 
   .project-item::before {
@@ -2266,13 +2296,17 @@ textarea {
   .project-image img {
     width: auto;
     height: auto;
-    max-width: 800px;
-    max-height: 85vh;
     object-fit: contain;
     display: block;
     border-radius: 0 !important;
     transition: none !important;
     transform: none !important;
+  }
+  
+  /* Fallback size if no size class is applied */
+  .project-item:not([class*="project-size-"]) .project-image img {
+    max-height: 60vh;
+    max-width: 450px;
   }
 
   .project-image:hover img {

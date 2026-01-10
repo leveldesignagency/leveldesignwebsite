@@ -539,51 +539,165 @@ window.addEventListener('resize', updateCustomBackground);
 
 // Cursor trail and parallax removed per design requirements
 
-// Projects Section
-const projects = [
-  {
-    id: 1,
-    title: "APX - FULL REBRAND",
-    year: "2024",
-    image: "public/__apx.png"
-  },
-  {
-    id: 2,
-    title: "ONTIMELY - DESKTOP APP, MOBILE APP, BACKEND AND PORTAL",
-    year: "2024",
-    image: "public/__ontimely.png"
-  },
-  {
-    id: 3,
-    title: "RICHTONS - BRANDING",
-    year: "2024",
-    image: "public/__richtons.png"
-  },
-  {
-    id: 4,
-    title: "WOMBATS - SOCIAL MEDIA MANAGEMENT",
-    year: "2023",
-    image: null
-  },
-  {
-    id: 5,
-    title: "HOSTELWORLD - CAMPAIGINS",
-    year: "2023",
-    image: null
-  },
-  {
-    id: 6,
-    title: "PERSONAL BRANDS",
-    year: "2024",
-    image: "public/work/PERSONAL BRANDS.png"
-  },
-  {
-    id: 7,
-    title: "LUKIS TECHNOLOGIES",
-    year: "2023",
-    image: "public/__lukis.png"
+// Projects Section - Dynamic image loading from folders
+// Define all project images from folders (excluding services)
+const projectFolders = {
+  'commercial photography': [
+    'public/Projects/commercial photography/20220515170316_IMG_2146.jpg',
+    'public/Projects/commercial photography/20220515173923_IMG_2328 (1).JPG',
+    'public/Projects/commercial photography/20220515174927_IMG_2412.jpg',
+    'public/Projects/commercial photography/20220515184056_IMG_2570_edited.jpg',
+    'public/Projects/commercial photography/IMG_1069.jpg',
+    'public/Projects/commercial photography/IMG_1145.jpg',
+    'public/Projects/commercial photography/IMG_1303 (1).jpg',
+    'public/Projects/commercial photography/IMG_1499.jpg'
+  ],
+  'extras': [
+    'public/Projects/extras/11872.jpg',
+    'public/Projects/extras/3d-render-code-testing-functional-test-usability.jpg',
+    'public/Projects/extras/Bring Out The Branding Iron.jpg',
+    'public/Projects/extras/Build Your Brand.jpg',
+    'public/Projects/extras/Phone-Girl_2.png',
+    'public/Projects/extras/Phone-Girl.png',
+    'public/Projects/extras/pretty-smiling-girl-black-classic-costume-happily-covering-face-with-retro-camera-white-background-isolated.jpg',
+    'public/Projects/extras/top-view-desk-arrangement-with-copy-space.jpg'
+  ],
+  'graphic design': [
+    'public/Projects/graphic design/bc298ad2-d03a-485f-b161-76d37995eaa3.png',
+    'public/Projects/graphic design/Beer Pong Tournament.jpg',
+    'public/Projects/graphic design/Brochure_Final.png',
+    'public/Projects/graphic design/COFFEE WEEK.png',
+    'public/Projects/graphic design/Coffee_Dynamic2_edited.jpg',
+    'public/Projects/graphic design/COMPANY OVERVIEW 20% .jpg',
+    'public/Projects/graphic design/Event_Posters_23_Beer Pong.png',
+    'public/Projects/graphic design/Event_Posters_23_Beer Tasting.png',
+    'public/Projects/graphic design/Event_Posters_23_Comedy Night.png',
+    'public/Projects/graphic design/Event_Posters_23_Cooking Night.png',
+    'public/Projects/graphic design/Event_Posters_23_Flip Cup-13.png',
+    'public/Projects/graphic design/Event_Posters_23_Flip Cup-27.png',
+    'public/Projects/graphic design/Event_Posters_23_Flower Crown.png',
+    'public/Projects/graphic design/Event_Posters_23_Karaoke Night.png',
+    'public/Projects/graphic design/Event_Posters_23_Never Have I Ever-09.png',
+    'public/Projects/graphic design/Event_Posters_23_Pub Quiz.png',
+    'public/Projects/graphic design/Event_Posters_23_Quiz Evening Yellow.png',
+    'public/Projects/graphic design/Event_Posters_23_Treasure Hunt.png',
+    'public/Projects/graphic design/Event_Posters_23_Yogo.png',
+    'public/Projects/graphic design/Events_23_long.jpg',
+    'public/Projects/graphic design/HALLOWEEN.png',
+    'public/Projects/graphic design/instagram post - grand jam tour.png',
+    'public/Projects/graphic design/JOIN US FOR BREAKFAST.jpg',
+    'public/Projects/graphic design/LETS GET WAVY - WAVES FESTIVAL DESIGN FOR PROMO.jpg',
+    'public/Projects/graphic design/O zapft 20% jpg.jpg',
+    'public/Projects/graphic design/OKTOBERFEST POSTER - IN HOUSE.jpg',
+    'public/Projects/graphic design/paramount brochure mockup.png',
+    'public/Projects/graphic design/POLYTECH BRANDED CONTENT.png',
+    'public/Projects/graphic design/POLYTECH.png',
+    'public/Projects/graphic design/POP UP BANNER DEMO.jpg',
+    'public/Projects/graphic design/Rosetum Lodge_Booklet.jpg',
+    'public/Projects/graphic design/Rosetum Lodge.jpg',
+    'public/Projects/graphic design/Social Follow Wombat\'s.jpg',
+    'public/Projects/graphic design/St Patricks Poster.jpg',
+    'public/Projects/graphic design/time for a coffee vienna coffee festival_edited.jpg',
+    'public/Projects/graphic design/Vienna Coffee Festival.jpg',
+    'public/Projects/graphic design/WAVEBREAKER.png',
+    'public/Projects/graphic design/WAVES FESTIVAL.jpg',
+    'public/Projects/graphic design/WOMBEATS.png',
+    'public/Projects/graphic design/WOMTOBERFEST .jpg',
+    'public/Projects/graphic design/WOMTOBERFEST A4 - FOR PRINT - A4.jpg',
+    'public/Projects/graphic design/WORLD TOURISM DAY 22.jpg'
+  ],
+  'movember': [
+    'public/Projects/movember/BIRD.png',
+    'public/Projects/movember/CAPTAIN HOOK.png',
+    'public/Projects/movember/EVEREST.png',
+    'public/Projects/movember/GENTLEMAN.png',
+    'public/Projects/movember/HANGOVER.png',
+    'public/Projects/movember/I TRIED.png',
+    'public/Projects/movember/MOVEMBER.png'
+  ],
+  'promotions': [
+    'public/Projects/promotions/ac3c0f_782e3a0351644b6e8cbd20484b21a42a~mv2.avif',
+    'public/Projects/promotions/Acting_Headshots_Black.jpg',
+    'public/Projects/promotions/Banner-01.png',
+    'public/Projects/promotions/Banner-02.png',
+    'public/Projects/promotions/Banner-04.png',
+    'public/Projects/promotions/Branded Content Is still Important.jpg'
+  ]
+};
+
+// Remove duplicates (files with (1) if base exists)
+function removeDuplicates(imageArray) {
+  const seen = new Set();
+  const result = [];
+  
+  for (const image of imageArray) {
+    // Remove (1) from filename for comparison
+    const baseName = image.replace(/\s*\(1\)\s*/g, '');
+    if (!seen.has(baseName)) {
+      seen.add(baseName);
+      result.push(image);
+    }
   }
-];
+  
+  return result;
+}
+
+// Distribute images proportionally from each folder
+function buildProjectsArray() {
+  const allImages = [];
+  
+  // Count total images per folder
+  const folderCounts = {};
+  for (const [folder, images] of Object.entries(projectFolders)) {
+    const uniqueImages = removeDuplicates(images);
+    folderCounts[folder] = uniqueImages.length;
+    projectFolders[folder] = uniqueImages; // Update with deduplicated
+  }
+  
+  const totalImages = Object.values(folderCounts).reduce((a, b) => a + b, 0);
+  
+  // Calculate how many to show from each (proportional, but ensure at least 1 from each)
+  const maxPerFolder = Math.ceil(totalImages / Object.keys(folderCounts).length);
+  
+  // Interleave images from different folders
+  const folderArrays = Object.entries(projectFolders).map(([folder, images]) => ({
+    folder,
+    images: [...images],
+    index: 0
+  }));
+  
+  let id = 1;
+  while (folderArrays.some(f => f.index < f.images.length)) {
+    // Round-robin through folders
+    for (const folderData of folderArrays) {
+      if (folderData.index < folderData.images.length) {
+        allImages.push({
+          id: id++,
+          image: folderData.images[folderData.index],
+          size: getRandomSize() // Varying sizes
+        });
+        folderData.index++;
+      }
+    }
+  }
+  
+  return allImages;
+}
+
+// Generate random size classes for varying image heights
+function getRandomSize() {
+  const sizes = ['small', 'medium', 'large', 'xlarge'];
+  const weights = [0.2, 0.3, 0.3, 0.2]; // Distribution
+  const rand = Math.random();
+  let sum = 0;
+  for (let i = 0; i < sizes.length; i++) {
+    sum += weights[i];
+    if (rand <= sum) return sizes[i];
+  }
+  return 'medium';
+}
+
+const projects = buildProjectsArray();
 
 // Initialize projects section
 function initProjectsSection() {
@@ -619,31 +733,21 @@ function initProjectsSection() {
   initScrollAnimations();
 }
 
-// Render project items - horizontal scroll gallery
+// Render project items - horizontal scroll gallery with varying sizes
 function renderProjects(container) {
-  const descriptions = {
-    1: "Complete brand transformation including logo, visual identity, and digital presence.",
-    2: "Full-stack platform development with desktop, mobile, and backend infrastructure.",
-    3: "Comprehensive branding solution with modern visual language and guidelines.",
-    4: "Strategic social media management and content creation services.",
-    5: "Multi-channel marketing campaigns with creative direction and execution.",
-    6: "Personal brand development and identity design for professionals.",
-    7: "Technology branding and digital platform design."
-  };
-
   projects.forEach((project, index) => {
     const projectItem = document.createElement('div');
     projectItem.classList.add('project-item');
+    projectItem.classList.add(`project-size-${project.size || 'medium'}`);
     projectItem.dataset.id = project.id;
     projectItem.dataset.index = index;
     
     const imagePath = project.image;
     
     const imageHTML = imagePath 
-      ? `<div class="project-image"><img src="${imagePath}" alt="${project.title}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`
+      ? `<div class="project-image"><img src="${imagePath}" alt="Project ${project.id}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`
       : `<div class="project-image placeholder"></div>`;
     
-    // Remove text overlay - just images for now
     projectItem.innerHTML = imageHTML;
     container.appendChild(projectItem);
   });
