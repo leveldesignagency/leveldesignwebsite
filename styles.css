@@ -606,6 +606,17 @@ section#services .container .grid.services-grid {
   transition: all 0.3s ease;
 }
 
+/* Smaller logo for We Serve U Better */
+.client-logo-small {
+  width: 250px !important; /* Smaller container */
+  height: 100px !important;
+}
+
+.client-logo-small img {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 /* RESPONSIVE DESIGN */
 @media (max-width: 768px) {
   .clients {
