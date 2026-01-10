@@ -708,7 +708,7 @@ function initProjectsSection() {
   if (projectsSection) {
     projectsSection.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
   }
-  projectsContainer.style.cssText = 'display: grid !important; visibility: visible !important; opacity: 1 !important;';
+  projectsContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
   
   // Force all project items visible
   setTimeout(() => {
