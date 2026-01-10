@@ -2197,16 +2197,6 @@ textarea {
     /* Feathered/masked edges */
     mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-    animation: autoScroll 60s linear infinite; /* Slow auto-scroll */
-  }
-
-  @keyframes autoScroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(calc(-100% + 100vw));
-    }
   }
 
   .projects-container::-webkit-scrollbar {

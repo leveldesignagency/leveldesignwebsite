@@ -719,8 +719,48 @@ function initProjectsSection() {
     });
   }, 100);
   
-  // Collage layout - no scroll lock needed
-  // initScrollAnimations(); // Disabled for collage layout
+  // Initialize auto-scroll
+  initAutoScroll(projectsContainer);
+}
+
+// Auto-scroll function - slow continuous scrolling
+function initAutoScroll(container) {
+  if (!container) return;
+  
+  let scrollSpeed = 0.5; // Pixels per frame (slow)
+  let isScrolling = true;
+  let animationFrame;
+  
+  function scroll() {
+    if (isScrolling) {
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      
+      if (container.scrollLeft >= maxScroll) {
+        // Reset to start when reaching the end
+        container.scrollLeft = 0;
+      } else {
+        container.scrollLeft += scrollSpeed;
+      }
+      
+      animationFrame = requestAnimationFrame(scroll);
+    }
+  }
+  
+  // Pause on hover
+  container.addEventListener('mouseenter', () => {
+    isScrolling = false;
+    if (animationFrame) {
+      cancelAnimationFrame(animationFrame);
+    }
+  });
+  
+  container.addEventListener('mouseleave', () => {
+    isScrolling = true;
+    scroll();
+  });
+  
+  // Start scrolling
+  scroll();
 }
 
 // Render project items - horizontal scroll gallery with varying sizes
