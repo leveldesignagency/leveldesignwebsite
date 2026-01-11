@@ -671,16 +671,15 @@ section#services .container .grid.services-grid {
   opacity: 1;
 }
 
-/* Dark mode client logos - invert to white */
-.dark-mode .client-logo {
-  filter: brightness(0) invert(1);
+/* Dark mode client logos - invert to white (EXCLUDE ITD logo) */
+.dark-mode .client-logo:not(.client-logo-color) {
   animation: logoShimmerDark 4s ease-in-out infinite;
   animation-delay: calc(var(--logo-index, 0) * 0.15s);
 }
-.dark-mode .client-logo img {
+.dark-mode .client-logo:not(.client-logo-color) img {
   filter: brightness(0) invert(1) !important; /* Force white in dark mode */
 }
-.dark-mode .client-logo:hover img {
+.dark-mode .client-logo:not(.client-logo-color):hover img {
   filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%) !important; /* Red color on hover */
 }
 
