@@ -742,10 +742,11 @@ function initAutoScroll(container) {
       return;
     }
     
-    // Simple scroll - reset at end
+    // Smooth scroll - reset at end
     if (container.scrollLeft >= maxScroll - 1) {
       container.scrollLeft = 0;
     } else {
+      // Use requestAnimationFrame for smooth scrolling
       container.scrollLeft += scrollSpeed;
     }
     
