@@ -843,7 +843,7 @@ function initScrollAnimations() {
 // Initialize projects section when DOM is loaded
 document.addEventListener('DOMContentLoaded', initProjectsSection);
 
-// Services Gallery Section - Load images from services folder
+// Services Gallery Section - COMPLETELY REBUILT TO MATCH PROJECTS EXACTLY
 const servicesImages = [
   'public/Projects/services/LEVEL _SERVICES-01.png',
   'public/Projects/services/LEVEL _SERVICES-02.png',
@@ -853,7 +853,25 @@ const servicesImages = [
   'public/Projects/services/LEVEL _SERVICES-06.png'
 ];
 
-// Initialize services gallery section - EXACT COPY OF PROJECTS INIT
+// Render services images - EXACT COPY OF renderProjects
+function renderServicesImages(container) {
+  servicesImages.forEach((imagePath, index) => {
+    const serviceItem = document.createElement('div');
+    serviceItem.classList.add('service-item');
+    serviceItem.dataset.id = `service-${index + 1}`;
+    serviceItem.dataset.index = index;
+    
+    const filename = imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+    const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Service ${index + 1} - Credit: LEVEL DESIGN AGENCY LTD`;
+    
+    const imageHTML = `<div class="service-image"><img src="${imagePath}" alt="${altText}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`;
+    
+    serviceItem.innerHTML = imageHTML;
+    container.appendChild(serviceItem);
+  });
+}
+
+// Initialize services gallery - EXACT COPY OF initProjectsSection
 function initServicesGallery() {
   const servicesContainer = document.querySelector('.services-container');
   const servicesGallery = document.querySelector('#services-gallery');
@@ -877,122 +895,10 @@ function initServicesGallery() {
     serviceItems.forEach(item => {
       item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important;';
     });
-    
-    // Wait for images to load, then start auto-scroll
-    const images = servicesContainer.querySelectorAll('img');
-    let loadedCount = 0;
-    
-    if (images.length === 0) {
-      // No images yet, try again
-      setTimeout(() => initServicesGallery(), 200);
-      return;
-    }
-    
-    images.forEach(img => {
-      if (img.complete && img.naturalWidth > 0) {
-        loadedCount++;
-      } else {
-        img.addEventListener('load', () => {
-          loadedCount++;
-          if (loadedCount === images.length) {
-            initServicesAutoScroll(servicesContainer);
-          }
-        }, { once: true });
-        img.addEventListener('error', () => {
-          loadedCount++;
-          if (loadedCount === images.length) {
-            initServicesAutoScroll(servicesContainer);
-          }
-        }, { once: true });
-      }
-    });
-    
-    if (loadedCount === images.length) {
-      initServicesAutoScroll(servicesContainer);
-    }
   }, 100);
-}
-
-// Dedicated auto-scroll for services - exactly like projects
-function initServicesAutoScroll(container) {
-  if (!container) return;
   
-  if (container.dataset.autoScrollInitialized === 'true') {
-    return;
-  }
-  
-  container.dataset.autoScrollInitialized = 'true';
-  
-  let scrollSpeed = 1.5;
-  let isScrolling = true;
-  let animationFrame;
-  
-  function scroll() {
-    if (!container) return;
-    
-    if (isScrolling) {
-      const maxScroll = container.scrollWidth - container.clientWidth;
-      
-      if (maxScroll > 0) {
-        if (container.scrollLeft >= maxScroll - 1) {
-          container.scrollLeft = 0;
-        } else {
-          container.scrollLeft += scrollSpeed;
-        }
-        animationFrame = requestAnimationFrame(scroll);
-      }
-    }
-  }
-  
-  container.addEventListener('mouseenter', () => {
-    isScrolling = false;
-    if (animationFrame) {
-      cancelAnimationFrame(animationFrame);
-    }
-  });
-  
-  container.addEventListener('mouseleave', () => {
-    isScrolling = true;
-    scroll();
-  });
-  
-  scroll();
-}
-
-// Set services section height based on image height + padding
-function setServicesHeight(imageHeight) {
-  const servicesGallery = document.querySelector('#services-gallery');
-  const servicesContainer = document.querySelector('.services-container');
-  const padding = 60; // 30px top + 30px bottom
-  
-  if (servicesContainer && imageHeight > 0) {
-    const containerHeight = imageHeight;
-    servicesContainer.style.height = `${containerHeight}px !important`;
-    
-    if (servicesGallery) {
-      servicesGallery.style.minHeight = `${imageHeight + padding}px`;
-      servicesGallery.style.height = `${imageHeight + padding}px`;
-    }
-  }
-}
-
-// Render services images
-function renderServicesImages(container) {
-  servicesImages.forEach((imagePath, index) => {
-    const serviceItem = document.createElement('div');
-    serviceItem.classList.add('service-item');
-    serviceItem.dataset.id = `service-${index + 1}`;
-    serviceItem.dataset.index = index;
-    
-    // Extract filename for descriptive alt text
-    const filename = imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
-    const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Service ${index + 1} - Credit: LEVEL DESIGN AGENCY LTD`;
-    
-    const imageHTML = `<div class="service-image"><img src="${imagePath}" alt="${altText}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`;
-    
-    serviceItem.innerHTML = imageHTML;
-    container.appendChild(serviceItem);
-  });
+  // Initialize auto-scroll - USE SAME FUNCTION AS PROJECTS
+  initAutoScroll(servicesContainer);
 }
 
 // Initialize services gallery when DOM is loaded
