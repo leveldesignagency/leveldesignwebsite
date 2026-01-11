@@ -853,7 +853,7 @@ const servicesImages = [
   'public/Projects/services/LEVEL _SERVICES-06.png'
 ];
 
-// Initialize services gallery section
+// Initialize services gallery section - EXACT COPY OF PROJECTS INIT
 function initServicesGallery() {
   const servicesContainer = document.querySelector('.services-container');
   const servicesGallery = document.querySelector('#services-gallery');
@@ -879,7 +879,7 @@ function initServicesGallery() {
     });
   }, 100);
   
-  // Initialize auto-scroll immediately like projects
+  // Initialize auto-scroll EXACTLY like projects - no delay, no conditions
   initAutoScroll(servicesContainer);
 }
 
