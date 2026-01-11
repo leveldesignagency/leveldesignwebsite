@@ -697,10 +697,33 @@ function initProjectsSection() {
     });
   }, 100);
   
-  // Initialize auto-scroll after a short delay to ensure DOM is ready
+  // Initialize auto-scroll after images load
   setTimeout(() => {
-    initAutoScroll(projectsContainer);
-  }, 200);
+    const images = projectsContainer.querySelectorAll('img');
+    let loaded = 0;
+    const total = images.length;
+    
+    if (total === 0) {
+      initAutoScroll(projectsContainer);
+      return;
+    }
+    
+    function checkAndStart() {
+      loaded++;
+      if (loaded === total) {
+        initAutoScroll(projectsContainer);
+      }
+    }
+    
+    images.forEach(img => {
+      if (img.complete) {
+        checkAndStart();
+      } else {
+        img.addEventListener('load', checkAndStart, { once: true });
+        img.addEventListener('error', checkAndStart, { once: true });
+      }
+    });
+  }, 300);
 }
 
 // Auto-scroll function - slow continuous scrolling
@@ -839,10 +862,18 @@ function renderServicesImages(container) {
 // Simple specialities slideshow - horizontal slide animation
 function initServicesGallery() {
   const servicesContainer = document.querySelector('.services-container');
+  const servicesGallery = document.querySelector('#services-gallery');
+  
   if (!servicesContainer) {
     setTimeout(initServicesGallery, 100);
     return;
   }
+  
+  // Force visibility
+  if (servicesGallery) {
+    servicesGallery.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
+  }
+  servicesContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
   
   // Render images
   renderServicesImages(servicesContainer);
@@ -854,6 +885,11 @@ function initServicesGallery() {
       setTimeout(initServicesGallery, 200);
       return;
     }
+    
+    // Make all items visible
+    items.forEach(item => {
+      item.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important;';
+    });
     
     let currentIndex = 0;
     
@@ -872,7 +908,7 @@ function initServicesGallery() {
     // Start slideshow
     showSlide(0);
     setInterval(nextSlide, 3000);
-  }, 100);
+  }, 200);
 }
 
 // Initialize services gallery when DOM is loaded
