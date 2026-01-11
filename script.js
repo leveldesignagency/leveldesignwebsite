@@ -851,47 +851,13 @@ function initServicesGallery() {
   }
   servicesContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
   
-  // Force all service items visible
+    // Force all service items visible
   setTimeout(() => {
     const serviceItems = document.querySelectorAll('.service-item');
     console.log('Service items found:', serviceItems.length);
     serviceItems.forEach(item => {
-      item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
+      item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important;';
     });
-    
-    // Calculate max image height and set container height
-    let maxHeight = 0;
-    serviceItems.forEach(item => {
-      const img = item.querySelector('img');
-      if (img && img.complete) {
-        maxHeight = Math.max(maxHeight, img.naturalHeight);
-      }
-    });
-    
-    // If images haven't loaded yet, wait for them
-    if (maxHeight === 0) {
-      const images = servicesContainer.querySelectorAll('img');
-      let loadedCount = 0;
-      images.forEach(img => {
-        if (img.complete) {
-          maxHeight = Math.max(maxHeight, img.naturalHeight);
-          loadedCount++;
-        } else {
-          img.addEventListener('load', function() {
-            maxHeight = Math.max(maxHeight, img.naturalHeight);
-            loadedCount++;
-            if (loadedCount === images.length) {
-              setServicesHeight(maxHeight);
-            }
-          });
-        }
-      });
-      if (loadedCount === images.length) {
-        setServicesHeight(maxHeight);
-      }
-    } else {
-      setServicesHeight(maxHeight);
-    }
   }, 100);
   
   // Initialize auto-scroll
