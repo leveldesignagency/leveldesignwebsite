@@ -1333,11 +1333,11 @@ section#services .container .grid.services-grid {
   transform: translateY(40px);
   will-change: transform, opacity; /* Performance optimization */
 }
-}
 
 /* Dark mode - cards become white */
 .dark-mode .card,
-.dark-mode #services .card {
+.dark-mode #services .card,
+.dark-mode section#services .card {
   background: #ffffff !important;
   color: #000000 !important; /* Black text on white background */
   box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2) !important;
@@ -2326,10 +2326,10 @@ textarea {
   /* Projects Gallery Section - Images only */
   #projects.section {
     position: relative;
-    padding: 30px 0 30px 0 !important; /* Match horizontal gap (30px) */
+    padding: 0 !important; /* Remove section padding - container handles it */
     min-height: 600px;
-    height: 600px;
-    overflow: hidden;
+    height: auto !important; /* Auto height to accommodate container padding */
+    overflow: visible !important; /* Allow container padding to show */
     background: var(--bg) !important;
     opacity: 1 !important;
     visibility: visible !important;
@@ -2340,11 +2340,6 @@ textarea {
 .dark-mode #projects.section {
     border-bottom: 1px solid #ffffff;
     border-top: none;
-  }
-
-  .projects-container {
-    padding-top: 30px !important; /* Match horizontal gap */
-    padding-bottom: 30px !important; /* Match horizontal gap */
   }
 
   #projects.section.locked {
@@ -2422,10 +2417,10 @@ textarea {
   /* Services Gallery Section - Images only */
   #services-gallery.section {
     position: relative;
-    padding: 30px 0 30px 0 !important; /* Match horizontal gap (30px) */
-    min-height: 500px;
-    height: 500px;
-    overflow: hidden;
+    padding: 0 !important; /* Remove section padding - container handles it */
+    min-height: auto;
+    height: auto !important; /* Auto height based on image height + padding */
+    overflow: visible !important; /* Allow container padding to show */
     background: var(--bg) !important;
     opacity: 1 !important;
     visibility: visible !important;
@@ -2439,17 +2434,12 @@ textarea {
   }
 
   .services-container {
-    padding-top: 30px !important; /* Match horizontal gap */
-    padding-bottom: 30px !important; /* Match horizontal gap */
-  }
-
-  .services-container {
     display: flex !important;
     flex-direction: row !important;
     align-items: flex-start;
     gap: 30px !important; /* Gap between images */
     width: fit-content;
-    height: 500px !important;
+    height: auto !important; /* Height will be set by JavaScript based on image height */
     padding: 30px 48px 30px 48px !important; /* Top and bottom padding match horizontal gap (30px) */
     overflow-x: auto;
     overflow-y: hidden;
@@ -2477,7 +2467,7 @@ textarea {
   .service-item {
     position: relative;
     width: auto !important;
-    height: 100% !important; /* Full height of container (500px) */
+    height: auto !important; /* Height based on image */
     flex-shrink: 0;
     cursor: pointer;
     border: none !important;
@@ -2504,7 +2494,8 @@ textarea {
   }
 
   .service-item .service-image img {
-    height: 100% !important; /* Full height (500px) */
+    height: auto !important; /* Natural image height */
+    max-height: 100%;
     width: auto !important; /* Auto width based on aspect ratio */
     object-fit: contain;
     transition: none !important; /* No transitions */

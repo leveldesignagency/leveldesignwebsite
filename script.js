@@ -858,10 +858,61 @@ function initServicesGallery() {
     serviceItems.forEach(item => {
       item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
     });
+    
+    // Calculate max image height and set container height
+    let maxHeight = 0;
+    serviceItems.forEach(item => {
+      const img = item.querySelector('img');
+      if (img && img.complete) {
+        maxHeight = Math.max(maxHeight, img.naturalHeight);
+      }
+    });
+    
+    // If images haven't loaded yet, wait for them
+    if (maxHeight === 0) {
+      const images = servicesContainer.querySelectorAll('img');
+      let loadedCount = 0;
+      images.forEach(img => {
+        if (img.complete) {
+          maxHeight = Math.max(maxHeight, img.naturalHeight);
+          loadedCount++;
+        } else {
+          img.addEventListener('load', function() {
+            maxHeight = Math.max(maxHeight, img.naturalHeight);
+            loadedCount++;
+            if (loadedCount === images.length) {
+              setServicesHeight(maxHeight);
+            }
+          });
+        }
+      });
+      if (loadedCount === images.length) {
+        setServicesHeight(maxHeight);
+      }
+    } else {
+      setServicesHeight(maxHeight);
+    }
   }, 100);
   
   // Initialize auto-scroll
   initAutoScroll(servicesContainer);
+}
+
+// Set services section height based on image height + padding
+function setServicesHeight(imageHeight) {
+  const servicesGallery = document.querySelector('#services-gallery');
+  const servicesContainer = document.querySelector('.services-container');
+  const padding = 60; // 30px top + 30px bottom
+  
+  if (servicesContainer && imageHeight > 0) {
+    const containerHeight = imageHeight;
+    servicesContainer.style.height = `${containerHeight}px !important`;
+    
+    if (servicesGallery) {
+      servicesGallery.style.minHeight = `${imageHeight + padding}px`;
+      servicesGallery.style.height = `${imageHeight + padding}px`;
+    }
+  }
 }
 
 // Render services images
