@@ -663,10 +663,13 @@ section#services .container .grid.services-grid {
   animation-delay: calc(var(--logo-index, 0) * 0.15s);
 }
 
+.client-logo:hover img {
+  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%) !important; /* Red color on hover */
+}
+
 .client-logo:hover {
   transform: scale(1.1);
   opacity: 1;
-  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%); /* Red color */
 }
 
 /* Dark mode client logos - invert to white */
@@ -675,8 +678,11 @@ section#services .container .grid.services-grid {
   animation: logoShimmerDark 4s ease-in-out infinite;
   animation-delay: calc(var(--logo-index, 0) * 0.15s);
 }
-.dark-mode .client-logo:hover {
-  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%); /* Red color on hover */
+.dark-mode .client-logo img {
+  filter: brightness(0) invert(1);
+}
+.dark-mode .client-logo:hover img {
+  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%) !important; /* Red color on hover */
 }
 
 .client-logo svg {
@@ -723,15 +729,16 @@ section#services .container .grid.services-grid {
   animation-delay: calc(var(--logo-index, 0) * 0.15s);
 }
 
-.client-logo-color:hover {
-  filter: brightness(1.2) saturate(1.5) hue-rotate(-10deg); /* Slight red tint on hover while keeping original colors */
-}
-
 .client-logo-color img {
   filter: none !important; /* Keep original colors */
   width: 100% !important;
   height: 100% !important;
   object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+.client-logo-color:hover img {
+  filter: brightness(1.2) saturate(1.5) hue-rotate(-10deg) !important; /* Slight red tint on hover while keeping original colors */
 }
 
 /* RESPONSIVE DESIGN */
