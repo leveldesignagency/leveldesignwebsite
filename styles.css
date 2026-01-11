@@ -723,6 +723,7 @@ section#services .container .grid.services-grid {
   height: 150px !important;
   margin: 0 !important; /* Remove margins to rely on gap */
   padding: 0 !important; /* Remove all padding */
+  filter: none !important; /* Remove brightness filter from container */
   /* No animation - no glow effect */
 }
 
