@@ -2287,28 +2287,46 @@ textarea {
 }
 
 
-/* Projects Title Section - Separate section with borders */
-@media (min-width: 769px) {
-  #projects-title.projects-title-section {
+  /* All Title Sections - Match projects title style exactly */
+  @media (min-width: 769px) {
+  #projects-title.projects-title-section,
+  #services-title.services-title-section,
+  #specialities-title.specialities-title-section,
+  #work-title.work-title-section,
+  #process-title.process-title-section,
+  #reviews-title.reviews-title-section,
+  #contact-title.contact-title-section {
     height: 150px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding: 0;
     margin: 0;
-    margin-bottom: 10px; /* 10px gap to images */
+    margin-bottom: 10px; /* 10px gap to content */
     background: var(--bg);
     border-top: 1px solid #000000; /* Top border full width */
     border-bottom: 1px solid #000000; /* Bottom border full width */
   }
   
-  /* Dark mode - projects title borders should be white */
-  .dark-mode #projects-title.projects-title-section {
+  /* Dark mode - all title borders should be white */
+  .dark-mode #projects-title.projects-title-section,
+  .dark-mode #services-title.services-title-section,
+  .dark-mode #specialities-title.specialities-title-section,
+  .dark-mode #work-title.work-title-section,
+  .dark-mode #process-title.process-title-section,
+  .dark-mode #reviews-title.reviews-title-section,
+  .dark-mode #contact-title.contact-title-section {
     border-top: 1px solid #ffffff;
     border-bottom: 1px solid #ffffff;
   }
 
-  #projects-title.projects-title-section h2 {
+  #projects-title.projects-title-section h2,
+  #services-title.services-title-section h2,
+  #specialities-title.specialities-title-section h2,
+  #work-title.work-title-section h2,
+  #process-title.process-title-section h2,
+  #reviews-title.reviews-title-section h2,
+  #contact-title.contact-title-section h2 {
     padding: 0 48px; /* Left padding only */
     margin: 0;
     font-family: "Bebas Neue", Impact, system-ui, sans-serif;
