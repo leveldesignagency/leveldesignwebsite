@@ -723,8 +723,7 @@ section#services .container .grid.services-grid {
   height: 150px !important;
   margin: 0 !important; /* Remove margins to rely on gap */
   padding: 0 !important; /* Remove all padding */
-  animation: logoShimmerColor 4s ease-in-out infinite;
-  animation-delay: calc(var(--logo-index, 0) * 0.15s);
+  /* No animation - no glow effect */
 }
 
 .client-logo-color img {
