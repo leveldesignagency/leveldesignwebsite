@@ -782,11 +782,22 @@ function initAutoScroll(container) {
         return;
       }
       
-      if (container.scrollLeft >= maxScroll - 1) {
-        // Reset to start when reaching the end
-        container.scrollLeft = 0;
+      // For services container, loop seamlessly by resetting at halfway point
+      if (isServicesContainer) {
+        const halfWidth = container.scrollWidth / 2;
+        if (container.scrollLeft >= halfWidth - 1) {
+          // Reset to start when reaching halfway (seamless loop)
+          container.scrollLeft = 0;
+        } else {
+          container.scrollLeft += scrollSpeed;
+        }
       } else {
-        container.scrollLeft += scrollSpeed;
+        // For projects, reset at end
+        if (container.scrollLeft >= maxScroll - 1) {
+          container.scrollLeft = 0;
+        } else {
+          container.scrollLeft += scrollSpeed;
+        }
       }
       
       animationFrame = requestAnimationFrame(scroll);
@@ -853,22 +864,25 @@ const servicesImages = [
   'public/Projects/services/LEVEL _SERVICES-06.png'
 ];
 
-// Render services images - EXACT COPY OF renderProjects
+// Render services images - DUPLICATE FOR SEAMLESS LOOP LIKE MARQUEE
 function renderServicesImages(container) {
-  servicesImages.forEach((imagePath, index) => {
-    const serviceItem = document.createElement('div');
-    serviceItem.classList.add('service-item');
-    serviceItem.dataset.id = `service-${index + 1}`;
-    serviceItem.dataset.index = index;
-    
-    const filename = imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
-    const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Service ${index + 1} - Credit: LEVEL DESIGN AGENCY LTD`;
-    
-    const imageHTML = `<div class="service-image"><img src="${imagePath}" alt="${altText}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`;
-    
-    serviceItem.innerHTML = imageHTML;
-    container.appendChild(serviceItem);
-  });
+  // Render images twice for seamless loop
+  for (let loop = 0; loop < 2; loop++) {
+    servicesImages.forEach((imagePath, index) => {
+      const serviceItem = document.createElement('div');
+      serviceItem.classList.add('service-item');
+      serviceItem.dataset.id = `service-${loop}-${index + 1}`;
+      serviceItem.dataset.index = index;
+      
+      const filename = imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+      const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Service ${index + 1} - Credit: LEVEL DESIGN AGENCY LTD`;
+      
+      const imageHTML = `<div class="service-image"><img src="${imagePath}" alt="${altText}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`;
+      
+      serviceItem.innerHTML = imageHTML;
+      container.appendChild(serviceItem);
+    });
+  }
 }
 
 // Initialize services gallery - WAIT FOR IMAGES TO LOAD BEFORE AUTO-SCROLL

@@ -2410,8 +2410,7 @@ textarea {
     padding: 0 !important; /* Remove section padding - container handles it */
     min-height: 600px;
     height: auto !important; /* Auto height to accommodate container padding - match projects */
-    overflow-x: auto !important; /* Allow horizontal scrolling */
-    overflow-y: hidden !important;
+    overflow: visible !important; /* Allow container to overflow */
     background: var(--bg) !important;
     opacity: 1 !important;
     visibility: visible !important;
