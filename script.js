@@ -832,7 +832,7 @@ function renderServicesImages(container) {
   });
 }
 
-// Simple specialities slideshow - NO scrolling, just show/hide
+// Simple specialities slideshow - horizontal slide animation
 function initServicesGallery() {
   const servicesContainer = document.querySelector('.services-container');
   if (!servicesContainer) return;
@@ -845,11 +845,10 @@ function initServicesGallery() {
   
   let currentIndex = 0;
   
-  // Show only one image at a time
+  // Slide horizontally to show the current image
   function showSlide(index) {
-    items.forEach((item, i) => {
-      item.style.display = i === index ? 'flex' : 'none';
-    });
+    const translateX = -(index * 100);
+    servicesContainer.style.transform = `translateX(${translateX}%)`;
   }
   
   // Auto-advance every 3 seconds
