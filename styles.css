@@ -978,15 +978,7 @@ section#services .container .grid.services-grid {
 /* PAUSE ANIMATIONS ON HOVER - handled by JavaScript for individual cards */
 
 /* SERVICE ITEMS */
-.service-item {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 300px;
-  height: 80px;
-  margin: 0 40px;
-  background: rgba(255, 255, 255, 0.08);
+/* OLD SERVICE-ITEM STYLES REMOVED - NOW HANDLED BY DESKTOP STYLES BELOW */
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 0;
@@ -2460,21 +2452,23 @@ textarea {
     position: relative;
     width: auto !important;
     height: 100% !important; /* Full height of container (600px) */
-    flex-shrink: 0;
+    flex-shrink: 0 !important;
     cursor: pointer;
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
-    overflow: visible;
-    background: transparent;
+    overflow: visible !important;
+    background: transparent !important;
     box-shadow: none !important;
     transition: none !important; /* No transitions */
     opacity: 1 !important;
     visibility: visible !important;
     display: flex !important;
-    align-items: center;
+    align-items: center !important;
     border-radius: 0 !important;
     transform: none !important;
+    min-width: 0 !important; /* Override old min-width */
+    backdrop-filter: none !important; /* Override old backdrop-filter */
   }
 
   .service-item .service-image {

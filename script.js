@@ -773,12 +773,27 @@ function initAutoScroll(container) {
       const maxScroll = container.scrollWidth - container.clientWidth;
       
       if (maxScroll <= 0) {
-        // Container not wide enough to scroll, try again later
-        setTimeout(() => {
-          if (container && container.scrollWidth > container.clientWidth) {
-            scroll();
-          }
-        }, 100);
+        // For services container, force scroll even if no overflow (images might be loading)
+        if (isServicesContainer) {
+          // Wait a bit and try again - images might still be loading
+          setTimeout(() => {
+            const retryMaxScroll = container.scrollWidth - container.clientWidth;
+            if (retryMaxScroll > 0) {
+              scroll();
+            } else {
+              // Still no overflow, but start scrolling anyway (will loop at 0)
+              container.scrollLeft = 0;
+              animationFrame = requestAnimationFrame(scroll);
+            }
+          }, 200);
+        } else {
+          // For other containers, wait and retry
+          setTimeout(() => {
+            if (container && container.scrollWidth > container.clientWidth) {
+              scroll();
+            }
+          }, 100);
+        }
         return;
       }
       
