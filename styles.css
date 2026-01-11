@@ -1336,7 +1336,8 @@ section#services .container .grid.services-grid {
 }
 
 /* Dark mode - cards become white */
-.dark-mode .card {
+.dark-mode .card,
+.dark-mode #services .card {
   background: #ffffff !important;
   color: #000000 !important; /* Black text on white background */
   box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2) !important;
@@ -2326,8 +2327,8 @@ textarea {
   #projects.section {
     position: relative;
     padding: 30px 0 30px 0 !important; /* Match horizontal gap (30px) */
-    min-height: 500px;
-    height: 500px;
+    min-height: 600px;
+    height: 600px;
     overflow: hidden;
     background: var(--bg) !important;
     opacity: 1 !important;
@@ -2361,7 +2362,7 @@ textarea {
     align-items: flex-start;
     gap: 30px !important; /* Gap between images */
     width: fit-content;
-    height: 500px !important;
+    height: 600px !important; /* Match section height */
     padding: 30px 48px 30px 48px !important; /* Top and bottom padding match horizontal gap (30px) */
     overflow-x: auto;
     overflow-y: hidden;
