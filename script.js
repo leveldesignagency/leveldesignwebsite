@@ -601,7 +601,7 @@ const projectFolders = {
     'public/Projects/graphic design/instagram post - grand jam tour.png',
     'public/Projects/graphic design/JOIN US FOR BREAKFAST.jpg',
     'public/Projects/graphic design/LETS GET WAVY - WAVES FESTIVAL DESIGN FOR PROMO.jpg',
-    'public/Projects/graphic design/O zapft 20% jpg.jpg',
+    // Removed: 'public/Projects/graphic design/O zapft 20% jpg.jpg', - filename contains % causing HTTP2 errors
     'public/Projects/graphic design/OKTOBERFEST POSTER - IN HOUSE.jpg',
     'public/Projects/graphic design/paramount brochure mockup.png',
     'public/Projects/graphic design/POLYTECH BRANDED CONTENT.png',
