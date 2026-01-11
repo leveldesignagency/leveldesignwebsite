@@ -819,18 +819,64 @@ function initAutoScroll(container) {
     }
   }
   
-  // Pause on hover
-  container.addEventListener('mouseenter', () => {
-    isScrolling = false;
-    if (animationFrame) {
-      cancelAnimationFrame(animationFrame);
-    }
-  });
-  
-  container.addEventListener('mouseleave', () => {
-    isScrolling = true;
-    scroll();
-  });
+  // For services container, add mouse move scrolling as fallback
+  if (isServicesContainer) {
+    let lastMouseX = 0;
+    let isMouseDown = false;
+    
+    container.addEventListener('mousemove', (e) => {
+      if (isMouseDown) {
+        const deltaX = e.clientX - lastMouseX;
+        container.scrollLeft -= deltaX * 2; // Scroll speed multiplier
+        lastMouseX = e.clientX;
+      }
+    });
+    
+    container.addEventListener('mousedown', (e) => {
+      isMouseDown = true;
+      lastMouseX = e.clientX;
+      isScrolling = false; // Pause auto-scroll while dragging
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    });
+    
+    container.addEventListener('mouseup', () => {
+      isMouseDown = false;
+      isScrolling = true; // Resume auto-scroll
+      scroll();
+    });
+    
+    container.addEventListener('mouseleave', () => {
+      isMouseDown = false;
+      isScrolling = true; // Resume auto-scroll
+      scroll();
+    });
+    
+    // Pause auto-scroll on hover (but allow mouse drag)
+    container.addEventListener('mouseenter', () => {
+      // Don't pause if mouse is down (user is dragging)
+      if (!isMouseDown) {
+        isScrolling = false;
+        if (animationFrame) {
+          cancelAnimationFrame(animationFrame);
+        }
+      }
+    });
+  } else {
+    // For other containers, normal pause on hover
+    container.addEventListener('mouseenter', () => {
+      isScrolling = false;
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    });
+    
+    container.addEventListener('mouseleave', () => {
+      isScrolling = true;
+      scroll();
+    });
+  }
   
   // Start scrolling immediately
   scroll();
@@ -970,14 +1016,21 @@ function initServicesGallery() {
           });
           console.log('Services: Total items width:', totalWidth, 'gap:', 30 * (serviceItems.length - 1));
           
-          if (scrollWidth > clientWidth) {
-            console.log('Services: Starting auto-scroll');
-            initAutoScroll(servicesContainer);
-          } else {
-            // Force start anyway - images are wide enough
-            console.log('Services: Forcing auto-scroll start (images are wide)');
-            initAutoScroll(servicesContainer);
-          }
+          // Always start scroll - even if no overflow detected
+          console.log('Services: Starting auto-scroll (scrollWidth:', scrollWidth, 'clientWidth:', clientWidth, ')');
+          initAutoScroll(servicesContainer);
+          
+          // Also add manual scroll on mouse move as immediate fallback
+          let mouseX = 0;
+          servicesContainer.addEventListener('mousemove', (e) => {
+            const rect = servicesContainer.getBoundingClientRect();
+            const relativeX = e.clientX - rect.left;
+            const scrollPercent = relativeX / rect.width;
+            const maxScroll = servicesContainer.scrollWidth - servicesContainer.clientWidth;
+            if (maxScroll > 0) {
+              servicesContainer.scrollLeft = scrollPercent * maxScroll;
+            }
+          });
         }, 500);
       }
     }
