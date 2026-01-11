@@ -877,6 +877,7 @@ function initServicesGallery() {
   const servicesGallery = document.querySelector('#services-gallery');
   
   if (!servicesContainer) {
+    console.log('Services container not found');
     return;
   }
   
@@ -901,6 +902,8 @@ function initServicesGallery() {
     let loadedCount = 0;
     const totalImages = images.length;
     
+    console.log('Services: Found', totalImages, 'images');
+    
     if (totalImages === 0) {
       // No images yet, retry
       setTimeout(() => initServicesGallery(), 200);
@@ -909,32 +912,55 @@ function initServicesGallery() {
     
     function checkAndStartScroll() {
       if (loadedCount === totalImages) {
+        console.log('Services: All images loaded, checking scrollability...');
+        console.log('Services container scrollWidth:', servicesContainer.scrollWidth);
+        console.log('Services container clientWidth:', servicesContainer.clientWidth);
+        
         // All images loaded, wait a bit more for layout, then start scroll
         setTimeout(() => {
-          if (servicesContainer.scrollWidth > servicesContainer.clientWidth) {
+          const scrollWidth = servicesContainer.scrollWidth;
+          const clientWidth = servicesContainer.clientWidth;
+          
+          console.log('Services: After layout - scrollWidth:', scrollWidth, 'clientWidth:', clientWidth);
+          
+          if (scrollWidth > clientWidth) {
+            console.log('Services: Starting auto-scroll');
             initAutoScroll(servicesContainer);
           } else {
-            // Container not wide enough yet, retry
+            // Container not wide enough yet, retry with longer delay
+            console.log('Services: Container not wide enough, retrying...');
             setTimeout(() => {
-              if (servicesContainer.scrollWidth > servicesContainer.clientWidth) {
+              const retryScrollWidth = servicesContainer.scrollWidth;
+              const retryClientWidth = servicesContainer.clientWidth;
+              console.log('Services: Retry - scrollWidth:', retryScrollWidth, 'clientWidth:', retryClientWidth);
+              
+              if (retryScrollWidth > retryClientWidth) {
+                console.log('Services: Starting auto-scroll on retry');
+                initAutoScroll(servicesContainer);
+              } else {
+                console.log('Services: Still not scrollable, forcing scroll anyway');
+                // Force it anyway - might be a CSS issue
                 initAutoScroll(servicesContainer);
               }
-            }, 500);
+            }, 1000);
           }
-        }, 100);
+        }, 300);
       }
     }
     
-    images.forEach(img => {
+    images.forEach((img, index) => {
       if (img.complete && img.naturalWidth > 0) {
+        console.log('Services: Image', index + 1, 'already loaded, size:', img.naturalWidth, 'x', img.naturalHeight);
         loadedCount++;
         checkAndStartScroll();
       } else {
         img.addEventListener('load', () => {
+          console.log('Services: Image', index + 1, 'loaded, size:', img.naturalWidth, 'x', img.naturalHeight);
           loadedCount++;
           checkAndStartScroll();
         }, { once: true });
         img.addEventListener('error', () => {
+          console.log('Services: Image', index + 1, 'failed to load');
           loadedCount++;
           checkAndStartScroll();
         }, { once: true });

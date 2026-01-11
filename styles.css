@@ -2476,19 +2476,22 @@ textarea {
   }
 
   .service-item .service-image {
-    width: 100%;
+    width: auto !important; /* Auto width - don't constrain */
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0; /* Don't shrink */
   }
 
   .service-item .service-image img {
     height: 100% !important; /* Full height (600px) */
     width: auto !important; /* Auto width based on aspect ratio */
+    max-width: none !important; /* Remove any max-width constraints */
     object-fit: contain;
     transition: none !important; /* No transitions */
     transform: none !important; /* No transforms */
+    display: block; /* Ensure it's a block element */
   }
 
   .service-item:hover {
