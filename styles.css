@@ -2410,12 +2410,14 @@ textarea {
     padding: 0 !important; /* Remove section padding - container handles it */
     min-height: 600px;
     height: auto !important; /* Auto height to accommodate container padding - match projects */
-    overflow: visible !important; /* Allow container padding to show */
+    overflow-x: auto !important; /* Allow horizontal scrolling */
+    overflow-y: hidden !important;
     background: var(--bg) !important;
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
     border-bottom: 1px solid #000000; /* Bottom border only */
+    width: 100%;
   }
 
   .dark-mode #services-gallery.section {
@@ -2428,7 +2430,8 @@ textarea {
     flex-direction: row !important;
     align-items: flex-start;
     gap: 30px !important; /* Gap between images */
-    width: fit-content;
+    width: max-content !important; /* Force container to be as wide as content */
+    min-width: 100% !important; /* At least viewport width */
     height: 600px !important; /* Fixed height like projects section */
     padding: 30px 48px 30px 48px !important; /* Top and bottom padding match horizontal gap (30px) */
     overflow-x: auto;
