@@ -1016,21 +1016,20 @@ function initServicesGallery() {
           });
           console.log('Services: Total items width:', totalWidth, 'gap:', 30 * (serviceItems.length - 1));
           
-          // Always start scroll - even if no overflow detected
-          console.log('Services: Starting auto-scroll (scrollWidth:', scrollWidth, 'clientWidth:', clientWidth, ')');
-          initAutoScroll(servicesContainer);
+          // Force container to be wider than viewport by removing any width constraints
+          servicesContainer.style.minWidth = '0';
+          servicesContainer.style.width = 'max-content';
           
-          // Also add manual scroll on mouse move as immediate fallback
-          let mouseX = 0;
-          servicesContainer.addEventListener('mousemove', (e) => {
-            const rect = servicesContainer.getBoundingClientRect();
-            const relativeX = e.clientX - rect.left;
-            const scrollPercent = relativeX / rect.width;
-            const maxScroll = servicesContainer.scrollWidth - servicesContainer.clientWidth;
-            if (maxScroll > 0) {
-              servicesContainer.scrollLeft = scrollPercent * maxScroll;
-            }
-          });
+          // Recalculate after forcing width
+          setTimeout(() => {
+            const newScrollWidth = servicesContainer.scrollWidth;
+            const newClientWidth = servicesContainer.clientWidth;
+            console.log('Services: After width fix - scrollWidth:', newScrollWidth, 'clientWidth:', newClientWidth);
+            
+            // Always start scroll
+            console.log('Services: Starting auto-scroll');
+            initAutoScroll(servicesContainer);
+          }, 100);
         }, 500);
       }
     }
