@@ -2268,11 +2268,11 @@ textarea {
 
   /* Services Gallery Section - Images only */
   #services-gallery.section {
-    position: relative;
+    position: relative; /* Viewport for slideshow */
     padding: 0 !important; /* No padding */
     min-height: 600px;
     height: 600px !important; /* Fixed height */
-    overflow: hidden !important; /* Hide overflow - slideshow style */
+    overflow: hidden !important; /* Hide overflow - slideshow style - clips container transforms */
     background: var(--bg) !important;
     opacity: 1 !important;
     visibility: visible !important;
@@ -2291,12 +2291,11 @@ textarea {
     flex-direction: row !important;
     align-items: center;
     gap: 0 !important; /* No gap - full width images */
-    width: 100% !important; /* Full width */
+    width: max-content !important; /* Wide enough to hold all slides */
     height: 600px !important; /* Fixed height */
-    padding: 0 !important; /* No padding - images edge to edge */
-    overflow-x: auto !important;
+    padding: 30px 0 30px 0 !important; /* Top and bottom padding (30px) - no horizontal padding for edge-to-edge images */
+    overflow-x: hidden !important; /* NO SCROLLING - using transform */
     overflow-y: hidden !important;
-    scroll-behavior: smooth;
     scrollbar-width: none !important; /* Firefox - hide scrollbar */
     -ms-overflow-style: none !important; /* IE/Edge - hide scrollbar */
     opacity: 1 !important;
@@ -2307,7 +2306,8 @@ textarea {
     -webkit-mask-image: none !important;
     /* Prevent manual scrolling - only allow programmatic scrolling */
     overscroll-behavior-x: none !important;
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    transform: translateX(0); /* Start at first slide */
+    transition: none !important; /* NO transitions - instant */
   }
   
   /* Dark mode - services container - no feathered edges */
@@ -2334,9 +2334,9 @@ textarea {
     position: relative;
     width: 100vw !important; /* Full viewport width - no padding */
     min-width: 100vw !important; /* Ensure full width */
-    height: 100% !important; /* Full height of container (600px) */
+    height: calc(100% - 60px) !important; /* Full height minus padding (600px - 60px = 540px) */
     flex-shrink: 0 !important;
-    cursor: pointer;
+    cursor: default !important; /* No pointer cursor - no interaction */
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -2364,7 +2364,7 @@ textarea {
 
   .service-item .service-image img {
     width: 100% !important; /* Full width - edge to edge */
-    height: 100% !important; /* Full height (600px) */
+    height: 100% !important; /* Full height (540px after padding) */
     object-fit: cover !important; /* Cover entire area */
     transition: none !important;
     transform: none !important;

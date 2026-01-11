@@ -195,8 +195,18 @@ function setupScrollBasedServices() {
   // Initial service
   updateServiceSlide(0);
   
-  // Update on scroll
-  window.addEventListener('scroll', updateServiceOnScroll, { passive: true });
+  // Update on scroll - throttled for performance
+  let serviceScrollTicking = false;
+  function requestServiceScrollUpdate() {
+    if (!serviceScrollTicking) {
+      requestAnimationFrame(() => {
+        updateServiceOnScroll();
+        serviceScrollTicking = false;
+      });
+      serviceScrollTicking = true;
+    }
+  }
+  window.addEventListener('scroll', requestServiceScrollUpdate, { passive: true });
   
   // Also keep auto-cycling as backup
   setInterval(() => {
@@ -354,71 +364,7 @@ if (phrases.length === 3) {
   setTimeout(showNextPhrase, 500);
 }
 
-// Advanced scroll animations and parallax
-let ticking = false;
-
-function updateScrollEffects() {
-  const scrollY = window.scrollY;
-  const hero = document.querySelector('.hero');
-  const header = document.querySelector('.site-header');
-  
-  // Debug: Check if header exists
-  if (!header) {
-    return;
-  }
-  
-  // Hero parallax scroll
-  if (hero) {
-    const heroHeight = hero.offsetHeight;
-    const parallaxSpeed = 0.5;
-    const yPos = -(scrollY * parallaxSpeed);
-    hero.style.transform = `translate3d(0, ${yPos}px, 0)`;
-  }
-  
-  // Header fade handled by separate event listener
-  
-  // Parallax effects for "What we do" section cards
-  const servicesSection = document.querySelector('#services');
-  if (servicesSection) {
-    const cards = servicesSection.querySelectorAll('.card');
-    const sectionRect = servicesSection.getBoundingClientRect();
-    const sectionTop = sectionRect.top + scrollY;
-    const sectionHeight = sectionRect.height;
-    
-    // Only apply parallax when section is in view
-    if (sectionRect.top < window.innerHeight && sectionRect.bottom > 0) {
-      cards.forEach((card, index) => {
-        const cardRect = card.getBoundingClientRect();
-        const cardCenter = cardRect.top + cardRect.height / 2;
-        const viewportCenter = window.innerHeight / 2;
-        const distanceFromCenter = cardCenter - viewportCenter;
-        
-        // Different parallax speeds for each card (staggered effect)
-        const parallaxSpeed = 0.1 + (index * 0.05); // 0.1, 0.15, 0.2, 0.25
-        const yOffset = distanceFromCenter * parallaxSpeed;
-        
-        // Apply subtle rotation and translation
-        const rotation = (distanceFromCenter / window.innerHeight) * 2; // Max 2 degrees
-        card.style.transform = `translate3d(0, ${yOffset}px, 0) rotate(${rotation}deg)`;
-      });
-    }
-  }
-  
-  ticking = false;
-}
-
-function requestTick() {
-  if (!ticking) {
-    requestAnimationFrame(updateScrollEffects);
-    ticking = true;
-  }
-}
-
-window.addEventListener('scroll', requestTick, { passive: true });
-
-// Test scroll event first
-window.addEventListener('scroll', () => {
-}, { passive: true });
+// Removed heavy parallax effects for performance - was causing lag
 
 // Header fade handled by DOMContentLoaded listener above
 
@@ -556,11 +502,20 @@ function updateCustomBackground() {
   }
 }
 
-// Update custom background on scroll
-window.addEventListener('scroll', updateCustomBackground);
+// Update custom background on scroll - throttled for performance
+let backgroundTicking = false;
+function requestBackgroundUpdate() {
+  if (!backgroundTicking) {
+    requestAnimationFrame(() => {
+      updateCustomBackground();
+      backgroundTicking = false;
+    });
+    backgroundTicking = true;
+  }
+}
 
-// Update on resize
-window.addEventListener('resize', updateCustomBackground);
+window.addEventListener('scroll', requestBackgroundUpdate, { passive: true });
+window.addEventListener('resize', requestBackgroundUpdate, { passive: true });
 
 // Cursor trail and parallax removed per design requirements
 
@@ -759,64 +714,42 @@ function initAutoScroll(container) {
   
   container.dataset.autoScrollInitialized = 'true';
   
-  // Faster speed for projects section, normal for others
+  // Projects auto-scroll - optimized for performance
   const isProjectsContainer = container.classList.contains('projects-container');
   const isServicesContainer = container.classList.contains('services-container');
-  let scrollSpeed = isProjectsContainer ? 3.0 : (isServicesContainer ? 1.5 : 1.5); // Same speed for services as projects
+  
+  // Skip services container - it uses slideshow
+  if (isServicesContainer) {
+    return;
+  }
+  
+  let scrollSpeed = isProjectsContainer ? 1.5 : 1.5; // Reduced speed
   let isScrolling = true;
   let animationFrame;
   
   function scroll() {
-    if (!container) return;
+    if (!container || !isScrolling) return;
     
-    if (isScrolling) {
-      const maxScroll = container.scrollWidth - container.clientWidth;
-      
-      if (maxScroll <= 0) {
-        // For services container, force scroll even if no overflow (images might be loading)
-        if (isServicesContainer) {
-          // Wait a bit and try again - images might still be loading
-          setTimeout(() => {
-            const retryMaxScroll = container.scrollWidth - container.clientWidth;
-            if (retryMaxScroll > 0) {
-              scroll();
-            } else {
-              // Still no overflow, but start scrolling anyway (will loop at 0)
-              container.scrollLeft = 0;
-              animationFrame = requestAnimationFrame(scroll);
-            }
-          }, 200);
-        } else {
-          // For other containers, wait and retry
-          setTimeout(() => {
-            if (container && container.scrollWidth > container.clientWidth) {
-              scroll();
-            }
-          }, 100);
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    
+    if (maxScroll <= 0) {
+      // Wait and retry if no overflow yet
+      setTimeout(() => {
+        if (container && container.scrollWidth > container.clientWidth) {
+          animationFrame = requestAnimationFrame(scroll);
         }
-        return;
-      }
-      
-      // For services container, loop seamlessly by resetting at halfway point
-      if (isServicesContainer) {
-        const halfWidth = container.scrollWidth / 2;
-        if (container.scrollLeft >= halfWidth - 1) {
-          // Reset to start when reaching halfway (seamless loop)
-          container.scrollLeft = 0;
-        } else {
-          container.scrollLeft += scrollSpeed;
-        }
-      } else {
-        // For projects, reset at end
-        if (container.scrollLeft >= maxScroll - 1) {
-          container.scrollLeft = 0;
-        } else {
-          container.scrollLeft += scrollSpeed;
-        }
-      }
-      
-      animationFrame = requestAnimationFrame(scroll);
+      }, 200);
+      return;
     }
+    
+    // Simple scroll - reset at end
+    if (container.scrollLeft >= maxScroll - 1) {
+      container.scrollLeft = 0;
+    } else {
+      container.scrollLeft += scrollSpeed;
+    }
+    
+    animationFrame = requestAnimationFrame(scroll);
   }
   
   // For other containers (not services - services uses slideshow), normal pause on hover
@@ -918,50 +851,74 @@ function initServicesGallery() {
   }
   servicesContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
   
+  // Prevent manual scrolling - disable wheel, touch, and pointer events
+  servicesContainer.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, { passive: false });
+  
+  servicesContainer.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, { passive: false });
+  
+  servicesContainer.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, { passive: false });
+  
+  servicesContainer.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+  
   // Wait for images to load, then start slideshow
   const images = servicesContainer.querySelectorAll('img');
-  let loadedCount = 0;
   const totalImages = images.length;
+  let loadedCount = 0;
   let currentIndex = 0;
+  let slideshowInterval = null;
+  let slideshowStarted = false;
   
   if (totalImages === 0) {
     setTimeout(() => initServicesGallery(), 200);
     return;
   }
   
+  // INSTANT slideshow function - use transform, NO scrolling
+  function showSlide(index) {
+    const serviceItems = servicesContainer.querySelectorAll('.service-item');
+    if (serviceItems.length === 0) return;
+    
+    if (index >= serviceItems.length) {
+      currentIndex = 0;
+      index = 0;
+    }
+    
+    // Use transform for instant positioning - NO scroll
+    const translateX = -(index * 100);
+    servicesContainer.style.transform = `translateX(${translateX}vw)`;
+    servicesContainer.style.transition = 'none'; // Instant, no animation
+  }
+  
+  // Auto-advance every 3 seconds
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % totalImages;
+    showSlide(currentIndex);
+  }
+  
   function checkAndStartSlideshow() {
-    if (loadedCount === totalImages) {
-      // All images loaded, start slideshow
+    if (loadedCount === totalImages && !slideshowStarted) {
+      slideshowStarted = true;
       console.log('Services: All images loaded, starting slideshow');
       
-      // Hide scrollbar
-      servicesContainer.style.scrollbarWidth = 'none';
-      servicesContainer.style.msOverflowStyle = 'none';
-      servicesContainer.style.webkitScrollbar = 'none';
+      // Show first slide immediately
+      setTimeout(() => {
+        showSlide(0);
+      }, 100);
       
-      // Start slideshow
-      function showSlide(index) {
-        const serviceItems = servicesContainer.querySelectorAll('.service-item');
-        if (serviceItems.length === 0) return;
-        
-        // Scroll to the current slide
-        const targetItem = serviceItems[index];
-        if (targetItem) {
-          targetItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-        }
-      }
-      
-      // Auto-advance every 3 seconds
-      function nextSlide() {
-        currentIndex = (currentIndex + 1) % totalImages;
-        showSlide(currentIndex);
-      }
-      
-      // Show first slide
-      showSlide(0);
-      
-      // Start auto-advance
-      setInterval(nextSlide, 3000);
+      // Start auto-advance every 3 seconds
+      slideshowInterval = setInterval(nextSlide, 3000);
     }
   }
   
