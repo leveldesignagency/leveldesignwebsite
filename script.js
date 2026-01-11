@@ -719,7 +719,6 @@ function initProjectsSection() {
   const projectsSection = document.querySelector('#projects');
   
   if (!projectsContainer) {
-    console.error('Projects container not found');
     return;
   }
   
@@ -750,13 +749,11 @@ function initProjectsSection() {
 // Auto-scroll function - slow continuous scrolling
 function initAutoScroll(container) {
   if (!container) {
-    console.error('Auto-scroll: container not found');
     return;
   }
   
   // Check if container already has auto-scroll initialized
   if (container.dataset.autoScrollInitialized === 'true') {
-    console.log('Auto-scroll already initialized for this container');
     return;
   }
   
@@ -764,7 +761,8 @@ function initAutoScroll(container) {
   
   // Faster speed for projects section, normal for others
   const isProjectsContainer = container.classList.contains('projects-container');
-  let scrollSpeed = isProjectsContainer ? 3.0 : 1.5; // Faster for projects (3px per frame)
+  const isServicesContainer = container.classList.contains('services-container');
+  let scrollSpeed = isProjectsContainer ? 3.0 : (isServicesContainer ? 1.5 : 1.5); // Same speed for services as projects
   let isScrolling = true;
   let animationFrame;
   
@@ -809,24 +807,26 @@ function initAutoScroll(container) {
   });
   
   // Wait for images to load and container to be ready
+  let retryCount = 0;
+  const maxRetries = 10;
+  
   function checkAndStartScroll() {
+    if (retryCount >= maxRetries) {
+      return; // Stop retrying after max attempts
+    }
+    
     const maxScroll = container.scrollWidth - container.clientWidth;
-    console.log('Checking scroll:', {
-      scrollWidth: container.scrollWidth,
-      clientWidth: container.clientWidth,
-      maxScroll: maxScroll,
-      container: container.className
-    });
     
     if (maxScroll > 0) {
-      console.log('Container ready, starting auto-scroll');
       scroll();
     } else {
+      retryCount++;
       // Try again after images load
       const images = container.querySelectorAll('img');
       if (images.length === 0) {
-        console.log('No images found, retrying in 100ms');
-        setTimeout(checkAndStartScroll, 100);
+        if (retryCount < maxRetries) {
+          setTimeout(checkAndStartScroll, 200);
+        }
         return;
       }
       
@@ -841,30 +841,28 @@ function initAutoScroll(container) {
             loadedCount++;
             if (loadedCount === images.length && !allLoaded) {
               allLoaded = true;
-              console.log('All images loaded, checking scroll again');
-              setTimeout(checkAndStartScroll, 50);
+              if (retryCount < maxRetries) {
+                setTimeout(checkAndStartScroll, 100);
+              }
             }
           }, { once: true });
         }
       });
       
-      if (loadedCount === images.length) {
+      if (loadedCount === images.length && !allLoaded) {
         allLoaded = true;
-        setTimeout(checkAndStartScroll, 50);
-      } else {
+        if (retryCount < maxRetries) {
+          setTimeout(checkAndStartScroll, 100);
+        }
+      } else if (!allLoaded && retryCount < maxRetries) {
         // Fallback: try again after a delay
-        setTimeout(() => {
-          if (!allLoaded) {
-            console.log('Timeout waiting for images, checking scroll anyway');
-            checkAndStartScroll();
-          }
-        }, 1000);
+        setTimeout(checkAndStartScroll, 500);
       }
     }
   }
   
-  // Start checking immediately
-  checkAndStartScroll();
+  // Start checking after a short delay
+  setTimeout(checkAndStartScroll, 300);
 }
 
 // Render project items - horizontal scroll gallery with varying sizes
@@ -916,7 +914,6 @@ function initServicesGallery() {
   const servicesGallery = document.querySelector('#services-gallery');
   
   if (!servicesContainer) {
-    console.error('Services container not found');
     return;
   }
   
