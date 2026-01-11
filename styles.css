@@ -679,7 +679,7 @@ section#services .container .grid.services-grid {
   animation-delay: calc(var(--logo-index, 0) * 0.15s);
 }
 .dark-mode .client-logo img {
-  filter: brightness(0) invert(1);
+  filter: brightness(0) invert(1) !important; /* Force white in dark mode */
 }
 .dark-mode .client-logo:hover img {
   filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%) !important; /* Red color on hover */
@@ -703,6 +703,7 @@ section#services .container .grid.services-grid {
   height: 100%;
   object-fit: contain;
   transition: all 0.3s ease;
+  filter: brightness(0) !important; /* Force black filter on images */
 }
 
 /* Smaller logo for We Serve U Better */
@@ -2359,15 +2360,15 @@ textarea {
     opacity: 1 !important;
     visibility: visible !important;
     position: relative;
-    /* Feathered/masked edges */
-    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    /* Feathered/masked edges - smoother gradient for better feathering */
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0) 2%, black 8%, black 92%, rgba(0, 0, 0, 0) 98%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0) 2%, black 8%, black 92%, rgba(0, 0, 0, 0) 98%, transparent 100%);
   }
   
   /* Dark mode - projects container feathered edges should use white */
   .dark-mode .projects-container {
-    mask-image: linear-gradient(to right, transparent 0%, white 5%, white 95%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, white 5%, white 95%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0) 2%, white 8%, white 92%, rgba(255, 255, 255, 0) 98%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0) 2%, white 8%, white 92%, rgba(255, 255, 255, 0) 98%, transparent 100%);
   }
 
   .projects-container::-webkit-scrollbar {
