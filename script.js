@@ -820,6 +820,72 @@ function initScrollAnimations() {
 // Initialize projects section when DOM is loaded
 document.addEventListener('DOMContentLoaded', initProjectsSection);
 
+// Services Gallery Section - Load images from services folder
+const servicesImages = [
+  'public/Projects/services/LEVEL _SERVICES-01.png',
+  'public/Projects/services/LEVEL _SERVICES-02.png',
+  'public/Projects/services/LEVEL _SERVICES-03.png',
+  'public/Projects/services/LEVEL _SERVICES-04.png',
+  'public/Projects/services/LEVEL _SERVICES-05.png',
+  'public/Projects/services/LEVEL _SERVICES-06.png'
+];
+
+// Initialize services gallery section
+function initServicesGallery() {
+  const servicesContainer = document.querySelector('.services-container');
+  const servicesGallery = document.querySelector('#services-gallery');
+  
+  if (!servicesContainer) {
+    console.error('Services container not found');
+    return;
+  }
+  
+  console.log('Initializing services gallery, images count:', servicesImages.length);
+  
+  // Render services images
+  renderServicesImages(servicesContainer);
+  
+  // Force visibility
+  if (servicesGallery) {
+    servicesGallery.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
+  }
+  servicesContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
+  
+  // Force all service items visible
+  setTimeout(() => {
+    const serviceItems = document.querySelectorAll('.service-item');
+    console.log('Service items found:', serviceItems.length);
+    serviceItems.forEach(item => {
+      item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
+    });
+  }, 100);
+  
+  // Initialize auto-scroll
+  initAutoScroll(servicesContainer);
+}
+
+// Render services images
+function renderServicesImages(container) {
+  servicesImages.forEach((imagePath, index) => {
+    const serviceItem = document.createElement('div');
+    serviceItem.classList.add('service-item');
+    serviceItem.dataset.id = `service-${index + 1}`;
+    serviceItem.dataset.index = index;
+    
+    // Extract filename for descriptive alt text
+    const filename = imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+    const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Service ${index + 1} - Credit: LEVEL DESIGN AGENCY LTD`;
+    
+    const imageHTML = `<div class="service-image"><img src="${imagePath}" alt="${altText}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`;
+    
+    serviceItem.innerHTML = imageHTML;
+    container.appendChild(serviceItem);
+  });
+}
+
+// Initialize services gallery when DOM is loaded
+document.addEventListener('DOMContentLoaded', initServicesGallery);
+
 // Bullet points are now integrated directly into the main cards - no separate sub-cards needed
 
 // CLIENT LOGOS MARQUEE INTERACTIONS

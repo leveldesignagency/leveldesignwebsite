@@ -2390,6 +2390,124 @@ textarea {
     display: none; /* Chrome/Safari */
   }
 
+  /* Services Gallery Section - Same styling as Projects */
+  #services-title.services-title-section {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 10px; /* 10px gap to images */
+    background: var(--bg);
+    border-top: 1px solid #000000; /* Top border full width */
+    border-bottom: 1px solid #000000; /* Bottom border full width */
+  }
+  
+  /* Dark mode - services title borders should be white */
+  .dark-mode #services-title.services-title-section {
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+  }
+
+  #services-title.services-title-section h2 {
+    padding: 0 48px; /* Left padding only */
+    margin: 0;
+    font-family: "Bebas Neue", Impact, system-ui, sans-serif;
+    font-size: clamp(32px, 4vw, 56px);
+    color: var(--text);
+  }
+
+  /* Services Gallery Section - Images only */
+  #services-gallery.section {
+    position: relative;
+    padding: 30px 0 30px 0 !important; /* Match horizontal gap (30px) */
+    min-height: 500px;
+    height: 500px;
+    overflow: hidden;
+    background: var(--bg) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    border-bottom: 1px solid #000000; /* Bottom border only */
+  }
+
+  .dark-mode #services-gallery.section {
+    border-bottom: 1px solid #ffffff;
+    border-top: none;
+  }
+
+  .services-container {
+    padding-top: 30px !important; /* Match horizontal gap */
+    padding-bottom: 30px !important; /* Match horizontal gap */
+  }
+
+  .services-container {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start;
+    gap: 30px !important; /* Gap between images */
+    width: fit-content;
+    height: 500px !important;
+    padding: 30px 48px 30px 48px !important; /* Top and bottom padding match horizontal gap (30px) */
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: relative;
+    /* Feathered/masked edges */
+    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  }
+  
+  /* Dark mode - services container feathered edges should use white */
+  .dark-mode .services-container {
+    mask-image: linear-gradient(to right, transparent 0%, white 5%, white 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, white 5%, white 95%, transparent 100%);
+  }
+
+  .services-container::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .service-item {
+    position: relative;
+    width: auto !important;
+    height: 100% !important; /* Full height of container (500px) */
+    flex-shrink: 0;
+    cursor: pointer;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible;
+    background: transparent;
+    box-shadow: none !important;
+    transition: none !important; /* No transitions */
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+    align-items: center;
+    border-radius: 0 !important;
+    transform: none !important;
+  }
+
+  .service-item .service-image img {
+    height: 100% !important; /* Full height (500px) */
+    width: auto !important; /* Auto width based on aspect ratio */
+    object-fit: contain;
+    transition: none !important; /* No transitions */
+    transform: none !important; /* No transforms */
+  }
+
+  .service-item:hover {
+    transform: none !important; /* No hover transform */
+    box-shadow: none !important; /* No hover shadow */
+    transition: none !important; /* No hover transition */
+  }
+
   .project-item {
     position: relative;
     width: auto !important;
