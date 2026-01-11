@@ -723,7 +723,7 @@ function initAutoScroll(container) {
     return;
   }
   
-  let scrollSpeed = isProjectsContainer ? 1.5 : 1.5; // Reduced speed
+  let scrollSpeed = isProjectsContainer ? 4.0 : 1.5; // Faster speed for projects
   let isScrolling = true;
   let animationFrame;
   
