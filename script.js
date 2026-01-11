@@ -819,52 +819,8 @@ function initAutoScroll(container) {
     }
   }
   
-  // For services container, add mouse move scrolling as fallback
-  if (isServicesContainer) {
-    let lastMouseX = 0;
-    let isMouseDown = false;
-    
-    container.addEventListener('mousemove', (e) => {
-      if (isMouseDown) {
-        const deltaX = e.clientX - lastMouseX;
-        container.scrollLeft -= deltaX * 2; // Scroll speed multiplier
-        lastMouseX = e.clientX;
-      }
-    });
-    
-    container.addEventListener('mousedown', (e) => {
-      isMouseDown = true;
-      lastMouseX = e.clientX;
-      isScrolling = false; // Pause auto-scroll while dragging
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
-    });
-    
-    container.addEventListener('mouseup', () => {
-      isMouseDown = false;
-      isScrolling = true; // Resume auto-scroll
-      scroll();
-    });
-    
-    container.addEventListener('mouseleave', () => {
-      isMouseDown = false;
-      isScrolling = true; // Resume auto-scroll
-      scroll();
-    });
-    
-    // Pause auto-scroll on hover (but allow mouse drag)
-    container.addEventListener('mouseenter', () => {
-      // Don't pause if mouse is down (user is dragging)
-      if (!isMouseDown) {
-        isScrolling = false;
-        if (animationFrame) {
-          cancelAnimationFrame(animationFrame);
-        }
-      }
-    });
-  } else {
-    // For other containers, normal pause on hover
+  // For other containers (not services - services uses slideshow), normal pause on hover
+  if (!isServicesContainer) {
     container.addEventListener('mouseenter', () => {
       isScrolling = false;
       if (animationFrame) {

@@ -2305,12 +2305,15 @@ textarea {
     /* Remove feathered edges for slideshow */
     mask-image: none !important;
     -webkit-mask-image: none !important;
+    /* Prevent manual scrolling - only allow programmatic scrolling */
+    overscroll-behavior-x: none !important;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   }
   
-  /* Dark mode - services container feathered edges should use white */
+  /* Dark mode - services container - no feathered edges */
   .dark-mode .services-container {
-    mask-image: linear-gradient(to right, transparent 0%, white 5%, white 95%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, white 5%, white 95%, transparent 100%);
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
   }
 
   .services-container::-webkit-scrollbar {
