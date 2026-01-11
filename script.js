@@ -703,24 +703,36 @@ function initProjectsSection() {
     let loaded = 0;
     const total = images.length;
     
+    console.log('🟢 PROJECTS: Checking images, total:', total);
+    
     if (total === 0) {
+      console.log('🟢 PROJECTS: No images found, starting scroll anyway');
       initAutoScroll(projectsContainer);
       return;
     }
     
     function checkAndStart() {
       loaded++;
+      console.log(`🟢 PROJECTS: Image loaded ${loaded}/${total}`);
       if (loaded === total) {
+        console.log('🟢 PROJECTS: All images loaded, starting scroll');
         initAutoScroll(projectsContainer);
       }
     }
     
-    images.forEach(img => {
+    images.forEach((img, i) => {
       if (img.complete) {
+        console.log(`🟢 PROJECTS: Image ${i} already complete`);
         checkAndStart();
       } else {
-        img.addEventListener('load', checkAndStart, { once: true });
-        img.addEventListener('error', checkAndStart, { once: true });
+        img.addEventListener('load', () => {
+          console.log(`🟢 PROJECTS: Image ${i} loaded`);
+          checkAndStart();
+        }, { once: true });
+        img.addEventListener('error', () => {
+          console.log(`🟢 PROJECTS: Image ${i} error`);
+          checkAndStart();
+        }, { once: true });
       }
     });
   }, 300);
@@ -728,41 +740,56 @@ function initProjectsSection() {
 
 // Auto-scroll function - slow continuous scrolling
 function initAutoScroll(container) {
+  console.log('🟢 PROJECTS: initAutoScroll called');
+  console.log('🟢 PROJECTS: Container:', container);
+  
   if (!container) {
+    console.log('🟢 PROJECTS: No container provided');
     return;
   }
   
   // Check if container already has auto-scroll initialized
   if (container.dataset.autoScrollInitialized === 'true') {
+    console.log('🟢 PROJECTS: Already initialized, skipping');
     return;
   }
   
   container.dataset.autoScrollInitialized = 'true';
+  console.log('🟢 PROJECTS: Marked as initialized');
   
   // Projects auto-scroll - optimized for performance
   const isProjectsContainer = container.classList.contains('projects-container');
   const isServicesContainer = container.classList.contains('services-container');
   
+  console.log('🟢 PROJECTS: Is projects container:', isProjectsContainer);
+  console.log('🟢 PROJECTS: Is services container:', isServicesContainer);
+  
   // Skip services container - it uses slideshow
   if (isServicesContainer) {
+    console.log('🟢 PROJECTS: Skipping services container');
     return;
   }
   
   let scrollSpeed = isProjectsContainer ? 4.0 : 1.5; // Faster speed for projects
+  console.log('🟢 PROJECTS: Scroll speed:', scrollSpeed);
   let isScrolling = true;
   let animationFrame;
   
   function scroll() {
     if (!container || !isScrolling) {
+      console.log('🟢 PROJECTS: Scroll stopped - container:', !!container, 'isScrolling:', isScrolling);
       return;
     }
     
     const maxScroll = container.scrollWidth - container.clientWidth;
+    console.log('🟢 PROJECTS: scrollWidth:', container.scrollWidth, 'clientWidth:', container.clientWidth, 'maxScroll:', maxScroll, 'scrollLeft:', container.scrollLeft);
     
     if (maxScroll <= 0) {
+      console.log('🟢 PROJECTS: No overflow yet, waiting...');
       // Wait and retry if no overflow yet
       setTimeout(() => {
         if (container && container.scrollWidth > container.clientWidth) {
+          console.log('🟢 PROJECTS: Retrying scroll after delay');
           scroll();
         }
       }, 200);
@@ -771,6 +798,7 @@ function initAutoScroll(container) {
     
     // Smooth scroll - reset at end
     if (container.scrollLeft >= maxScroll - 1) {
+      console.log('🟢 PROJECTS: Reached end, resetting to 0');
       container.scrollLeft = 0;
     } else {
       container.scrollLeft += scrollSpeed;
@@ -861,10 +889,15 @@ function renderServicesImages(container) {
 
 // Simple specialities slideshow - horizontal slide animation
 function initServicesGallery() {
+  console.log('🔵 SPECIALITIES: initServicesGallery called');
   const servicesContainer = document.querySelector('.services-container');
   const servicesGallery = document.querySelector('#services-gallery');
   
+  console.log('🔵 SPECIALITIES: Container found:', !!servicesContainer);
+  console.log('🔵 SPECIALITIES: Gallery found:', !!servicesGallery);
+  
   if (!servicesContainer) {
+    console.log('🔵 SPECIALITIES: Container not found, retrying...');
     setTimeout(initServicesGallery, 100);
     return;
   }
@@ -872,23 +905,30 @@ function initServicesGallery() {
   // Force visibility
   if (servicesGallery) {
     servicesGallery.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
+    console.log('🔵 SPECIALITIES: Gallery visibility forced');
   }
   servicesContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
+  console.log('🔵 SPECIALITIES: Container visibility forced');
   
   // Render images
+  console.log('🔵 SPECIALITIES: Rendering images, count:', servicesImages.length);
   renderServicesImages(servicesContainer);
   
   // Wait for items to be rendered
   setTimeout(() => {
     const items = servicesContainer.querySelectorAll('.service-item');
+    console.log('🔵 SPECIALITIES: Items found after render:', items.length);
+    
     if (items.length === 0) {
+      console.log('🔵 SPECIALITIES: No items found, retrying...');
       setTimeout(initServicesGallery, 200);
       return;
     }
     
     // Make all items visible
-    items.forEach(item => {
+    items.forEach((item, i) => {
       item.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important;';
+      console.log(`🔵 SPECIALITIES: Item ${i} made visible`);
     });
     
     let currentIndex = 0;
@@ -897,15 +937,18 @@ function initServicesGallery() {
     function showSlide(index) {
       const translateX = -(index * 100);
       servicesContainer.style.transform = `translateX(${translateX}%)`;
+      console.log(`🔵 SPECIALITIES: Showing slide ${index}, translateX: ${translateX}%`);
     }
     
     // Auto-advance every 3 seconds
     function nextSlide() {
       currentIndex = (currentIndex + 1) % items.length;
+      console.log(`🔵 SPECIALITIES: Advancing to slide ${currentIndex}`);
       showSlide(currentIndex);
     }
     
     // Start slideshow
+    console.log('🔵 SPECIALITIES: Starting slideshow');
     showSlide(0);
     setInterval(nextSlide, 3000);
   }, 200);
