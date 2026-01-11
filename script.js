@@ -832,111 +832,35 @@ function renderServicesImages(container) {
   });
 }
 
-// Initialize services gallery - SLIDESHOW STYLE
+// Simple specialities slideshow - NO scrolling, just show/hide
 function initServicesGallery() {
   const servicesContainer = document.querySelector('.services-container');
-  const servicesGallery = document.querySelector('#services-gallery');
+  if (!servicesContainer) return;
   
-  if (!servicesContainer) {
-    console.log('Services container not found');
-    return;
-  }
-  
-  // Render services images
+  // Render images
   renderServicesImages(servicesContainer);
   
-  // Force visibility
-  if (servicesGallery) {
-    servicesGallery.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
-  }
-  servicesContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
+  const items = servicesContainer.querySelectorAll('.service-item');
+  if (items.length === 0) return;
   
-  // Prevent manual scrolling - disable wheel, touch, and pointer events
-  servicesContainer.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  }, { passive: false });
-  
-  servicesContainer.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  }, { passive: false });
-  
-  servicesContainer.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  }, { passive: false });
-  
-  servicesContainer.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  });
-  
-  // Wait for images to load, then start slideshow
-  const images = servicesContainer.querySelectorAll('img');
-  const totalImages = images.length;
-  let loadedCount = 0;
   let currentIndex = 0;
-  let slideshowInterval = null;
-  let slideshowStarted = false;
   
-  if (totalImages === 0) {
-    setTimeout(() => initServicesGallery(), 200);
-    return;
-  }
-  
-  // INSTANT slideshow function - use transform, NO scrolling
+  // Show only one image at a time
   function showSlide(index) {
-    const serviceItems = servicesContainer.querySelectorAll('.service-item');
-    if (serviceItems.length === 0) return;
-    
-    if (index >= serviceItems.length) {
-      currentIndex = 0;
-      index = 0;
-    }
-    
-    // Use transform for instant positioning - NO scroll
-    const translateX = -(index * 100);
-    servicesContainer.style.transform = `translateX(${translateX}vw)`;
-    servicesContainer.style.transition = 'none'; // Instant, no animation
+    items.forEach((item, i) => {
+      item.style.display = i === index ? 'flex' : 'none';
+    });
   }
   
   // Auto-advance every 3 seconds
   function nextSlide() {
-    currentIndex = (currentIndex + 1) % totalImages;
+    currentIndex = (currentIndex + 1) % items.length;
     showSlide(currentIndex);
   }
   
-  function checkAndStartSlideshow() {
-    if (loadedCount === totalImages && !slideshowStarted) {
-      slideshowStarted = true;
-      console.log('Services: All images loaded, starting slideshow');
-      
-      // Show first slide immediately
-      setTimeout(() => {
-        showSlide(0);
-      }, 100);
-      
-      // Start auto-advance every 3 seconds
-      slideshowInterval = setInterval(nextSlide, 3000);
-    }
-  }
-  
-  images.forEach((img, index) => {
-    if (img.complete && img.naturalWidth > 0) {
-      loadedCount++;
-      checkAndStartSlideshow();
-    } else {
-      img.addEventListener('load', () => {
-        loadedCount++;
-        checkAndStartSlideshow();
-      }, { once: true });
-      img.addEventListener('error', () => {
-        loadedCount++;
-        checkAndStartSlideshow();
-      }, { once: true });
-    }
-  });
+  // Start slideshow
+  showSlide(0);
+  setInterval(nextSlide, 3000);
 }
 
 // Initialize services gallery when DOM is loaded
