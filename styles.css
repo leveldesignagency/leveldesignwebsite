@@ -2300,6 +2300,12 @@ textarea {
     mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
   }
+  
+  /* Dark mode - projects container feathered edges should use white */
+  .dark-mode .projects-container {
+    mask-image: linear-gradient(to right, transparent 0%, white 5%, white 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, white 5%, white 95%, transparent 100%);
+  }
 
   .projects-container::-webkit-scrollbar {
     display: none; /* Chrome/Safari */
@@ -2581,8 +2587,7 @@ textarea {
 .dark-mode .footer-logo:hover {
   filter: brightness(0) invert(1);
 }
-  filter: brightness(0);
-}
+
 .footer-links { 
   display: flex; 
   flex-direction: row !important; /* Force horizontal */
