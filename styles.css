@@ -597,7 +597,7 @@ section#services .container .grid.services-grid {
   height: 100%;
   white-space: nowrap;
   animation: marqueeRight 80s linear infinite;
-  will-change: transform;
+  /* Removed will-change for better performance */
   width: max-content;
   gap: 60px !important; /* Consistent gap between all logos */
 }
@@ -641,7 +641,7 @@ section#services .container .grid.services-grid {
     transform: translateX(0); 
   }
   100% { 
-    transform: translateX(calc(-50% - 30px)); /* Account for gap between last and first logo */
+    transform: translateX(-50%); /* Exactly half - seamless loop */
   }
 }
 
@@ -1331,7 +1331,7 @@ section#services .container .grid.services-grid {
   overflow: hidden !important;
   opacity: 0;
   transform: translateY(40px);
-  will-change: transform, opacity; /* Performance optimization */
+  /* Removed will-change for better performance */
 }
 
 /* Dark mode - cards become white */
@@ -1402,7 +1402,7 @@ section#services .container .grid.services-grid {
 
 /* Parallax support for service cards */
 #services .card {
-  will-change: transform;
+  /* Removed will-change for better performance */
   transition: transform 0.1s ease-out;
 }
 
@@ -2278,21 +2278,6 @@ textarea {
   100% { transform: translate(60px, 60px); }
 }
 
-/* Gentle floating animation for cards */
-@keyframes gentleFloat {
-  0%, 100% { 
-    transform: translateY(0px) translate3d(0, 0, 0.01px); 
-  }
-  25% { 
-    transform: translateY(-3px) translate3d(0, 0, 0.01px); 
-  }
-  50% { 
-    transform: translateY(-6px) translate3d(0, 0, 0.01px); 
-  }
-  75% { 
-    transform: translateY(-3px) translate3d(0, 0, 0.01px); 
-  }
-}
 
 /* Projects Title Section - Separate section with borders */
 @media (min-width: 769px) {
@@ -2419,7 +2404,7 @@ textarea {
     position: relative;
     padding: 0 !important; /* Remove section padding - container handles it */
     min-height: 600px;
-    height: 600px;
+    height: auto !important; /* Auto height to accommodate container padding - match projects */
     overflow: visible !important; /* Allow container padding to show */
     background: var(--bg) !important;
     opacity: 1 !important;
