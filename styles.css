@@ -63,7 +63,9 @@ body {
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth theme transitions */
 }
 
 .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
@@ -311,7 +313,11 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 .btn:hover { transform: translateY(-1px); transition: transform var(--dur-slow) var(--ease-slow); }
 
 /* Sections - Alternating backgrounds */
-.section { padding: 60px 0; } /* Reduced from 120px */
+.section { 
+  padding: 60px 0; /* Reduced from 120px */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth section transitions */
+  position: relative;
+}
 
 /* Hero Section - COMPLETELY RESET, NO PADDING */
 .hero { 
@@ -594,6 +600,57 @@ section#services .container .grid.services-grid {
   will-change: transform;
   width: max-content;
   gap: 60px !important; /* Consistent gap between all logos */
+}
+
+/* Shimmer effect for logos - subtle twinkling */
+@keyframes logoShimmer {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(0);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(0) drop-shadow(0 0 12px rgba(255, 255, 255, 0.25));
+  }
+}
+
+.client-logo {
+  animation: logoShimmer 4s ease-in-out infinite;
+  animation-delay: calc(var(--logo-index, 0) * 0.15s);
+}
+
+/* Dark mode shimmer */
+.dark-mode .client-logo {
+  animation: logoShimmerDark 4s ease-in-out infinite;
+  animation-delay: calc(var(--logo-index, 0) * 0.15s);
+}
+
+@keyframes logoShimmerDark {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(0) invert(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(0) invert(1) drop-shadow(0 0 12px rgba(255, 255, 255, 0.35));
+  }
+}
+
+/* ITD logo shimmer (keeps original colors) */
+.client-logo-color {
+  animation: logoShimmerColor 4s ease-in-out infinite;
+  animation-delay: calc(var(--logo-index, 0) * 0.15s);
+}
+
+@keyframes logoShimmerColor {
+  0%, 100% {
+    opacity: 1;
+    filter: none;
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.3));
+  }
 }
 
 @keyframes marqueeRight {
@@ -1282,6 +1339,8 @@ section#services .container .grid.services-grid {
   overflow: hidden !important;
   opacity: 0;
   transform: translateY(40px);
+  will-change: transform, opacity; /* Performance optimization */
+}
 }
 
 /* Dark mode - cards become white */
@@ -2075,12 +2134,33 @@ input, textarea {
   width: 100%; 
   padding: 16px 18px; 
   border-radius: 0; 
-  border: 2px solid var(--bg-alt); 
+  border: 2px solid #000000; /* Black border in light mode */
   background: var(--bg); 
   color: var(--text); 
   font: inherit; 
   transition: all 0.3s ease;
   font-size: 16px;
+}
+
+/* Dark mode form inputs - white border */
+.dark-mode input,
+.dark-mode textarea {
+  border: 2px solid #ffffff;
+}
+
+input:focus, textarea:focus { 
+  outline: none;
+  border-color: var(--brand);
+  background: rgba(255,255,255,.05);
+  box-shadow: 0 0 0 3px rgba(255, 45, 45, 0.15);
+  transform: translateY(-1px); /* Subtle lift on focus */
+}
+
+/* Dark mode form focus */
+.dark-mode input:focus,
+.dark-mode textarea:focus {
+  background: rgba(0,0,0,.1);
+  box-shadow: 0 0 0 3px rgba(255, 45, 45, 0.2);
 }
 
 input::placeholder,
@@ -2119,9 +2199,9 @@ textarea {
   justify-content: center;
   gap: 8px;
   padding: 16px 32px;
-  background: var(--brand);
-  color: white;
-  border: none;
+  background: transparent; /* Match header CTA */
+  color: var(--text);
+  border: 2px solid var(--brand); /* Match header CTA */
   font-weight: 700;
   font-size: 14px;
   text-transform: uppercase;
@@ -2133,9 +2213,9 @@ textarea {
 }
 
 .btn.primary:hover {
-  background: #e02626;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 45, 45, 0.3);
+  background: var(--brand); /* Match header CTA hover */
+  color: white;
+  box-shadow: none; /* Match header CTA */
 }
 
 .btn.primary svg {

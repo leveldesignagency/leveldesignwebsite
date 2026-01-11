@@ -827,8 +827,13 @@ document.addEventListener('DOMContentLoaded', initProjectsSection);
 document.addEventListener('DOMContentLoaded', function() {
   const marqueeRows = document.querySelectorAll('.marquee-row');
   const clientLogos = document.querySelectorAll('.client-logo');
-  
+
   if (!marqueeRows.length || !clientLogos.length) return;
+  
+  // Set logo indices for staggered shimmer animation
+  clientLogos.forEach((logo, index) => {
+    logo.style.setProperty('--logo-index', index);
+  });
   
   // Client logo hover effects
   clientLogos.forEach((logo, index) => {
