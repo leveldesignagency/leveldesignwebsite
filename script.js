@@ -749,17 +749,40 @@ function initProjectsSection() {
 
 // Auto-scroll function - slow continuous scrolling
 function initAutoScroll(container) {
-  if (!container) return;
+  if (!container) {
+    console.error('Auto-scroll: container not found');
+    return;
+  }
+  
+  // Check if container already has auto-scroll initialized
+  if (container.dataset.autoScrollInitialized === 'true') {
+    console.log('Auto-scroll already initialized for this container');
+    return;
+  }
+  
+  container.dataset.autoScrollInitialized = 'true';
   
   let scrollSpeed = 1.5; // Pixels per frame (faster)
   let isScrolling = true;
   let animationFrame;
   
   function scroll() {
+    if (!container) return;
+    
     if (isScrolling) {
       const maxScroll = container.scrollWidth - container.clientWidth;
       
-      if (container.scrollLeft >= maxScroll) {
+      if (maxScroll <= 0) {
+        // Container not wide enough to scroll, try again later
+        setTimeout(() => {
+          if (container && container.scrollWidth > container.clientWidth) {
+            scroll();
+          }
+        }, 100);
+        return;
+      }
+      
+      if (container.scrollLeft >= maxScroll - 1) {
         // Reset to start when reaching the end
         container.scrollLeft = 0;
       } else {
@@ -783,8 +806,34 @@ function initAutoScroll(container) {
     scroll();
   });
   
-  // Start scrolling
-  scroll();
+  // Wait a bit for images to load and container to be ready
+  setTimeout(() => {
+    if (container.scrollWidth > container.clientWidth) {
+      console.log('Starting auto-scroll, scrollWidth:', container.scrollWidth, 'clientWidth:', container.clientWidth);
+      scroll();
+    } else {
+      console.log('Container not ready for scrolling yet, scrollWidth:', container.scrollWidth, 'clientWidth:', container.clientWidth);
+      // Try again after images load
+      const images = container.querySelectorAll('img');
+      let loadedCount = 0;
+      images.forEach(img => {
+        if (img.complete) {
+          loadedCount++;
+        } else {
+          img.addEventListener('load', () => {
+            loadedCount++;
+            if (loadedCount === images.length && container.scrollWidth > container.clientWidth) {
+              console.log('All images loaded, starting auto-scroll');
+              scroll();
+            }
+          });
+        }
+      });
+      if (loadedCount === images.length && container.scrollWidth > container.clientWidth) {
+        scroll();
+      }
+    }
+  }, 300);
 }
 
 // Render project items - horizontal scroll gallery with varying sizes
@@ -851,17 +900,18 @@ function initServicesGallery() {
   }
   servicesContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
   
-    // Force all service items visible
+  // Force all service items visible
   setTimeout(() => {
     const serviceItems = document.querySelectorAll('.service-item');
     console.log('Service items found:', serviceItems.length);
     serviceItems.forEach(item => {
       item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important;';
     });
-  }, 100);
-  
-  // Initialize auto-scroll
-  initAutoScroll(servicesContainer);
+    
+    // Initialize auto-scroll after images are rendered
+    console.log('Starting auto-scroll for services container');
+    initAutoScroll(servicesContainer);
+  }, 200);
 }
 
 // Set services section height based on image height + padding
