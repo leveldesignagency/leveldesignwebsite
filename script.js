@@ -871,7 +871,7 @@ function renderServicesImages(container) {
   });
 }
 
-// Initialize services gallery - EXACT COPY OF initProjectsSection
+// Initialize services gallery - WAIT FOR IMAGES TO LOAD BEFORE AUTO-SCROLL
 function initServicesGallery() {
   const servicesContainer = document.querySelector('.services-container');
   const servicesGallery = document.querySelector('#services-gallery');
@@ -895,10 +895,52 @@ function initServicesGallery() {
     serviceItems.forEach(item => {
       item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important;';
     });
+    
+    // Wait for all images to load before starting auto-scroll
+    const images = servicesContainer.querySelectorAll('img');
+    let loadedCount = 0;
+    const totalImages = images.length;
+    
+    if (totalImages === 0) {
+      // No images yet, retry
+      setTimeout(() => initServicesGallery(), 200);
+      return;
+    }
+    
+    function checkAndStartScroll() {
+      if (loadedCount === totalImages) {
+        // All images loaded, wait a bit more for layout, then start scroll
+        setTimeout(() => {
+          if (servicesContainer.scrollWidth > servicesContainer.clientWidth) {
+            initAutoScroll(servicesContainer);
+          } else {
+            // Container not wide enough yet, retry
+            setTimeout(() => {
+              if (servicesContainer.scrollWidth > servicesContainer.clientWidth) {
+                initAutoScroll(servicesContainer);
+              }
+            }, 500);
+          }
+        }, 100);
+      }
+    }
+    
+    images.forEach(img => {
+      if (img.complete && img.naturalWidth > 0) {
+        loadedCount++;
+        checkAndStartScroll();
+      } else {
+        img.addEventListener('load', () => {
+          loadedCount++;
+          checkAndStartScroll();
+        }, { once: true });
+        img.addEventListener('error', () => {
+          loadedCount++;
+          checkAndStartScroll();
+        }, { once: true });
+      }
+    });
   }, 100);
-  
-  // Initialize auto-scroll - USE SAME FUNCTION AS PROJECTS
-  initAutoScroll(servicesContainer);
 }
 
 // Initialize services gallery when DOM is loaded
