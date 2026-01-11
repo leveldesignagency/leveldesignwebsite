@@ -697,8 +697,10 @@ function initProjectsSection() {
     });
   }, 100);
   
-  // Initialize auto-scroll
-  initAutoScroll(projectsContainer);
+  // Initialize auto-scroll after a short delay to ensure DOM is ready
+  setTimeout(() => {
+    initAutoScroll(projectsContainer);
+  }, 200);
 }
 
 // Auto-scroll function - slow continuous scrolling
@@ -728,7 +730,9 @@ function initAutoScroll(container) {
   let animationFrame;
   
   function scroll() {
-    if (!container || !isScrolling) return;
+    if (!container || !isScrolling) {
+      return;
+    }
     
     const maxScroll = container.scrollWidth - container.clientWidth;
     
@@ -736,7 +740,7 @@ function initAutoScroll(container) {
       // Wait and retry if no overflow yet
       setTimeout(() => {
         if (container && container.scrollWidth > container.clientWidth) {
-          animationFrame = requestAnimationFrame(scroll);
+          scroll();
         }
       }, 200);
       return;
@@ -746,7 +750,6 @@ function initAutoScroll(container) {
     if (container.scrollLeft >= maxScroll - 1) {
       container.scrollLeft = 0;
     } else {
-      // Use requestAnimationFrame for smooth scrolling
       container.scrollLeft += scrollSpeed;
     }
     
@@ -836,31 +839,40 @@ function renderServicesImages(container) {
 // Simple specialities slideshow - horizontal slide animation
 function initServicesGallery() {
   const servicesContainer = document.querySelector('.services-container');
-  if (!servicesContainer) return;
+  if (!servicesContainer) {
+    setTimeout(initServicesGallery, 100);
+    return;
+  }
   
   // Render images
   renderServicesImages(servicesContainer);
   
-  const items = servicesContainer.querySelectorAll('.service-item');
-  if (items.length === 0) return;
-  
-  let currentIndex = 0;
-  
-  // Slide horizontally to show the current image
-  function showSlide(index) {
-    const translateX = -(index * 100);
-    servicesContainer.style.transform = `translateX(${translateX}%)`;
-  }
-  
-  // Auto-advance every 3 seconds
-  function nextSlide() {
-    currentIndex = (currentIndex + 1) % items.length;
-    showSlide(currentIndex);
-  }
-  
-  // Start slideshow
-  showSlide(0);
-  setInterval(nextSlide, 3000);
+  // Wait for items to be rendered
+  setTimeout(() => {
+    const items = servicesContainer.querySelectorAll('.service-item');
+    if (items.length === 0) {
+      setTimeout(initServicesGallery, 200);
+      return;
+    }
+    
+    let currentIndex = 0;
+    
+    // Slide horizontally to show the current image
+    function showSlide(index) {
+      const translateX = -(index * 100);
+      servicesContainer.style.transform = `translateX(${translateX}%)`;
+    }
+    
+    // Auto-advance every 3 seconds
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % items.length;
+      showSlide(currentIndex);
+    }
+    
+    // Start slideshow
+    showSlide(0);
+    setInterval(nextSlide, 3000);
+  }, 100);
 }
 
 // Initialize services gallery when DOM is loaded
