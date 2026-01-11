@@ -806,63 +806,8 @@ function initAutoScroll(container) {
     scroll();
   });
   
-  // Wait for images to load and container to be ready
-  let retryCount = 0;
-  const maxRetries = 10;
-  
-  function checkAndStartScroll() {
-    if (retryCount >= maxRetries) {
-      return; // Stop retrying after max attempts
-    }
-    
-    const maxScroll = container.scrollWidth - container.clientWidth;
-    
-    if (maxScroll > 0) {
-      scroll();
-    } else {
-      retryCount++;
-      // Try again after images load
-      const images = container.querySelectorAll('img');
-      if (images.length === 0) {
-        if (retryCount < maxRetries) {
-          setTimeout(checkAndStartScroll, 200);
-        }
-        return;
-      }
-      
-      let loadedCount = 0;
-      let allLoaded = false;
-      
-      images.forEach(img => {
-        if (img.complete && img.naturalWidth > 0) {
-          loadedCount++;
-        } else {
-          img.addEventListener('load', () => {
-            loadedCount++;
-            if (loadedCount === images.length && !allLoaded) {
-              allLoaded = true;
-              if (retryCount < maxRetries) {
-                setTimeout(checkAndStartScroll, 100);
-              }
-            }
-          }, { once: true });
-        }
-      });
-      
-      if (loadedCount === images.length && !allLoaded) {
-        allLoaded = true;
-        if (retryCount < maxRetries) {
-          setTimeout(checkAndStartScroll, 100);
-        }
-      } else if (!allLoaded && retryCount < maxRetries) {
-        // Fallback: try again after a delay
-        setTimeout(checkAndStartScroll, 500);
-      }
-    }
-  }
-  
-  // Start checking after a short delay
-  setTimeout(checkAndStartScroll, 300);
+  // Start scrolling immediately
+  scroll();
 }
 
 // Render project items - horizontal scroll gallery with varying sizes
@@ -917,8 +862,6 @@ function initServicesGallery() {
     return;
   }
   
-  console.log('Initializing services gallery, images count:', servicesImages.length);
-  
   // Render services images
   renderServicesImages(servicesContainer);
   
@@ -931,15 +874,13 @@ function initServicesGallery() {
   // Force all service items visible
   setTimeout(() => {
     const serviceItems = document.querySelectorAll('.service-item');
-    console.log('Service items found:', serviceItems.length);
     serviceItems.forEach(item => {
       item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important;';
     });
-    
-    // Initialize auto-scroll after items are visible - match projects exactly
-    console.log('Starting auto-scroll for services container');
-    initAutoScroll(servicesContainer);
   }, 100);
+  
+  // Initialize auto-scroll immediately like projects
+  initAutoScroll(servicesContainer);
 }
 
 // Set services section height based on image height + padding

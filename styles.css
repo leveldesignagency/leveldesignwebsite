@@ -640,7 +640,7 @@ section#services .container .grid.services-grid {
     transform: translateX(0); 
   }
   100% { 
-    transform: translateX(calc(-50% - 30px)); /* Account for half the gap to ensure seamless loop */
+    transform: translateX(-50%); 
   }
 }
 
