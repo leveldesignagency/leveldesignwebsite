@@ -910,43 +910,56 @@ function initServicesGallery() {
       return;
     }
     
+    let scrollStarted = false;
+    
     function checkAndStartScroll() {
-      if (loadedCount === totalImages) {
-        console.log('Services: All images loaded, checking scrollability...');
-        console.log('Services container scrollWidth:', servicesContainer.scrollWidth);
-        console.log('Services container clientWidth:', servicesContainer.clientWidth);
+      // Start scroll if we have at least 3 images loaded, or all images loaded
+      if ((loadedCount >= 3 || loadedCount === totalImages) && !scrollStarted) {
+        scrollStarted = true;
+        console.log('Services: Starting scroll check (loaded:', loadedCount, 'of', totalImages, ')');
         
-        // All images loaded, wait a bit more for layout, then start scroll
+        // Force layout recalculation
+        void servicesContainer.offsetHeight;
+        
+        // Wait for layout, then check scrollability
         setTimeout(() => {
+          // Force another layout recalculation
+          void servicesContainer.scrollWidth;
+          
           const scrollWidth = servicesContainer.scrollWidth;
           const clientWidth = servicesContainer.clientWidth;
           
-          console.log('Services: After layout - scrollWidth:', scrollWidth, 'clientWidth:', clientWidth);
+          console.log('Services: scrollWidth:', scrollWidth, 'clientWidth:', clientWidth);
+          
+          // Check each service item's actual width
+          const serviceItems = servicesContainer.querySelectorAll('.service-item');
+          let totalWidth = 0;
+          serviceItems.forEach((item, idx) => {
+            const itemWidth = item.offsetWidth;
+            totalWidth += itemWidth;
+            console.log('Services: Item', idx + 1, 'width:', itemWidth);
+          });
+          console.log('Services: Total items width:', totalWidth, 'gap:', 30 * (serviceItems.length - 1));
           
           if (scrollWidth > clientWidth) {
             console.log('Services: Starting auto-scroll');
             initAutoScroll(servicesContainer);
           } else {
-            // Container not wide enough yet, retry with longer delay
-            console.log('Services: Container not wide enough, retrying...');
-            setTimeout(() => {
-              const retryScrollWidth = servicesContainer.scrollWidth;
-              const retryClientWidth = servicesContainer.clientWidth;
-              console.log('Services: Retry - scrollWidth:', retryScrollWidth, 'clientWidth:', retryClientWidth);
-              
-              if (retryScrollWidth > retryClientWidth) {
-                console.log('Services: Starting auto-scroll on retry');
-                initAutoScroll(servicesContainer);
-              } else {
-                console.log('Services: Still not scrollable, forcing scroll anyway');
-                // Force it anyway - might be a CSS issue
-                initAutoScroll(servicesContainer);
-              }
-            }, 1000);
+            // Force start anyway - images are wide enough
+            console.log('Services: Forcing auto-scroll start (images are wide)');
+            initAutoScroll(servicesContainer);
           }
-        }, 300);
+        }, 500);
       }
     }
+    
+    // Also start scroll after a timeout even if images haven't all loaded
+    setTimeout(() => {
+      if (!scrollStarted && loadedCount >= 1) {
+        console.log('Services: Timeout reached, starting scroll anyway');
+        checkAndStartScroll();
+      }
+    }, 2000);
     
     images.forEach((img, index) => {
       if (img.complete && img.naturalWidth > 0) {
