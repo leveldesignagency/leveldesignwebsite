@@ -877,10 +877,86 @@ function initServicesGallery() {
     serviceItems.forEach(item => {
       item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important;';
     });
+    
+    // Wait for images to load, then start auto-scroll
+    const images = servicesContainer.querySelectorAll('img');
+    let loadedCount = 0;
+    
+    if (images.length === 0) {
+      // No images yet, try again
+      setTimeout(() => initServicesGallery(), 200);
+      return;
+    }
+    
+    images.forEach(img => {
+      if (img.complete && img.naturalWidth > 0) {
+        loadedCount++;
+      } else {
+        img.addEventListener('load', () => {
+          loadedCount++;
+          if (loadedCount === images.length) {
+            initServicesAutoScroll(servicesContainer);
+          }
+        }, { once: true });
+        img.addEventListener('error', () => {
+          loadedCount++;
+          if (loadedCount === images.length) {
+            initServicesAutoScroll(servicesContainer);
+          }
+        }, { once: true });
+      }
+    });
+    
+    if (loadedCount === images.length) {
+      initServicesAutoScroll(servicesContainer);
+    }
   }, 100);
+}
+
+// Dedicated auto-scroll for services - exactly like projects
+function initServicesAutoScroll(container) {
+  if (!container) return;
   
-  // Initialize auto-scroll EXACTLY like projects - no delay, no conditions
-  initAutoScroll(servicesContainer);
+  if (container.dataset.autoScrollInitialized === 'true') {
+    return;
+  }
+  
+  container.dataset.autoScrollInitialized = 'true';
+  
+  let scrollSpeed = 1.5;
+  let isScrolling = true;
+  let animationFrame;
+  
+  function scroll() {
+    if (!container) return;
+    
+    if (isScrolling) {
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      
+      if (maxScroll > 0) {
+        if (container.scrollLeft >= maxScroll - 1) {
+          container.scrollLeft = 0;
+        } else {
+          container.scrollLeft += scrollSpeed;
+        }
+        animationFrame = requestAnimationFrame(scroll);
+      }
+    }
+  }
+  
+  container.addEventListener('mouseenter', () => {
+    isScrolling = false;
+    if (animationFrame) {
+      cancelAnimationFrame(animationFrame);
+    }
+  });
+  
+  container.addEventListener('mouseleave', () => {
+    isScrolling = true;
+    scroll();
+  });
+  
+  scroll();
 }
 
 // Set services section height based on image height + padding
