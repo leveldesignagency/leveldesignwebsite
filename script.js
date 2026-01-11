@@ -583,7 +583,6 @@ const projectFolders = {
     'public/Projects/graphic design/Brochure_Final.png',
     'public/Projects/graphic design/COFFEE WEEK.png',
     'public/Projects/graphic design/Coffee_Dynamic2_edited.jpg',
-    'public/Projects/graphic design/COMPANY OVERVIEW 20% .jpg',
     'public/Projects/graphic design/Event_Posters_23_Beer Pong.png',
     'public/Projects/graphic design/Event_Posters_23_Beer Tasting.png',
     'public/Projects/graphic design/Event_Posters_23_Comedy Night.png',
