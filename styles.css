@@ -597,7 +597,6 @@ section#services .container .grid.services-grid {
   height: 100%;
   white-space: nowrap;
   animation: marqueeRight 80s linear infinite;
-  /* Removed will-change for better performance */
   width: max-content;
   gap: 60px !important; /* Consistent gap between all logos */
 }
@@ -641,7 +640,7 @@ section#services .container .grid.services-grid {
     transform: translateX(0); 
   }
   100% { 
-    transform: translateX(-50%); /* Exactly half - seamless loop */
+    transform: translateX(calc(-50% - 30px)); /* Account for half the gap to ensure seamless loop */
   }
 }
 
@@ -719,9 +718,8 @@ section#services .container .grid.services-grid {
   height: 100% !important;
 }
 
-/* ITD logo - keep original colors (no black filter) and make smaller */
+/* ITD logo - keep original colors (no filters) and make smaller */
 .client-logo-color {
-  filter: none !important; /* Keep original colors */
   width: 300px !important; /* Smaller container */
   height: 150px !important;
   margin: 0 !important; /* Remove margins to rely on gap */
@@ -731,15 +729,24 @@ section#services .container .grid.services-grid {
 }
 
 .client-logo-color img {
-  filter: none !important; /* Keep original colors */
+  filter: none !important; /* Keep original colors - NO filter in light or dark mode */
   width: 100% !important;
   height: 100% !important;
   object-fit: contain;
   transition: all 0.3s ease;
 }
 
+/* ITD logo hover - slight red tint */
 .client-logo-color:hover img {
   filter: brightness(1.2) saturate(1.5) hue-rotate(-10deg) !important; /* Slight red tint on hover while keeping original colors */
+}
+
+/* Dark mode - ITD logo stays original colors */
+.dark-mode .client-logo-color img {
+  filter: none !important; /* Keep original colors in dark mode too */
+}
+.dark-mode .client-logo-color:hover img {
+  filter: brightness(1.2) saturate(1.5) hue-rotate(-10deg) !important; /* Same hover effect in dark mode */
 }
 
 /* RESPONSIVE DESIGN */

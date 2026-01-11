@@ -938,10 +938,11 @@ function initServicesGallery() {
     serviceItems.forEach(item => {
       item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important;';
     });
+    
+    // Initialize auto-scroll after items are visible - match projects exactly
+    console.log('Starting auto-scroll for services container');
+    initAutoScroll(servicesContainer);
   }, 100);
-  
-  // Initialize auto-scroll immediately like projects section
-  initAutoScroll(servicesContainer);
 }
 
 // Set services section height based on image height + padding
