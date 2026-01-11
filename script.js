@@ -925,28 +925,25 @@ const servicesImages = [
   'public/Projects/services/LEVEL _SERVICES-06.png'
 ];
 
-// Render services images - DUPLICATE FOR SEAMLESS LOOP LIKE MARQUEE
+// Render services images - SLIDESHOW STYLE (one image at a time)
 function renderServicesImages(container) {
-  // Render images twice for seamless loop
-  for (let loop = 0; loop < 2; loop++) {
-    servicesImages.forEach((imagePath, index) => {
-      const serviceItem = document.createElement('div');
-      serviceItem.classList.add('service-item');
-      serviceItem.dataset.id = `service-${loop}-${index + 1}`;
-      serviceItem.dataset.index = index;
-      
-      const filename = imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
-      const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Service ${index + 1} - Credit: LEVEL DESIGN AGENCY LTD`;
-      
-      const imageHTML = `<div class="service-image"><img src="${imagePath}" alt="${altText}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`;
-      
-      serviceItem.innerHTML = imageHTML;
-      container.appendChild(serviceItem);
-    });
-  }
+  servicesImages.forEach((imagePath, index) => {
+    const serviceItem = document.createElement('div');
+    serviceItem.classList.add('service-item');
+    serviceItem.dataset.id = `service-${index + 1}`;
+    serviceItem.dataset.index = index;
+    
+    const filename = imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+    const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Service ${index + 1} - Credit: LEVEL DESIGN AGENCY LTD`;
+    
+    const imageHTML = `<div class="service-image"><img src="${imagePath}" alt="${altText}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`;
+    
+    serviceItem.innerHTML = imageHTML;
+    container.appendChild(serviceItem);
+  });
 }
 
-// Initialize services gallery - WAIT FOR IMAGES TO LOAD BEFORE AUTO-SCROLL
+// Initialize services gallery - SLIDESHOW STYLE
 function initServicesGallery() {
   const servicesContainer = document.querySelector('.services-container');
   const servicesGallery = document.querySelector('#services-gallery');
@@ -965,102 +962,68 @@ function initServicesGallery() {
   }
   servicesContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
   
-  // Force all service items visible
-  setTimeout(() => {
-    const serviceItems = document.querySelectorAll('.service-item');
-    serviceItems.forEach(item => {
-      item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: flex !important;';
-    });
-    
-    // Wait for all images to load before starting auto-scroll
-    const images = servicesContainer.querySelectorAll('img');
-    let loadedCount = 0;
-    const totalImages = images.length;
-    
-    console.log('Services: Found', totalImages, 'images');
-    
-    if (totalImages === 0) {
-      // No images yet, retry
-      setTimeout(() => initServicesGallery(), 200);
-      return;
-    }
-    
-    let scrollStarted = false;
-    
-    function checkAndStartScroll() {
-      // Start scroll if we have at least 3 images loaded, or all images loaded
-      if ((loadedCount >= 3 || loadedCount === totalImages) && !scrollStarted) {
-        scrollStarted = true;
-        console.log('Services: Starting scroll check (loaded:', loadedCount, 'of', totalImages, ')');
+  // Wait for images to load, then start slideshow
+  const images = servicesContainer.querySelectorAll('img');
+  let loadedCount = 0;
+  const totalImages = images.length;
+  let currentIndex = 0;
+  
+  if (totalImages === 0) {
+    setTimeout(() => initServicesGallery(), 200);
+    return;
+  }
+  
+  function checkAndStartSlideshow() {
+    if (loadedCount === totalImages) {
+      // All images loaded, start slideshow
+      console.log('Services: All images loaded, starting slideshow');
+      
+      // Hide scrollbar
+      servicesContainer.style.scrollbarWidth = 'none';
+      servicesContainer.style.msOverflowStyle = 'none';
+      servicesContainer.style.webkitScrollbar = 'none';
+      
+      // Start slideshow
+      function showSlide(index) {
+        const serviceItems = servicesContainer.querySelectorAll('.service-item');
+        if (serviceItems.length === 0) return;
         
-        // Force layout recalculation
-        void servicesContainer.offsetHeight;
-        
-        // Wait for layout, then check scrollability
-        setTimeout(() => {
-          // Force another layout recalculation
-          void servicesContainer.scrollWidth;
-          
-          const scrollWidth = servicesContainer.scrollWidth;
-          const clientWidth = servicesContainer.clientWidth;
-          
-          console.log('Services: scrollWidth:', scrollWidth, 'clientWidth:', clientWidth);
-          
-          // Check each service item's actual width
-          const serviceItems = servicesContainer.querySelectorAll('.service-item');
-          let totalWidth = 0;
-          serviceItems.forEach((item, idx) => {
-            const itemWidth = item.offsetWidth;
-            totalWidth += itemWidth;
-            console.log('Services: Item', idx + 1, 'width:', itemWidth);
-          });
-          console.log('Services: Total items width:', totalWidth, 'gap:', 30 * (serviceItems.length - 1));
-          
-          // Force container to be wider than viewport by removing any width constraints
-          servicesContainer.style.minWidth = '0';
-          servicesContainer.style.width = 'max-content';
-          
-          // Recalculate after forcing width
-          setTimeout(() => {
-            const newScrollWidth = servicesContainer.scrollWidth;
-            const newClientWidth = servicesContainer.clientWidth;
-            console.log('Services: After width fix - scrollWidth:', newScrollWidth, 'clientWidth:', newClientWidth);
-            
-            // Always start scroll
-            console.log('Services: Starting auto-scroll');
-            initAutoScroll(servicesContainer);
-          }, 100);
-        }, 500);
+        // Scroll to the current slide
+        const targetItem = serviceItems[index];
+        if (targetItem) {
+          targetItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        }
       }
+      
+      // Auto-advance every 3 seconds
+      function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalImages;
+        showSlide(currentIndex);
+      }
+      
+      // Show first slide
+      showSlide(0);
+      
+      // Start auto-advance
+      setInterval(nextSlide, 3000);
     }
-    
-    // Also start scroll after a timeout even if images haven't all loaded
-    setTimeout(() => {
-      if (!scrollStarted && loadedCount >= 1) {
-        console.log('Services: Timeout reached, starting scroll anyway');
-        checkAndStartScroll();
-      }
-    }, 2000);
-    
-    images.forEach((img, index) => {
-      if (img.complete && img.naturalWidth > 0) {
-        console.log('Services: Image', index + 1, 'already loaded, size:', img.naturalWidth, 'x', img.naturalHeight);
+  }
+  
+  images.forEach((img, index) => {
+    if (img.complete && img.naturalWidth > 0) {
+      loadedCount++;
+      checkAndStartSlideshow();
+    } else {
+      img.addEventListener('load', () => {
         loadedCount++;
-        checkAndStartScroll();
-      } else {
-        img.addEventListener('load', () => {
-          console.log('Services: Image', index + 1, 'loaded, size:', img.naturalWidth, 'x', img.naturalHeight);
-          loadedCount++;
-          checkAndStartScroll();
-        }, { once: true });
-        img.addEventListener('error', () => {
-          console.log('Services: Image', index + 1, 'failed to load');
-          loadedCount++;
-          checkAndStartScroll();
-        }, { once: true });
-      }
-    });
-  }, 100);
+        checkAndStartSlideshow();
+      }, { once: true });
+      img.addEventListener('error', () => {
+        loadedCount++;
+        checkAndStartSlideshow();
+      }, { once: true });
+    }
+  });
 }
 
 // Initialize services gallery when DOM is loaded
