@@ -2379,33 +2379,6 @@ textarea {
     display: none; /* Chrome/Safari */
   }
 
-  /* Services Gallery Section - Same styling as Projects */
-  #services-title.services-title-section {
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0;
-    margin: 0;
-    margin-bottom: 10px; /* 10px gap to images */
-    background: var(--bg);
-    border-top: 1px solid #000000; /* Top border full width */
-    border-bottom: 1px solid #000000; /* Bottom border full width */
-  }
-  
-  /* Dark mode - services title borders should be white */
-  .dark-mode #services-title.services-title-section {
-    border-top: 1px solid #ffffff;
-    border-bottom: 1px solid #ffffff;
-  }
-
-  #services-title.services-title-section h2 {
-    padding: 0 48px; /* Left padding only */
-    margin: 0;
-    font-family: "Bebas Neue", Impact, system-ui, sans-serif;
-    font-size: clamp(32px, 4vw, 56px);
-    color: var(--text);
-  }
 
   /* Services Gallery Section - Images only */
   #services-gallery.section {
