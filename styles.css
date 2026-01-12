@@ -342,7 +342,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   align-items: center; 
   gap: 18px; 
 }
-.nav-toggle { display: none; background: transparent; border: 0; cursor: pointer; padding: 8px; }
+.nav-toggle { display: none; background: transparent; border: 0; cursor: none !important; padding: 8px; }
 .nav-toggle .bar { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; border-radius: 0; }
 .nav-links { list-style: none; margin: 0; padding: 0; display: flex; gap: 26px; align-items: center; justify-content: center; }
 .nav a { 
@@ -2168,7 +2168,7 @@ textarea {
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  cursor: pointer;
+  cursor: none !important;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -2451,7 +2451,7 @@ textarea {
     width: auto !important;
     height: 100% !important; /* Full height of container (500px) */
     flex-shrink: 0;
-    cursor: pointer;
+    cursor: none !important;
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -2723,7 +2723,7 @@ footer nav {
   transition: color 0.3s ease;
   position: relative;
   display: inline-block;
-  cursor: pointer;
+  cursor: none !important;
   text-align: center;
   margin: 0 auto;
 }
