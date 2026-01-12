@@ -541,6 +541,7 @@ function showNextSlide() {
 const phrases = document.querySelectorAll('.headline .phrase');
 if (phrases.length === 3) {
   let currentIndex = 0;
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
   
   function showNextPhrase() {
     if (currentIndex < phrases.length) {
@@ -551,11 +552,24 @@ if (phrases.length === 3) {
       if (currentIndex < phrases.length) {
         setTimeout(showNextPhrase, 1000);
       } else {
-        // After all phrases are shown, start the cycling after 3 seconds
+        // After all phrases are shown, wait 3 seconds then fade out and start service cycling
         setTimeout(() => {
-          isInitialAnimation = false;
-          isCycling = true;
-          startServiceCycling();
+          // Fade out all phrases
+          phrases.forEach(p => {
+            p.classList.remove('show');
+            p.style.opacity = '0';
+            p.style.transition = 'opacity 1s ease-in-out';
+          });
+          
+          setTimeout(() => {
+            if (isMobile) {
+              startMobileServiceCycling();
+            } else {
+              isInitialAnimation = false;
+              isCycling = true;
+              startServiceCycling();
+            }
+          }, 1000);
         }, 3000);
       }
     }
