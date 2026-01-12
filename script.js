@@ -1282,62 +1282,84 @@ document.addEventListener('DOMContentLoaded', function() {
   const wheelDelay = 400; // 400ms delay between word changes (faster)
   const exitDelay = 0; // No delay for exiting (instant)
   
-  function handleWheel(e) {
+  // Check if we should lock scrolling - works for both wheel and programmatic scrolling
+  function shouldLockScroll() {
     const rect = aboutSection.getBoundingClientRect();
-    // Lock scrolling when section top reaches viewport top (anchor point)
-    // Section should lock when it first reaches the top
-    const isAtAnchorPoint = rect.top <= 0 && rect.bottom > 0;
-    const isInStickyArea = rect.top <= 0 && rect.bottom > window.innerHeight;
+    // Lock when section top reaches or passes viewport top AND section is still visible
+    return rect.top <= 0 && rect.bottom > window.innerHeight;
+  }
+  
+  function handleWheel(e) {
+    if (!shouldLockScroll()) {
+      return; // Not in lock zone, allow normal scrolling
+    }
     
-    // Lock when section reaches anchor point (top of viewport)
-    if (isAtAnchorPoint && isInStickyArea) {
-      const now = Date.now();
-      const isAtFirstWord = currentWordIndex === 0;
-      const isAtLastWord = currentWordIndex === words.length - 1;
-      const isScrollingUp = e.deltaY < 0;
-      const isScrollingDown = e.deltaY > 0;
-      const isTryingToExit = (isAtFirstWord && isScrollingUp) || (isAtLastWord && isScrollingDown);
+    const now = Date.now();
+    const isAtFirstWord = currentWordIndex === 0;
+    const isAtLastWord = currentWordIndex === words.length - 1;
+    const isScrollingUp = e.deltaY < 0;
+    const isScrollingDown = e.deltaY > 0;
+    const isTryingToExit = (isAtFirstWord && isScrollingUp) || (isAtLastWord && isScrollingDown);
+    
+    // If trying to exit, allow normal scroll immediately
+    if (isTryingToExit) {
+      return; // Don't prevent default, allow normal scroll
+    }
+    
+    const requiredDelay = isTryingToExit ? exitDelay : wheelDelay;
+    
+    if (now - lastWheelTime > requiredDelay) {
+      lastWheelTime = now;
       
-      const requiredDelay = isTryingToExit ? exitDelay : wheelDelay;
-      
-      if (now - lastWheelTime > requiredDelay) {
-        lastWheelTime = now;
-        
-        if (e.deltaY > 0) {
-          // Scrolling down - next word
-          if (currentWordIndex === words.length - 1) {
-            // At last word (Storytellers) and scrolling down - resume normal scrolling
-            return; // Don't prevent default, allow normal scroll
-          } else {
-            // Not at last word - go to next word
-            nextWord();
-          }
+      if (e.deltaY > 0) {
+        // Scrolling down - next word
+        if (currentWordIndex === words.length - 1) {
+          // At last word (Storytellers) and scrolling down - resume normal scrolling
+          return; // Don't prevent default, allow normal scroll
         } else {
-          // Scrolling up - previous word
-          if (currentWordIndex === 0) {
-            // At first word (LEVEL) and scrolling up - resume normal scrolling
-            return; // Don't prevent default, allow normal scroll
-          } else {
-            // Not at first word - go to previous word
-            prevWord();
-          }
+          // Not at last word - go to next word
+          nextWord();
+        }
+      } else {
+        // Scrolling up - previous word
+        if (currentWordIndex === 0) {
+          // At first word (LEVEL) and scrolling up - resume normal scrolling
+          return; // Don't prevent default, allow normal scroll
+        } else {
+          // Not at first word - go to previous word
+          prevWord();
         }
       }
       
-      // Only prevent default if we're handling the word change
-      // (variables already declared above)
-      if (!((isAtFirstWord && isScrollingUp) || (isAtLastWord && isScrollingDown))) {
-        e.preventDefault();
-      }
+      // Prevent default scroll to lock the page
+      e.preventDefault();
     }
   }
   
-  // Throttle wheel handler aggressively to prevent lag
+  // Handle programmatic scrolling (from smooth scroll, anchor links, etc.)
+  function handleScroll() {
+    if (!shouldLockScroll()) {
+      return; // Not in lock zone
+    }
+    
+    // If we're in the lock zone but scroll position changed programmatically,
+    // we need to maintain the lock by preventing further scroll
+    const rect = aboutSection.getBoundingClientRect();
+    if (rect.top < 0) {
+      // Section has scrolled past the top, lock it at the top
+      window.scrollTo({
+        top: aboutSection.offsetTop,
+        behavior: 'auto' // Instant, no smooth scroll
+      });
+    }
+  }
+  
+  // Throttle wheel handler to prevent lag
   let wheelThrottle = false;
   let lastWheelCall = 0;
   function throttledWheel(e) {
     const now = Date.now();
-    if (now - lastWheelCall < 50) return; // Only process every 50ms
+    if (now - lastWheelCall < 16) return; // Only process every ~16ms (60fps)
     
     if (wheelThrottle) return;
     wheelThrottle = true;
@@ -1348,8 +1370,22 @@ document.addEventListener('DOMContentLoaded', function() {
       wheelThrottle = false;
     });
   }
-  // Keep passive: false because we need preventDefault, but throttle heavily
+  
+  // Add scroll listener to handle programmatic scrolling
+  let scrollThrottle = false;
+  function throttledScroll() {
+    if (scrollThrottle) return;
+    scrollThrottle = true;
+    
+    requestAnimationFrame(() => {
+      handleScroll();
+      scrollThrottle = false;
+    });
+  }
+  
+  // Keep passive: false because we need preventDefault
   window.addEventListener('wheel', throttledWheel, { passive: false });
+  window.addEventListener('scroll', throttledScroll, { passive: true });
 });
 
 // Pointer tracking for work cards - DISABLED
