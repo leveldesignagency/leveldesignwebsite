@@ -1350,6 +1350,12 @@ document.addEventListener('DOMContentLoaded', function() {
       return; // Not in lock zone
     }
     
+    // Don't lock if we're at the last word (Storytellers) - allow scrolling to continue
+    const isAtLastWord = currentWordIndex === words.length - 1;
+    if (isAtLastWord) {
+      return; // Allow normal scrolling past the section
+    }
+    
     // If we're in the lock zone but scroll position changed programmatically,
     // we need to maintain the lock by preventing further scroll
     const rect = aboutSection.getBoundingClientRect();
