@@ -65,6 +65,21 @@ html, body {
   }
 }
 
+/* Hide mobile version on desktop */
+.mobile-only {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+  
+  .mobile-only {
+    display: block !important;
+  }
+}
+
 /* Custom Cursor - Design Company Style (Crosshair/Precision Tool) */
 html {
   cursor: none !important;
@@ -80,6 +95,13 @@ body {
 
 a, button, input, textarea, select, .nav a, .card, .work-card, .back-to-top {
   cursor: none !important;
+}
+
+/* Show cursor on mobile */
+@media (max-width: 768px) {
+  html, body, * {
+    cursor: auto !important;
+  }
 }
 
 .custom-cursor {
