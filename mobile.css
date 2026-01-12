@@ -644,6 +644,29 @@ html, body {
   color: var(--bg);
 }
 
+/* Remove white box overlay on contact section */
+#mobile-contact {
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
+  overflow: visible;
+}
+
+#mobile-contact::before,
+#mobile-contact::after {
+  display: none !important;
+  content: none !important;
+}
+
+.mobile-contact-form {
+  background: transparent !important;
+}
+
+.mobile-contact-form * {
+  position: relative;
+  z-index: 1;
+}
+
 /* Footer */
 .mobile-footer {
   padding: 40px 20px;
