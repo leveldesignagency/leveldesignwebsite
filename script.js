@@ -1372,12 +1372,12 @@ document.addEventListener('DOMContentLoaded', function() {
   
   function handleWheel(e) {
     const rect = aboutSection.getBoundingClientRect();
-    const isInView = rect.top <= 0 && rect.bottom > 0;
-    
-    // Lock scrolling when section reaches top - control the entire sticky area
+    // Lock scrolling when section top reaches viewport top (anchor point)
+    const isAtAnchorPoint = rect.top <= 0 && rect.top >= -10; // Allow small tolerance
     const isInStickyArea = rect.top <= 0 && rect.bottom > window.innerHeight;
     
-    if (isInView && isInStickyArea) {
+    // Lock when at anchor point and in sticky area
+    if (isAtAnchorPoint && isInStickyArea) {
       const now = Date.now();
       const isAtFirstWord = currentWordIndex === 0;
       const isAtLastWord = currentWordIndex === words.length - 1;

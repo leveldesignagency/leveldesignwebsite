@@ -1470,7 +1470,7 @@ section#services .container .grid.services-grid {
   transform: translate3d(0, 0, 0.01px);
   display: block;
   border: 1px solid rgb(255 255 255 / 60%) !important; /* More visible border on all sides */
-  border-bottom: 2px solid rgb(255 255 255 / 80%) !important; /* Very visible white bottom border */
+  border-bottom: 1px solid rgb(255 255 255 / 80%) !important; /* Thin white bottom border */
   background: var(--bg); /* Remove white overlay gradient */
   background-repeat: no-repeat;
   background-clip: padding-box; /* Ensure border is not covered by background */
@@ -1579,7 +1579,7 @@ body:not(.dark-mode) .work-card {
     conic-gradient( from var(--pointer-°) at center, transparent 5%, black 15%, black 85%, transparent 95% );
   mask-composite: subtract,add,add,add,add,add;
   opacity: calc((var(--pointer-d) - var(--color-sens)) / (100 - var(--color-sens)));
-  mix-blend-mode: soft-light;
+  mix-blend-mode: normal; /* Remove soft-light blend mode that causes white overlay */
 }
 
 body:not(.dark-mode) .work-card::after {
@@ -2722,13 +2722,14 @@ textarea {
 .site-footer { 
   padding: 60px 0 40px; 
   border-top: 1px solid #000000; 
-  background: transparent;
+  background: var(--bg);
   margin-top: 80px;
 }
 
-/* Dark mode footer border - white instead of black */
+/* Dark mode footer - black background */
 .dark-mode .site-footer {
   border-top: 1px solid #ffffff;
+  background: #000000;
 }
 .footer-inner { 
   display: grid; 
