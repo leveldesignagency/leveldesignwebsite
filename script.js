@@ -1374,9 +1374,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const rect = aboutSection.getBoundingClientRect();
     const isInView = rect.top <= 0 && rect.bottom > 0;
     
-    // Only control scrolling if we're actually in the sticky part of the section
-    // (not just passing through the tall section)
-    const isInStickyArea = rect.top <= 0 && rect.top > -window.innerHeight;
+    // Lock scrolling when section reaches top - control the entire sticky area
+    const isInStickyArea = rect.top <= 0 && rect.bottom > window.innerHeight;
     
     if (isInView && isInStickyArea) {
       const now = Date.now();

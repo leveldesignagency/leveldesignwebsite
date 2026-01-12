@@ -607,7 +607,15 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 #process.section { background: var(--bg); }
 #about.section { background: var(--bg-alt); color: var(--text-alt); }
 #reviews.section { background: var(--bg); }
-#contact.section { background: var(--bg-alt); color: var(--text-alt); }
+#contact.section { 
+  background: var(--bg-alt); 
+  color: var(--text-alt); 
+}
+
+.dark-mode #contact.section {
+  background: #000000;
+  color: #ffffff;
+}
 #contact.section h2 {
   color: var(--text) !important;
 }
@@ -1463,12 +1471,12 @@ section#services .container .grid.services-grid {
   display: block;
   border: 1px solid rgb(255 255 255 / 60%) !important; /* More visible border on all sides */
   border-bottom: 2px solid rgb(255 255 255 / 80%) !important; /* Very visible white bottom border */
-  background: linear-gradient(8deg, var(--bg) 75%, color-mix(in hsl, var(--bg), white 2.5%) 75.5%);
+  background: var(--bg); /* Remove white overlay gradient */
   background-repeat: no-repeat;
   background-clip: padding-box; /* Ensure border is not covered by background */
   text-decoration: none !important;
   color: var(--text);
-  opacity: 0.4; /* Faded until hover */
+  opacity: 1; /* Full opacity always */
   overflow: visible !important;
   box-sizing: border-box;
   z-index: 1; /* Ensure border is above pseudo-elements */
@@ -1476,7 +1484,7 @@ section#services .container .grid.services-grid {
 }
 
 .work-card.animate-in {
-  opacity: 0.4; /* Keep faded until hover */
+  opacity: 1; /* Full opacity always */
 }
 
 .work-card:hover {
@@ -1833,7 +1841,11 @@ body:not(.dark-mode) .work-card .work-meta {
 /* Reviews Section */
 #reviews.section {
   padding: 80px 0;
-  background: transparent;
+  background: var(--bg);
+}
+
+.dark-mode #reviews.section {
+  background: #000000;
 }
 
 #reviews.section .container {
@@ -2285,7 +2297,7 @@ textarea {
     margin-bottom: 10px; /* 10px gap to content */
     background: var(--bg);
     border-top: 1px solid #000000; /* Top border full width */
-    border-bottom: 1px solid #000000; /* Bottom border full width */
+    border-bottom: 1px solid #000000; /* Bottom border full width - thin */
   }
   
   /* Dark mode - all title borders should be white */
@@ -2296,8 +2308,8 @@ textarea {
   .dark-mode #process-title.process-title-section,
   .dark-mode #reviews-title.reviews-title-section,
   .dark-mode #contact-title.contact-title-section {
-    border-top: 1px solid #ffffff;
-    border-bottom: 1px solid #ffffff;
+    border-top: 1px solid #ffffff; /* Thin border */
+    border-bottom: 1px solid #ffffff; /* Thin border */
   }
 
   #projects-title.projects-title-section h2,
