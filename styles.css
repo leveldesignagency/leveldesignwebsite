@@ -63,8 +63,14 @@ html, body {
     min-height: 100vh;
     overflow-y: auto !important;
     overflow-x: hidden !important;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+    position: relative !important;
+  }
+  
+  /* Ensure all sections allow scrolling */
+  .section {
+    overflow: visible !important;
   }
 }
 
@@ -2903,53 +2909,43 @@ footer nav {
   /* Hero Section - Mobile: Centered text as mask with background images */
   .hero {
     min-height: 100vh !important;
-    height: 100vh !important;
-    padding: 88px 0 0 0 !important;
+    height: auto !important;
+    padding: 88px 0 60px 0 !important;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
     position: relative !important;
-    overflow: hidden !important;
+    overflow: visible !important;
     background: var(--bg) !important;
   }
   
-  /* Hero background image container - full screen behind text */
-  .hero::before {
-    content: '';
+  /* Hero background image - positioned behind text for masking */
+  .hero-background-image {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-size: cover;
+    background-size: 100% auto;
     background-position: center;
     background-repeat: no-repeat;
     z-index: 0;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
+    opacity: 1;
+    pointer-events: none;
+    max-width: 100vw;
+    max-height: 100vh;
   }
   
   /* Light mode: use black image */
-  .hero::before {
+  .hero-background-image {
     background-image: url('public/branding_black.png');
   }
   
   /* Dark mode: use white image */
-  .dark-mode .hero::before {
+  .dark-mode .hero-background-image {
     background-image: url('public/branding_white.png');
-  }
-  
-  /* Show background when service is active - always show on mobile */
-  .hero.has-background::before,
-  .hero .hero-slide {
-    opacity: 1;
-  }
-  
-  /* Ensure background is always visible when services are cycling */
-  .hero::before {
-    opacity: 1 !important;
   }
   
   .hero .container {
@@ -3065,29 +3061,24 @@ footer nav {
     display: block;
     position: relative;
     z-index: 10;
-    /* Text acts as mask - reveal background image through text */
-    background: var(--text);
+    /* Text acts as mask - image shows through text */
+    background-size: 100% auto;
+    background-position: center;
+    background-repeat: no-repeat;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    mix-blend-mode: screen;
+    max-width: 100vw;
   }
   
-  /* Dark mode: use difference blend mode for better contrast */
-  .dark-mode .hero-slide .word {
-    background: #ffffff;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    mix-blend-mode: difference;
-  }
-  
+  /* Light mode: use black image as background */
   body:not(.dark-mode) .hero-slide .word {
-    background: #000000;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    mix-blend-mode: screen;
+    background-image: url('public/branding_black.png');
+  }
+  
+  /* Dark mode: use white image as background */
+  .dark-mode .hero-slide .word {
+    background-image: url('public/branding_white.png');
   }
   
   .hero-logo-fullscreen-img {

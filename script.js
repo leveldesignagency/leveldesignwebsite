@@ -360,32 +360,29 @@ function setupScrollBasedServices() {
     const heroSection = document.querySelector('.hero');
     if (!heroInner || !heroSection) return;
     
-    // Remove existing slide
+    // Remove existing slide with fade out
     const existingSlide = heroInner.querySelector('.hero-slide');
     if (existingSlide) {
-      existingSlide.classList.remove('active');
+      existingSlide.style.opacity = '0';
+      existingSlide.style.transition = 'opacity 0.5s ease-in-out';
       setTimeout(() => {
         if (existingSlide.parentNode) {
           existingSlide.parentNode.removeChild(existingSlide);
         }
-      }, 300);
+      }, 500);
     }
     
-    // Create and show new slide
+    // Create and show new slide with fade in
     const service = services[index];
     const newSlide = createServiceSlide(service);
+    newSlide.style.opacity = '0';
+    newSlide.style.transition = 'opacity 0.5s ease-in-out';
     heroInner.appendChild(newSlide);
     
-    // Mobile: Update background image based on service
-    // For now, only "Brand & Marketing" has images, so use branding images for all
-    // Dark mode = white image, Light mode = black image
-    if (isMobile) {
-      heroSection.classList.add('has-background');
-    }
-    
+    // Fade in new slide
     setTimeout(() => {
-      newSlide.classList.add('active');
-    }, 100);
+      newSlide.style.opacity = '1';
+    }, 50);
   }
   
   // Initial service
