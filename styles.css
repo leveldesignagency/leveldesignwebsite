@@ -58,7 +58,19 @@ html, body {
 }
 
 /* Custom Cursor - Design Company Style (Crosshair/Precision Tool) */
-html, body, * {
+html {
+  cursor: none !important;
+}
+
+body {
+  cursor: none !important;
+}
+
+* {
+  cursor: none !important;
+}
+
+a, button, input, textarea, select, .nav a, .card, .work-card, .back-to-top {
   cursor: none !important;
 }
 

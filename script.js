@@ -3,8 +3,25 @@ document.addEventListener('DOMContentLoaded', function() {
   const cursor = document.getElementById('custom-cursor');
   if (!cursor) return;
   
-  // Hide default cursor completely
-  document.body.style.cursor = 'none';
+  // Hide default cursor completely - apply to all elements
+  const hideCursor = () => {
+    document.documentElement.style.cursor = 'none';
+    document.body.style.cursor = 'none';
+    document.querySelectorAll('*').forEach(el => {
+      el.style.cursor = 'none';
+    });
+  };
+  hideCursor();
+  
+  // Re-apply on any new elements added
+  const observer = new MutationObserver(() => {
+    document.querySelectorAll('*').forEach(el => {
+      if (el.style.cursor !== 'none') {
+        el.style.cursor = 'none';
+      }
+    });
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
   
   // Immediate tracking - no easing for perfect sync
   document.addEventListener('mousemove', (e) => {
