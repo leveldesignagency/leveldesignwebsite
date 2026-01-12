@@ -239,23 +239,14 @@ function initDarkMode() {
   // Dark mode between 6 PM (18:00) and 6 AM (06:00)
   const isDarkMode = hour >= 18 || hour < 6;
   
-  // Apply to both desktop and mobile
-  const elements = [
-    document.body,
-    document.documentElement,
-    ...document.querySelectorAll('.mobile-only'),
-    ...document.querySelectorAll('#mobile-version')
-  ];
-  
-  elements.forEach(el => {
-    if (el) {
-      if (isDarkMode) {
-        el.classList.add('dark-mode');
-      } else {
-        el.classList.remove('dark-mode');
-      }
-    }
-  });
+  // Apply to body and html
+  if (isDarkMode) {
+    document.body.classList.add('dark-mode');
+    document.documentElement.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+    document.documentElement.classList.remove('dark-mode');
+  }
 }
 
 // Initialize dark mode on page load
@@ -1170,7 +1161,6 @@ function initServicesGallery() {
 // Initialize services gallery when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
   initServicesGallery();
-  initMobileSections();
 });
 
 // Initialize mobile-specific sections

@@ -62,21 +62,9 @@ html, body {
     height: auto !important;
     min-height: 100vh;
     overflow-y: auto !important;
-  }
-}
-
-/* Hide mobile version on desktop */
-.mobile-only {
-  display: none !important;
-}
-
-@media (max-width: 768px) {
-  .desktop-only {
-    display: none !important;
-  }
-  
-  .mobile-only {
-    display: block !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
   }
 }
 

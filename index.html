@@ -82,8 +82,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
-    <!-- Mobile CSS - Loaded separately for mobile devices -->
-    <link rel="stylesheet" href="mobile.css" media="(max-width: 768px)" />
     <!-- Swiper CSS for smooth scrolling -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="icon" type="image/png" href="favicon.png">
@@ -314,7 +312,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
 
     <!-- Desktop Version -->
-    <div id="desktop-version" class="desktop-only">
+    <div id="desktop-version">
     <header class="site-header">
         <div class="header-inner">
             <div class="logo" aria-label="LEVEL Logo">
@@ -968,9 +966,6 @@
     </main>
     </div>
     <!-- End Desktop Version -->
-
-    <!-- Mobile Version -->
-    <div id="mobile-version" class="mobile-only" style="display: none;">
         <header class="mobile-header">
             <div class="logo">
                 <img src="LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" />
@@ -1292,8 +1287,6 @@
         const percentEl = document.getElementById('loading-percent');
         if (!loader || !percentEl) return;
         
-        const isMobile = window.innerWidth <= 768;
-        
         let percent = 0;
         const targetPercent = 100;
         const duration = 2000; // 2 seconds total
@@ -1306,39 +1299,11 @@
             percent = targetPercent;
             percentEl.textContent = '100%';
             
-            // On mobile, show logo briefly at 100%
-            if (isMobile) {
-              setTimeout(() => {
-                percentEl.textContent = '';
-                percentEl.style.display = 'none';
-                const logo = document.createElement('img');
-                logo.src = 'LEVEL LOGO MAIN.svg';
-                logo.style.width = '120px';
-                logo.style.height = 'auto';
-                logo.style.filter = document.body.classList.contains('dark-mode') ? 'brightness(0) invert(1)' : 'brightness(0)';
-                logo.style.margin = '0 auto';
-                percentEl.parentElement.appendChild(logo);
-                
-                // Hide loading screen after logo is shown
-                setTimeout(() => {
-                  loader.style.opacity = '0';
-                  setTimeout(() => {
-                    loader.remove();
-                    // Show hero text after loading screen is removed
-                    const heroText = document.querySelector('.mobile-hero-main-text');
-                    if (heroText) {
-                      heroText.classList.add('show');
-                    }
-                  }, 500);
-                }, 1000);
-              }, 200);
-            } else {
-              // Desktop - hide immediately
-              setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => loader.remove(), 500);
-              }, 200);
-            }
+            // Hide loading screen when complete
+            setTimeout(() => {
+              loader.style.opacity = '0';
+              setTimeout(() => loader.remove(), 500);
+            }, 200);
             return;
           }
           
@@ -1354,102 +1319,15 @@
           if (loader && loader.parentNode) {
             percent = 100;
             percentEl.textContent = '100%';
-            if (isMobile) {
-              setTimeout(() => {
-                percentEl.textContent = '';
-                percentEl.style.display = 'none';
-                const logo = document.createElement('img');
-                logo.src = 'LEVEL LOGO MAIN.svg';
-                logo.style.width = '120px';
-                logo.style.height = 'auto';
-                logo.style.filter = document.body.classList.contains('dark-mode') ? 'brightness(0) invert(1)' : 'brightness(0)';
-                logo.style.margin = '0 auto';
-                percentEl.parentElement.appendChild(logo);
-                
-                setTimeout(() => {
-                  loader.style.opacity = '0';
-                  setTimeout(() => {
-                    loader.remove();
-                    const heroText = document.querySelector('.mobile-hero-main-text');
-                    if (heroText) {
-                      heroText.classList.add('show');
-                    }
-                  }, 500);
-                }, 1000);
-              }, 200);
-            } else {
-              setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => loader.remove(), 500);
-              }, 200);
-            }
+            setTimeout(() => {
+              loader.style.opacity = '0';
+              setTimeout(() => loader.remove(), 500);
+            }, 200);
           }
         });
       })();
     </script>
     <script src="script.js" defer></script>
-    <script>
-        // Mobile/Desktop Detection and Switching
-        (function() {
-            function isMobile() {
-                return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            }
-            
-            function switchVersion() {
-                const desktop = document.getElementById('desktop-version');
-                const mobile = document.getElementById('mobile-version');
-                
-                if (isMobile()) {
-                    if (desktop) desktop.style.display = 'none';
-                    if (mobile) mobile.style.display = 'block';
-                } else {
-                    if (desktop) desktop.style.display = 'block';
-                    if (mobile) mobile.style.display = 'none';
-                }
-            }
-            
-            // Switch on load
-            switchVersion();
-            
-            // Switch on resize
-            let resizeTimer;
-            window.addEventListener('resize', function() {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(switchVersion, 250);
-            });
-            
-            // Mobile menu toggle
-            const menuToggle = document.querySelector('.mobile-menu-toggle');
-            const mobileMenu = document.querySelector('.mobile-menu');
-            
-            if (menuToggle && mobileMenu) {
-                menuToggle.addEventListener('click', function() {
-                    menuToggle.classList.toggle('open');
-                    mobileMenu.classList.toggle('open');
-                });
-                
-                // Close menu when clicking a link
-                mobileMenu.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', function() {
-                        menuToggle.classList.remove('open');
-                        mobileMenu.classList.remove('open');
-                    });
-                });
-            }
-            
-            // Set year
-            const year = new Date().getFullYear();
-            const yearEl = document.getElementById('year');
-            const mobileYearEl = document.getElementById('mobile-year');
-            if (yearEl) yearEl.textContent = year;
-            if (mobileYearEl) mobileYearEl.textContent = year;
-            
-            // Load mobile specialities and projects (simplified versions)
-            if (isMobile()) {
-                // Specialities will be loaded by main script.js
-                // Projects will be loaded by main script.js
-            }
-        })();
     </script>
 </body>
 </html>
