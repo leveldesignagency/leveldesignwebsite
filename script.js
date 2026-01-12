@@ -1,3 +1,35 @@
+// Custom Cursor - Design Company Crosshair
+document.addEventListener('DOMContentLoaded', function() {
+  const cursor = document.getElementById('custom-cursor');
+  if (!cursor) return;
+  
+  let mouseX = 0;
+  let mouseY = 0;
+  let cursorX = 0;
+  let cursorY = 0;
+  
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+  
+  function animateCursor() {
+    cursorX += (mouseX - cursorX) * 0.1;
+    cursorY += (mouseY - cursorY) * 0.1;
+    cursor.style.left = cursorX + 'px';
+    cursor.style.top = cursorY + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  
+  // Add hover effect on interactive elements
+  const interactiveElements = document.querySelectorAll('a, button, .card, .work-card, .nav a, input, textarea, select');
+  interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  });
+});
+
 // Nav toggle
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.getElementById('nav-links');

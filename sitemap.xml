@@ -5,39 +5,63 @@
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
     <loc>https://www.leveldesignagency.com/</loc>
-    <lastmod>2025-01-10</lastmod>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.leveldesignagency.com/#services</loc>
-    <lastmod>2025-01-10</lastmod>
+    <loc>https://www.leveldesignagency.com/#services-title</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.leveldesignagency.com/#specialities-title</loc>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.leveldesignagency.com/#work</loc>
-    <lastmod>2025-01-10</lastmod>
+    <loc>https://www.leveldesignagency.com/#work-title</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.leveldesignagency.com/#projects-title</loc>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.leveldesignagency.com/#process</loc>
-    <lastmod>2025-01-10</lastmod>
+    <loc>https://www.leveldesignagency.com/#process-title</loc>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.leveldesignagency.com/#about</loc>
-    <lastmod>2025-01-10</lastmod>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.leveldesignagency.com/#contact</loc>
-    <lastmod>2025-01-10</lastmod>
+    <loc>https://www.leveldesignagency.com/#reviews-title</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.leveldesignagency.com/#contact-title</loc>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.leveldesignagency.com/#clients</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>
 

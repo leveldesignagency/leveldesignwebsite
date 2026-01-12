@@ -57,6 +57,62 @@ html, body {
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
+/* Custom Cursor - Design Company Style (Crosshair/Precision Tool) */
+* {
+  cursor: none !important;
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease-out;
+  mix-blend-mode: difference;
+}
+
+.custom-cursor::before,
+.custom-cursor::after {
+  content: '';
+  position: absolute;
+  background: var(--brand);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.custom-cursor::before {
+  width: 2px;
+  height: 20px;
+}
+
+.custom-cursor::after {
+  width: 20px;
+  height: 2px;
+}
+
+.custom-cursor.hover {
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+.custom-cursor.hover::before,
+.custom-cursor.hover::after {
+  background: var(--brand);
+  opacity: 0.8;
+}
+
+/* Show default cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  * {
+    cursor: auto !important;
+  }
+  .custom-cursor {
+    display: none !important;
+  }
+}
+
 body {
   background: var(--bg);
   color: var(--text);
