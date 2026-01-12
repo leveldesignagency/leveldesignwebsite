@@ -623,10 +623,14 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   color: var(--text) !important;
 }
 
-/* Work section and beyond should have transparent background for custom bg */
+/* Work section - fixed background, no color changes */
 #work.section {
-  padding: 60px 0 120px 0 !important; /* Increased bottom padding to prevent card cutoff */
-  background: transparent;
+  padding: 60px 0 120px 0 !important;
+  background: var(--bg) !important;
+}
+
+.dark-mode #work.section {
+  background: #000000 !important;
 }
 
 #about.section {
@@ -1453,193 +1457,49 @@ section#services .container .grid.services-grid {
 
 .work-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
 
-/* Work cards - clean implementation with red and white glow */
+/* Work cards - basic layout only, no effects */
 .work-card {
-  --glow-sens: 30;
-  --pads: 40px;
-  --color-sens: calc(var(--glow-sens) + 20);
-  --pointer-°: 45deg;
-  --pointer-d: 0;
-  --pointer-x: 50%;
-  --pointer-y: 50%;
-  
   position: relative;
   padding: 24px;
   border-radius: 0;
-  isolation: isolate;
-  transform: translate3d(0, 0, 0.01px);
   display: block;
-  border: 1px solid rgb(255 255 255 / 60%) !important; /* More visible border on all sides */
-  border-bottom: 1px solid rgb(255 255 255 / 80%) !important; /* Thin white bottom border */
-  background: var(--bg); /* Remove white overlay gradient */
-  background-repeat: no-repeat;
-  background-clip: padding-box; /* Ensure border is not covered by background */
+  border: 1px solid rgb(255 255 255 / 60%);
+  border-bottom: 1px solid rgb(255 255 255 / 80%);
+  background: var(--bg);
   text-decoration: none !important;
   color: var(--text);
-  opacity: 1; /* Full opacity always */
-  overflow: visible !important;
   box-sizing: border-box;
-  z-index: 1; /* Ensure border is above pseudo-elements */
-  transition: opacity 0.3s ease;
 }
 
-.work-card.animate-in {
-  opacity: 1; /* Full opacity always */
-}
-
-.work-card:hover {
-  opacity: 1 !important; /* Full opacity on hover - keep flash/glow effects */
-}
-
-.work-card:hover {
-  opacity: 1 !important; /* Full opacity on hover */
-}
-
-/* Remove ALL underlines from work-card links */
-a.work-card,
-.work-card,
-.work-card:link,
-.work-card:visited,
-.work-card:hover,
-.work-card:active,
-.work-card:focus {
-  text-decoration: none !important;
-  outline: none !important;
-  /* Keep the bottom border visible at all times */
-  border-bottom: 1px solid rgb(255 255 255 / 50%) !important;
-}
-
-/* Light mode - keep black */
-body:not(.dark-mode) .work-card {
-  background: #000000 !important;
+.dark-mode .work-card {
+  background: #000000;
   color: #ffffff;
 }
 
+body:not(.dark-mode) .work-card {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* Remove all hover effects */
+.work-card:hover {
+  /* No hover effects */
+}
+
+/* Remove all pseudo-elements and effects */
 .work-card::before,
-.work-card::after,
-.work-card > .glow {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 0;
-  transition: opacity 0.25s ease-out;
-  z-index: -1;
-  pointer-events: none;
-  /* Ensure pseudo-elements don't cover the border */
-  box-sizing: border-box;
-}
-
-.work-card:not(:hover):not(.animating)::before,
-.work-card:not(:hover):not(.animating)::after,
-.work-card:not(:hover):not(.animating) > .glow {
-  opacity: 0;
-  transition: opacity 0.75s ease-in-out;
-}
-
-/* Mesh gradient border - red and white only */
-.work-card::before {
-  border: 1px solid transparent;
-  background:
-    linear-gradient(var(--bg) 0 100%) padding-box,
-    linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box,
-    radial-gradient(at 80% 55%, hsla(0, 100%, 70%, 1) 0px, transparent 50%) border-box,
-    radial-gradient(at 69% 34%, hsla(0, 100%, 65%, 1) 0px, transparent 50%) border-box,
-    radial-gradient(at 8% 6%, hsla(0, 100%, 75%, 1) 0px, transparent 50%) border-box,
-    radial-gradient(at 41% 38%, hsla(0, 100%, 60%, 1) 0px, transparent 50%) border-box,
-    radial-gradient(at 86% 85%, hsla(0, 100%, 70%, 1) 0px, transparent 50%) border-box,
-    radial-gradient(at 82% 18%, hsla(0, 100%, 65%, 1) 0px, transparent 50%) border-box,
-    radial-gradient(at 51% 4%, hsla(0, 100%, 72%, 1) 0px, transparent 50%) border-box,
-    linear-gradient(hsl(0, 100%, 50%) 0 100%) border-box;
-  opacity: calc((var(--pointer-d) - var(--color-sens)) / (100 - var(--color-sens)));
-  mask-image: 
-    conic-gradient( 
-      from var(--pointer-°) at center, black 25%, transparent 40%, transparent 60%, black 75%
-    );
-}
-
-/* Mesh gradient background - red and white only */
 .work-card::after {
-  border: 1px solid transparent;
-  background:
-    radial-gradient(at 80% 55%, hsla(0, 100%, 70%, 1) 0px, transparent 50%) padding-box,
-    radial-gradient(at 69% 34%, hsla(0, 100%, 65%, 1) 0px, transparent 50%) padding-box,
-    radial-gradient(at 8% 6%, hsla(0, 100%, 75%, 1) 0px, transparent 50%) padding-box,
-    radial-gradient(at 41% 38%, hsla(0, 100%, 60%, 1) 0px, transparent 50%) padding-box,
-    radial-gradient(at 86% 85%, hsla(0, 100%, 70%, 1) 0px, transparent 50%) padding-box,
-    radial-gradient(at 82% 18%, hsla(0, 100%, 65%, 1) 0px, transparent 50%) padding-box,
-    radial-gradient(at 51% 4%, hsla(0, 100%, 72%, 1) 0px, transparent 50%) padding-box,
-    linear-gradient(hsl(0, 100%, 50%) 0 100%) padding-box;
-  mask-image:
-    linear-gradient( to bottom, black, black ),
-    radial-gradient( ellipse at 50% 50%, black 40%, transparent 65% ),
-    radial-gradient( ellipse at 66% 66%, black 5%, transparent 40% ),
-    radial-gradient( ellipse at 33% 33%, black 5%, transparent 40% ),
-    radial-gradient( ellipse at 66% 33%, black 5%, transparent 40% ),
-    radial-gradient( ellipse at 33% 66%, black 5%, transparent 40% ),
-    conic-gradient( from var(--pointer-°) at center, transparent 5%, black 15%, black 85%, transparent 95% );
-  mask-composite: subtract,add,add,add,add,add;
-  opacity: calc((var(--pointer-d) - var(--color-sens)) / (100 - var(--color-sens)));
-  mix-blend-mode: normal; /* Remove soft-light blend mode that causes white overlay */
+  display: none !important;
 }
 
-body:not(.dark-mode) .work-card::after {
-  mix-blend-mode: darken;
-}
-
-/* Glowing border edges - red and white */
 .work-card > .glow {
-  --outset: var(--pads);
-  inset: calc(var(--outset) * -1);
-  pointer-events: none;
-  z-index: 1;
-  mask-image: 
-    conic-gradient( 
-      from var(--pointer-°) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%
-    );
-  opacity: calc((var(--pointer-d) - var(--glow-sens)) / (100 - var(--glow-sens)));
-  mix-blend-mode: plus-lighter;
+  display: none !important;
 }
 
-body:not(.dark-mode) .work-card > .glow {
-  mix-blend-mode: luminosity;
-}
-
-.work-card > .glow::before {
-  content: "";
-  position: absolute;
-  inset: var(--outset);
-  border-radius: 0;
-  box-shadow: 
-    inset 0 0 0 1px hsl(0deg 100% 50% / 100%), 
-    inset 0 0 1px 0 hsl(0deg 100% 50% / 60%), 
-    inset 0 0 3px 0 hsl(0deg 100% 50% / 50%), 
-    inset 0 0 6px 0 hsl(0deg 100% 50% / 40%), 
-    inset 0 0 15px 0 hsl(0deg 100% 50% / 30%), 
-    inset 0 0 25px 2px hsl(0deg 100% 50% / 20%), 
-    inset 0 0 50px 2px hsl(0deg 100% 50% / 10%), 
-    0 0 1px 0 hsl(0deg 100% 50% / 60%), 
-    0 0 3px 0 hsl(0deg 100% 50% / 50%), 
-    0 0 6px 0 hsl(0deg 100% 50% / 40%), 
-    0 0 15px 0 hsl(0deg 100% 50% / 30%), 
-    0 0 25px 2px hsl(0deg 100% 50% / 20%), 
-    0 0 50px 2px hsl(0deg 100% 50% / 10%);
-}
-
-.work-card {
-  box-shadow: 
-    rgba(0, 0, 0, 0.1) 0px 1px 2px, 
-    rgba(0, 0, 0, 0.1) 0px 2px 4px, 
-    rgba(0, 0, 0, 0.1) 0px 4px 8px, 
-    rgba(0, 0, 0, 0.1) 0px 8px 16px, 
-    rgba(0, 0, 0, 0.1) 0px 16px 32px, 
-    rgba(0, 0, 0, 0.1) 0px 32px 64px;
-}
-
-/* Work media */
+/* Work media - basic layout only */
 .work-card .work-media { 
   aspect-ratio: 16/10; 
-  background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.06)); 
-  filter: saturate(120%);
+  background: transparent;
   position: relative;
   overflow: hidden;
   border-radius: 8px;
@@ -1651,11 +1511,11 @@ body:not(.dark-mode) .work-card > .glow {
   height: 100%;
   object-fit: cover;
   border-radius: 8px;
-  transition: transform 0.3s ease;
 }
 
+/* Remove hover effects on video */
 .work-card:hover .work-media video {
-  transform: scale(1.05);
+  transform: none;
 }
 
 /* Shimmer effect removed */

@@ -593,8 +593,8 @@ document.addEventListener('DOMContentLoaded', function() {
   reviewCards.forEach(card => cardObserver.observe(card));
 });
 
-// Pointer tracking for work cards with glowing edges
-const setupWorkCardPointerTracking = () => {
+// Pointer tracking for work cards - DISABLED
+// const setupWorkCardPointerTracking = () => {
   const workCards = document.querySelectorAll('.work-card');
   if (workCards.length === 0) return;
   
@@ -672,55 +672,35 @@ const setupWorkCardPointerTracking = () => {
   }
 };
 
-// Initialize pointer tracking for work cards
-document.addEventListener('DOMContentLoaded', () => {
-  setupWorkCardPointerTracking();
-});
+// Initialize pointer tracking for work cards - DISABLED
+// document.addEventListener('DOMContentLoaded', () => {
+//   setupWorkCardPointerTracking();
+// });
 
 // Cursor trail removed per design requirements
 
-// Custom background activation at "selected work" section
-const customBackground = document.getElementById('custom-background');
-const workSection = document.querySelector('#work');
+// Custom background - DISABLED to prevent color changes
+// const customBackground = document.getElementById('custom-background');
+// const workSection = document.querySelector('#work');
 
-function updateCustomBackground() {
-  if (!customBackground || !workSection) return;
-  
-  const workRect = workSection.getBoundingClientRect();
-  const workTop = workRect.top + window.scrollY;
-  const scrollY = window.scrollY;
-  
-  // Activate background when we reach the work section
-  if (scrollY >= workTop) {
-    customBackground.classList.add('active');
-  } else {
-    customBackground.classList.remove('active');
-  }
-}
+// function updateCustomBackground() {
+//   if (!customBackground || !workSection) return;
+//   
+//   const workRect = workSection.getBoundingClientRect();
+//   const workTop = workRect.top + window.scrollY;
+//   const scrollY = window.scrollY;
+//   
+//   // Activate background when we reach the work section
+//   if (scrollY >= workTop) {
+//     customBackground.classList.add('active');
+//   } else {
+//     customBackground.classList.remove('active');
+//   }
+// }
 
-// Update custom background on scroll - throttled for performance
-let backgroundTicking = false;
-function requestBackgroundUpdate() {
-  if (!backgroundTicking) {
-    requestAnimationFrame(() => {
-      updateCustomBackground();
-      backgroundTicking = false;
-    });
-    backgroundTicking = true;
-  }
-}
-
-// Throttle background updates more aggressively
-let lastBackgroundUpdate = 0;
-function throttledBackgroundUpdate() {
-  const now = Date.now();
-  if (now - lastBackgroundUpdate > 100) { // Only update every 100ms
-    requestBackgroundUpdate();
-    lastBackgroundUpdate = now;
-  }
-}
-window.addEventListener('scroll', throttledBackgroundUpdate, { passive: true });
-window.addEventListener('resize', throttledBackgroundUpdate, { passive: true });
+// Custom background - DISABLED to prevent color changes on scroll
+// window.addEventListener('scroll', throttledBackgroundUpdate, { passive: true });
+// window.addEventListener('resize', throttledBackgroundUpdate, { passive: true });
 
 // Cursor trail and parallax removed per design requirements
 
@@ -1373,10 +1353,11 @@ document.addEventListener('DOMContentLoaded', function() {
   function handleWheel(e) {
     const rect = aboutSection.getBoundingClientRect();
     // Lock scrolling when section top reaches viewport top (anchor point)
-    const isAtAnchorPoint = rect.top <= 0 && rect.top >= -10; // Allow small tolerance
+    // Section should lock when it first reaches the top
+    const isAtAnchorPoint = rect.top <= 0 && rect.bottom > 0;
     const isInStickyArea = rect.top <= 0 && rect.bottom > window.innerHeight;
     
-    // Lock when at anchor point and in sticky area
+    // Lock when section reaches anchor point (top of viewport)
     if (isAtAnchorPoint && isInStickyArea) {
       const now = Date.now();
       const isAtFirstWord = currentWordIndex === 0;
@@ -1439,85 +1420,8 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('wheel', throttledWheel, { passive: false });
 });
 
-// Pointer tracking for work cards with glowing edges
-document.addEventListener('DOMContentLoaded', function() {
-  const workCards = document.querySelectorAll('.work-card');
-  if (workCards.length === 0) return;
-  
-  const centerOfElement = ($el) => {
-    const { left, top, width, height } = $el.getBoundingClientRect();
-    return [ width/2, height/2 ];
-  };
-
-  const pointerPositionRelativeToElement = ($el, e) => {
-    const pos = [e.clientX, e.clientY];
-    const { left, top, width, height } = $el.getBoundingClientRect();
-    const x = pos[0] - left;
-    const y = pos[1] - top;
-    const px = clamp((100 / width) * x);
-    const py = clamp((100 / height) * y);
-    return { pixels: [x,y], percent: [px,py] };
-  };
-
-  const angleFromPointerEvent = ($el, dx, dy) => {
-    let angleRadians = 0;
-    let angleDegrees = 0;
-    if (dx !== 0 || dy !== 0) {
-      angleRadians = Math.atan2(dy, dx);
-      angleDegrees = angleRadians * (180 / Math.PI) + 90;
-      if (angleDegrees < 0) {
-        angleDegrees += 360;
-      }
-    }
-    return angleDegrees;
-  };
-
-  const distanceFromCenter = ($card, x, y) => {
-    const [cx, cy] = centerOfElement($card);
-    return [x - cx, y - cy];
-  };
-
-  const closenessToEdge = ($card, x, y) => {
-    const [cx, cy] = centerOfElement($card);
-    const [dx, dy] = distanceFromCenter($card, x, y);
-    let k_x = Infinity;
-    let k_y = Infinity;
-    if (dx !== 0) {
-      k_x = cx / Math.abs(dx);
-    }
-    if (dy !== 0) {
-      k_y = cy / Math.abs(dy);
-    }
-    return clamp((1 / Math.min(k_x, k_y)), 0, 1);
-  };
-
-  const round = (value, precision = 3) => parseFloat(value.toFixed(precision));
-  const clamp = (value, min = 0, max = 100) => Math.min(Math.max(value, min), max);
-
-  const cardUpdate = (e) => {
-    const $card = e.currentTarget;
-    const position = pointerPositionRelativeToElement($card, e);
-    const [px, py] = position.pixels;
-    const [perx, pery] = position.percent;
-    const [dx, dy] = distanceFromCenter($card, px, py);
-    const edge = closenessToEdge($card, px, py);
-    const angle = angleFromPointerEvent($card, dx, dy);
-
-    $card.style.setProperty('--pointer-x', `${round(perx)}%`);
-    $card.style.setProperty('--pointer-y', `${round(pery)}%`);
-    $card.style.setProperty('--pointer-°', `${round(angle)}deg`);
-    $card.style.setProperty('--pointer-d', `${round(edge * 100)}`);
-    
-    $card.classList.remove('animating');
-  };
-
-  // Only enable pointer tracking on devices with hover capability
-  if (window.matchMedia('(hover: hover)').matches) {
-    workCards.forEach(card => {
-      card.addEventListener('pointermove', cardUpdate);
-    });
-  }
-});
+// Pointer tracking for work cards - DISABLED
+// All pointer tracking code removed
 
 // Email copy to clipboard functionality
 document.addEventListener('DOMContentLoaded', function() {
