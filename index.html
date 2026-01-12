@@ -1286,11 +1286,13 @@
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-      // Percentage loader - counts from 0 to 100%
+      // Percentage loader - counts from 0 to 100%, then show logo briefly on mobile
       (function() {
         const loader = document.getElementById('loading-screen');
         const percentEl = document.getElementById('loading-percent');
         if (!loader || !percentEl) return;
+        
+        const isMobile = window.innerWidth <= 768;
         
         let percent = 0;
         const targetPercent = 100;
@@ -1304,11 +1306,39 @@
             percent = targetPercent;
             percentEl.textContent = '100%';
             
-            // Hide loading screen when complete
-            setTimeout(() => {
-              loader.style.opacity = '0';
-              setTimeout(() => loader.remove(), 500);
-            }, 200);
+            // On mobile, show logo briefly at 100%
+            if (isMobile) {
+              setTimeout(() => {
+                percentEl.textContent = '';
+                percentEl.style.display = 'none';
+                const logo = document.createElement('img');
+                logo.src = 'LEVEL LOGO MAIN.svg';
+                logo.style.width = '120px';
+                logo.style.height = 'auto';
+                logo.style.filter = document.body.classList.contains('dark-mode') ? 'brightness(0) invert(1)' : 'brightness(0)';
+                logo.style.margin = '0 auto';
+                percentEl.parentElement.appendChild(logo);
+                
+                // Hide loading screen after logo is shown
+                setTimeout(() => {
+                  loader.style.opacity = '0';
+                  setTimeout(() => {
+                    loader.remove();
+                    // Show hero text after loading screen is removed
+                    const heroText = document.querySelector('.mobile-hero-main-text');
+                    if (heroText) {
+                      heroText.classList.add('show');
+                    }
+                  }, 500);
+                }, 1000);
+              }, 200);
+            } else {
+              // Desktop - hide immediately
+              setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 500);
+              }, 200);
+            }
             return;
           }
           
@@ -1324,10 +1354,35 @@
           if (loader && loader.parentNode) {
             percent = 100;
             percentEl.textContent = '100%';
-            setTimeout(() => {
-              loader.style.opacity = '0';
-              setTimeout(() => loader.remove(), 500);
-            }, 200);
+            if (isMobile) {
+              setTimeout(() => {
+                percentEl.textContent = '';
+                percentEl.style.display = 'none';
+                const logo = document.createElement('img');
+                logo.src = 'LEVEL LOGO MAIN.svg';
+                logo.style.width = '120px';
+                logo.style.height = 'auto';
+                logo.style.filter = document.body.classList.contains('dark-mode') ? 'brightness(0) invert(1)' : 'brightness(0)';
+                logo.style.margin = '0 auto';
+                percentEl.parentElement.appendChild(logo);
+                
+                setTimeout(() => {
+                  loader.style.opacity = '0';
+                  setTimeout(() => {
+                    loader.remove();
+                    const heroText = document.querySelector('.mobile-hero-main-text');
+                    if (heroText) {
+                      heroText.classList.add('show');
+                    }
+                  }, 500);
+                }, 1000);
+              }, 200);
+            } else {
+              setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 500);
+              }, 200);
+            }
           }
         });
       })();
