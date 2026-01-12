@@ -312,6 +312,11 @@ html, body {
   border-bottom-color: var(--text);
 }
 
+.mobile-section-title-wrapper .mobile-section-title {
+  width: 100%;
+  margin: 0;
+}
+
 /* Client Logos - Auto-scrolling marquee */
 .mobile-clients {
   padding: 40px 0;
