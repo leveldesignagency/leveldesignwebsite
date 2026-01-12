@@ -70,14 +70,12 @@ html, body {
   z-index: 9999;
   transform: translate(-50%, -50%);
   transition: transform 0.1s ease-out;
-  mix-blend-mode: difference;
 }
 
 .custom-cursor::before,
 .custom-cursor::after {
   content: '';
   position: absolute;
-  background: var(--brand);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -86,11 +84,25 @@ html, body {
 .custom-cursor::before {
   width: 2px;
   height: 20px;
+  background: var(--brand);
 }
 
 .custom-cursor::after {
   width: 20px;
   height: 2px;
+  background: var(--brand);
+}
+
+/* Light mode - red cursor */
+body:not(.dark-mode) .custom-cursor::before,
+body:not(.dark-mode) .custom-cursor::after {
+  background: var(--brand);
+}
+
+/* Dark mode - red cursor */
+.dark-mode .custom-cursor::before,
+.dark-mode .custom-cursor::after {
+  background: var(--brand);
 }
 
 .custom-cursor.hover {
@@ -99,7 +111,6 @@ html, body {
 
 .custom-cursor.hover::before,
 .custom-cursor.hover::after {
-  background: var(--brand);
   opacity: 0.8;
 }
 
