@@ -239,13 +239,23 @@ function initDarkMode() {
   // Dark mode between 6 PM (18:00) and 6 AM (06:00)
   const isDarkMode = hour >= 18 || hour < 6;
   
-  if (isDarkMode) {
-    document.body.classList.add('dark-mode');
-    document.documentElement.classList.add('dark-mode');
-  } else {
-    document.body.classList.remove('dark-mode');
-    document.documentElement.classList.remove('dark-mode');
-  }
+  // Apply to both desktop and mobile
+  const elements = [
+    document.body,
+    document.documentElement,
+    ...document.querySelectorAll('.mobile-only'),
+    ...document.querySelectorAll('#mobile-version')
+  ];
+  
+  elements.forEach(el => {
+    if (el) {
+      if (isDarkMode) {
+        el.classList.add('dark-mode');
+      } else {
+        el.classList.remove('dark-mode');
+      }
+    }
+  });
 }
 
 // Initialize dark mode on page load
@@ -1168,23 +1178,31 @@ function initMobileSections() {
   // Only run on mobile
   if (window.innerWidth > 768) return;
   
-  // Hero animation - fade out text, fade in image
+  // Mobile hero animation - fade out main text, then cycle services
   const mobileHero = document.querySelector('.mobile-hero');
   if (mobileHero) {
-    const heroH1 = mobileHero.querySelector('h1');
-    const heroContent = mobileHero.querySelector('.hero-content');
+    const heroMainText = mobileHero.querySelector('.mobile-hero-main-text');
+    const heroServices = document.getElementById('mobile-hero-services');
+    const heroImages = document.getElementById('mobile-hero-images');
     
-    if (heroH1 && heroContent) {
+    if (heroMainText && heroServices && heroImages) {
+      // Fade out main text after 2 seconds
       setTimeout(() => {
-        heroH1.classList.add('fade-out');
+        heroMainText.classList.add('fade-out');
+        
+        // Show services and images after fade out
         setTimeout(() => {
-          heroContent.classList.add('show');
+          heroServices.classList.add('show');
+          heroImages.classList.add('show');
+          
+          // Start cycling services
+          initMobileHeroCycling(heroServices, heroImages);
         }, 1000);
       }, 2000);
     }
   }
   
-  // Load specialities images for mobile - ALL images
+  // Load specialities images for mobile - only 6 images exist
   const mobileSpecialitiesContainer = document.getElementById('mobile-specialities-container');
   if (mobileSpecialitiesContainer) {
     const servicesImages = [
@@ -1193,8 +1211,7 @@ function initMobileSections() {
       'public/Projects/services/LEVEL _SERVICES-03.png',
       'public/Projects/services/LEVEL _SERVICES-04.png',
       'public/Projects/services/LEVEL _SERVICES-05.png',
-      'public/Projects/services/LEVEL _SERVICES-06.png',
-      'public/Projects/services/LEVEL _SERVICES-07.png'
+      'public/Projects/services/LEVEL _SERVICES-06.png'
     ];
     
     servicesImages.forEach(imagePath => {
@@ -1204,6 +1221,24 @@ function initMobileSections() {
       img.className = 'mobile-speciality-image';
       img.loading = 'lazy';
       mobileSpecialitiesContainer.appendChild(img);
+    });
+  }
+  
+  // Email copy to clipboard
+  const emailLink = document.getElementById('mobile-email-copy');
+  if (emailLink) {
+    emailLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      const email = this.getAttribute('data-email');
+      navigator.clipboard.writeText(email).then(() => {
+        const notice = document.querySelector('.mobile-copy-notice');
+        if (notice) {
+          notice.style.display = 'block';
+          setTimeout(() => {
+            notice.style.display = 'none';
+          }, 2000);
+        }
+      });
     });
   }
   
@@ -1260,6 +1295,70 @@ function initMobileSections() {
       });
     });
   }
+}
+
+// Mobile hero cycling - services with images
+function initMobileHeroCycling(servicesContainer, imagesContainer) {
+  const mobileServices = [
+    { name: "Web\nDesign", image: null },
+    { name: "Graphic\nDesign", image: null },
+    { name: "Social\nMedia", image: null },
+    { name: "Brand &\nMarketing", imageLight: 'public/branding_white.png', imageDark: 'public/branding_black.png' },
+    { name: "Drone\nServices", image: null },
+    { name: "Commercial\nPhotography", image: null },
+    { name: "Video\nEditing", image: null }
+  ];
+  
+  let currentServiceIndex = 0;
+  
+  // Create service text element
+  const serviceText = document.createElement('div');
+  serviceText.className = 'service-text';
+  servicesContainer.appendChild(serviceText);
+  
+  // Create image elements for Brand & Marketing
+  const imageLight = document.createElement('img');
+  imageLight.className = 'service-image service-image-light';
+  imageLight.src = 'public/branding_white.png';
+  imageLight.alt = 'Branding';
+  
+  const imageDark = document.createElement('img');
+  imageDark.className = 'service-image service-image-dark';
+  imageDark.src = 'public/branding_black.png';
+  imageDark.alt = 'Branding';
+  
+  imagesContainer.appendChild(imageLight);
+  imagesContainer.appendChild(imageDark);
+  
+  function updateService() {
+    const service = mobileServices[currentServiceIndex];
+    serviceText.textContent = service.name.replace('\n', ' ');
+    serviceText.innerHTML = service.name.replace('\n', '<br>');
+    
+    // Show/hide images based on service
+    if (service.imageLight && service.imageDark) {
+      imageLight.classList.add('active');
+      imageDark.classList.add('active');
+    } else {
+      imageLight.classList.remove('active');
+      imageDark.classList.remove('active');
+    }
+    
+    // Fade animation
+    serviceText.classList.remove('fade-in');
+    setTimeout(() => {
+      serviceText.classList.add('fade-in');
+    }, 50);
+  }
+  
+  // Initial update
+  updateService();
+  
+  // Cycle every 4 seconds
+  setInterval(() => {
+    currentServiceIndex = (currentServiceIndex + 1) % mobileServices.length;
+    updateService();
+  }, 4000);
 }
 
 // Bullet points are now integrated directly into the main cards - no separate sub-cards needed

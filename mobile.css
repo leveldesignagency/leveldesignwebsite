@@ -65,6 +65,29 @@ html, body {
   padding: 0 20px;
 }
 
+.mobile-header-social {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.mobile-header-social a {
+  width: 20px;
+  height: 20px;
+  color: var(--text);
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-header-social a:hover {
+  opacity: 1;
+}
+
+.mobile-header-social a svg {
+  width: 100%;
+  height: 100%;
+}
+
 .mobile-header .logo {
   height: 36px;
 }
@@ -151,87 +174,107 @@ html, body {
 /* Mobile Hero */
 .mobile-hero {
   padding: 100px 20px 60px;
-  text-align: center;
   min-height: 70vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 32px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0;
   position: relative;
+  text-align: left;
 }
 
-.mobile-hero h1 {
+.mobile-hero-main-text {
   font-family: "Bebas Neue", Impact, system-ui, sans-serif;
-  font-size: clamp(36px, 10vw, 64px);
+  font-size: clamp(48px, 12vw, 80px);
   line-height: 1.1;
   color: var(--text);
   font-weight: 400;
   opacity: 1;
   transition: opacity 1s ease-out;
+  margin-bottom: 40px;
+  text-align: left;
 }
 
-.mobile-hero h1.fade-out {
+.mobile-hero-main-text.fade-out {
   opacity: 0;
 }
 
-.mobile-hero .hero-content {
+.mobile-hero-services {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
   opacity: 0;
   transition: opacity 1s ease-in;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
 }
 
-.mobile-hero .hero-content.show {
+.mobile-hero-services.show {
   opacity: 1;
 }
 
-.mobile-hero .hero-image-wrapper {
-  width: 80%;
-  max-width: 300px;
-  margin: 0 auto;
-}
-
-.mobile-hero .hero-image {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.mobile-hero .hero-image-light {
-  display: block;
-}
-
-.dark-mode .mobile-hero .hero-image-light {
-  display: none;
-}
-
-.mobile-hero .hero-image-dark {
-  display: none;
-}
-
-.dark-mode .mobile-hero .hero-image-dark {
-  display: block;
-}
-
-.mobile-hero .social-icons {
-  display: flex;
-  gap: 24px;
-  justify-content: center;
-}
-
-.mobile-hero .social-icons a {
-  width: 32px;
-  height: 32px;
+.mobile-hero-services .service-text {
+  font-family: "Bebas Neue", Impact, system-ui, sans-serif;
+  font-size: clamp(56px, 14vw, 100px);
+  line-height: 1;
   color: var(--text);
-  opacity: 0.7;
+  font-weight: 400;
+  text-align: left;
+  white-space: nowrap;
 }
 
-.mobile-hero .social-icons a svg {
+.mobile-hero-services .service-text.fade-in {
+  animation: fadeInOut 4s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; }
+  20%, 80% { opacity: 1; }
+}
+
+.mobile-hero-images {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 1s ease-in;
+  pointer-events: none;
+}
+
+.mobile-hero-images.show {
+  opacity: 1;
+}
+
+.mobile-hero-images .service-image {
   width: 100%;
   height: 100%;
+  object-fit: contain;
+  display: none;
+}
+
+.mobile-hero-images .service-image.active {
+  display: block;
+}
+
+.mobile-hero-images .service-image-light {
+  display: block;
+}
+
+.dark-mode .mobile-hero-images .service-image-light {
+  display: none;
+}
+
+.mobile-hero-images .service-image-dark {
+  display: none;
+}
+
+.dark-mode .mobile-hero-images .service-image-dark {
+  display: block;
 }
 
 /* Mobile Sections */
@@ -258,7 +301,7 @@ html, body {
 }
 
 .mobile-section-title-wrapper {
-  padding: 40px 20px;
+  padding: 20px 20px;
   border-top: 1px solid var(--text);
   border-bottom: 1px solid var(--text);
   text-align: center;
@@ -313,6 +356,7 @@ html, body {
   height: 100%;
   width: auto;
   filter: brightness(0);
+  display: block;
 }
 
 .dark-mode .mobile-client-logo img {
@@ -331,9 +375,14 @@ html, body {
   filter: none !important;
 }
 
+.mobile-client-logo a {
+  display: block;
+  height: 100%;
+}
+
 /* Services Title Section */
 .mobile-services-title {
-  padding: 40px 20px;
+  padding: 20px 20px;
   border-top: 1px solid var(--text);
   border-bottom: 1px solid var(--text);
   text-align: center;
@@ -417,9 +466,10 @@ html, body {
 .mobile-specialities {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 0;
+  gap: 20px;
+  padding: 20px 0;
   width: 100%;
+  margin: 0;
 }
 
 .mobile-speciality-image {
@@ -502,11 +552,12 @@ html, body {
   display: flex;
   flex-direction: row;
   gap: 20px;
-  padding: 20px;
+  padding: 20px 0;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   scroll-behavior: smooth;
+  width: 100%;
 }
 
 .mobile-projects::-webkit-scrollbar {
@@ -515,8 +566,11 @@ html, body {
 
 .mobile-project-item {
   flex-shrink: 0;
-  width: 80vw;
-  max-width: 400px;
+  width: 100vw;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mobile-project-item img {
@@ -564,7 +618,12 @@ html, body {
 .mobile-process-step p {
   font-size: 14px;
   line-height: 1.6;
-  opacity: 0.9;
+  opacity: 1;
+  color: var(--text-alt);
+}
+
+.dark-mode .mobile-process-step p {
+  color: var(--text);
 }
 
 /* Reviews */
@@ -693,10 +752,60 @@ html, body {
   letter-spacing: 0.5px;
 }
 
+.mobile-footer-social {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.mobile-footer-social a {
+  width: 20px;
+  height: 20px;
+  color: var(--text);
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-footer-social a:hover {
+  opacity: 1;
+}
+
+.mobile-footer-social a svg {
+  width: 100%;
+  height: 100%;
+}
+
 .mobile-footer .copyright {
   font-size: 12px;
   opacity: 0.7;
   margin-top: 20px;
+}
+
+.mobile-email-container {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.mobile-email-link {
+  display: inline-block;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: 2px solid var(--text);
+  transition: all 0.3s ease;
+}
+
+.mobile-email-link:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.mobile-copy-notice {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--brand);
 }
 
 /* Utility Classes */
