@@ -2630,12 +2630,37 @@ textarea {
 }
 
 @media (max-width: 768px) {
+  /* Projects Section - Mobile: Vertical scroll at mobile width */
+  #projects.section {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+  }
+  
   .projects-container {
-    gap: 60px;
+    gap: 40px;
+    height: auto !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 30px 24px !important;
+  }
+  
+  .projects-container .swiper-wrapper {
+    flex-direction: column !important;
+    height: auto !important;
+  }
+  
+  .projects-container .swiper-slide {
+    width: 100% !important;
+    height: auto !important;
   }
   
   .project-item {
     grid-template-columns: 1fr;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100vw !important;
     grid-template-areas: "image" "content";
     gap: 30px;
   }
@@ -2849,7 +2874,22 @@ footer nav {
 }
 
 @media (max-width: 768px) {
-  .container { padding: 0 24px; }
+  .container { 
+    padding: 0 24px; 
+    text-align: center;
+  }
+  
+  /* Center all section content */
+  .section {
+    text-align: center;
+  }
+  
+  .section > .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
   
   /* Header - Logo centered, Menu icon on same line */
   .header-inner { 
