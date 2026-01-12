@@ -463,19 +463,18 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   margin: 0 !important;
 }
 
-/* Hero Image - Full width background */
+/* Hero Image - Right side, 55% width, right edge locked to screen edge, left edge at center */
 .hero-image-wrapper {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
+  right: 0; /* Right edge locked to screen edge */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 55%; /* 55% width - left edge will be at 45% from left */
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
+  z-index: 5;
   pointer-events: none;
   opacity: 0;
   transition: opacity 1s ease-in-out;
@@ -487,12 +486,12 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 
 .hero-image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   display: block;
 }
 
-/* Desktop: Show branding_white in light mode, branding_black in dark mode */
+/* Show branding_white in light mode */
 .hero-image-light {
   display: block;
 }
@@ -501,31 +500,13 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   display: none;
 }
 
+/* Show branding_black in dark mode */
 .hero-image-dark {
   display: none;
 }
 
 .dark-mode .hero-image-dark {
   display: block;
-}
-
-/* Mobile: Reverse - dark mode shows white image, light mode shows black image */
-@media (max-width: 768px) {
-  .hero-image-light {
-    display: none;
-  }
-  
-  .dark-mode .hero-image-light {
-    display: block;
-  }
-  
-  .hero-image-dark {
-    display: block;
-  }
-  
-  .dark-mode .hero-image-dark {
-    display: none;
-  }
 }
 
 /* Hero Social Icons - Right side, vertically centered */
@@ -568,69 +549,41 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   font-weight: 400;
   font-size: clamp(64px, 8vw, 120px) !important;
   line-height: 0.8;
+  color: var(--text);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 0;
   margin: 0 !important;
   padding: 0 !important;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
   z-index: 15;
-  width: 100%;
-  text-align: center;
 }
-
-.hero-main-text {
-  display: block;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-  font-size: clamp(64px, 8vw, 120px) !important;
+.headline .phrase {
+  margin: 0 !important;
+  padding: 0 !important;
   line-height: 0.8;
-  color: var(--text);
-}
-
-.hero-main-text.show {
-  opacity: 1;
-}
-
-.hero-service-text {
-  display: none;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-  font-size: clamp(64px, 8vw, 120px) !important;
-  line-height: 0.8;
-  background-image: url('public/branding_white.png');
-  background-size: cover;
-  background-position: center;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-service-text.show {
   display: block;
+  font-size: clamp(64px, 8vw, 120px) !important;
+}
+.headline .phrase1 {
+  margin-bottom: 10px; /* 10px gap */
+}
+.headline .phrase2 {
+  margin-bottom: 10px; /* 10px gap */
+}
+.headline .phrase3 {
+  margin-bottom: 0;
+}
+.headline .phrase {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+.headline .phrase.show {
   opacity: 1;
-}
-
-/* Desktop: Normal image logic for text masking */
-.dark-mode .hero-service-text {
-  background-image: url('public/branding_black.png');
-}
-
-/* Mobile: Use reversed image for text masking */
-@media (max-width: 768px) {
-  .hero-service-text {
-    background-image: url('public/branding_black.png');
-  }
-  
-  .dark-mode .hero-service-text {
-    background-image: url('public/branding_white.png');
-  }
+  transform: translateY(0);
 }
 #services.section { 
   background: var(--bg);
@@ -650,27 +603,11 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   background: var(--bg);
   padding: 60px 0 120px 0 !important; /* Increased bottom padding to prevent card cutoff */
 }
-#projects.section { 
-  background: var(--bg-alt) !important; 
-  color: var(--text-alt) !important; 
-}
-
-.dark-mode #projects.section {
-  background: var(--bg) !important;
-  color: var(--text) !important;
-}
+#projects.section { background: var(--bg-alt); color: var(--text-alt); }
 #process.section { background: var(--bg); }
 #about.section { background: var(--bg-alt); color: var(--text-alt); }
 #reviews.section { background: var(--bg); }
-#contact.section { 
-  background: var(--bg-alt) !important; 
-  color: var(--text-alt) !important; 
-}
-
-.dark-mode #contact.section {
-  background: var(--bg) !important;
-  color: var(--text) !important;
-}
+#contact.section { background: var(--bg-alt); color: var(--text-alt); }
 #contact.section h2 {
   color: var(--text) !important;
 }
@@ -908,8 +845,8 @@ section#services .container .grid.services-grid {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 500px; /* Bigger overall */
-  height: 250px;
+  width: 400px;
+  height: 200px;
   margin: 0 !important; /* Remove all margins to rely on gap */
   padding: 0 !important; /* Remove all padding */
   transition: all 0.3s ease;
@@ -964,8 +901,8 @@ section#services .container .grid.services-grid {
 
 /* Smaller logo for We Serve U Better */
 .client-logo-small {
-  width: 350px !important; /* Smaller than default but bigger than before */
-  height: 150px !important;
+  width: 250px !important; /* Smaller container */
+  height: 100px !important;
   margin: 0 !important; /* Remove margins to rely on gap */
   padding: 0 !important; /* Remove all padding */
 }
@@ -977,18 +914,12 @@ section#services .container .grid.services-grid {
 
 /* ITD logo - keep original colors (no filters) and make smaller */
 .client-logo-color {
-  width: 350px !important; /* Smaller than default */
-  height: 175px !important;
+  width: 300px !important; /* Smaller container */
+  height: 150px !important;
   margin: 0 !important; /* Remove margins to rely on gap */
   padding: 0 !important; /* Remove all padding */
   filter: none !important; /* Remove brightness filter from container */
   /* No animation - no glow effect */
-}
-
-/* Welbee logo - bigger */
-.client-logo-welbee {
-  width: 600px !important; /* Bigger than default */
-  height: 300px !important;
 }
 
 .client-logo-color img {
@@ -1506,11 +1437,6 @@ section#services .container .grid.services-grid {
 
 .card p {
   color: var(--text-alt) !important;
-}
-
-.card h3 {
-  color: var(--text-alt) !important;
-  font-size: clamp(32px, 4vw, 48px) !important; /* Much bigger titles */
 }
 
 .card h3 {
@@ -2068,39 +1994,20 @@ body:not(.dark-mode) .work-card .work-meta {
   letter-spacing: 0.5px;
 }
 
-/* Reviews Carousel - Single view */
-.reviews-carousel {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
+/* Responsive Reviews */
+@media (max-width: 1024px) {
+  .reviews-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.reviews-active-card {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 0 48px;
-}
-
-.reviews-active-card .review-card {
-  max-width: 600px;
-  width: 100%;
-  opacity: 1 !important;
-  transform: none !important;
-  margin: 0 auto;
-}
-
-/* Hide original rows on mobile */
-@media (max-width: 768px) {
-  .reviews-row {
-    display: none !important;
+@media (max-width: 720px) {
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
   
-  .reviews-active-card {
-    padding: 0 24px;
-  }
-  
-  .reviews-active-card .review-card {
+  .review-card {
     padding: 32px 24px;
   }
 }
@@ -2406,13 +2313,6 @@ textarea {
     font-size: clamp(32px, 4vw, 56px);
     color: var(--text);
     position: relative;
-  }
-  
-  /* Services title h2 center aligned */
-  #services-title.services-title-section h2 {
-    padding: 0;
-    text-align: center;
-    width: 100%;
   }
 
   /* Red line removed from section title - only on card titles */
@@ -2748,18 +2648,6 @@ textarea {
 }
 
 @media (max-width: 768px) {
-  /* Mobile: Remove hover effects from work cards */
-  .work-card:hover {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  
-  .work-card:hover::before,
-  .work-card:hover::after,
-  .work-card:hover > .glow {
-    opacity: 0 !important;
-  }
-  
   /* Projects Section - Mobile: Vertical scroll at mobile width */
   #projects.section {
     overflow-y: auto !important;
@@ -3890,330 +3778,6 @@ footer nav {
   
   .section {
     padding: 40px 0;
-  }
-}
-
-/* MOBILE-ONLY FIXES - DO NOT AFFECT DESKTOP */
-@media (max-width: 768px) {
-  /* 1. Fix scrolling - smooth, no glitches */
-  html, body {
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
-    touch-action: pan-y !important;
-    scroll-behavior: smooth !important;
-    position: relative !important;
-    height: auto !important;
-  }
-  
-  /* Remove any scroll blocking */
-  * {
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  /* 2. Social icons in header on right */
-  .header-inner {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-  }
-  
-  .header-social {
-    display: flex !important;
-    gap: 12px !important;
-    margin-left: auto !important;
-    order: 2 !important;
-  }
-  
-  .nav {
-    order: 1 !important;
-  }
-  
-  /* 3. Company logos: bigger overall, smaller We Serve U Better and ITD, bigger Welbee */
-  .client-logo {
-    width: 300px !important;
-    height: 150px !important;
-  }
-  
-  .client-logo-small {
-    width: 200px !important; /* Smaller for We Serve U Better */
-    height: 100px !important;
-  }
-  
-  .client-logo-color {
-    width: 250px !important; /* Smaller for ITD */
-    height: 125px !important;
-  }
-  
-  /* Welbee logo - bigger - target by checking if image src contains Welbee */
-  .client-logo img[src*="Welbee"] {
-    width: 400px !important;
-    height: auto !important;
-  }
-  
-  /* Fallback for browsers that don't support :has() */
-  .client-logo img[alt*="Welbee"] {
-    width: 400px !important;
-    height: auto !important;
-  }
-  
-  .client-logo:has(img[src*="Welbee"]),
-  .client-logo:has(img[alt*="Welbee"]) {
-    width: 400px !important;
-    height: 200px !important;
-  }
-  
-  /* 4. Services title: center aligned, own section, borders, max 5px padding */
-  #services-title.services-title-section {
-    text-align: center !important;
-    padding: 5px 0 !important;
-    border-top: 1px solid var(--text) !important;
-    border-bottom: 1px solid var(--text) !important;
-  }
-  
-  .dark-mode #services-title.services-title-section {
-    border-top: 1px solid var(--text) !important;
-    border-bottom: 1px solid var(--text) !important;
-  }
-  
-  #services-title.services-title-section h2 {
-    text-align: center !important;
-    padding: 0 !important;
-    margin: 0 auto !important;
-  }
-  
-  /* 5. Services cards titles: much bigger */
-  #services .card h3 {
-    font-size: clamp(40px, 8vw, 64px) !important;
-  }
-  
-  /* 6. Hero text animation - mobile specific */
-  .hero .headline {
-    position: relative;
-    z-index: 10;
-  }
-  
-  .hero .headline .phrase {
-    transition: opacity 1s ease-in-out, transform 1s ease-in-out !important;
-  }
-  
-  /* Hero image wrapper for mobile - full width, behind text */
-  .hero-image-wrapper {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    z-index: 1 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-  
-  .hero-image-wrapper img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-  }
-  
-  /* Mobile reversed image logic: dark mode uses white, light mode uses black */
-  .hero-image-light {
-    display: block !important;
-  }
-  
-  .hero-image-dark {
-    display: none !important;
-  }
-  
-  .dark-mode .hero-image-light {
-    display: block !important; /* Dark mode shows white image */
-  }
-  
-  .dark-mode .hero-image-dark {
-    display: none !important;
-  }
-  
-  /* Service text with image mask */
-  .hero-service-text-mobile {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 15;
-    font-size: clamp(48px, 10vw, 80px) !important;
-    font-family: "Bebas Neue", Impact, system-ui, sans-serif;
-    line-height: 1.1;
-    text-align: center;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-  }
-  
-  .hero-service-text-mobile.show {
-    opacity: 1;
-  }
-  
-  /* 7. Specialities images not showing - fix */
-  #services-gallery.section {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  .services-container {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  .service-item,
-  .service-item img {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    width: 100% !important;
-    height: auto !important;
-  }
-  
-  /* 8. Selected work: remove opacity, no hover effects on mobile */
-  .work-card {
-    opacity: 1 !important;
-    pointer-events: none !important;
-  }
-  
-  .work-card:hover {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  
-  .work-card:hover::before,
-  .work-card:hover::after,
-  .work-card:hover > .glow {
-    opacity: 0 !important;
-    display: none !important;
-  }
-  
-  .work-card > .glow {
-    display: none !important;
-  }
-  
-  /* 9. Reviews: single view carousel, 2 second intervals */
-  .reviews-wrapper {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    min-height: 300px;
-  }
-  
-  .reviews-row {
-    display: none !important;
-  }
-  
-  .reviews-carousel-mobile {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 300px;
-  }
-  
-  .reviews-active-card-mobile {
-    width: 100%;
-    max-width: 600px;
-    padding: 0 20px;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-  
-  .reviews-active-card-mobile.show {
-    opacity: 1;
-  }
-  
-  /* 10. Start a project: fix visibility, colors, black background */
-  #contact.section {
-    background: #000000 !important;
-    color: #ffffff !important;
-  }
-  
-  .dark-mode #contact.section {
-    background: #000000 !important;
-    color: #ffffff !important;
-  }
-  
-  #contact.section h2,
-  #contact.section * {
-    color: #ffffff !important;
-  }
-  
-  .dark-mode #contact.section h2,
-  .dark-mode #contact.section * {
-    color: #ffffff !important;
-  }
-  
-  /* 11. What our clients say: fix white background in dark mode */
-  #reviews.section {
-    background: var(--bg) !important;
-  }
-  
-  .dark-mode #reviews.section {
-    background: var(--bg) !important;
-  }
-  
-  /* 12. Projects section: fix background color change, horizontal scroll, reduce height */
-  #projects.section {
-    background: var(--bg-alt) !important;
-    color: var(--text-alt) !important;
-    height: auto !important;
-    min-height: 400px !important;
-    max-height: 500px !important;
-    overflow: hidden !important;
-  }
-  
-  .dark-mode #projects.section {
-    background: var(--bg-alt) !important;
-    color: var(--text-alt) !important;
-  }
-  
-  .projects-container {
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
-    scrollbar-width: none !important;
-    height: 100% !important;
-    display: flex !important;
-  }
-  
-  .projects-container::-webkit-scrollbar {
-    display: none !important;
-  }
-  
-  .projects-container .swiper-wrapper {
-    display: flex !important;
-    height: 100% !important;
-  }
-  
-  .projects-container .swiper-slide {
-    flex-shrink: 0 !important;
-    height: 100% !important;
-  }
-  
-  .projects-container .project-item {
-    height: 100% !important;
-    display: flex !important;
-    align-items: center !important;
-  }
-  
-  .projects-container .project-item img {
-    height: 100% !important;
-    width: auto !important;
-    max-width: 100% !important;
-    object-fit: contain !important;
   }
 }
 

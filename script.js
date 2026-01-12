@@ -541,7 +541,6 @@ function showNextSlide() {
 const phrases = document.querySelectorAll('.headline .phrase');
 if (phrases.length === 3) {
   let currentIndex = 0;
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
   
   function showNextPhrase() {
     if (currentIndex < phrases.length) {
@@ -552,24 +551,11 @@ if (phrases.length === 3) {
       if (currentIndex < phrases.length) {
         setTimeout(showNextPhrase, 1000);
       } else {
-        // After all phrases are shown, wait 3 seconds then fade out and start service cycling
+        // After all phrases are shown, start the cycling after 3 seconds
         setTimeout(() => {
-          // Fade out all phrases
-          phrases.forEach(p => {
-            p.classList.remove('show');
-            p.style.opacity = '0';
-            p.style.transition = 'opacity 1s ease-in-out';
-          });
-          
-          setTimeout(() => {
-            if (isMobile) {
-              startMobileServiceCycling();
-            } else {
-              isInitialAnimation = false;
-              isCycling = true;
-              startServiceCycling();
-            }
-          }, 1000);
+          isInitialAnimation = false;
+          isCycling = true;
+          startServiceCycling();
         }, 3000);
       }
     }
@@ -1588,143 +1574,5 @@ if (soundBtn && audioEl instanceof HTMLAudioElement) {
   });
 }
 
-
-// Mobile-specific hero service cycling with image mask
-function startMobileServiceCycling() {
-  const heroHeadline = document.getElementById('hero-headline');
-  const heroImageWrapper = document.querySelector('.hero-image-wrapper');
-  const heroInner = document.querySelector('.hero-inner');
-  
-  if (!heroHeadline || !heroImageWrapper || !heroInner) return;
-  
-  // Hide original headline
-  heroHeadline.style.opacity = '0';
-  heroHeadline.style.transition = 'opacity 1s ease-in-out';
-  
-  // Show image wrapper (full width behind)
-  heroImageWrapper.style.opacity = '1';
-  heroImageWrapper.classList.add('active');
-  
-  // Create service text element with image mask
-  const serviceText = document.createElement('div');
-  serviceText.className = 'hero-service-text-mobile';
-  heroInner.appendChild(serviceText);
-  
-  const mobileServices = ['Graphic Design', 'Social Media Management', 'Brand & Marketing'];
-  let currentServiceIndex = 0;
-  
-  function updateServiceText() {
-    const service = mobileServices[currentServiceIndex];
-    serviceText.textContent = service;
-    
-    // Set background image for mask (reversed logic for mobile)
-    const isDarkMode = document.body.classList.contains('dark-mode');
-    if (service === 'Brand & Marketing') {
-      // Mobile: dark mode uses white, light mode uses black
-      serviceText.style.backgroundImage = isDarkMode 
-        ? "url('public/branding_white.png')" 
-        : "url('public/branding_black.png')";
-    } else {
-      // For other services, use same logic
-      serviceText.style.backgroundImage = isDarkMode 
-        ? "url('public/branding_white.png')" 
-        : "url('public/branding_black.png')";
-    }
-    
-    // Update image wrapper image visibility (reversed for mobile)
-    const imageLight = heroImageWrapper.querySelector('.hero-image-light');
-    const imageDark = heroImageWrapper.querySelector('.hero-image-dark');
-    
-    if (isDarkMode) {
-      // Dark mode: show white image
-      if (imageLight) imageLight.style.display = 'block';
-      if (imageDark) imageDark.style.display = 'none';
-    } else {
-      // Light mode: show black image
-      if (imageLight) imageLight.style.display = 'none';
-      if (imageDark) imageDark.style.display = 'block';
-    }
-    
-    // Fade in
-    serviceText.style.opacity = '0';
-    setTimeout(() => {
-      serviceText.classList.add('show');
-    }, 100);
-    
-    // Fade out and next
-    setTimeout(() => {
-      serviceText.classList.remove('show');
-      setTimeout(() => {
-        currentServiceIndex = (currentServiceIndex + 1) % mobileServices.length;
-        updateServiceText();
-      }, 1000);
-    }, 2000); // Show for 2 seconds
-  }
-  
-  // Start cycling
-  setTimeout(() => {
-    updateServiceText();
-  }, 500);
-}
-
-// Mobile reviews carousel - single view, 2 second intervals
-document.addEventListener('DOMContentLoaded', function() {
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  if (!isMobile) return;
-  
-  const reviewsSection = document.querySelector('#reviews.section');
-  if (!reviewsSection) return;
-  
-  const reviewsWrapper = reviewsSection.querySelector('.reviews-wrapper');
-  if (!reviewsWrapper) return;
-  
-  // Collect all review cards
-  const allReviewCards = Array.from(reviewsSection.querySelectorAll('.review-card'));
-  if (allReviewCards.length === 0) return;
-  
-  // Hide original rows
-  const topRow = reviewsWrapper.querySelector('.top-row');
-  const bottomRow = reviewsWrapper.querySelector('.bottom-row');
-  if (topRow) topRow.style.display = 'none';
-  if (bottomRow) bottomRow.style.display = 'none';
-  
-  // Create carousel container
-  const carouselContainer = document.createElement('div');
-  carouselContainer.className = 'reviews-carousel-mobile';
-  
-  const activeCardContainer = document.createElement('div');
-  activeCardContainer.className = 'reviews-active-card-mobile';
-  carouselContainer.appendChild(activeCardContainer);
-  reviewsWrapper.appendChild(carouselContainer);
-  
-  let currentIndex = 0;
-  
-  function showCard(index) {
-    const card = allReviewCards[index];
-    if (!card) return;
-    
-    const clonedCard = card.cloneNode(true);
-    clonedCard.style.cssText = 'opacity: 0; transition: opacity 0.5s ease;';
-    activeCardContainer.innerHTML = '';
-    activeCardContainer.appendChild(clonedCard);
-    
-    requestAnimationFrame(() => {
-      activeCardContainer.classList.add('show');
-      clonedCard.style.opacity = '1';
-    });
-  }
-  
-  // Show first card
-  showCard(0);
-  
-  // Auto-advance every 2 seconds
-  setInterval(() => {
-    activeCardContainer.classList.remove('show');
-    setTimeout(() => {
-      currentIndex = (currentIndex + 1) % allReviewCards.length;
-      showCard(currentIndex);
-    }, 500);
-  }, 2000);
-});
 
 // Cache bust: 1759795340
