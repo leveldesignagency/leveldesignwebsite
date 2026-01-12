@@ -352,7 +352,8 @@ function setupScrollBasedServices() {
   
   function updateServiceSlide(index) {
     const heroInner = document.querySelector('.hero-inner');
-    if (!heroInner) return;
+    const heroSection = document.querySelector('.hero');
+    if (!heroInner || !heroSection) return;
     
     // Remove existing slide
     const existingSlide = heroInner.querySelector('.hero-slide');
@@ -369,6 +370,13 @@ function setupScrollBasedServices() {
     const service = services[index];
     const newSlide = createServiceSlide(service);
     heroInner.appendChild(newSlide);
+    
+    // Mobile: Update background image based on service
+    // For now, only "Brand & Marketing" has images, so use branding images for all
+    // Dark mode = white image, Light mode = black image
+    if (isMobile) {
+      heroSection.classList.add('has-background');
+    }
     
     setTimeout(() => {
       newSlide.classList.add('active');
@@ -594,83 +602,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Pointer tracking for work cards - DISABLED
-// const setupWorkCardPointerTracking = () => {
-  const workCards = document.querySelectorAll('.work-card');
-  if (workCards.length === 0) return;
-  
-  const centerOfElement = ($el) => {
-    const rect = $el.getBoundingClientRect();
-    return [rect.width / 2, rect.height / 2];
-  };
-
-  const pointerPositionRelativeToElement = ($el, e) => {
-    const pos = [e.clientX, e.clientY];
-    const rect = $el.getBoundingClientRect();
-    const x = pos[0] - rect.left;
-    const y = pos[1] - rect.top;
-    const px = Math.min(Math.max((100 / rect.width) * x, 0), 100);
-    const py = Math.min(Math.max((100 / rect.height) * y, 0), 100);
-    return { pixels: [x, y], percent: [px, py] };
-  };
-
-  const angleFromPointerEvent = ($el, dx, dy) => {
-    let angleRadians = 0;
-    let angleDegrees = 0;
-    if (dx !== 0 || dy !== 0) {
-      angleRadians = Math.atan2(dy, dx);
-      angleDegrees = angleRadians * (180 / Math.PI) + 90;
-      if (angleDegrees < 0) {
-        angleDegrees += 360;
-      }
-    }
-    return angleDegrees;
-  };
-
-  const distanceFromCenter = ($card, x, y) => {
-    const [cx, cy] = centerOfElement($card);
-    return [x - cx, y - cy];
-  };
-
-  const closenessToEdge = ($card, x, y) => {
-    const [cx, cy] = centerOfElement($card);
-    const [dx, dy] = distanceFromCenter($card, x, y);
-    let k_x = Infinity;
-    let k_y = Infinity;
-    if (dx !== 0) {
-      k_x = cx / Math.abs(dx);
-    }
-    if (dy !== 0) {
-      k_y = cy / Math.abs(dy);
-    }
-    return Math.min(Math.max(1 / Math.min(k_x, k_y), 0), 1);
-  };
-
-  const round = (value, precision = 3) => parseFloat(value.toFixed(precision));
-
-  const cardUpdate = (e) => {
-    const $card = e.currentTarget;
-    const position = pointerPositionRelativeToElement($card, e);
-    const [px, py] = position.pixels;
-    const [perx, pery] = position.percent;
-    const [dx, dy] = distanceFromCenter($card, px, py);
-    const edge = closenessToEdge($card, px, py);
-    const angle = angleFromPointerEvent($card, dx, dy);
-
-    $card.style.setProperty('--pointer-x', `${round(perx)}%`);
-    $card.style.setProperty('--pointer-y', `${round(pery)}%`);
-    $card.style.setProperty('--pointer-°', `${round(angle)}deg`);
-    $card.style.setProperty('--pointer-d', `${round(edge * 100)}`);
-    
-    $card.classList.remove('animating');
-  };
-
-  // Only enable pointer tracking on devices with hover capability
-  if (window.matchMedia('(hover: hover)').matches) {
-    workCards.forEach(card => {
-      card.addEventListener('pointermove', cardUpdate);
-    });
-  }
-};
+// All pointer tracking code removed
 
 // Initialize pointer tracking for work cards - DISABLED
 // document.addEventListener('DOMContentLoaded', () => {

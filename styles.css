@@ -1481,10 +1481,7 @@ body:not(.dark-mode) .work-card {
   color: #ffffff;
 }
 
-/* Remove all hover effects */
-.work-card:hover {
-  /* No hover effects */
-}
+/* Remove all hover effects - no hover styles needed */
 
 /* Remove all pseudo-elements and effects */
 .work-card::before,
@@ -2903,19 +2900,50 @@ footer nav {
     margin-top: 8px;
   }
   
-  /* Hero Section - Mobile: Stacked vertically, centered, no overlays */
+  /* Hero Section - Mobile: Centered text as mask with background images */
   .hero {
-    min-height: auto !important;
-    height: auto !important;
-    padding: 88px 0 40px 0 !important;
+    min-height: 100vh !important;
+    height: 100vh !important;
+    padding: 88px 0 0 0 !important;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     text-align: center;
     position: relative !important;
-    overflow: visible !important;
+    overflow: hidden !important;
     background: var(--bg) !important;
+  }
+  
+  /* Hero background image container - full screen behind text */
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+  
+  /* Light mode: use black image */
+  .hero::before {
+    background-image: url('public/branding_black.png');
+  }
+  
+  /* Dark mode: use white image */
+  .dark-mode .hero::before {
+    background-image: url('public/branding_white.png');
+  }
+  
+  /* Show background when service is active */
+  .hero.has-background::before {
+    opacity: 1;
   }
   
   .hero .container {
@@ -2990,7 +3018,7 @@ footer nav {
     height: 20px;
   }
   
-  /* Hero slide - center aligned, vertically stacked, large text */
+  /* Hero slide - center aligned, large text, acts as mask */
   .hero-slide {
     position: relative !important;
     bottom: auto !important;
@@ -3003,16 +3031,14 @@ footer nav {
     align-items: center;
     gap: 16px;
     text-align: center;
-    margin-top: 24px;
+    margin: 0;
     order: 1;
-    z-index: 2 !important;
+    z-index: 10 !important;
     background: transparent !important;
   }
   
   .hero-slide .border-line {
-    width: 100%;
-    height: 3px;
-    flex-shrink: 0;
+    display: none;
   }
   
   .hero-slide .text-content {
@@ -3025,13 +3051,36 @@ footer nav {
   
   .hero-slide .word {
     font-family: "Bebas Neue", Impact, system-ui, sans-serif;
-    font-size: clamp(48px, 12vw, 80px);
+    font-size: clamp(64px, 15vw, 120px);
     white-space: nowrap;
     text-align: center;
     font-weight: 400;
     line-height: 1.1;
     display: block;
     color: var(--text);
+    /* Text acts as mask - use mix-blend-mode or background-clip */
+    background: var(--text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    mix-blend-mode: difference;
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* Alternative: solid text with high contrast */
+  .dark-mode .hero-slide .word {
+    color: #ffffff;
+    background: none;
+    -webkit-text-fill-color: #ffffff;
+    mix-blend-mode: normal;
+  }
+  
+  body:not(.dark-mode) .hero-slide .word {
+    color: #000000;
+    background: none;
+    -webkit-text-fill-color: #000000;
+    mix-blend-mode: normal;
   }
   
   .hero-logo-fullscreen-img {
@@ -3053,6 +3102,34 @@ footer nav {
   
   #work.section {
     padding: 120px 0 60px 0;
+  }
+  
+  /* All Title Sections - Mobile: Center, Large Font */
+  #projects-title.projects-title-section,
+  #services-title.services-title-section,
+  #specialities-title.specialities-title-section,
+  #work-title.work-title-section,
+  #process-title.process-title-section,
+  #reviews-title.reviews-title-section,
+  #contact-title.contact-title-section {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 40px 20px !important;
+  }
+  
+  #projects-title.projects-title-section h2,
+  #services-title.services-title-section h2,
+  #specialities-title.specialities-title-section h2,
+  #work-title.work-title-section h2,
+  #process-title.process-title-section h2,
+  #reviews-title.reviews-title-section h2,
+  #contact-title.contact-title-section h2 {
+    font-size: clamp(56px, 15vw, 90px) !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    width: 100% !important;
   }
   
   /* Services Grid - Vertically stacked, left aligned */
@@ -3146,9 +3223,31 @@ footer nav {
     display: block !important;
   }
   
-  /* Work Grid */
+  /* Company Logos - Mobile: Only SVGs, Same Size, Marquee */
+  .client-logo {
+    height: 60px !important;
+    width: auto !important;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .client-logo img,
+  .client-logo svg {
+    height: 60px !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+  
+  /* Hide non-SVG logos on mobile */
+  .client-logo:not(:has(svg)) img {
+    display: none !important;
+  }
+  
+  /* Work Grid - Mobile: Stack Vertically */
   .work-grid { 
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr !important; 
     gap: 24px;
   }
   
@@ -3233,9 +3332,23 @@ footer nav {
     display: none; /* Hide on mobile as requested */
   }
   
-  /* Projects Section - Title, Year, Image stacked (mobile only) */
+  /* Specialities Section - Mobile: Keep Slider Gallery */
+  #services-gallery.section {
+    padding: 40px 0 !important;
+    overflow: hidden !important;
+  }
+  
+  .services-container {
+    height: 400px !important;
+    overflow: hidden !important;
+  }
+  
+  /* Projects Section - Mobile: Keep Marquee System */
   .projects-container {
     gap: 60px;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
   }
   
   .project-item {
@@ -3246,6 +3359,8 @@ footer nav {
     gap: 20px;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
+    width: 80vw;
   }
   
   .project-item.image-right {
