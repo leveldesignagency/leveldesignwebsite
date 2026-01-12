@@ -2941,9 +2941,15 @@ footer nav {
     background-image: url('public/branding_white.png');
   }
   
-  /* Show background when service is active */
-  .hero.has-background::before {
+  /* Show background when service is active - always show on mobile */
+  .hero.has-background::before,
+  .hero .hero-slide {
     opacity: 1;
+  }
+  
+  /* Ensure background is always visible when services are cycling */
+  .hero::before {
+    opacity: 1 !important;
   }
   
   .hero .container {
@@ -3057,30 +3063,31 @@ footer nav {
     font-weight: 400;
     line-height: 1.1;
     display: block;
-    color: var(--text);
-    /* Text acts as mask - use mix-blend-mode or background-clip */
+    position: relative;
+    z-index: 10;
+    /* Text acts as mask - reveal background image through text */
     background: var(--text);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    mix-blend-mode: difference;
-    position: relative;
-    z-index: 10;
+    mix-blend-mode: screen;
   }
   
-  /* Alternative: solid text with high contrast */
+  /* Dark mode: use difference blend mode for better contrast */
   .dark-mode .hero-slide .word {
-    color: #ffffff;
-    background: none;
-    -webkit-text-fill-color: #ffffff;
-    mix-blend-mode: normal;
+    background: #ffffff;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    mix-blend-mode: difference;
   }
   
   body:not(.dark-mode) .hero-slide .word {
-    color: #000000;
-    background: none;
-    -webkit-text-fill-color: #000000;
-    mix-blend-mode: normal;
+    background: #000000;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    mix-blend-mode: screen;
   }
   
   .hero-logo-fullscreen-img {
@@ -3117,6 +3124,32 @@ footer nav {
     justify-content: center !important;
     text-align: center !important;
     padding: 40px 20px !important;
+    border-top: 1px solid var(--text) !important;
+    border-bottom: 1px solid var(--text) !important;
+  }
+  
+  /* Dark mode: borders should be white */
+  .dark-mode #projects-title.projects-title-section,
+  .dark-mode #services-title.services-title-section,
+  .dark-mode #specialities-title.specialities-title-section,
+  .dark-mode #work-title.work-title-section,
+  .dark-mode #process-title.process-title-section,
+  .dark-mode #reviews-title.reviews-title-section,
+  .dark-mode #contact-title.contact-title-section {
+    border-top-color: #ffffff !important;
+    border-bottom-color: #ffffff !important;
+  }
+  
+  /* Light mode: borders should be black */
+  body:not(.dark-mode) #projects-title.projects-title-section,
+  body:not(.dark-mode) #services-title.services-title-section,
+  body:not(.dark-mode) #specialities-title.specialities-title-section,
+  body:not(.dark-mode) #work-title.work-title-section,
+  body:not(.dark-mode) #process-title.process-title-section,
+  body:not(.dark-mode) #reviews-title.reviews-title-section,
+  body:not(.dark-mode) #contact-title.contact-title-section {
+    border-top-color: #000000 !important;
+    border-bottom-color: #000000 !important;
   }
   
   #projects-title.projects-title-section h2,
@@ -3238,11 +3271,17 @@ footer nav {
     height: 60px !important;
     width: auto !important;
     max-width: none !important;
+    display: block !important;
   }
   
-  /* Hide non-SVG logos on mobile */
-  .client-logo:not(:has(svg)) img {
+  /* Show only SVG logos on mobile - hide PNG logos */
+  .client-logo img[src$=".png"] {
     display: none !important;
+  }
+  
+  .client-logo img[src$=".svg"],
+  .client-logo svg {
+    display: block !important;
   }
   
   /* Work Grid - Mobile: Stack Vertically */
@@ -3341,6 +3380,24 @@ footer nav {
   .services-container {
     height: 400px !important;
     overflow: hidden !important;
+    position: relative !important;
+  }
+  
+  .services-container .services-slider {
+    display: flex !important;
+    width: 600vw !important;
+  }
+  
+  .services-container .service-slide {
+    width: 100vw !important;
+    flex-shrink: 0 !important;
+  }
+  
+  .services-container .service-item .service-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
   }
   
   /* Projects Section - Mobile: Keep Marquee System */

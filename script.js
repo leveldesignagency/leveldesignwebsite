@@ -293,15 +293,20 @@ function startServiceCycling() {
   // Check if mobile
   isMobile = window.matchMedia('(max-width: 768px)').matches;
   
-  // On mobile, keep the original headline visible and add service text below
+  // On mobile, fade out original headline after initial display, then show services
   const heroHeadline = document.getElementById('hero-headline');
   if (!isMobile) {
     // Desktop: fade out original text
     heroHeadline.style.transition = 'opacity 1s ease-in-out';
     heroHeadline.style.opacity = '0';
   } else {
-    // Mobile: keep original text visible
-    heroHeadline.style.opacity = '1';
+    // Mobile: fade out original text after 3 seconds, then show services
+    setTimeout(() => {
+      if (heroHeadline) {
+        heroHeadline.style.transition = 'opacity 1s ease-in-out';
+        heroHeadline.style.opacity = '0';
+      }
+    }, 3000);
   }
   
   // On mobile, keep Brand & Marketing image constant
