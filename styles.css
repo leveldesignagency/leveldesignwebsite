@@ -3013,67 +3013,96 @@ footer nav {
     margin-top: 8px;
   }
   
-  /* Hero Section - Mobile: Constant Brand & Marketing image, scrolling service titles */
+  /* Hero Section - Mobile: Stacked vertically, centered */
   .hero {
     min-height: 100vh;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .hero .container {
+    padding: 0 24px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
   
   .hero-inner {
-    padding: 0 24px;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 24px;
   }
   
   .headline {
     font-size: clamp(32px, 8vw, 64px);
     line-height: 1.1;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
   }
   
-  /* Hero Image - Mobile: Same positioning */
+  /* Hero Image - Mobile: Centered below headline */
   .hero-image-wrapper {
-    left: 50%;
-    right: 0;
-    width: 50%;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: 80% !important;
+    max-width: 400px;
+    margin: 24px auto 0;
+    order: 2;
   }
   
-  /* Hero Social Icons - Mobile: Smaller, repositioned */
+  /* Hero Social Icons - Mobile: Centered below image */
   .hero-social {
-    right: 24px;
-    gap: 12px;
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
+    flex-direction: row !important;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 24px;
+    order: 3;
   }
   
   .hero-social .social-icon {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
   }
   
   .hero-social .social-icon svg {
-    width: 18px;
-    height: 18px;
-  }
-  
-  /* On mobile, keep Brand & Marketing image constant */
-  .hero-service-image-wrapper[data-service="Brand & Marketing"] {
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-  
-  /* Hide other service images on mobile */
-  .hero-service-image-wrapper:not([data-service="Brand & Marketing"]) {
-    display: none;
+    width: 20px;
+    height: 20px;
   }
   
   /* Hero slide - center aligned, vertically stacked, large text */
   .hero-slide {
-    bottom: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    right: auto;
-    width: 90%;
-    max-width: 600px;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    right: auto !important;
+    width: 100%;
+    max-width: 100%;
     flex-direction: column;
     align-items: center;
     gap: 16px;
     text-align: center;
+    margin-top: 24px;
+    order: 1;
   }
   
   .hero-slide .border-line {
