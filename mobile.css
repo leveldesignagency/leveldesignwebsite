@@ -15,6 +15,11 @@
   --text-alt: #000000;
 }
 
+/* Hide desktop cursor on mobile */
+.mobile-only * {
+  cursor: auto !important;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -158,6 +163,8 @@ html, body {
   width: 80%;
   max-width: 300px;
   height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 .mobile-hero .social-icons {

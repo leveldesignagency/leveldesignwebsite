@@ -1158,7 +1158,93 @@ function initServicesGallery() {
 }
 
 // Initialize services gallery when DOM is loaded
-document.addEventListener('DOMContentLoaded', initServicesGallery);
+document.addEventListener('DOMContentLoaded', function() {
+  initServicesGallery();
+  initMobileSections();
+});
+
+// Initialize mobile-specific sections
+function initMobileSections() {
+  // Only run on mobile
+  if (window.innerWidth > 768) return;
+  
+  // Load specialities images for mobile
+  const mobileSpecialitiesContainer = document.getElementById('mobile-specialities-container');
+  if (mobileSpecialitiesContainer) {
+    const servicesImages = [
+      'public/Projects/services/LEVEL _SERVICES-01.png',
+      'public/Projects/services/LEVEL _SERVICES-02.png',
+      'public/Projects/services/LEVEL _SERVICES-03.png',
+      'public/Projects/services/LEVEL _SERVICES-04.png',
+      'public/Projects/services/LEVEL _SERVICES-05.png',
+      'public/Projects/services/LEVEL _SERVICES-06.png',
+      'public/Projects/services/LEVEL _SERVICES-07.png'
+    ];
+    
+    servicesImages.forEach(imagePath => {
+      const img = document.createElement('img');
+      img.src = imagePath;
+      img.alt = 'Speciality';
+      img.className = 'mobile-speciality-image';
+      img.loading = 'lazy';
+      mobileSpecialitiesContainer.appendChild(img);
+    });
+  }
+  
+  // Load projects for mobile (simplified - just images)
+  const mobileProjectsContainer = document.getElementById('mobile-projects-container');
+  if (mobileProjectsContainer && typeof projects !== 'undefined' && projects.length > 0) {
+    projects.slice(0, 12).forEach(project => { // Limit to first 12 for mobile
+      const projectItem = document.createElement('div');
+      projectItem.className = 'mobile-project-item';
+      
+      const img = document.createElement('img');
+      img.src = project.image;
+      img.alt = project.title || 'Project';
+      img.loading = 'lazy';
+      
+      projectItem.appendChild(img);
+      mobileProjectsContainer.appendChild(projectItem);
+    });
+  }
+  
+  // Smooth scroll for mobile menu links
+  document.querySelectorAll('.mobile-menu a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href').substring(1);
+      const target = document.getElementById(targetId);
+      
+      if (target) {
+        const headerHeight = 64;
+        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+        
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+        
+        // Close menu
+        const menuToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        if (menuToggle) menuToggle.classList.remove('open');
+        if (mobileMenu) mobileMenu.classList.remove('open');
+      }
+    });
+  });
+  
+  // Smooth scroll for back to top
+  const backToTop = document.querySelector('.mobile-footer .back-to-top');
+  if (backToTop) {
+    backToTop.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+}
 
 // Bullet points are now integrated directly into the main cards - no separate sub-cards needed
 
