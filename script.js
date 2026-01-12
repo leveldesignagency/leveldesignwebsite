@@ -878,20 +878,23 @@ function initAutoScroll(container) {
     effect: 'slide',
   });
   
-  // Remove any hover handlers that might interfere
-  container.addEventListener('mouseenter', (e) => {
-    e.stopPropagation();
-    if (swiper && swiper.autoplay) {
-      swiper.autoplay.start(); // Force continue on hover
-    }
-  });
-  
-  container.addEventListener('mouseleave', (e) => {
-    e.stopPropagation();
-    if (swiper && swiper.autoplay) {
-      swiper.autoplay.start(); // Force continue on leave
-    }
-  });
+  // Remove any hover handlers that might interfere - DISABLE ON MOBILE to prevent crashes
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (!isMobile) {
+    container.addEventListener('mouseenter', (e) => {
+      e.stopPropagation();
+      if (swiper && swiper.autoplay) {
+        swiper.autoplay.start(); // Force continue on hover
+      }
+    });
+    
+    container.addEventListener('mouseleave', (e) => {
+      e.stopPropagation();
+      if (swiper && swiper.autoplay) {
+        swiper.autoplay.start(); // Force continue on leave
+      }
+    });
+  }
 }
 
 // Render project items - horizontal scroll gallery with varying sizes
