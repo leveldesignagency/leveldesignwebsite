@@ -58,7 +58,7 @@ html, body {
 }
 
 /* Custom Cursor - Design Company Style (Crosshair/Precision Tool) */
-* {
+html, body, * {
   cursor: none !important;
 }
 
@@ -67,9 +67,12 @@ html, body {
   width: 20px;
   height: 20px;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 99999;
+  left: 0;
+  top: 0;
+  will-change: transform;
   transform: translate(-50%, -50%);
-  transition: transform 0.1s ease-out;
+  transition: none;
 }
 
 .custom-cursor::before,
@@ -79,30 +82,17 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  background: var(--brand);
 }
 
 .custom-cursor::before {
   width: 2px;
   height: 20px;
-  background: var(--brand);
 }
 
 .custom-cursor::after {
   width: 20px;
   height: 2px;
-  background: var(--brand);
-}
-
-/* Light mode - red cursor */
-body:not(.dark-mode) .custom-cursor::before,
-body:not(.dark-mode) .custom-cursor::after {
-  background: var(--brand);
-}
-
-/* Dark mode - red cursor */
-.dark-mode .custom-cursor::before,
-.dark-mode .custom-cursor::after {
-  background: var(--brand);
 }
 
 .custom-cursor.hover {

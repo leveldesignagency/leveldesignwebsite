@@ -1,29 +1,28 @@
-// Custom Cursor - Design Company Crosshair
+// Custom Cursor - Design Company Crosshair (Immediate tracking, no lag)
 document.addEventListener('DOMContentLoaded', function() {
   const cursor = document.getElementById('custom-cursor');
   if (!cursor) return;
   
-  let mouseX = 0;
-  let mouseY = 0;
-  let cursorX = 0;
-  let cursorY = 0;
+  // Hide default cursor completely
+  document.body.style.cursor = 'none';
   
+  // Immediate tracking - no easing for perfect sync
   document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
   });
   
-  function animateCursor() {
-    cursorX += (mouseX - cursorX) * 0.1;
-    cursorY += (mouseY - cursorY) * 0.1;
-    cursor.style.left = cursorX + 'px';
-    cursor.style.top = cursorY + 'px';
-    requestAnimationFrame(animateCursor);
-  }
-  animateCursor();
+  // Hide cursor when mouse leaves window
+  document.addEventListener('mouseleave', () => {
+    cursor.style.opacity = '0';
+  });
+  
+  document.addEventListener('mouseenter', () => {
+    cursor.style.opacity = '1';
+  });
   
   // Add hover effect on interactive elements
-  const interactiveElements = document.querySelectorAll('a, button, .card, .work-card, .nav a, input, textarea, select');
+  const interactiveElements = document.querySelectorAll('a, button, .card, .work-card, .nav a, input, textarea, select, .back-to-top');
   interactiveElements.forEach(el => {
     el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
     el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
