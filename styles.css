@@ -45,7 +45,7 @@
 html { 
   -webkit-text-size-adjust: 100%; /* Prevent iOS text size adjustment */
   -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Changed from smooth - causes lag */
 }
 
 html, body { 
@@ -69,6 +69,30 @@ body {
 }
 
 .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+
+/* Loading Screen - Percentage Loader */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg); /* Uses CSS variable for light/dark mode */
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease;
+}
+
+.loading-percent {
+  color: var(--text); /* Uses CSS variable for light/dark mode */
+  font-family: "Bebas Neue", Impact, system-ui, sans-serif;
+  font-size: clamp(48px, 8vw, 120px);
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-align: center;
+}
 .skip-link:focus{left:16px;top:16px;width:auto;height:auto;padding:8px 10px;background:#111;border-radius:8px}
 
 .container { max-width: none; padding: 0 48px; margin: 0; width: 100%; }
@@ -351,6 +375,88 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   padding: 0 !important;
   margin: 0 !important;
 }
+
+/* Hero Image - Right side, 55% width, right edge locked to screen edge, left edge at center */
+.hero-image-wrapper {
+  position: absolute;
+  right: 0; /* Right edge locked to screen edge */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 55%; /* 55% width - left edge will be at 45% from left */
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.hero-image-wrapper.active {
+  opacity: 1;
+}
+
+.hero-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Show branding_white in light mode */
+.hero-image-light {
+  display: block;
+}
+
+.dark-mode .hero-image-light {
+  display: none;
+}
+
+/* Show branding_black in dark mode */
+.hero-image-dark {
+  display: none;
+}
+
+.dark-mode .hero-image-dark {
+  display: block;
+}
+
+/* Hero Social Icons - Right side, vertically centered */
+.hero-social {
+  position: absolute;
+  right: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  z-index: 20;
+}
+
+.hero-social .social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--text);
+  opacity: 0.7;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
+}
+
+.hero-social .social-icon:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.hero-social .social-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+}
 .headline {
   font-family: "Bebas Neue", Impact, system-ui, sans-serif;
   font-weight: 400;
@@ -364,6 +470,8 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   gap: 0;
   margin: 0 !important;
   padding: 0 !important;
+  position: relative;
+  z-index: 15;
 }
 .headline .phrase {
   margin: 0 !important;
@@ -406,7 +514,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 }
 #work.section { 
   background: var(--bg);
-  padding: 60px 0 !important; /* Reduced padding */
+  padding: 60px 0 120px 0 !important; /* Increased bottom padding to prevent card cutoff */
 }
 #projects.section { background: var(--bg-alt); color: var(--text-alt); }
 #process.section { background: var(--bg); }
@@ -422,7 +530,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 
 /* Work section and beyond should have transparent background for custom bg */
 #work.section {
-  padding: 60px 0 !important; /* Reduced padding to match other sections */
+  padding: 60px 0 120px 0 !important; /* Increased bottom padding to prevent card cutoff */
   background: transparent;
 }
 
@@ -1198,29 +1306,20 @@ section#services .container .grid.services-grid {
 }
 /* Service Cards - Exact copy of "How we work" cards CSS */
 .card { 
-  position: relative !important;
-  padding: 32px !important;
-  background: #000000 !important;
-  color: var(--text-alt) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
-  transition: all 0.4s cubic-bezier(0.5, 1, 0.89, 1) !important;
-  overflow: hidden !important;
+  position: relative;
+  padding: 32px;
+  background: var(--bg-alt);
+  color: var(--text-alt);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.5, 1, 0.89, 1);
+  overflow: hidden;
   opacity: 0;
   transform: translateY(40px);
-  /* Removed will-change for better performance */
-}
-
-/* Dark mode - cards become white */
-.dark-mode .card,
-.dark-mode #services .card,
-.dark-mode section#services .card {
-  background: #ffffff !important;
-  color: #000000 !important; /* Black text on white background */
-  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2) !important;
 }
 
 .card.animate-in {
   opacity: 1;
+  transform: translateY(0);
 }
 
 .card::before {
@@ -1236,8 +1335,8 @@ section#services .container .grid.services-grid {
 }
 
 .card:hover {
-  transform: translate3d(0, -4px, 0) rotate(1deg) !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4) !important;
+  transform: translate3d(0, -4px, 0) rotate(1deg);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
 .card:hover::before {
@@ -1257,228 +1356,48 @@ section#services .container .grid.services-grid {
   color: var(--text-alt) !important;
 }
 
-.card:hover > .glow {
-  opacity: 0 !important;
-}
-
-.card > div {
-  position: relative;
-  z-index: 2;
-}
-
-.card h3 {
-  color: var(--text-alt) !important;
-}
-
-.card p,
-.card li {
-  color: var(--text-alt) !important;
-}
-
-/* Parallax support for service cards */
-#services .card {
-  /* Removed will-change for better performance */
-  transition: transform 0.1s ease-out;
-}
-
-
-
-/* Shine effects for border */
-.card .shine,
-.card .shine::before,
-.card .shine::after {
-  pointer-events: none;
-  border-radius: 0;
-  border: 1px solid transparent;
-  width: 75%;
-  height: auto;
-  min-height: 0px;
-  aspect-ratio: 1;
-  display: block;
-  position: absolute;
-  right: calc(var(--border) * -1);
-  top: calc(var(--border) * -1);
-  left: auto;
-  z-index: 1;
-  --start: 12%;
-  background: conic-gradient(
-      from var(--conic, -45deg) at center in oklch,
-      transparent var(--start,0%), hsl(var(--hue1), var(--sat,80%), var(--lit,60%)), transparent var(--end,50%) 
-  ) border-box;
-  mask: 
-      linear-gradient(transparent), 
-      linear-gradient(black);
-  mask-repeat: no-repeat;
-  mask-clip: padding-box, border-box;
-  mask-composite: subtract;
-  opacity: 0;
-  transition: opacity 0.3s var(--ease);
-}
-
-.card > div {
-  position: relative;
-  z-index: 10;
-}
-
-.card .shine::before,
-.card .shine::after {
-  content: "";
-  width: auto;
-  inset: -2px;
-  mask: none;
-}
-    
-.card .shine::after { 
-  z-index: 2;
-  --start: 17%;
-  --end: 33%;
-  background: conic-gradient(
-      from var(--conic, -45deg) at center in oklch,
-      transparent var(--start,0%), hsl(var(--hue1), var(--sat,80%), var(--lit,85%)), transparent var(--end,50%) 
-  );
-}
-
-.card .shine-bottom {
-  top: auto;
-  bottom: calc(var(--border) * -1);
-  left: calc(var(--border) * -1);
-  right: auto;
-  --hue: var(--hue2);
-  --conic: 135deg;
-}
-
-/* Advanced glow effect with pointer tracking */
-/* Removed conflicting card CSS - using exact "How we work" card styles above */
-
-/* Removed conflicting card::before and card::after - using gradient flash effect instead */
-
-.card > .glow {
-  /* glowing border edges */
-  --outset: var(--pads);
-  
-  position: absolute;
-  /* outer padding so the glow can overflow the element without being masked */
-  inset: calc(var(--outset) * -1);
-  pointer-events: none;
-  z-index: 1;
-  border-radius: 0; /* LEVEL brand - no rounded edges */
-  transition: opacity 0.25s ease-out;
-  
-  /* glow is masked to a cone, originating from the center towards the pointer */
-  mask-image: 
-    conic-gradient( 
-      from var(--pointer-°, 45deg) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%
-    );
-  
-  /* opacity increases as pointer gets near edge */
-  opacity: calc((var(--pointer-d, 0) - var(--glow-sens)) / (100 - var(--glow-sens)));
-}
- 
-.card:not(:hover):not(.animating) > .glow {
-  opacity: 0.3;
-  transition: opacity 0.75s ease-in-out;
-}
-
-.card > .glow::before {
-  content: "";
-  position: absolute;
-  inset: var(--outset);
-  border-radius: 0; /* LEVEL brand - no rounded edges */
-  box-shadow: 
-    inset 0 0 0 1px hsl( var(--glow-color) / 100%), 
-    
-    inset 0 0 1px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 60%)), 
-    inset 0 0 3px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 50%)), 
-    inset 0 0 6px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 40%)), 
-    inset 0 0 15px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 30%)), 
-    inset 0 0 25px 2px hsl( var(--glow-color) / calc(var(--glow-boost) + 20%)), 
-    inset 0 0 50px 2px hsl( var(--glow-color) / calc(var(--glow-boost) + 10%)), 
-    
-    0 0 1px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 60%)), 
-    0 0 3px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 50%)), 
-    0 0 6px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 40%)), 
-    0 0 15px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 30%)), 
-    0 0 25px 2px hsl( var(--glow-color) / calc(var(--glow-boost) + 20%)), 
-    0 0 50px 2px hsl( var(--glow-color) / calc(var(--glow-boost) + 10%));
-}
-.card.animate-in {
-  opacity: 1;
-}
-.card p { margin: 4px 0 0; opacity: 0; transition: opacity 0.3s ease; }
-.card.animate-in p { opacity: 1; }
-.card ul { 
-  margin: 12px 0 0; 
-  padding-left: 18px; 
-  color: var(--muted); 
-  opacity: 0; 
-  transition: opacity 0.3s ease;
-  background: none;
-  border: none;
-  box-shadow: none;
-  backdrop-filter: none;
-}
-.card.animate-in ul { opacity: 1; }
-
-.card li {
-  background: none;
-  border: none;
-  box-shadow: none;
-  backdrop-filter: none;
-  padding: 0;
-  margin: 0;
-  list-style-type: disc;
-  list-style-position: inside;
-}
-
-/* Card base (glow disabled for now) */
-.card, .work-card { position: relative; overflow: visible; }
-
 .work-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
-/* Work cards with same glow style as service cards */
-.work-card { 
-  --hue1: 0; /* Red hue for LEVEL brand */
-  --hue2: 0; /* Red hue for LEVEL brand */
-  --border: 1px;
-  --border-color: rgba(255, 255, 255, 0.2); /* White border */
-  --radius: 0px; /* LEVEL brand - no rounded edges */
-  --ease: cubic-bezier(0.5, 1, 0.89, 1);
+
+/* Work cards - clean implementation with red and white glow */
+.work-card {
+  --glow-sens: 30;
+  --pads: 40px;
+  --color-sens: calc(var(--glow-sens) + 20);
+  --pointer-°: 45deg;
+  --pointer-d: 0;
+  --pointer-x: 50%;
+  --pointer-y: 50%;
   
   position: relative;
   padding: 24px;
-  border-radius: var(--radius);
-  border: var(--border) solid var(--border-color);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  box-shadow: rgba(255, 255, 255, 0.1) 0px 10px 16px -8px, rgba(255, 255, 255, 0.15) 0px 20px 36px -14px;
-  transition: all 0.4s var(--ease);
-  overflow: visible;
+  border-radius: 0;
   isolation: isolate;
-  opacity: 0;
-  transform: translateY(40px);
+  transform: translate3d(0, 0, 0.01px);
+  display: block;
+  border: 1px solid rgb(255 255 255 / 60%) !important; /* More visible border on all sides */
+  border-bottom: 2px solid rgb(255 255 255 / 80%) !important; /* Very visible white bottom border */
+  background: linear-gradient(8deg, var(--bg) 75%, color-mix(in hsl, var(--bg), white 2.5%) 75.5%);
+  background-repeat: no-repeat;
+  background-clip: padding-box; /* Ensure border is not covered by background */
+  text-decoration: none !important;
+  color: var(--text);
+  opacity: 0.4; /* Faded until hover */
+  overflow: visible !important;
+  box-sizing: border-box;
+  z-index: 1; /* Ensure border is above pseudo-elements */
+  transition: opacity 0.3s ease;
 }
 
 .work-card.animate-in {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 0.4; /* Keep faded until hover */
 }
 
-.work-card {
-  /* Glow effect variables */
-  --glow-sens: 15; /* More sensitive to cursor proximity */
-  --glow-color: 0deg 0% 100%; /* White glow */
-  --glow-boost: 40%; /* More intense glow */
-  --pads: 60px;
-  --pointer-°: 45deg;
-  --blur: 15px;
-  --white0: hsla(0, 0%, 100%, 0);
-  --white50: hsla(0, 0%, 100%, 0.05);
-  --white100: hsla(0, 0%, 100%, 0.1);
-  --white200: hsla(0, 0%, 100%, 0.2);
-  --white: hsl(0, 0%, 100%);
-  
-  display: block;
-  text-decoration: none !important; 
-  color: var(--text);
+.work-card:hover {
+  opacity: 1 !important; /* Full opacity on hover - keep flash/glow effects */
+}
+
+.work-card:hover {
+  opacity: 1 !important; /* Full opacity on hover */
 }
 
 /* Remove ALL underlines from work-card links */
@@ -1490,68 +1409,138 @@ a.work-card,
 .work-card:active,
 .work-card:focus {
   text-decoration: none !important;
-  border-bottom: none !important;
   outline: none !important;
+  /* Keep the bottom border visible at all times */
+  border-bottom: 1px solid rgb(255 255 255 / 50%) !important;
 }
 
-.work-card:hover {
-  transform: translate3d(0, -2px, 0.01px);
-  box-shadow: rgba(255, 255, 255, 0.2) 0px 15px 25px -8px, rgba(255, 255, 255, 0.25) 0px 25px 45px -14px;
+/* Light mode - keep black */
+body:not(.dark-mode) .work-card {
+  background: #000000 !important;
+  color: #ffffff;
 }
 
-/* Different floating phases for work cards */
-.work-card:nth-child(1) { animation-delay: 0.2s; }
-.work-card:nth-child(2) { animation-delay: 2.2s; }
-.work-card:nth-child(3) { animation-delay: 4.2s; }
+.work-card::before,
+.work-card::after,
+.work-card > .glow {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+  transition: opacity 0.25s ease-out;
+  z-index: -1;
+  pointer-events: none;
+  /* Ensure pseudo-elements don't cover the border */
+  box-sizing: border-box;
+}
 
-/* Glow effect for work cards */
+.work-card:not(:hover):not(.animating)::before,
+.work-card:not(:hover):not(.animating)::after,
+.work-card:not(:hover):not(.animating) > .glow {
+  opacity: 0;
+  transition: opacity 0.75s ease-in-out;
+}
+
+/* Mesh gradient border - red and white only */
+.work-card::before {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--bg) 0 100%) padding-box,
+    linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box,
+    radial-gradient(at 80% 55%, hsla(0, 100%, 70%, 1) 0px, transparent 50%) border-box,
+    radial-gradient(at 69% 34%, hsla(0, 100%, 65%, 1) 0px, transparent 50%) border-box,
+    radial-gradient(at 8% 6%, hsla(0, 100%, 75%, 1) 0px, transparent 50%) border-box,
+    radial-gradient(at 41% 38%, hsla(0, 100%, 60%, 1) 0px, transparent 50%) border-box,
+    radial-gradient(at 86% 85%, hsla(0, 100%, 70%, 1) 0px, transparent 50%) border-box,
+    radial-gradient(at 82% 18%, hsla(0, 100%, 65%, 1) 0px, transparent 50%) border-box,
+    radial-gradient(at 51% 4%, hsla(0, 100%, 72%, 1) 0px, transparent 50%) border-box,
+    linear-gradient(hsl(0, 100%, 50%) 0 100%) border-box;
+  opacity: calc((var(--pointer-d) - var(--color-sens)) / (100 - var(--color-sens)));
+  mask-image: 
+    conic-gradient( 
+      from var(--pointer-°) at center, black 25%, transparent 40%, transparent 60%, black 75%
+    );
+}
+
+/* Mesh gradient background - red and white only */
+.work-card::after {
+  border: 1px solid transparent;
+  background:
+    radial-gradient(at 80% 55%, hsla(0, 100%, 70%, 1) 0px, transparent 50%) padding-box,
+    radial-gradient(at 69% 34%, hsla(0, 100%, 65%, 1) 0px, transparent 50%) padding-box,
+    radial-gradient(at 8% 6%, hsla(0, 100%, 75%, 1) 0px, transparent 50%) padding-box,
+    radial-gradient(at 41% 38%, hsla(0, 100%, 60%, 1) 0px, transparent 50%) padding-box,
+    radial-gradient(at 86% 85%, hsla(0, 100%, 70%, 1) 0px, transparent 50%) padding-box,
+    radial-gradient(at 82% 18%, hsla(0, 100%, 65%, 1) 0px, transparent 50%) padding-box,
+    radial-gradient(at 51% 4%, hsla(0, 100%, 72%, 1) 0px, transparent 50%) padding-box,
+    linear-gradient(hsl(0, 100%, 50%) 0 100%) padding-box;
+  mask-image:
+    linear-gradient( to bottom, black, black ),
+    radial-gradient( ellipse at 50% 50%, black 40%, transparent 65% ),
+    radial-gradient( ellipse at 66% 66%, black 5%, transparent 40% ),
+    radial-gradient( ellipse at 33% 33%, black 5%, transparent 40% ),
+    radial-gradient( ellipse at 66% 33%, black 5%, transparent 40% ),
+    radial-gradient( ellipse at 33% 66%, black 5%, transparent 40% ),
+    conic-gradient( from var(--pointer-°) at center, transparent 5%, black 15%, black 85%, transparent 95% );
+  mask-composite: subtract,add,add,add,add,add;
+  opacity: calc((var(--pointer-d) - var(--color-sens)) / (100 - var(--color-sens)));
+  mix-blend-mode: soft-light;
+}
+
+body:not(.dark-mode) .work-card::after {
+  mix-blend-mode: darken;
+}
+
+/* Glowing border edges - red and white */
 .work-card > .glow {
   --outset: var(--pads);
-  
-  position: absolute;
   inset: calc(var(--outset) * -1);
   pointer-events: none;
   z-index: 1;
-  border-radius: 0; /* LEVEL brand - no rounded edges */
-  transition: opacity 0.25s ease-out;
-  
-  /* glow is masked to a cone, originating from the center towards the pointer */
   mask-image: 
     conic-gradient( 
-      from var(--pointer-°, 45deg) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%
+      from var(--pointer-°) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%
     );
-  
-  /* opacity increases as pointer gets near edge */
-  opacity: calc((var(--pointer-d, 0) - var(--glow-sens)) / (100 - var(--glow-sens)));
+  opacity: calc((var(--pointer-d) - var(--glow-sens)) / (100 - var(--glow-sens)));
+  mix-blend-mode: plus-lighter;
 }
- 
-.work-card:not(:hover):not(.animating) > .glow {
-  opacity: 0.3;
-  transition: opacity 0.75s ease-in-out;
+
+body:not(.dark-mode) .work-card > .glow {
+  mix-blend-mode: luminosity;
 }
 
 .work-card > .glow::before {
   content: "";
   position: absolute;
   inset: var(--outset);
-  border-radius: 0; /* LEVEL brand - no rounded edges */
+  border-radius: 0;
   box-shadow: 
-    inset 0 0 0 1px hsl( var(--glow-color) / 100%), 
-    
-    inset 0 0 1px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 60%)), 
-    inset 0 0 3px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 50%)), 
-    inset 0 0 6px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 40%)), 
-    inset 0 0 15px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 30%)), 
-    inset 0 0 25px 2px hsl( var(--glow-color) / calc(var(--glow-boost) + 20%)), 
-    inset 0 0 50px 2px hsl( var(--glow-color) / calc(var(--glow-boost) + 10%)), 
-    
-    0 0 1px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 60%)), 
-    0 0 3px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 50%)), 
-    0 0 6px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 40%)), 
-    0 0 15px 0 hsl( var(--glow-color) / calc(var(--glow-boost) + 30%)), 
-    0 0 25px 2px hsl( var(--glow-color) / calc(var(--glow-boost) + 20%)), 
-    0 0 50px 2px hsl( var(--glow-color) / calc(var(--glow-boost) + 10%));
+    inset 0 0 0 1px hsl(0deg 100% 50% / 100%), 
+    inset 0 0 1px 0 hsl(0deg 100% 50% / 60%), 
+    inset 0 0 3px 0 hsl(0deg 100% 50% / 50%), 
+    inset 0 0 6px 0 hsl(0deg 100% 50% / 40%), 
+    inset 0 0 15px 0 hsl(0deg 100% 50% / 30%), 
+    inset 0 0 25px 2px hsl(0deg 100% 50% / 20%), 
+    inset 0 0 50px 2px hsl(0deg 100% 50% / 10%), 
+    0 0 1px 0 hsl(0deg 100% 50% / 60%), 
+    0 0 3px 0 hsl(0deg 100% 50% / 50%), 
+    0 0 6px 0 hsl(0deg 100% 50% / 40%), 
+    0 0 15px 0 hsl(0deg 100% 50% / 30%), 
+    0 0 25px 2px hsl(0deg 100% 50% / 20%), 
+    0 0 50px 2px hsl(0deg 100% 50% / 10%);
 }
+
+.work-card {
+  box-shadow: 
+    rgba(0, 0, 0, 0.1) 0px 1px 2px, 
+    rgba(0, 0, 0, 0.1) 0px 2px 4px, 
+    rgba(0, 0, 0, 0.1) 0px 4px 8px, 
+    rgba(0, 0, 0, 0.1) 0px 8px 16px, 
+    rgba(0, 0, 0, 0.1) 0px 16px 32px, 
+    rgba(0, 0, 0, 0.1) 0px 32px 64px;
+}
+
+/* Work media */
 .work-card .work-media { 
   aspect-ratio: 16/10; 
   background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.06)); 
@@ -1559,6 +1548,7 @@ a.work-card,
   position: relative;
   overflow: hidden;
   border-radius: 8px;
+  z-index: 2;
 }
 
 .work-card .work-media video {
@@ -1572,13 +1562,28 @@ a.work-card,
 .work-card:hover .work-media video {
   transform: scale(1.05);
 }
+
+/* Shimmer effect removed */
+
+/* Work meta */
 .work-card .work-meta { 
   padding: 16px; 
   border-top: 1px solid rgba(255,255,255,.06);
+  border-bottom: none; /* Remove bottom border */
   display: flex;
   flex-direction: column;
   gap: 8px;
+  position: relative;
+  z-index: 2;
+  /* Remove ALL styling effects */
+  box-shadow: none !important;
+  filter: none !important;
+  text-shadow: none !important;
+  background: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
+
 .work-card .work-meta span {
   display: block;
   font-size: clamp(18px, 2.5vw, 32px);
@@ -1589,7 +1594,22 @@ a.work-card,
   font-family: "Bebas Neue", Impact, system-ui, sans-serif;
   text-decoration: none !important;
   border-bottom: none !important;
+  position: relative;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
 }
+
+/* Red line under card titles */
+.work-card .work-meta span::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: #ff2d2d;
+}
+
 .work-card .work-meta strong {
   display: block;
   font-size: clamp(14px, 1.5vw, 18px);
@@ -1599,15 +1619,23 @@ a.work-card,
   font-family: "Inter", sans-serif;
   text-decoration: none !important;
   border-bottom: none !important;
+  /* Remove any glow effects from paragraph text */
+  text-shadow: none !important;
+  filter: none !important;
+  box-shadow: none !important;
 }
-.work-card {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  transition: all 0.4s cubic-bezier(0.5, 1, 0.89, 1);
-  transform: translate3d(0, 0, 0);
+
+/* Light mode text colors */
+body:not(.dark-mode) .work-card .work-meta span {
+  color: #ffffff !important;
 }
-.work-card:hover { 
-  transform: translate3d(0, -4px, 0) rotate(1deg); 
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+
+body:not(.dark-mode) .work-card .work-meta strong {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+body:not(.dark-mode) .work-card .work-meta {
+  border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
 .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 18px; }
@@ -1753,7 +1781,7 @@ a.work-card,
 
 .bottom-row .reviews-track {
   animation: scrollReviews 40s linear infinite;
-  animation-delay: -20s; /* Out of sync - starts halfway through animation */
+  animation-delay: -10s; /* Starts a little later - quarter way through animation for staggered effect */
 }
 
 @keyframes scrollReviews {
@@ -2197,7 +2225,10 @@ textarea {
     font-family: "Bebas Neue", Impact, system-ui, sans-serif;
     font-size: clamp(32px, 4vw, 56px);
     color: var(--text);
+    position: relative;
   }
+
+  /* Red line removed from section title - only on card titles */
 
   /* Projects Gallery Section - Images only */
   #projects.section {
@@ -2205,12 +2236,14 @@ textarea {
     padding: 0 !important; /* Remove section padding - container handles it */
     min-height: 600px;
     height: auto !important; /* Auto height to accommodate container padding */
-    overflow: visible !important; /* Allow container padding to show */
+    overflow-x: hidden !important; /* Hide horizontal overflow - container scrolls */
+    overflow-y: visible !important; /* Allow container padding to show */
     background: var(--bg) !important;
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
     border-bottom: 1px solid #000000; /* Bottom border only */
+    width: 100% !important; /* Constrain section to viewport */
   }
 
 .dark-mode #projects.section {
@@ -2228,24 +2261,20 @@ textarea {
   }
 
   .projects-container {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-start;
-    gap: 30px !important; /* Gap between images */
-    width: fit-content;
-    height: 600px !important; /* Match section height */
-    padding: 30px 48px 30px 48px !important; /* Top and bottom padding match horizontal gap (30px) */
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-behavior: auto !important; /* NO smooth scroll - causes staggering */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    height: 600px !important;
+    padding: 30px 48px 30px 48px !important;
     opacity: 1 !important;
     visibility: visible !important;
-    position: relative;
-    /* Simplified mask for better performance */
-    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  }
+  
+  .projects-container .swiper-wrapper {
+    align-items: flex-start;
+    transition-timing-function: linear !important; /* Constant speed */
+  }
+  
+  .projects-container .swiper-slide {
+    width: auto !important;
+    height: 100% !important;
   }
   
   /* Dark mode - projects container feathered edges should use white */
@@ -2266,8 +2295,8 @@ textarea {
   /* Services Gallery Section - Images only */
   #services-gallery.section {
     position: relative;
-    padding: 0;
-    height: 600px;
+    padding: 0 0 30px 0; /* Bottom padding so border doesn't touch images */
+    min-height: 400px; /* Minimum height so section doesn't collapse */
     overflow: hidden;
     background: var(--bg);
     border-bottom: 1px solid #000000;
@@ -2279,40 +2308,73 @@ textarea {
   }
 
   .services-container {
-    display: flex;
-    flex-direction: row;
-    width: max-content;
-    height: 600px;
-    padding: 30px 0;
-    overflow: visible;
-    transition: transform 0.6s ease-in-out;
+    min-height: 400px; /* Minimum height so container doesn't collapse */
+    padding: 0;
+    opacity: 1 !important;
+    visibility: visible !important;
+    overflow: hidden !important; /* Hide slides outside viewport */
     position: relative;
   }
-
-  .service-item {
-    flex-shrink: 0;
-    width: 100vw;
-    min-width: 100vw;
-    height: calc(100% - 60px);
+  
+  /* Simple slider - following the example pattern */
+  .services-container .services-slider {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 1;
-    visibility: visible;
+    width: 700vw; /* 6 slides + 1 duplicate = 7 * 100vw */
+    height: auto;
+    transition: transform 2s ease-in-out !important; /* Smooth slide transition */
+    transform: translateX(0);
+    margin: 0;
+    padding: 0;
+  }
+  
+  .services-container .service-slide {
+    width: 100vw !important; /* Each slide is exactly viewport width */
+    min-width: 100vw !important; /* Prevent shrinking */
+    height: auto !important;
+    flex-shrink: 0 !important;
+    overflow: hidden !important;
+    position: relative !important;
+    z-index: 10 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .services-container .service-item {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    overflow: visible !important; /* Changed from hidden */
+    position: relative !important;
+    z-index: 10 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    background: transparent !important; /* No background color */
   }
 
-  .service-item .service-image {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .services-container .service-item .service-image {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    overflow: visible !important; /* Changed from hidden */
+    position: relative !important;
+    z-index: 10 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    background: transparent !important;
   }
 
-  .service-item .service-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .services-container .service-item .service-image img {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    max-width: 100vw !important; /* Never exceed viewport width */
+    position: relative !important;
+    z-index: 10 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    background: transparent !important;
   }
 
   .project-item {
@@ -2546,9 +2608,18 @@ textarea {
 }
 .footer-inner { 
   display: grid; 
-  grid-template-columns: auto 1fr auto; 
+  grid-template-columns: 1fr auto 1fr; 
   align-items: center; 
   gap: 40px; 
+}
+
+/* Center footer nav content - middle column is centered between equal-width side columns */
+footer nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  grid-column: 2;
 }
 .footer-brand { 
   display: flex; 
@@ -2573,50 +2644,38 @@ textarea {
   filter: brightness(0) invert(1);
 }
 
-.footer-links { 
-  display: flex; 
-  flex-direction: row !important; /* Force horizontal */
-  gap: 32px; 
-  list-style: none !important; /* Remove bullet points */
-  padding: 0; 
-  margin: 0; 
-  justify-content: center;
-}
-
-.footer-links li {
-  list-style: none !important; /* Remove bullet points from list items */
-  display: inline-block;
-}
-
-.footer-links a { 
+.back-to-top { 
   color: var(--muted); 
   text-decoration: none; 
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.3px;
   text-transform: uppercase;
   transition: color 0.3s ease;
   position: relative;
   display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  margin: 0 auto;
 }
 
-.footer-links a::after {
+.back-to-top::after {
   content: '';
   position: absolute;
   bottom: -4px;
-  left: 50%; /* Start from center */
-  transform: translateX(-50%); /* Center the underline */
+  left: 50%;
+  transform: translateX(-50%);
   width: 0;
   height: 2px;
   background: var(--brand);
   transition: width 0.3s ease;
 }
 
-.footer-links a:hover { 
+.back-to-top:hover { 
   color: var(--text); 
 }
 
-.footer-links a:hover::after {
+.back-to-top:hover::after {
   width: 100%;
 }
 .footer-meta { 
@@ -2860,6 +2919,29 @@ textarea {
     line-height: 1.1;
   }
   
+  /* Hero Image - Mobile: Same positioning */
+  .hero-image-wrapper {
+    left: 50%;
+    right: 0;
+    width: 50%;
+  }
+  
+  /* Hero Social Icons - Mobile: Smaller, repositioned */
+  .hero-social {
+    right: 24px;
+    gap: 12px;
+  }
+  
+  .hero-social .social-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .hero-social .social-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+  
   /* On mobile, keep Brand & Marketing image constant */
   .hero-service-image-wrapper[data-service="Brand & Marketing"] {
     opacity: 1 !important;
@@ -2940,7 +3022,7 @@ textarea {
   
   .card {
     padding: 24px 20px;
-    text-align: left; /* Left align on mobile */
+    text-align: left;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.4s ease, transform 0.4s ease;
@@ -2948,7 +3030,7 @@ textarea {
   
   .card.animate-in {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) !important; /* Prevent conflicts */
   }
   
   .card h3 {
@@ -3273,14 +3355,8 @@ textarea {
     height: 36px;
   }
   
-  .footer-links {
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-  }
-  
-  .footer-links a {
-    font-size: 13px;
+  .back-to-top {
+    font-size: 16px;
   }
   
   .footer-meta { 
@@ -3462,12 +3538,8 @@ textarea {
   }
   
   /* Footer */
-  .footer-links {
-    gap: 16px;
-  }
-  
-  .footer-links a {
-    font-size: 12px;
+  .back-to-top {
+    font-size: 14px;
   }
   
   /* Client Logos - Keep bigger */
@@ -3491,7 +3563,7 @@ textarea {
   
   /* Larger touch targets */
   .nav a,
-  .footer-links a,
+  .back-to-top,
   .contact-method {
     min-height: 44px;
     display: flex;

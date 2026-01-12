@@ -32,15 +32,149 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.16 });
 animated.forEach(el => io.observe(el));
 
-// Smooth scroll for internal links
-document.addEventListener('click', (e) => {
-  const link = e.target.closest('a[href^="#"]');
-  if (!link) return;
-  const id = link.getAttribute('href').slice(1);
-  const target = document.getElementById(id);
-  if (!target) return;
-  e.preventDefault();
-  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+// Smooth scroll for internal links - account for header height
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🔍 Initializing smooth scroll handler...');
+  
+  // Handle all anchor link clicks - attach directly to links
+  const allLinks = document.querySelectorAll('a[href^="#"]');
+  console.log(`🔍 Found ${allLinks.length} anchor links with href starting with #`);
+  
+  if (allLinks.length === 0) {
+    console.error('❌ No anchor links found!');
+    return;
+  }
+  
+  allLinks.forEach(function(link, index) {
+    const href = link.getAttribute('href');
+    console.log(`🔍 Link ${index + 1}: href="${href}"`, link);
+    
+    link.addEventListener('click', function(e) {
+      console.log('🖱️ CLICK DETECTED on link:', this);
+      console.log('🖱️ Event target:', e.target);
+      console.log('🖱️ Current target:', e.currentTarget);
+      
+      const href = this.getAttribute('href');
+      console.log('🖱️ Link href:', href);
+      
+      if (!href || href === '#') {
+        console.log('⚠️ Invalid href, exiting');
+        return;
+      }
+      
+      const id = href.substring(1); // Remove the #
+      console.log('🖱️ Target ID:', id);
+      
+      if (!id) {
+        console.log('⚠️ No ID found, exiting');
+        return;
+      }
+      
+      const target = document.getElementById(id);
+      console.log('🖱️ Target element:', target);
+      
+      if (!target) {
+        console.error(`❌ Target element with id "${id}" not found`);
+        return;
+      }
+      
+      console.log('✅ Target found, preventing default and scrolling...');
+      e.preventDefault();
+      e.stopPropagation(); // Prevent event bubbling
+      
+      // Get current scroll position BEFORE any calculations
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+      console.log('📊 Current scroll position:', currentScroll);
+      
+      // Calculate scroll position - we want the top border of title section at position 0 (top of page)
+      // Use getBoundingClientRect for more accurate position calculation
+      const targetRect = target.getBoundingClientRect();
+      const targetPosition = targetRect.top + currentScroll;
+      
+      // No header offset - top border should be at position 0 (top of page)
+      console.log('📏 Target rect top (viewport):', targetRect.top);
+      console.log('📏 Calculated scroll position (top of page):', targetPosition);
+      
+      // Custom smooth scroll using requestAnimationFrame (works regardless of CSS)
+      const scrollPosition = Math.max(0, targetPosition);
+      console.log('✅ Attempting to scroll to position:', scrollPosition);
+      console.log('📊 Start position:', window.pageYOffset);
+      console.log('📊 Distance to travel:', scrollPosition - (window.pageYOffset || 0));
+      
+      // Store animation ID so we can track it
+      let animationId = null;
+      let isScrolling = true;
+      
+      const startPosition = window.pageYOffset || document.documentElement.scrollTop;
+      const distance = scrollPosition - startPosition;
+      const duration = 800; // 800ms
+      let startTime = null;
+      
+      function smoothScrollStep(currentTime) {
+        if (!isScrolling) {
+          console.log('⚠️ Scroll animation cancelled');
+          return;
+        }
+        
+        if (startTime === null) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / duration, 1);
+        
+        // Easing function (easeInOutCubic)
+        const ease = progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+        
+        const currentPosition = startPosition + (distance * ease);
+        
+        // Force scroll - use both methods
+        window.scrollTo(0, currentPosition);
+        document.documentElement.scrollTop = currentPosition;
+        document.body.scrollTop = currentPosition;
+        
+        const actualPosition = window.pageYOffset || document.documentElement.scrollTop;
+        console.log('📊 Progress:', Math.round(progress * 100) + '%', 'Target:', Math.round(currentPosition), 'Actual:', Math.round(actualPosition));
+        
+        if (progress < 1) {
+          animationId = requestAnimationFrame(smoothScrollStep);
+        } else {
+          // Ensure we end at exact position
+          window.scrollTo(0, scrollPosition);
+          document.documentElement.scrollTop = scrollPosition;
+          document.body.scrollTop = scrollPosition;
+          const finalPos = window.pageYOffset || document.documentElement.scrollTop;
+          console.log('✅ Smooth scroll completed. Final position:', finalPos);
+          isScrolling = false;
+        }
+      }
+      
+      animationId = requestAnimationFrame(smoothScrollStep);
+      
+      // Safety check - if scroll doesn't complete in 1 second, force it
+      setTimeout(() => {
+        if (isScrolling) {
+          console.log('⚠️ Scroll taking too long, forcing to position');
+          isScrolling = false;
+          window.scrollTo(0, scrollPosition);
+          document.documentElement.scrollTop = scrollPosition;
+          document.body.scrollTop = scrollPosition;
+        }
+      }, 1000);
+      
+      // Close mobile menu if open
+      const navLinks = document.getElementById('nav-links');
+      const navToggle = document.querySelector('.nav-toggle');
+      if (navLinks && navLinks.classList.contains('open')) {
+        console.log('📱 Closing mobile menu');
+        navLinks.classList.remove('open');
+        if (navToggle) {
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+  });
+  
+  console.log('✅ Smooth scroll handler initialized');
 });
 
 // Year in footer
@@ -195,20 +329,8 @@ function setupScrollBasedServices() {
   // Initial service
   updateServiceSlide(0);
   
-  // Update on scroll - throttled for performance
-  let serviceScrollTicking = false;
-  function requestServiceScrollUpdate() {
-    if (!serviceScrollTicking) {
-      requestAnimationFrame(() => {
-        updateServiceOnScroll();
-        serviceScrollTicking = false;
-      });
-      serviceScrollTicking = true;
-    }
-  }
-  window.addEventListener('scroll', requestServiceScrollUpdate, { passive: true });
-  
-  // Also keep auto-cycling as backup
+  // REMOVED scroll-based service updates - causing lag
+  // Just use auto-cycling
   setInterval(() => {
     if (window.scrollY < 500) { // Only auto-cycle if near top
       scrollBasedServiceIndex = (scrollBasedServiceIndex + 1) % services.length;
@@ -227,19 +349,25 @@ function showNextSlide() {
   if (currentSlide) {
     currentSlide.classList.remove('active');
     
-    // Hide service image wrapper for current service - fade out (desktop only)
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    if (!isMobile) {
-      const currentService = services[(currentSlideIndex - 1 + services.length) % services.length];
-      const normalizedCurrentService = currentService.replace(/\n/g, ' ');
-      const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
-      allImageWrappers.forEach(wrapper => {
-        const wrapperService = wrapper.getAttribute('data-service');
-        if (wrapperService === normalizedCurrentService) {
-          wrapper.classList.remove('active');
+      // Hide service image wrapper for current service - fade out (desktop only)
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      if (!isMobile) {
+        const currentService = services[(currentSlideIndex - 1 + services.length) % services.length];
+        const normalizedCurrentService = currentService.replace(/\n/g, ' ');
+        const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
+        allImageWrappers.forEach(wrapper => {
+          const wrapperService = wrapper.getAttribute('data-service');
+          if (wrapperService === normalizedCurrentService) {
+            wrapper.classList.remove('active');
+          }
+        });
+        
+        // Hide branding hero image when leaving "Brand & Marketing" service
+        const heroImageWrapper = document.querySelector('.hero-image-wrapper');
+        if (heroImageWrapper && normalizedCurrentService === 'Brand & Marketing') {
+          heroImageWrapper.classList.remove('active');
         }
-      });
-    }
+      }
     
     // Wait for fade out to complete, then create and show next slide
     setTimeout(() => {
@@ -268,6 +396,18 @@ function showNextSlide() {
             wrapper.classList.remove('active');
           }
         });
+        
+        // Sync branding hero image with "Brand & Marketing" service
+        const heroImageWrapper = document.querySelector('.hero-image-wrapper');
+        if (heroImageWrapper) {
+          if (normalizedNextService === 'Brand & Marketing') {
+            setTimeout(() => {
+              heroImageWrapper.classList.add('active');
+            }, 200);
+          } else {
+            heroImageWrapper.classList.remove('active');
+          }
+        }
       }
       
       // Fade in after a brief delay
@@ -292,23 +432,35 @@ function showNextSlide() {
     const newSlide = createServiceSlide(nextService);
     heroInner.appendChild(newSlide);
     
-    // Show service image wrapper for first service if it exists (desktop only)
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    if (!isMobile) {
-      // Normalize service name for comparison (remove \n and compare)
-      const normalizedNextService = nextService.replace(/\n/g, ' ');
-      const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
-      allImageWrappers.forEach(wrapper => {
-        const wrapperService = wrapper.getAttribute('data-service');
-        if (wrapperService === normalizedNextService) {
-          setTimeout(() => {
-            wrapper.classList.add('active');
-          }, 200);
-        } else {
-          wrapper.classList.remove('active');
+      // Show service image wrapper for first service if it exists (desktop only)
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      if (!isMobile) {
+        // Normalize service name for comparison (remove \n and compare)
+        const normalizedNextService = nextService.replace(/\n/g, ' ');
+        const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
+        allImageWrappers.forEach(wrapper => {
+          const wrapperService = wrapper.getAttribute('data-service');
+          if (wrapperService === normalizedNextService) {
+            setTimeout(() => {
+              wrapper.classList.add('active');
+            }, 200);
+          } else {
+            wrapper.classList.remove('active');
+          }
+        });
+        
+        // Sync branding hero image with "Brand & Marketing" service
+        const heroImageWrapper = document.querySelector('.hero-image-wrapper');
+        if (heroImageWrapper) {
+          if (normalizedNextService === 'Brand & Marketing') {
+            setTimeout(() => {
+              heroImageWrapper.classList.add('active');
+            }, 200);
+          } else {
+            heroImageWrapper.classList.remove('active');
+          }
         }
-      });
-    } else {
+      } else {
       // Mobile: keep Brand & Marketing image constant
       const brandingWrapper = document.querySelector('.hero-service-image-wrapper[data-service="Brand & Marketing"]');
       if (brandingWrapper) {
@@ -392,9 +544,10 @@ document.addEventListener('DOMContentLoaded', function() {
   reviewCards.forEach(card => cardObserver.observe(card));
 });
 
-// Pointer tracking for service cards, work cards, and steps glow effect
-const setupPointerTracking = () => {
-  const cards = document.querySelectorAll('.card, .work-card, .steps li');
+// Pointer tracking for work cards with glowing edges
+const setupWorkCardPointerTracking = () => {
+  const workCards = document.querySelectorAll('.work-card');
+  if (workCards.length === 0) return;
   
   const centerOfElement = ($el) => {
     const rect = $el.getBoundingClientRect();
@@ -443,6 +596,8 @@ const setupPointerTracking = () => {
     return Math.min(Math.max(1 / Math.min(k_x, k_y), 0), 1);
   };
 
+  const round = (value, precision = 3) => parseFloat(value.toFixed(precision));
+
   const cardUpdate = (e) => {
     const $card = e.currentTarget;
     const position = pointerPositionRelativeToElement($card, e);
@@ -452,34 +607,26 @@ const setupPointerTracking = () => {
     const edge = closenessToEdge($card, px, py);
     const angle = angleFromPointerEvent($card, dx, dy);
 
-    $card.style.setProperty('--pointer-x', `${perx.toFixed(3)}%`);
-    $card.style.setProperty('--pointer-y', `${pery.toFixed(3)}%`);
-    $card.style.setProperty('--pointer-°', `${angle.toFixed(3)}deg`);
-    $card.style.setProperty('--pointer-d', `${(edge * 100).toFixed(3)}`);
+    $card.style.setProperty('--pointer-x', `${round(perx)}%`);
+    $card.style.setProperty('--pointer-y', `${round(pery)}%`);
+    $card.style.setProperty('--pointer-°', `${round(angle)}deg`);
+    $card.style.setProperty('--pointer-d', `${round(edge * 100)}`);
     
     $card.classList.remove('animating');
   };
 
   // Only enable pointer tracking on devices with hover capability
   if (window.matchMedia('(hover: hover)').matches) {
-    cards.forEach(card => {
+    workCards.forEach(card => {
       card.addEventListener('pointermove', cardUpdate);
-      card.addEventListener('mousemove', cardUpdate); // Fallback for mouse events
     });
   }
-
-  return () => {
-    if (window.matchMedia('(hover: hover)').matches) {
-      cards.forEach(card => {
-        card.removeEventListener('pointermove', cardUpdate);
-        card.removeEventListener('mousemove', cardUpdate);
-      });
-    }
-  };
 };
 
-// Initialize pointer tracking
-const cleanupPointerTracking = setupPointerTracking();
+// Initialize pointer tracking for work cards
+document.addEventListener('DOMContentLoaded', () => {
+  setupWorkCardPointerTracking();
+});
 
 // Cursor trail removed per design requirements
 
@@ -514,8 +661,17 @@ function requestBackgroundUpdate() {
   }
 }
 
-window.addEventListener('scroll', requestBackgroundUpdate, { passive: true });
-window.addEventListener('resize', requestBackgroundUpdate, { passive: true });
+// Throttle background updates more aggressively
+let lastBackgroundUpdate = 0;
+function throttledBackgroundUpdate() {
+  const now = Date.now();
+  if (now - lastBackgroundUpdate > 100) { // Only update every 100ms
+    requestBackgroundUpdate();
+    lastBackgroundUpdate = now;
+  }
+}
+window.addEventListener('scroll', throttledBackgroundUpdate, { passive: true });
+window.addEventListener('resize', throttledBackgroundUpdate, { passive: true });
 
 // Cursor trail and parallax removed per design requirements
 
@@ -677,8 +833,6 @@ function initProjectsSection() {
     return;
   }
   
-  console.log('Initializing projects section, projects count:', projects.length);
-  
   // Render projects
   renderProjects(projectsContainer);
   
@@ -691,7 +845,6 @@ function initProjectsSection() {
   // Force all project items visible
   setTimeout(() => {
     const projectItems = document.querySelectorAll('.project-item');
-    console.log('Project items found:', projectItems.length);
     projectItems.forEach(item => {
       item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
     });
@@ -703,132 +856,92 @@ function initProjectsSection() {
     let loaded = 0;
     const total = images.length;
     
-    console.log('🟢 PROJECTS: Checking images, total:', total);
-    
     if (total === 0) {
-      console.log('🟢 PROJECTS: No images found, starting scroll anyway');
       initAutoScroll(projectsContainer);
       return;
     }
     
     function checkAndStart() {
       loaded++;
-      console.log(`🟢 PROJECTS: Image loaded ${loaded}/${total}`);
       if (loaded === total) {
-        console.log('🟢 PROJECTS: All images loaded, starting scroll');
         initAutoScroll(projectsContainer);
       }
     }
     
-    images.forEach((img, i) => {
+    images.forEach((img) => {
       if (img.complete) {
-        console.log(`🟢 PROJECTS: Image ${i} already complete`);
         checkAndStart();
       } else {
-        img.addEventListener('load', () => {
-          console.log(`🟢 PROJECTS: Image ${i} loaded`);
-          checkAndStart();
-        }, { once: true });
-        img.addEventListener('error', () => {
-          console.log(`🟢 PROJECTS: Image ${i} error`);
-          checkAndStart();
-        }, { once: true });
+        img.addEventListener('load', checkAndStart, { once: true });
+        img.addEventListener('error', checkAndStart, { once: true });
       }
     });
   }, 300);
 }
 
-// Auto-scroll function - slow continuous scrolling
+// Projects auto-scroll using Swiper for smooth continuous scroll
 function initAutoScroll(container) {
-  console.log('🟢 PROJECTS: initAutoScroll called');
-  console.log('🟢 PROJECTS: Container:', container);
+  if (!container || !window.Swiper) return;
   
-  if (!container) {
-    console.log('🟢 PROJECTS: No container provided');
-    return;
-  }
-  
-  // Check if container already has auto-scroll initialized
-  if (container.dataset.autoScrollInitialized === 'true') {
-    console.log('🟢 PROJECTS: Already initialized, skipping');
-    return;
-  }
-  
+  if (container.dataset.autoScrollInitialized === 'true') return;
   container.dataset.autoScrollInitialized = 'true';
-  console.log('🟢 PROJECTS: Marked as initialized');
   
-  // Projects auto-scroll - optimized for performance
   const isProjectsContainer = container.classList.contains('projects-container');
-  const isServicesContainer = container.classList.contains('services-container');
+  if (!isProjectsContainer) return;
   
-  console.log('🟢 PROJECTS: Is projects container:', isProjectsContainer);
-  console.log('🟢 PROJECTS: Is services container:', isServicesContainer);
+  // Initialize Swiper for SMOOTH continuous marquee scroll - NO hover pause
+  const swiper = new Swiper(container, {
+    slidesPerView: 'auto',
+    spaceBetween: 30,
+    freeMode: false,
+    speed: 5000,
+    autoplay: {
+      delay: 0,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: false, // NO pause on hover
+      stopOnLastSlide: false,
+    },
+    loop: true,
+    loopAdditionalSlides: 10,
+    allowTouchMove: false,
+    grabCursor: false,
+    watchSlidesProgress: false,
+    watchSlidesVisibility: false,
+    slidesOffsetBefore: 0,
+    slidesOffsetAfter: 0,
+    effect: 'slide',
+  });
   
-  // Skip services container - it uses slideshow
-  if (isServicesContainer) {
-    console.log('🟢 PROJECTS: Skipping services container');
-    return;
-  }
-  
-  let scrollSpeed = isProjectsContainer ? 4.0 : 1.5; // Faster speed for projects
-  console.log('🟢 PROJECTS: Scroll speed:', scrollSpeed);
-  let isScrolling = true;
-  let animationFrame;
-  
-  function scroll() {
-    if (!container || !isScrolling) {
-      console.log('🟢 PROJECTS: Scroll stopped - container:', !!container, 'isScrolling:', isScrolling);
-      return;
+  // Remove any hover handlers that might interfere
+  container.addEventListener('mouseenter', (e) => {
+    e.stopPropagation();
+    if (swiper && swiper.autoplay) {
+      swiper.autoplay.start(); // Force continue on hover
     }
-    
-    const maxScroll = container.scrollWidth - container.clientWidth;
-    console.log('🟢 PROJECTS: scrollWidth:', container.scrollWidth, 'clientWidth:', container.clientWidth, 'maxScroll:', maxScroll, 'scrollLeft:', container.scrollLeft);
-    
-    if (maxScroll <= 0) {
-      console.log('🟢 PROJECTS: No overflow yet, waiting...');
-      // Wait and retry if no overflow yet
-      setTimeout(() => {
-        if (container && container.scrollWidth > container.clientWidth) {
-          console.log('🟢 PROJECTS: Retrying scroll after delay');
-          scroll();
-        }
-      }, 200);
-      return;
-    }
-    
-    // Smooth scroll - reset at end
-    if (container.scrollLeft >= maxScroll - 1) {
-      console.log('🟢 PROJECTS: Reached end, resetting to 0');
-      container.scrollLeft = 0;
-    } else {
-      container.scrollLeft += scrollSpeed;
-    }
-    
-    animationFrame = requestAnimationFrame(scroll);
-  }
+  });
   
-  // For other containers (not services - services uses slideshow), normal pause on hover
-  if (!isServicesContainer) {
-    container.addEventListener('mouseenter', () => {
-      isScrolling = false;
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
-    });
-    
-    container.addEventListener('mouseleave', () => {
-      isScrolling = true;
-      scroll();
-    });
-  }
-  
-  // Start scrolling immediately
-  scroll();
+  container.addEventListener('mouseleave', (e) => {
+    e.stopPropagation();
+    if (swiper && swiper.autoplay) {
+      swiper.autoplay.start(); // Force continue on leave
+    }
+  });
 }
 
 // Render project items - horizontal scroll gallery with varying sizes
 function renderProjects(container) {
+  // Create Swiper wrapper if it doesn't exist
+  let wrapper = container.querySelector('.swiper-wrapper');
+  if (!wrapper) {
+    wrapper = document.createElement('div');
+    wrapper.classList.add('swiper-wrapper');
+    container.appendChild(wrapper);
+  }
+  
   projects.forEach((project, index) => {
+    const slide = document.createElement('div');
+    slide.classList.add('swiper-slide');
+    
     const projectItem = document.createElement('div');
     projectItem.classList.add('project-item');
     projectItem.classList.add(`project-size-${project.size || 'medium'}`);
@@ -846,7 +959,8 @@ function renderProjects(container) {
       : `<div class="project-image placeholder"></div>`;
     
     projectItem.innerHTML = imageHTML;
-    container.appendChild(projectItem);
+    slide.appendChild(projectItem);
+    wrapper.appendChild(slide);
   });
 }
 
@@ -869,9 +983,25 @@ const servicesImages = [
   'public/Projects/services/LEVEL _SERVICES-06.png'
 ];
 
-// Render services images - SLIDESHOW STYLE (one image at a time)
+// Render services images - Simple slider (no Swiper) - Optimized for performance
 function renderServicesImages(container) {
+  // Create slider wrapper if it doesn't exist
+  let slider = container.querySelector('.services-slider');
+  if (!slider) {
+    slider = document.createElement('div');
+    slider.classList.add('services-slider');
+    container.appendChild(slider);
+  }
+  
+  // Clear existing content
+  slider.innerHTML = '';
+  
+  // Create all slides
   servicesImages.forEach((imagePath, index) => {
+    const slide = document.createElement('div');
+    slide.classList.add('service-slide');
+    slide.dataset.index = index;
+    
     const serviceItem = document.createElement('div');
     serviceItem.classList.add('service-item');
     serviceItem.dataset.id = `service-${index + 1}`;
@@ -880,77 +1010,102 @@ function renderServicesImages(container) {
     const filename = imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
     const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Service ${index + 1} - Credit: LEVEL DESIGN AGENCY LTD`;
     
-    const imageHTML = `<div class="service-image"><img src="${imagePath}" alt="${altText}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`;
+    // Load all images - don't use lazy loading for slider
+    const img = document.createElement('img');
+    img.src = imagePath;
+    img.alt = altText;
+    img.loading = 'eager';
+    img.decoding = 'async';
+    img.style.display = 'block';
+    img.style.width = '100%';
+    img.style.height = 'auto';
     
-    serviceItem.innerHTML = imageHTML;
-    container.appendChild(serviceItem);
+    img.onload = () => {
+      console.log(`✅ Specialities image ${index + 1} loaded: ${imagePath}`);
+    };
+    img.onerror = (e) => {
+      console.error(`❌ Specialities image ${index + 1} FAILED: ${imagePath}`, e);
+      img.parentElement?.classList.add('placeholder');
+    };
+    
+    const imageDiv = document.createElement('div');
+    imageDiv.classList.add('service-image');
+    imageDiv.appendChild(img);
+    
+    serviceItem.appendChild(imageDiv);
+    slide.appendChild(serviceItem);
+    slider.appendChild(slide);
   });
+  
+  // Duplicate first slide at the end for seamless loop
+  const firstSlide = slider.firstElementChild.cloneNode(true);
+  slider.appendChild(firstSlide);
+  
+  console.log(`Total slides created: ${slider.children.length} (including duplicate for seamless loop)`);
 }
 
-// Simple specialities slideshow - horizontal slide animation
+// Simple auto-slide for specialities section - following the example pattern
 function initServicesGallery() {
-  console.log('🔵 SPECIALITIES: initServicesGallery called');
   const servicesContainer = document.querySelector('.services-container');
-  const servicesGallery = document.querySelector('#services-gallery');
-  
-  console.log('🔵 SPECIALITIES: Container found:', !!servicesContainer);
-  console.log('🔵 SPECIALITIES: Gallery found:', !!servicesGallery);
-  
   if (!servicesContainer) {
-    console.log('🔵 SPECIALITIES: Container not found, retrying...');
     setTimeout(initServicesGallery, 100);
     return;
   }
   
-  // Force visibility
-  if (servicesGallery) {
-    servicesGallery.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
-    console.log('🔵 SPECIALITIES: Gallery visibility forced');
-  }
-  servicesContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
-  console.log('🔵 SPECIALITIES: Container visibility forced');
-  
   // Render images
-  console.log('🔵 SPECIALITIES: Rendering images, count:', servicesImages.length);
   renderServicesImages(servicesContainer);
   
-  // Wait for items to be rendered
   setTimeout(() => {
-    const items = servicesContainer.querySelectorAll('.service-item');
-    console.log('🔵 SPECIALITIES: Items found after render:', items.length);
-    
-    if (items.length === 0) {
-      console.log('🔵 SPECIALITIES: No items found, retrying...');
+    const slider = servicesContainer.querySelector('.services-slider');
+    if (!slider) {
+      console.error('Specialities: Slider not found');
       setTimeout(initServicesGallery, 200);
       return;
     }
     
-    // Make all items visible
-    items.forEach((item, i) => {
-      item.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important;';
-      console.log(`🔵 SPECIALITIES: Item ${i} made visible`);
-    });
-    
-    let currentIndex = 0;
-    
-    // Slide horizontally to show the current image
-    function showSlide(index) {
-      const translateX = -(index * 100);
-      servicesContainer.style.transform = `translateX(${translateX}%)`;
-      console.log(`🔵 SPECIALITIES: Showing slide ${index}, translateX: ${translateX}%`);
+    const slides = slider.querySelectorAll('.service-slide');
+    console.log(`Specialities: Found ${slides.length} slides`);
+    if (slides.length === 0) {
+      console.error('Specialities: No slides found');
+      setTimeout(initServicesGallery, 200);
+      return;
     }
     
-    // Auto-advance every 3 seconds
-    function nextSlide() {
-      currentIndex = (currentIndex + 1) % items.length;
-      console.log(`🔵 SPECIALITIES: Advancing to slide ${currentIndex}`);
-      showSlide(currentIndex);
-    }
+    // Transform value in viewport width units
+    let currentSlide = 0;
+    const actualSlides = 6; // 6 original slides (duplicate is 7th, not counted)
+    const interval = 5000; // 5 seconds between slides
     
-    // Start slideshow
-    console.log('🔵 SPECIALITIES: Starting slideshow');
-    showSlide(0);
-    setInterval(nextSlide, 3000);
+    // Function to move slider using viewport width units
+    const move = () => {
+      slider.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    };
+    
+    // Function to slide forward - seamless infinite loop
+    const slide = () => {
+      currentSlide++;
+      
+      // When we reach the duplicate slide (slide 6), instantly jump back to 0
+      if (currentSlide >= actualSlides) {
+        // Remove transition for instant jump
+        slider.style.transition = 'none';
+        currentSlide = 0;
+        move();
+        // Force reflow
+        requestAnimationFrame(() => {
+          slider.style.transition = '';
+        });
+      } else {
+        move();
+      }
+    };
+    
+    // Initialize position
+    move();
+    console.log(`Specialities slider initialized with ${actualSlides} slides`);
+    
+    // Start interval for auto-slide
+    setInterval(slide, interval);
   }, 200);
 }
 
@@ -1075,11 +1230,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // About section - sticky with text animation
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('About section script starting...');
   const aboutSection = document.getElementById('about');
-  console.log('About section found:', aboutSection);
   if (!aboutSection) {
-    console.log('About section not found!');
     return;
   }
   
@@ -1216,10 +1368,105 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  window.addEventListener('wheel', handleWheel, { passive: false });
+  // Throttle wheel handler aggressively to prevent lag
+  let wheelThrottle = false;
+  let lastWheelCall = 0;
+  function throttledWheel(e) {
+    const now = Date.now();
+    if (now - lastWheelCall < 50) return; // Only process every 50ms
+    
+    if (wheelThrottle) return;
+    wheelThrottle = true;
+    lastWheelCall = now;
+    
+    requestAnimationFrame(() => {
+      handleWheel(e);
+      wheelThrottle = false;
+    });
+  }
+  // Keep passive: false because we need preventDefault, but throttle heavily
+  window.addEventListener('wheel', throttledWheel, { passive: false });
 });
 
-// Selected work hover backgrounds - DISABLED TO STOP CONSOLE FLOODING
+// Pointer tracking for work cards with glowing edges
+document.addEventListener('DOMContentLoaded', function() {
+  const workCards = document.querySelectorAll('.work-card');
+  if (workCards.length === 0) return;
+  
+  const centerOfElement = ($el) => {
+    const { left, top, width, height } = $el.getBoundingClientRect();
+    return [ width/2, height/2 ];
+  };
+
+  const pointerPositionRelativeToElement = ($el, e) => {
+    const pos = [e.clientX, e.clientY];
+    const { left, top, width, height } = $el.getBoundingClientRect();
+    const x = pos[0] - left;
+    const y = pos[1] - top;
+    const px = clamp((100 / width) * x);
+    const py = clamp((100 / height) * y);
+    return { pixels: [x,y], percent: [px,py] };
+  };
+
+  const angleFromPointerEvent = ($el, dx, dy) => {
+    let angleRadians = 0;
+    let angleDegrees = 0;
+    if (dx !== 0 || dy !== 0) {
+      angleRadians = Math.atan2(dy, dx);
+      angleDegrees = angleRadians * (180 / Math.PI) + 90;
+      if (angleDegrees < 0) {
+        angleDegrees += 360;
+      }
+    }
+    return angleDegrees;
+  };
+
+  const distanceFromCenter = ($card, x, y) => {
+    const [cx, cy] = centerOfElement($card);
+    return [x - cx, y - cy];
+  };
+
+  const closenessToEdge = ($card, x, y) => {
+    const [cx, cy] = centerOfElement($card);
+    const [dx, dy] = distanceFromCenter($card, x, y);
+    let k_x = Infinity;
+    let k_y = Infinity;
+    if (dx !== 0) {
+      k_x = cx / Math.abs(dx);
+    }
+    if (dy !== 0) {
+      k_y = cy / Math.abs(dy);
+    }
+    return clamp((1 / Math.min(k_x, k_y)), 0, 1);
+  };
+
+  const round = (value, precision = 3) => parseFloat(value.toFixed(precision));
+  const clamp = (value, min = 0, max = 100) => Math.min(Math.max(value, min), max);
+
+  const cardUpdate = (e) => {
+    const $card = e.currentTarget;
+    const position = pointerPositionRelativeToElement($card, e);
+    const [px, py] = position.pixels;
+    const [perx, pery] = position.percent;
+    const [dx, dy] = distanceFromCenter($card, px, py);
+    const edge = closenessToEdge($card, px, py);
+    const angle = angleFromPointerEvent($card, dx, dy);
+
+    $card.style.setProperty('--pointer-x', `${round(perx)}%`);
+    $card.style.setProperty('--pointer-y', `${round(pery)}%`);
+    $card.style.setProperty('--pointer-°', `${round(angle)}deg`);
+    $card.style.setProperty('--pointer-d', `${round(edge * 100)}`);
+    
+    $card.classList.remove('animating');
+  };
+
+  // Only enable pointer tracking on devices with hover capability
+  if (window.matchMedia('(hover: hover)').matches) {
+    workCards.forEach(card => {
+      card.addEventListener('pointermove', cardUpdate);
+    });
+  }
+});
 
 // Email copy to clipboard functionality
 document.addEventListener('DOMContentLoaded', function() {

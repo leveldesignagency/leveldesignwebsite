@@ -39,6 +39,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
+    <!-- Swiper CSS for smooth scrolling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000'/><path d='M18 50 H82' stroke='%23ff2d2d' stroke-width='8'/></svg>">
     
     <!-- Structured Data (JSON-LD) for SEO -->
@@ -76,7 +78,11 @@
     }
     </script>
 </head>
-<body>
+<body id="top">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-percent" id="loading-percent">0%</div>
+    </div>
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header">
@@ -91,11 +97,11 @@
                     <span class="bar"></span>
                 </button>
                 <ul id="nav-links" class="nav-links">
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#work">Work</a></li>
-                    <li><a href="#process">Process</a></li>
+                    <li><a href="#services-title">Services</a></li>
+                    <li><a href="#work-title">Work</a></li>
+                    <li><a href="#process-title">Process</a></li>
                     <li><a href="#about">About</a></li>
-                    <li><a href="#contact" class="cta">Start a Project</a></li>
+                    <li><a href="#contact-title" class="cta">Start a Project</a></li>
                 </ul>
             </nav>
         </div>
@@ -109,6 +115,26 @@
                     <span class="phrase phrase2">Systems that scale.</span>
                     <span class="phrase phrase3">Interfaces that think.</span>
                 </h1>
+                <div class="hero-image-wrapper">
+                    <img src="public/branding_white.png" alt="Branding" class="hero-image hero-image-light" />
+                    <img src="public/branding_black.png" alt="Branding" class="hero-image hero-image-dark" />
+                </div>
+                <div class="hero-social">
+                    <a href="https://www.linkedin.com/company/level-design-agency" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/leveldesignagency" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -721,12 +747,7 @@
                 <img src="LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" class="footer-logo" />
             </div>
             <nav aria-label="Footer">
-                <ul class="footer-links">
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#work">Work</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
+                <a href="#top" class="back-to-top">BACK TO THE TOP</a>
             </nav>
             <div class="footer-meta">
                 <span>© <span id="year"></span> LEVEL DESIGN AGENCY LTD</span>
@@ -735,6 +756,55 @@
     </footer>
 
     <canvas id="cursor-canvas"></canvas>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+      // Percentage loader - counts from 0 to 100%
+      (function() {
+        const loader = document.getElementById('loading-screen');
+        const percentEl = document.getElementById('loading-percent');
+        if (!loader || !percentEl) return;
+        
+        let percent = 0;
+        const targetPercent = 100;
+        const duration = 2000; // 2 seconds total
+        const interval = 20; // Update every 20ms
+        const increment = (targetPercent / duration) * interval;
+        
+        const updatePercent = () => {
+          percent += increment;
+          if (percent >= targetPercent) {
+            percent = targetPercent;
+            percentEl.textContent = '100%';
+            
+            // Hide loading screen when complete
+            setTimeout(() => {
+              loader.style.opacity = '0';
+              setTimeout(() => loader.remove(), 500);
+            }, 200);
+            return;
+          }
+          
+          percentEl.textContent = Math.floor(percent) + '%';
+          setTimeout(updatePercent, interval);
+        };
+        
+        // Start counting
+        updatePercent();
+        
+        // Also hide on window load (fallback)
+        window.addEventListener('load', function() {
+          if (loader && loader.parentNode) {
+            percent = 100;
+            percentEl.textContent = '100%';
+            setTimeout(() => {
+              loader.style.opacity = '0';
+              setTimeout(() => loader.remove(), 500);
+            }, 200);
+          }
+        });
+      })();
+    </script>
     <script src="script.js" defer></script>
 </body>
 </html>
