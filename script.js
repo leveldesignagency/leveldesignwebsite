@@ -1178,28 +1178,38 @@ function initMobileSections() {
   // Only run on mobile
   if (window.innerWidth > 768) return;
   
-  // Mobile hero animation - fade out main text, then cycle services
-  const mobileHero = document.querySelector('.mobile-hero');
-  if (mobileHero) {
-    const heroMainText = mobileHero.querySelector('.mobile-hero-main-text');
-    const heroServices = document.getElementById('mobile-hero-services');
-    const heroImages = document.getElementById('mobile-hero-images');
+  // Wait for loading screen to complete before starting hero animation
+  const loader = document.getElementById('loading-screen');
+  let heroAnimationStarted = false;
+  
+  function startHeroAnimation() {
+    if (heroAnimationStarted) return;
+    heroAnimationStarted = true;
     
-    if (heroMainText && heroServices && heroImages) {
-      // Fade out main text after 2 seconds
-      setTimeout(() => {
-        heroMainText.classList.add('fade-out');
-        
-        // Show services and images after fade out
-        setTimeout(() => {
-          heroServices.classList.add('show');
-          heroImages.classList.add('show');
-          
-          // Start cycling services
-          initMobileHeroCycling(heroServices, heroImages);
-        }, 1000);
-      }, 2000);
-    }
+    // Initialize services text section (before company logos)
+    initMobileServicesText();
+  }
+  
+  // Check if loading screen exists and wait for it to complete
+  if (loader) {
+    // Wait for loading screen to be removed
+    const checkLoader = setInterval(() => {
+      if (!document.getElementById('loading-screen')) {
+        clearInterval(checkLoader);
+        // Small delay to ensure screen is fully loaded
+        setTimeout(startHeroAnimation, 500);
+      }
+    }, 100);
+    
+    // Fallback - start after 5 seconds max
+    setTimeout(() => {
+      if (!heroAnimationStarted) {
+        startHeroAnimation();
+      }
+    }, 5000);
+  } else {
+    // No loading screen, start immediately
+    startHeroAnimation();
   }
   
   // Load specialities images for mobile - only 6 images exist
@@ -1242,10 +1252,15 @@ function initMobileSections() {
     });
   }
   
-  // Load ALL projects for mobile - horizontal scroll
+  // Load ALL projects for mobile - auto-scrolling marquee
   const mobileProjectsContainer = document.getElementById('mobile-projects-container');
   if (mobileProjectsContainer && typeof projects !== 'undefined' && projects.length > 0) {
-    projects.forEach(project => { // ALL projects
+    // Create track for marquee
+    const track = document.createElement('div');
+    track.className = 'mobile-projects-track';
+    
+    // Add all projects twice for seamless loop
+    [...projects, ...projects].forEach(project => {
       const projectItem = document.createElement('div');
       projectItem.className = 'mobile-project-item';
       
@@ -1255,8 +1270,10 @@ function initMobileSections() {
       img.loading = 'lazy';
       
       projectItem.appendChild(img);
-      mobileProjectsContainer.appendChild(projectItem);
+      track.appendChild(projectItem);
     });
+    
+    mobileProjectsContainer.appendChild(track);
   }
   
   // Smooth scroll for mobile menu links
@@ -1297,8 +1314,11 @@ function initMobileSections() {
   }
 }
 
-// Mobile hero cycling - services with images
-function initMobileHeroCycling(servicesContainer, imagesContainer) {
+// Mobile services text section - before company logos
+function initMobileServicesText() {
+  const servicesContainer = document.getElementById('mobile-services-text');
+  if (!servicesContainer) return;
+  
   const mobileServices = [
     { name: "Web\nDesign", image: null },
     { name: "Graphic\nDesign", image: null },
@@ -1311,44 +1331,58 @@ function initMobileHeroCycling(servicesContainer, imagesContainer) {
   
   let currentServiceIndex = 0;
   
-  // Create service text element
+  // Create service item container
+  const serviceItem = document.createElement('div');
+  serviceItem.className = 'mobile-service-item';
+  
+  // Create service text element (left aligned)
   const serviceText = document.createElement('div');
-  serviceText.className = 'service-text';
-  servicesContainer.appendChild(serviceText);
+  serviceText.className = 'mobile-service-text';
+  serviceItem.appendChild(serviceText);
+  
+  // Create image container (right side)
+  const imageContainer = document.createElement('div');
+  imageContainer.className = 'mobile-service-image-container';
   
   // Create image elements for Brand & Marketing
   const imageLight = document.createElement('img');
-  imageLight.className = 'service-image service-image-light';
+  imageLight.className = 'mobile-service-image service-image-light';
   imageLight.src = 'public/branding_white.png';
   imageLight.alt = 'Branding';
   
   const imageDark = document.createElement('img');
-  imageDark.className = 'service-image service-image-dark';
+  imageDark.className = 'mobile-service-image service-image-dark';
   imageDark.src = 'public/branding_black.png';
   imageDark.alt = 'Branding';
   
-  imagesContainer.appendChild(imageLight);
-  imagesContainer.appendChild(imageDark);
+  imageContainer.appendChild(imageLight);
+  imageContainer.appendChild(imageDark);
+  serviceItem.appendChild(imageContainer);
+  
+  servicesContainer.appendChild(serviceItem);
   
   function updateService() {
     const service = mobileServices[currentServiceIndex];
-    serviceText.textContent = service.name.replace('\n', ' ');
     serviceText.innerHTML = service.name.replace('\n', '<br>');
     
     // Show/hide images based on service
     if (service.imageLight && service.imageDark) {
-      imageLight.classList.add('active');
-      imageDark.classList.add('active');
+      imageLight.style.display = 'block';
+      imageDark.style.display = 'none';
+      if (document.body.classList.contains('dark-mode')) {
+        imageLight.style.display = 'none';
+        imageDark.style.display = 'block';
+      }
+      imageContainer.style.display = 'block';
     } else {
-      imageLight.classList.remove('active');
-      imageDark.classList.remove('active');
+      imageContainer.style.display = 'none';
     }
     
     // Fade animation
-    serviceText.classList.remove('fade-in');
+    serviceItem.style.opacity = '0';
     setTimeout(() => {
-      serviceText.classList.add('fade-in');
-    }, 50);
+      serviceItem.style.opacity = '1';
+    }, 300);
   }
   
   // Initial update

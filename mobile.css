@@ -174,7 +174,7 @@ html, body {
 /* Mobile Hero */
 .mobile-hero {
   padding: 100px 20px 60px;
-  min-height: 70vh;
+  min-height: 50vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -190,101 +190,77 @@ html, body {
   line-height: 1.1;
   color: var(--text);
   font-weight: 400;
-  opacity: 1;
-  transition: opacity 1s ease-out;
-  margin-bottom: 40px;
+  opacity: 0;
+  transition: opacity 1s ease-in;
+  margin-bottom: 0;
   text-align: left;
 }
 
-.mobile-hero-main-text.fade-out {
-  opacity: 0;
-}
-
-.mobile-hero-services {
-  position: absolute;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-50%);
-  opacity: 0;
-  transition: opacity 1s ease-in;
-}
-
-.mobile-hero-services.show {
+.mobile-hero-main-text.show {
   opacity: 1;
 }
 
-.mobile-hero-services .service-text {
+/* Services Text Section - Before Company Logos */
+.mobile-services-text {
+  padding: 60px 20px;
+  min-height: 40vh;
+  position: relative;
+}
+
+.mobile-service-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.mobile-service-text {
   font-family: "Bebas Neue", Impact, system-ui, sans-serif;
   font-size: clamp(56px, 14vw, 100px);
   line-height: 1;
   color: var(--text);
   font-weight: 400;
   text-align: left;
-  white-space: nowrap;
+  flex: 1;
 }
 
-.mobile-hero-services .service-text.fade-in {
-  animation: fadeInOut 4s ease-in-out infinite;
+.mobile-service-image-container {
+  flex: 0 0 40%;
+  max-width: 300px;
+  display: none;
 }
 
-@keyframes fadeInOut {
-  0%, 100% { opacity: 0; }
-  20%, 80% { opacity: 1; }
-}
-
-.mobile-hero-images {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 50%;
-  height: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 1s ease-in;
-  pointer-events: none;
-}
-
-.mobile-hero-images.show {
-  opacity: 1;
-}
-
-.mobile-hero-images .service-image {
+.mobile-service-image {
   width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: none;
-}
-
-.mobile-hero-images .service-image.active {
+  height: auto;
   display: block;
 }
 
-.mobile-hero-images .service-image-light {
+.mobile-service-image.service-image-light {
   display: block;
 }
 
-.dark-mode .mobile-hero-images .service-image-light {
+.dark-mode .mobile-service-image.service-image-light {
   display: none;
 }
 
-.mobile-hero-images .service-image-dark {
+.mobile-service-image.service-image-dark {
   display: none;
 }
 
-.dark-mode .mobile-hero-images .service-image-dark {
+.dark-mode .mobile-service-image.service-image-dark {
   display: block;
 }
 
 /* Mobile Sections */
 .mobile-section {
-  padding: 60px 20px;
-  border-bottom: 1px solid var(--text);
+  padding: 60px 0;
 }
 
-.dark-mode .mobile-section {
-  border-bottom: 1px solid var(--text);
+.mobile-section:not(.mobile-section-title-wrapper) {
+  border-bottom: none;
 }
 
 .mobile-section-title {
@@ -413,7 +389,11 @@ html, body {
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
-  padding: 40px 20px;
+  padding: 20px 20px;
+}
+
+.mobile-services-title h2 {
+  font-size: clamp(56px, 15vw, 90px) !important;
 }
 
 .mobile-service-card {
@@ -552,35 +532,47 @@ html, body {
   opacity: 0.9;
 }
 
-/* Projects - Horizontal Scroll */
+/* Projects - Auto-scrolling Marquee */
 .mobile-projects {
   display: flex;
   flex-direction: row;
   gap: 20px;
-  padding: 20px 0;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  scroll-behavior: smooth;
+  padding: 0;
+  overflow: hidden;
   width: 100%;
+  position: relative;
 }
 
-.mobile-projects::-webkit-scrollbar {
-  display: none;
+.mobile-projects-track {
+  display: flex;
+  gap: 20px;
+  animation: mobileProjectsMarquee 30s linear infinite;
+  width: max-content;
+}
+
+@keyframes mobileProjectsMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .mobile-project-item {
   flex-shrink: 0;
   width: 100vw;
-  height: auto;
+  height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .mobile-project-item img {
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: 100%;
+  max-width: 100%;
   display: block;
   object-fit: contain;
 }
@@ -590,7 +582,7 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 40px 20px;
+  padding: 20px 20px;
 }
 
 .mobile-process-step {
@@ -598,6 +590,7 @@ html, body {
   padding: 32px 24px;
   background: var(--bg-alt);
   color: var(--text-alt);
+  width: 100%;
 }
 
 .dark-mode .mobile-process-step {
@@ -636,14 +629,15 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 40px 20px;
+  padding: 20px 20px;
 }
 
 .mobile-review-card {
   border: 2px solid var(--text-alt);
-  padding: 24px;
+  padding: 32px 24px;
   background: var(--bg-alt);
   color: var(--text-alt);
+  width: 100%;
 }
 
 .dark-mode .mobile-review-card {
