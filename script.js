@@ -1168,7 +1168,23 @@ function initMobileSections() {
   // Only run on mobile
   if (window.innerWidth > 768) return;
   
-  // Load specialities images for mobile
+  // Hero animation - fade out text, fade in image
+  const mobileHero = document.querySelector('.mobile-hero');
+  if (mobileHero) {
+    const heroH1 = mobileHero.querySelector('h1');
+    const heroContent = mobileHero.querySelector('.hero-content');
+    
+    if (heroH1 && heroContent) {
+      setTimeout(() => {
+        heroH1.classList.add('fade-out');
+        setTimeout(() => {
+          heroContent.classList.add('show');
+        }, 1000);
+      }, 2000);
+    }
+  }
+  
+  // Load specialities images for mobile - ALL images
   const mobileSpecialitiesContainer = document.getElementById('mobile-specialities-container');
   if (mobileSpecialitiesContainer) {
     const servicesImages = [
@@ -1191,10 +1207,10 @@ function initMobileSections() {
     });
   }
   
-  // Load projects for mobile (simplified - just images)
+  // Load ALL projects for mobile - horizontal scroll
   const mobileProjectsContainer = document.getElementById('mobile-projects-container');
   if (mobileProjectsContainer && typeof projects !== 'undefined' && projects.length > 0) {
-    projects.slice(0, 12).forEach(project => { // Limit to first 12 for mobile
+    projects.forEach(project => { // ALL projects
       const projectItem = document.createElement('div');
       projectItem.className = 'mobile-project-item';
       
