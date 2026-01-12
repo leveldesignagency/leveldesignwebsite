@@ -289,44 +289,72 @@ function createServiceSlide(service) {
   return slide;
 }
 
-function startServiceCycling() {
-  // Check if mobile
-  isMobile = window.matchMedia('(max-width: 768px)').matches;
+// Hero animation: main text fades in, shows 3s, fades out, then services cycle
+function initHeroAnimation() {
+  const heroMainText = document.querySelector('.hero-main-text');
+  const heroServiceText = document.getElementById('hero-service-text');
+  const heroImageWrapper = document.querySelector('.hero-image-wrapper');
   
-  // On mobile, keep the original headline visible and add service text below
-  const heroHeadline = document.getElementById('hero-headline');
-  if (!isMobile) {
-    // Desktop: fade out original text
-    heroHeadline.style.transition = 'opacity 1s ease-in-out';
-    heroHeadline.style.opacity = '0';
-  } else {
-    // Mobile: keep original text visible
-    heroHeadline.style.opacity = '1';
-  }
+  if (!heroMainText || !heroServiceText) return;
   
-  // On mobile, keep Brand & Marketing image constant
-  if (isMobile) {
-    const brandingWrapper = document.querySelector('.hero-service-image-wrapper[data-service="Brand & Marketing"]');
-    if (brandingWrapper) {
-      brandingWrapper.classList.add('active');
-    }
-    // Hide all other images
-    document.querySelectorAll('.hero-service-image-wrapper:not([data-service="Brand & Marketing"])').forEach(wrapper => {
-      wrapper.classList.remove('active');
-    });
+  const services = ['Graphic Design', 'Social Media Management', 'Brand & Marketing'];
+  let currentServiceIndex = 0;
+  
+  // Step 1: Show main text
+  setTimeout(() => {
+    heroMainText.classList.add('show');
     
-    // On mobile, use scroll-based service changes instead of auto-cycling
-    setupScrollBasedServices();
-  } else {
-    // Desktop: hide all images when cycling starts
-    document.querySelectorAll('.hero-service-image-wrapper').forEach(wrapper => {
-      wrapper.classList.remove('active');
-    });
-    
-    // Start the service cycling immediately for desktop
+    // Step 2: After 3 seconds, fade out main text
     setTimeout(() => {
-      showNextSlide();
-    }, 1000);
+      heroMainText.classList.remove('show');
+      
+      // Step 3: After fade out, start cycling services
+      setTimeout(() => {
+        heroMainText.style.display = 'none';
+        heroImageWrapper.classList.add('active');
+        cycleServices();
+        
+        // Cycle every 3 seconds
+        setInterval(cycleServices, 3000);
+      }, 1000);
+    }, 3000);
+  }, 500);
+  
+  function cycleServices() {
+    const service = services[currentServiceIndex];
+    heroServiceText.textContent = service;
+    heroServiceText.classList.add('show');
+    
+    // Update background image for masking based on service
+    if (service === 'Brand & Marketing') {
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      const isDarkMode = document.body.classList.contains('dark-mode');
+      
+      if (isMobile) {
+        // Mobile: reversed logic
+        heroServiceText.style.backgroundImage = isDarkMode 
+          ? "url('public/branding_white.png')" 
+          : "url('public/branding_black.png')";
+      } else {
+        // Desktop: normal logic
+        heroServiceText.style.backgroundImage = isDarkMode 
+          ? "url('public/branding_black.png')" 
+          : "url('public/branding_white.png')";
+      }
+    } else {
+      // For other services, use default
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      const isDarkMode = document.body.classList.contains('dark-mode');
+      heroServiceText.style.backgroundImage = isMobile && isDarkMode
+        ? "url('public/branding_white.png')"
+        : isMobile && !isDarkMode
+        ? "url('public/branding_black.png')"
+        : isDarkMode
+        ? "url('public/branding_black.png')"
+        : "url('public/branding_white.png')";
+    }
+    
+    currentServiceIndex = (currentServiceIndex + 1) % services.length;
   }
 }
 
@@ -1161,6 +1189,7 @@ function initServicesGallery() {
 // Initialize services gallery when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
   initServicesGallery();
+  initHeroAnimation();
 });
 
 
@@ -1277,6 +1306,66 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Recalculate on resize
   window.addEventListener('resize', adjustMarqueeSpeed);
+});
+
+// Reviews Section - Single view carousel, auto-advance every 2 seconds
+document.addEventListener('DOMContentLoaded', function() {
+  const reviewsSection = document.querySelector('#reviews.section');
+  if (!reviewsSection) return;
+  
+  const reviewsWrapper = reviewsSection.querySelector('.reviews-wrapper');
+  if (!reviewsWrapper) return;
+  
+  // Collect all review cards from both rows
+  const allReviewCards = Array.from(reviewsSection.querySelectorAll('.review-card'));
+  if (allReviewCards.length === 0) return;
+  
+  // Hide the original rows
+  const topRow = reviewsWrapper.querySelector('.top-row');
+  const bottomRow = reviewsWrapper.querySelector('.bottom-row');
+  if (topRow) topRow.style.display = 'none';
+  if (bottomRow) bottomRow.style.display = 'none';
+  
+  // Create new single-view carousel container
+  const carouselContainer = document.createElement('div');
+  carouselContainer.className = 'reviews-carousel';
+  carouselContainer.style.cssText = 'position: relative; width: 100%; overflow: hidden;';
+  
+  // Create single active card container
+  const activeCardContainer = document.createElement('div');
+  activeCardContainer.className = 'reviews-active-card';
+  activeCardContainer.style.cssText = 'width: 100%; display: flex; justify-content: center; padding: 0 48px;';
+  
+  // Clone first card and add to container
+  let currentIndex = 0;
+  const showCard = (index) => {
+    const card = allReviewCards[index];
+    if (!card) return;
+    
+    // Clone card and add to container
+    const clonedCard = card.cloneNode(true);
+    clonedCard.style.cssText = 'opacity: 0; transition: opacity 0.5s ease; max-width: 600px; width: 100%;';
+    activeCardContainer.innerHTML = '';
+    activeCardContainer.appendChild(clonedCard);
+    
+    // Fade in
+    requestAnimationFrame(() => {
+      clonedCard.style.opacity = '1';
+    });
+  };
+  
+  activeCardContainer.appendChild(allReviewCards[0].cloneNode(true));
+  carouselContainer.appendChild(activeCardContainer);
+  reviewsWrapper.appendChild(carouselContainer);
+  
+  // Show first card
+  showCard(0);
+  
+  // Auto-advance every 2 seconds
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % allReviewCards.length;
+    showCard(currentIndex);
+  }, 2000);
 });
 
 
