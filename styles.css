@@ -2978,18 +2978,21 @@ footer nav {
   /* Hero Social Icons - Mobile: At very bottom of hero section */
   .hero-social {
     position: absolute !important;
-    bottom: 20px !important; /* At the bottom */
+    bottom: 20px !important; /* At the bottom of hero section */
     left: 50% !important;
-    transform: translateX(-50%) !important;
+    transform: translateX(-50%) !important; /* Center horizontally only */
     right: auto !important;
     top: auto !important;
     flex-direction: row !important;
-    justify-content: center;
+    justify-content: center !important;
+    align-items: center !important;
     gap: 24px;
     margin: 0 !important;
+    padding: 0 !important;
     order: 3;
     z-index: 10 !important;
-    width: 100%;
+    width: auto !important; /* Don't stretch full width */
+    height: auto !important;
   }
   
   .hero-social .social-icon {
