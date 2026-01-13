@@ -1459,6 +1459,7 @@ section#services .container .grid.services-grid {
 
 .card h3 {
   color: var(--text-alt) !important;
+  font-size: clamp(32px, 4vw, 48px) !important; /* MUCH BIGGER */
 }
 
 .work-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
@@ -2209,6 +2210,7 @@ textarea {
   }
 
 .dark-mode #projects.section {
+    background: #000000 !important; /* Black background in dark mode */
     border-bottom: 1px solid #ffffff;
     border-top: none;
   }
@@ -2910,11 +2912,11 @@ footer nav {
   .hero {
     min-height: 100vh !important;
     height: 100vh !important;
-    padding: 88px 0 0 0 !important;
+    padding: 88px 0 80px 0 !important; /* Bottom padding for social icons */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center; /* Center the text */
     text-align: center;
     position: relative !important;
     overflow: visible !important;
@@ -2976,7 +2978,7 @@ footer nav {
   /* Hero Social Icons - Mobile: At very bottom of hero section */
   .hero-social {
     position: absolute !important;
-    bottom: 20px !important;
+    bottom: 20px !important; /* At the bottom */
     left: 50% !important;
     transform: translateX(-50%) !important;
     right: auto !important;
@@ -3180,7 +3182,7 @@ footer nav {
     margin-top: 16px;
     font-size: clamp(13px, 1.8vw, 15px);
     text-align: left;
-    list-style: disc;
+    list-style: square !important; /* SQUARE bullets */
     padding-left: 20px;
   }
   
@@ -3278,25 +3280,45 @@ footer nav {
   }
   
   .work-card .work-meta span {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
+    font-size: clamp(20px, 4vw, 28px) !important; /* BIGGER */
+    font-weight: 700 !important;
+    color: var(--text) !important;
+    opacity: 1 !important; /* FULL OPACITY */
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.05em;
+    font-family: "Bebas Neue", Impact, system-ui, sans-serif;
     display: block;
+    text-align: center !important; /* CENTERED */
     text-decoration: none !important;
     border-bottom: none !important;
+    position: relative;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+  }
+  
+  /* Red line under card titles - CENTERED on mobile */
+  .work-card .work-meta span::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50% !important; /* CENTERED */
+    transform: translateX(-50%) !important; /* CENTERED */
+    width: 60px;
+    height: 3px;
+    background: #ff2d2d;
   }
   
   .work-card .work-meta strong {
     font-size: clamp(16px, 3vw, 20px);
     font-weight: 400;
     color: var(--text);
+    opacity: 1 !important; /* FULL OPACITY */
     line-height: 1.4;
     text-decoration: none !important;
     border-bottom: none !important;
     font-family: "Inter", sans-serif;
     display: block;
+    text-align: center !important; /* CENTERED */
   }
   
   /* Steps - Left aligned */
@@ -3550,16 +3572,25 @@ footer nav {
     justify-content: center;
   }
   
-  /* Footer */
+  /* Footer - Stack everything vertically */
   .footer-inner { 
-    grid-template-columns: 1fr; 
-    text-align: center; 
-    justify-items: center; 
-    gap: 32px;
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: none !important;
+    text-align: center !important; 
+    justify-items: center !important; 
+    align-items: center !important;
+    gap: 24px !important;
   }
   
   .footer-brand {
     justify-content: center;
+    order: 1;
+  }
+  
+  footer nav {
+    order: 2;
+    grid-column: auto !important;
   }
   
   .footer-logo {
@@ -3571,9 +3602,11 @@ footer nav {
   }
   
   .footer-meta { 
-    align-items: center; 
-    text-align: center;
+    order: 3;
+    align-items: center !important; 
+    text-align: center !important;
     font-size: 12px;
+    grid-column: auto !important;
   }
   
   /* Client Logos - Make even bigger, smaller gaps on mobile */
