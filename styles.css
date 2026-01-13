@@ -3049,16 +3049,23 @@ footer nav {
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    /* Text masks the hero background globally - not per word */
-    background: var(--bg);
+    /* Text masks the hero background - use same background image as hero */
+    background-size: 100% auto;
+    background-position: center;
+    background-repeat: no-repeat;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    mix-blend-mode: screen;
   }
   
+  /* Light mode: use black image */
+  body:not(.dark-mode) .hero-slide .text-content {
+    background-image: url('public/branding_black.png');
+  }
+  
+  /* Dark mode: use white image */
   .dark-mode .hero-slide .text-content {
-    mix-blend-mode: difference;
+    background-image: url('public/branding_white.png');
   }
   
   .hero-slide .word {
@@ -3071,9 +3078,9 @@ footer nav {
     display: block;
     position: relative;
     z-index: 10;
-    /* Inherit masking from parent text-content */
-    color: inherit;
-    -webkit-text-fill-color: inherit;
+    /* Inherit transparent fill from parent */
+    color: transparent;
+    -webkit-text-fill-color: transparent;
   }
   
   .hero-logo-fullscreen-img {
