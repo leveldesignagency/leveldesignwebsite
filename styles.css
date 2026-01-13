@@ -2225,6 +2225,19 @@ textarea {
     border-bottom: 1px solid #000000; /* Bottom border full width - thin */
   }
   
+  /* Projects title - ensure black background in dark mode, no gap */
+  .dark-mode #projects-title.projects-title-section {
+    background: #000000 !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  
+  /* Ensure projects section connects directly to title in dark mode */
+  .dark-mode #projects.section {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  
   /* Dark mode - all title borders should be white */
   .dark-mode #projects-title.projects-title-section,
   .dark-mode #services-title.services-title-section,
@@ -2235,6 +2248,7 @@ textarea {
   .dark-mode #contact-title.contact-title-section {
     border-top: 1px solid #ffffff; /* Thin border */
     border-bottom: 1px solid #ffffff; /* Thin border */
+    background: #000000 !important; /* Black background in dark mode */
   }
 
   #projects-title.projects-title-section h2,
