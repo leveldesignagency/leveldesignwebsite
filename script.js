@@ -257,13 +257,12 @@ setInterval(initDarkMode, 60000);
 
 // Hero cycling animation system
 const services = [
-  "Web\nDesign",
-  "Graphic\nDesign", 
-  "Social\nMedia",
-  "Brand &\nMarketing",
-  "Drone\nServices",
-  "Commercial\nPhotography",
-  "Video\nEditing"
+  "web design &\ndevelopment",
+  "ariel drone\nphotography",
+  "motion & graphic\ndesign",
+  "social media\nmanagement",
+  "videography\nservices",
+  "software & app\ndevelopment"
 ];
 
 let currentSlideIndex = 0;
@@ -436,9 +435,9 @@ function showNextSlide() {
           }
         });
         
-        // Hide branding hero image when leaving "Brand & Marketing" service
+        // Hide hero image when leaving "web design & development" service
         const heroImageWrapper = document.querySelector('.hero-image-wrapper');
-        if (heroImageWrapper && normalizedCurrentService === 'Brand & Marketing') {
+        if (heroImageWrapper && normalizedCurrentService === 'web design & development') {
           heroImageWrapper.classList.remove('active');
         }
       }
