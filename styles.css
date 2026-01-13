@@ -3349,31 +3349,52 @@ footer nav {
   
   /* Specialities Section - Mobile: Keep Slider Gallery */
   #services-gallery.section {
-    padding: 40px 0 !important;
+    padding: 30px 0 !important; /* Top padding - same as bottom */
     overflow: hidden !important;
   }
   
   .services-container {
-    height: 400px !important;
+    height: auto !important; /* Auto height to fit images */
+    min-height: 400px !important;
     overflow: hidden !important;
     position: relative !important;
+    padding: 0 !important; /* NO side padding */
+    margin: 0 !important;
   }
   
   .services-container .services-slider {
     display: flex !important;
     width: 600vw !important;
+    padding: 0 !important; /* NO side padding */
+    margin: 0 !important;
   }
   
   .services-container .service-slide {
     width: 100vw !important;
     flex-shrink: 0 !important;
+    padding: 0 !important; /* NO side padding */
+    margin: 0 !important;
+  }
+  
+  .services-container .service-item {
+    padding: 0 !important; /* NO side padding */
+    margin: 0 !important;
+    width: 100% !important;
+  }
+  
+  .services-container .service-item .service-image {
+    padding: 0 !important; /* NO side padding */
+    margin: 0 !important;
+    width: 100% !important;
   }
   
   .services-container .service-item .service-image img {
     width: 100% !important;
-    height: 100% !important;
+    height: auto !important; /* Auto height to fit image */
     object-fit: cover !important;
     display: block !important;
+    padding: 0 !important; /* NO side padding */
+    margin: 0 !important;
   }
   
   /* Projects Section - Mobile: Keep Marquee System */
