@@ -2906,7 +2906,7 @@ footer nav {
     margin-top: 8px;
   }
   
-  /* Hero Section - Mobile: Image as background, text masks it globally */
+  /* Hero Section - Mobile: NO background image on hero, only on text */
   .hero {
     min-height: 100vh !important;
     height: auto !important;
@@ -2918,21 +2918,10 @@ footer nav {
     text-align: center;
     position: relative !important;
     overflow: visible !important;
-    /* Background image - full width, auto height */
-    background-size: 100% auto !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
+    /* NO background image on hero section itself */
+    background-image: none !important;
+    background: var(--bg) !important;
     max-width: 100vw !important;
-  }
-  
-  /* Light mode: use black image */
-  .hero {
-    background-image: url('public/branding_black.png') !important;
-  }
-  
-  /* Dark mode: use white image */
-  .dark-mode .hero {
-    background-image: url('public/branding_white.png') !important;
   }
   
   .hero .container {
@@ -2960,7 +2949,7 @@ footer nav {
   }
   
   .headline {
-    font-size: clamp(44px, 6.2vw, 92px) !important; /* Match desktop headline exactly */
+    font-size: clamp(56px, 8vw, 120px) !important; /* BIGGER on mobile */
     line-height: 1.1 !important;
     text-align: center;
     align-items: center;
@@ -3051,7 +3040,7 @@ footer nav {
     -webkit-text-fill-color: transparent;
     color: transparent;
     font-family: "Bebas Neue", Impact, system-ui, sans-serif;
-    font-size: clamp(44px, 6.2vw, 92px) !important; /* EXACT same size as headline - matches h1.headline */
+    font-size: clamp(56px, 8vw, 120px) !important; /* MUCH BIGGER - matches headline size */
     font-weight: 400;
     line-height: 1.1 !important; /* EXACT same line-height as headline */
     white-space: normal;
