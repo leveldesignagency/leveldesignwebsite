@@ -871,14 +871,13 @@ function initProjectsSection() {
   }
 }
 
-// Render mobile projects - Masonry Grid Layout
+// Render mobile projects - Horizontal Scroll Layout
 function renderMobileProjects(container) {
   if (!container) return;
   
-  console.log('🎯 Rendering mobile projects in masonry grid...', container);
+  console.log('🎯 Rendering mobile projects in horizontal scroll...', container);
   
   container.innerHTML = '';
-  // Let CSS handle the grid layout - don't override with inline styles
   
   projects.forEach((project, index) => {
     const imagePath = project.image;
@@ -889,18 +888,20 @@ function renderMobileProjects(container) {
     
     const item = document.createElement('div');
     item.classList.add('projects-mobile-item');
-    // Let CSS handle styling - minimal inline styles
     
     const img = document.createElement('img');
     img.src = imagePath;
     img.alt = altText;
     img.loading = 'lazy';
+    
+    img.onload = function() {
+      console.log(`✅ Mobile project image ${index + 1} loaded:`, imagePath);
+    };
+    
     img.onerror = function() {
       console.error('Failed to load image:', imagePath);
       this.style.display = 'none';
-    };
-    img.onload = function() {
-      console.log(`✅ Mobile project image ${index + 1} loaded:`, imagePath);
+      item.style.display = 'none';
     };
     
     item.appendChild(img);

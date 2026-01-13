@@ -1497,7 +1497,7 @@ section#services .container .grid.services-grid {
 
 .card h3 {
   color: var(--text-alt) !important;
-  font-size: clamp(32px, 4vw, 48px) !important; /* MUCH BIGGER */
+  font-size: clamp(24px, 3vw, 36px) !important; /* Reduced size */
   font-family: "Bebas Neue", Impact, system-ui, sans-serif !important;
   font-weight: 400 !important;
 }
@@ -1505,7 +1505,7 @@ section#services .container .grid.services-grid {
 /* Process section cards - match services cards styling */
 #process .card h3 {
   color: var(--text-alt) !important;
-  font-size: clamp(32px, 4vw, 48px) !important;
+  font-size: clamp(24px, 3vw, 36px) !important; /* Reduced size */
   font-family: "Bebas Neue", Impact, system-ui, sans-serif !important;
   font-weight: 400 !important;
 }
@@ -3107,6 +3107,15 @@ footer nav {
     display: none !important;
   }
   
+  /* Hide ALL header social icons on desktop (general rule) */
+  @media (min-width: 769px) {
+    .header-social,
+    .header-social.mobile-only {
+      display: none !important;
+      visibility: hidden !important;
+    }
+  }
+  
   /* Hide desktop projects section on mobile */
   #projects.section.desktop-only {
     display: none !important;
@@ -3149,43 +3158,71 @@ footer nav {
   }
   
   .projects-mobile-container {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 12px !important;
-    padding: 20px 12px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 16px !important;
+    padding: 20px 20px 40px 20px !important; /* Extra bottom padding for feathered edge */
     max-width: 100vw !important;
-    overflow: visible !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
     width: 100% !important;
+    height: 400px !important; /* Set height */
+    align-items: stretch !important;
+    position: relative !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; /* IE/Edge */
+  }
+  
+  .projects-mobile-container::-webkit-scrollbar {
+    display: none !important; /* Chrome/Safari */
+  }
+  
+  /* Feathered bottom edge */
+  .projects-mobile-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    pointer-events: none;
+    z-index: 10;
+  }
+  
+  /* Light mode: feathered edge fades to white */
+  body:not(.dark-mode) .projects-mobile-container::after {
+    background: linear-gradient(to bottom, transparent, var(--bg));
+  }
+  
+  /* Dark mode: feathered edge fades to black */
+  .dark-mode .projects-mobile-container::after {
+    background: linear-gradient(to bottom, transparent, var(--bg));
   }
   
   .projects-mobile-item {
-    width: 100% !important;
+    width: auto !important;
+    height: 100% !important;
+    min-width: 280px !important; /* Minimum width for items */
     background: transparent !important;
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
-    display: block !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
     flex-shrink: 0 !important;
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-  
-  /* Staggered heights for visual interest */
-  .projects-mobile-item:nth-child(odd) {
-    padding-top: 0 !important;
-  }
-  
-  .projects-mobile-item:nth-child(even) {
-    padding-top: 20px !important;
+    position: relative !important;
+    overflow: hidden !important;
   }
   
   .projects-mobile-item img {
-    width: 100% !important;
-    height: auto !important;
+    width: auto !important;
+    height: 100% !important;
     display: block !important;
-    object-fit: cover !important;
+    object-fit: contain !important; /* Show full image */
     border-radius: 4px !important;
-    max-width: 100% !important;
+    max-width: none !important;
   }
   
   /* Hide ALL desktop projects styles on mobile */
@@ -3237,10 +3274,26 @@ footer nav {
       display: block !important;
     }
     
-    /* Hide header social icons on desktop */
+    /* Hide ALL header social icons on desktop */
+    .header-social,
     .header-social.mobile-only {
       display: none !important;
       visibility: hidden !important;
+      opacity: 0 !important;
+    }
+    
+    /* Ensure nav menu is on the right side on desktop */
+    .header-inner {
+      justify-content: space-between !important;
+    }
+    
+    .nav {
+      margin-left: auto !important; /* Push nav to the right */
+      order: 2 !important; /* Ensure nav comes after logo */
+    }
+    
+    .logo {
+      order: 1 !important; /* Logo on the left */
     }
   }
   
@@ -3395,6 +3448,69 @@ footer nav {
     width: 100% !important;
   }
   
+  /* Hide specialities title on mobile */
+  #specialities-title.specialities-title-section {
+    display: none !important;
+  }
+  
+  /* Statistics Section - Mobile Only */
+  #statistics-mobile.section {
+    padding: 40px 20px !important;
+    background: var(--bg) !important;
+  }
+  
+  .dark-mode #statistics-mobile.section {
+    background: #000000 !important;
+  }
+  
+  .statistics-container {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 24px !important;
+    max-width: 100% !important;
+  }
+  
+  .stat-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 20px !important;
+    background: transparent !important;
+  }
+  
+  .stat-icon {
+    font-size: 32px !important;
+    margin-bottom: 12px !important;
+    line-height: 1 !important;
+  }
+  
+  .stat-number {
+    font-family: "Bebas Neue", Impact, system-ui, sans-serif !important;
+    font-size: clamp(32px, 8vw, 48px) !important;
+    font-weight: 400 !important;
+    color: var(--text) !important;
+    line-height: 1 !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .stat-label {
+    font-family: "Inter", system-ui, sans-serif !important;
+    font-size: clamp(12px, 3vw, 14px) !important;
+    color: var(--muted) !important;
+    line-height: 1.4 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  
+  /* Hide statistics on desktop */
+  @media (min-width: 769px) {
+    #statistics-mobile.section {
+      display: none !important;
+    }
+  }
+  
   /* Change "What our clients say" to "Reviews" on mobile */
   #reviews-title.reviews-title-section h2 {
     font-size: 0 !important;
@@ -3436,9 +3552,15 @@ footer nav {
     transform: translateY(0) !important; /* Prevent conflicts */
   }
   
-  .card h3 {
-    font-size: clamp(20px, 4vw, 24px);
+  /* Match all card titles on mobile - services and process sections */
+  .card h3,
+  #services .card h3,
+  #process .card h3 {
+    font-size: clamp(24px, 5vw, 32px) !important; /* Matched size for both sections */
     text-align: left;
+    font-family: "Bebas Neue", Impact, system-ui, sans-serif !important;
+    font-weight: 400 !important;
+    color: var(--text-alt) !important;
   }
   
   .card h3::after {
@@ -3466,6 +3588,42 @@ footer nav {
   
   .card ul li::before {
     display: none;
+  }
+  
+  /* Dark mode mobile cards - black background, white text, center aligned */
+  .dark-mode .card {
+    background: #000000 !important; /* Black background */
+    color: #ffffff !important; /* White text */
+    text-align: center !important;
+  }
+  
+  .dark-mode .card h3,
+  .dark-mode #services .card h3,
+  .dark-mode #process .card h3 {
+    color: #ffffff !important; /* White text */
+    text-align: center !important;
+  }
+  
+  .dark-mode .card p {
+    color: #ffffff !important; /* White text */
+    text-align: center !important;
+  }
+  
+  .dark-mode .card ul {
+    text-align: center !important;
+    list-style: none !important; /* Remove bullets for center alignment */
+    padding-left: 0 !important;
+  }
+  
+  .dark-mode .card ul li {
+    text-align: center !important;
+  }
+  
+  /* Keep red underline in dark mode */
+  .dark-mode .card h3::after {
+    background: var(--brand) !important; /* Keep red */
+    margin: 8px auto 0 auto !important; /* Center the red line */
+    width: 70% !important;
   }
   
   /* Creative Title - Much bigger, 3 lines, full-width red lines, consistent padding */
