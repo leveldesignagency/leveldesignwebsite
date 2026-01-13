@@ -856,24 +856,29 @@ function initProjectsSection() {
     }, 300);
   }
   
-  // Initialize mobile projects - simple vertical stack
-  if (projectsMobileContainer) {
+  // Initialize mobile projects - ONLY on mobile devices
+  if (projectsMobileContainer && window.innerWidth <= 768) {
     renderMobileProjects(projectsMobileContainer);
     
     if (projectsMobileSection) {
       projectsMobileSection.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
     }
+  } else if (projectsMobileContainer && window.innerWidth > 768) {
+    // Hide mobile projects container on desktop
+    if (projectsMobileSection) {
+      projectsMobileSection.style.cssText = 'display: none !important; visibility: hidden !important;';
+    }
   }
 }
 
-// Render mobile projects - simple vertical stack - COMPLETELY DIFFERENT
+// Render mobile projects - Masonry Grid Layout
 function renderMobileProjects(container) {
   if (!container) return;
   
-  console.log('🎯 Rendering mobile projects...', container);
+  console.log('🎯 Rendering mobile projects in masonry grid...', container);
   
   container.innerHTML = '';
-  container.style.cssText = 'display: flex !important; flex-direction: column !important; gap: 40px !important; padding: 40px 20px !important; width: 100% !important;';
+  // Let CSS handle the grid layout - don't override with inline styles
   
   projects.forEach((project, index) => {
     const imagePath = project.image;
@@ -884,13 +889,12 @@ function renderMobileProjects(container) {
     
     const item = document.createElement('div');
     item.classList.add('projects-mobile-item');
-    item.style.cssText = 'width: 100% !important; display: block !important; margin: 0 !important; padding: 0 !important;';
+    // Let CSS handle styling - minimal inline styles
     
     const img = document.createElement('img');
     img.src = imagePath;
     img.alt = altText;
     img.loading = 'lazy';
-    img.style.cssText = 'width: 100% !important; height: auto !important; display: block !important; object-fit: contain !important;';
     img.onerror = function() {
       console.error('Failed to load image:', imagePath);
       this.style.display = 'none';
@@ -1165,30 +1169,10 @@ document.addEventListener('DOMContentLoaded', function() {
     logo.style.setProperty('--logo-index', index);
   });
   
-  // Client logo hover effects
+  // Client logo hover effects - REMOVED: No pause on hover, keep scrolling
+  // Logos continue scrolling even when hovered
+  
   clientLogos.forEach((logo, index) => {
-    logo.addEventListener('mouseenter', () => {
-      // Pause the marquee when hovering over a logo
-      const parentRow = logo.closest('.marquee-row');
-      if (parentRow) {
-        const track = parentRow.querySelector('.marquee-track');
-        if (track) {
-          track.style.animationPlayState = 'paused';
-        }
-      }
-    });
-    
-    logo.addEventListener('mouseleave', () => {
-      // Resume the marquee when leaving a logo
-      const parentRow = logo.closest('.marquee-row');
-      if (parentRow) {
-        const track = parentRow.querySelector('.marquee-track');
-        if (track) {
-          track.style.animationPlayState = 'running';
-        }
-      }
-    });
-    
     // Click interaction with ripple effect
     logo.addEventListener('click', () => {
       // Add ripple effect

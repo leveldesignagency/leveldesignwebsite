@@ -555,21 +555,38 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   justify-content: center;
   width: 32px;
   height: 32px;
-  color: var(--text);
+  color: var(--text) !important;
   opacity: 0.7;
   transition: opacity 0.3s ease, transform 0.3s ease;
-  text-decoration: none;
+  text-decoration: none !important;
+  border: none !important;
+  outline: none !important;
 }
 
 .hero-social .social-icon:hover {
   opacity: 1;
   transform: translateY(-2px);
+  color: var(--text) !important;
+  text-decoration: none !important;
+}
+
+/* Ensure social icons don't have link styles */
+.hero-social a.social-icon,
+.hero-social a.social-icon:visited,
+.hero-social a.social-icon:active,
+.hero-social a.social-icon:focus {
+  color: var(--text) !important;
+  text-decoration: none !important;
+  border: none !important;
+  outline: none !important;
 }
 
 .hero-social .social-icon svg {
   width: 20px;
   height: 20px;
   stroke: currentColor;
+  fill: currentColor;
+  color: var(--text) !important;
 }
 .headline {
   font-family: "Bebas Neue", Impact, system-ui, sans-serif;
@@ -3008,7 +3025,7 @@ footer nav {
     gap: 16px;
     align-items: center;
     position: absolute;
-    right: 60px; /* Space for menu button */
+    right: 20px; /* Further right on mobile */
     top: 50%;
     transform: translateY(-50%);
     z-index: 100;
@@ -3041,7 +3058,7 @@ footer nav {
     display: none !important;
   }
   
-  /* Mobile Projects Section - New dedicated section - COMPLETELY DIFFERENT */
+  /* Mobile Projects Section - Masonry Grid Layout */
   #projects-mobile.section {
     background: var(--bg) !important;
     padding: 0 !important;
@@ -3051,17 +3068,37 @@ footer nav {
     opacity: 1 !important;
     min-height: auto !important;
     height: auto !important;
+    border: none !important;
   }
   
   .dark-mode #projects-mobile.section {
     background: #000000 !important; /* Black background in dark mode */
   }
   
+  /* Remove border from projects title section on mobile to prevent white box */
+  #projects-title.projects-title-section {
+    border-top: none !important;
+    border-bottom: none !important;
+    background: transparent !important;
+  }
+  
+  .dark-mode #projects-title.projects-title-section {
+    border-top: none !important;
+    border-bottom: none !important;
+    background: transparent !important;
+  }
+  
+  body:not(.dark-mode) #projects-title.projects-title-section {
+    border-top: none !important;
+    border-bottom: none !important;
+    background: transparent !important;
+  }
+  
   .projects-mobile-container {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 40px !important;
-    padding: 40px 20px !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    padding: 20px 12px !important;
     max-width: 100vw !important;
     overflow: visible !important;
     width: 100% !important;
@@ -3075,14 +3112,25 @@ footer nav {
     margin: 0 !important;
     display: block !important;
     flex-shrink: 0 !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  
+  /* Staggered heights for visual interest */
+  .projects-mobile-item:nth-child(odd) {
+    padding-top: 0 !important;
+  }
+  
+  .projects-mobile-item:nth-child(even) {
+    padding-top: 20px !important;
   }
   
   .projects-mobile-item img {
     width: 100% !important;
     height: auto !important;
     display: block !important;
-    object-fit: contain !important;
-    border-radius: 0 !important;
+    object-fit: cover !important;
+    border-radius: 4px !important;
     max-width: 100% !important;
   }
   
@@ -3099,6 +3147,15 @@ footer nav {
   @media (min-width: 769px) {
     #projects-mobile.section {
       display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
+    }
+    
+    .projects-mobile-container {
+      display: none !important;
+      visibility: hidden !important;
     }
     
     #projects.section.desktop-only {
@@ -3276,6 +3333,27 @@ footer nav {
     text-align: center !important;
     margin: 0 auto !important;
     width: 100% !important;
+  }
+  
+  /* Change "What our clients say" to "Reviews" on mobile */
+  #reviews-title.reviews-title-section h2 {
+    font-size: 0 !important;
+    position: relative;
+  }
+  
+  #reviews-title.reviews-title-section h2::after {
+    content: "Reviews";
+    font-size: clamp(56px, 15vw, 90px) !important;
+    display: block;
+    visibility: visible;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    font-family: "Bebas Neue", Impact, system-ui, sans-serif;
+    font-weight: 400;
   }
   
   /* Services Grid - Vertically stacked, left aligned */
@@ -3533,7 +3611,7 @@ footer nav {
   
   /* Specialities Section - Mobile: Keep Slider Gallery, adjust height to images */
   #services-gallery.section {
-    padding: 30px 0 0 0 !important; /* Top padding only - bottom will be adjusted */
+    padding: 30px 0 60px 0 !important; /* Top and bottom padding to prevent overlap */
     overflow: hidden !important;
     position: relative;
   }
@@ -3703,6 +3781,13 @@ footer nav {
     font-size: 13px;
     width: 100%;
     justify-content: center;
+  }
+  
+  /* Footer - Ensure visible on mobile */
+  .site-footer {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
   
   /* Footer - Stack everything vertically */
