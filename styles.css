@@ -3043,20 +3043,10 @@ footer nav {
   }
   
   /* Hero slide - text masks the hero background image */
-  .hero-slide {
-    /* Position text to mask the background */
-    position: relative;
-    z-index: 10;
-  }
-  
   .hero-slide .text-content {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
+    text-align: center;
     /* Text masks the hero background - background image shows through text */
-    background-image: inherit;
     background-size: 100% auto;
     background-position: center;
     background-repeat: no-repeat;
@@ -3064,6 +3054,12 @@ footer nav {
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+    font-family: "Bebas Neue", Impact, system-ui, sans-serif;
+    font-size: clamp(44px, 6.2vw, 92px) !important; /* EXACT same size as headline */
+    font-weight: 400;
+    line-height: 1.1 !important; /* EXACT same line-height as headline */
+    white-space: normal;
+    word-break: break-word;
   }
   
   /* Light mode: use black image */
@@ -3076,19 +3072,9 @@ footer nav {
     background-image: url('public/branding_white.png');
   }
   
+  /* Hide word divs on mobile - text is directly in text-content */
   .hero-slide .word {
-    font-family: "Bebas Neue", Impact, system-ui, sans-serif;
-    font-size: clamp(44px, 6.2vw, 92px) !important; /* EXACT same size as headline */
-    white-space: nowrap;
-    text-align: center;
-    font-weight: 400;
-    line-height: 1.1 !important; /* EXACT same line-height as headline */
-    display: block;
-    position: relative;
-    z-index: 10;
-    /* Text is transparent, background shows through */
-    color: transparent;
-    -webkit-text-fill-color: transparent;
+    display: none !important;
   }
   
   .hero-logo-fullscreen-img {

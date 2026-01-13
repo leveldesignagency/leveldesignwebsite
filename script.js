@@ -279,12 +279,25 @@ function createServiceSlide(service) {
   // Handle line breaks in service names
   const lines = service.split('\n');
   
-  slide.innerHTML = `
-    <div class="border-line"></div>
-    <div class="text-content">
-      ${lines.map(line => `<div class="word">${line.trim()}</div>`).join('')}
-    </div>
-  `;
+  // On mobile, combine all words into single text for proper masking
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (isMobile) {
+    // Single text element for proper background-clip masking
+    slide.innerHTML = `
+      <div class="border-line"></div>
+      <div class="text-content">
+        ${lines.map(line => line.trim()).join(' ')}
+      </div>
+    `;
+  } else {
+    // Desktop: keep separate word divs
+    slide.innerHTML = `
+      <div class="border-line"></div>
+      <div class="text-content">
+        ${lines.map(line => `<div class="word">${line.trim()}</div>`).join('')}
+      </div>
+    `;
+  }
   
   return slide;
 }
