@@ -2909,12 +2909,12 @@ footer nav {
   /* Hero Section - Mobile: NO background image on hero, only on text */
   .hero {
     min-height: 100vh !important;
-    height: auto !important;
-    padding: 88px 0 60px 0 !important;
+    height: 100vh !important;
+    padding: 88px 0 0 0 !important;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     text-align: center;
     position: relative !important;
     overflow: visible !important;
@@ -2973,18 +2973,21 @@ footer nav {
     display: none !important;
   }
   
-  /* Hero Social Icons - Mobile: Centered below image */
+  /* Hero Social Icons - Mobile: At very bottom of hero section */
   .hero-social {
-    position: relative !important;
+    position: absolute !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
     right: auto !important;
     top: auto !important;
-    transform: none !important;
     flex-direction: row !important;
     justify-content: center;
     gap: 24px;
-    margin-top: 24px;
+    margin: 0 !important;
     order: 3;
-    z-index: 2 !important;
+    z-index: 10 !important;
+    width: 100%;
   }
   
   .hero-social .social-icon {
@@ -3040,9 +3043,9 @@ footer nav {
     -webkit-text-fill-color: transparent;
     color: transparent;
     font-family: "Bebas Neue", Impact, system-ui, sans-serif;
-    font-size: clamp(56px, 8vw, 120px) !important; /* MUCH BIGGER - matches headline size */
+    font-size: clamp(72px, 10vw, 140px) !important; /* EVEN BIGGER */
     font-weight: 400;
-    line-height: 1.1 !important; /* EXACT same line-height as headline */
+    line-height: 0.85 !important; /* TIGHTER - words closer together */
     white-space: normal;
     word-break: break-word;
     display: block;
