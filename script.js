@@ -358,12 +358,11 @@ function setupScrollBasedServices() {
   }
   
   function updateServiceSlide(index) {
-    const heroInner = document.querySelector('.hero-inner');
     const heroSection = document.querySelector('.hero');
-    if (!heroInner || !heroSection) return;
+    if (!heroSection) return;
     
     // Remove existing slide with fade out
-    const existingSlide = heroInner.querySelector('.hero-slide');
+    const existingSlide = heroSection.querySelector('.hero-slide');
     if (existingSlide) {
       existingSlide.style.opacity = '0';
       existingSlide.style.transition = 'opacity 0.5s ease-in-out';
@@ -374,12 +373,12 @@ function setupScrollBasedServices() {
       }, 500);
     }
     
-    // Create and show new slide with fade in
+    // Create and show new slide with fade in - positioned in same spot as headline
     const service = services[index];
     const newSlide = createServiceSlide(service);
     newSlide.style.opacity = '0';
     newSlide.style.transition = 'opacity 0.5s ease-in-out';
-    heroInner.appendChild(newSlide);
+    heroSection.appendChild(newSlide); // Append directly to hero, not hero-inner
     
     // Fade in new slide
     setTimeout(() => {
@@ -387,17 +386,18 @@ function setupScrollBasedServices() {
     }, 50);
   }
   
-  // Initial service
-  updateServiceSlide(0);
-  
-  // REMOVED scroll-based service updates - causing lag
-  // Just use auto-cycling
-  setInterval(() => {
-    if (window.scrollY < 500) { // Only auto-cycle if near top
-      scrollBasedServiceIndex = (scrollBasedServiceIndex + 1) % services.length;
-      updateServiceSlide(scrollBasedServiceIndex);
-    }
-  }, 4000);
+  // Initial service - start after main title fades out
+  setTimeout(() => {
+    updateServiceSlide(0);
+    
+    // Auto-cycle services with fade in/out
+    setInterval(() => {
+      if (window.scrollY < 500) { // Only auto-cycle if near top
+        scrollBasedServiceIndex = (scrollBasedServiceIndex + 1) % services.length;
+        updateServiceSlide(scrollBasedServiceIndex);
+      }
+    }, 4000);
+  }, 3500); // Start after main title fades (3s fade + 0.5s delay)
 }
 
 function showNextSlide() {
