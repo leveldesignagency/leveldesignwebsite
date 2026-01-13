@@ -2960,7 +2960,7 @@ footer nav {
   }
   
   .headline {
-    font-size: clamp(48px, 10vw, 80px) !important;
+    font-size: clamp(44px, 6.2vw, 92px) !important; /* Match desktop headline exactly */
     line-height: 1.1 !important;
     text-align: center;
     align-items: center;
@@ -3043,32 +3043,13 @@ footer nav {
   }
   
   /* Hero slide text - masks the section background globally */
-  .hero-slide {
-    /* Text masks the hero background - use mix-blend-mode */
-    mix-blend-mode: screen;
-  }
-  
-  .dark-mode .hero-slide {
-    mix-blend-mode: difference;
-  }
-  
-  .hero-slide .word {
-    font-family: "Bebas Neue", Impact, system-ui, sans-serif;
-    font-size: clamp(48px, 10vw, 80px) !important; /* EXACT same size as headline */
-    white-space: nowrap;
-    text-align: center;
-    font-weight: 400;
-    line-height: 1.1 !important; /* EXACT same line-height as headline */
-    display: block;
-    position: relative;
-    z-index: 10;
-    /* Text color - will mask background through blend mode */
-    color: var(--text);
-  }
-  
-  /* Alternative: Use background-clip for text masking */
   .hero-slide .text-content {
-    /* Mask the hero background through the text */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    /* Text masks the hero background globally - not per word */
     background: var(--bg);
     -webkit-background-clip: text;
     background-clip: text;
@@ -3078,6 +3059,21 @@ footer nav {
   
   .dark-mode .hero-slide .text-content {
     mix-blend-mode: difference;
+  }
+  
+  .hero-slide .word {
+    font-family: "Bebas Neue", Impact, system-ui, sans-serif;
+    font-size: clamp(44px, 6.2vw, 92px) !important; /* EXACT same size as headline */
+    white-space: nowrap;
+    text-align: center;
+    font-weight: 400;
+    line-height: 1.1 !important; /* EXACT same line-height as headline */
+    display: block;
+    position: relative;
+    z-index: 10;
+    /* Inherit masking from parent text-content */
+    color: inherit;
+    -webkit-text-fill-color: inherit;
   }
   
   .hero-logo-fullscreen-img {
