@@ -805,55 +805,105 @@ const projects = buildProjectsArray();
 function initProjectsSection() {
   const projectsContainer = document.querySelector('.projects-container');
   const projectsSection = document.querySelector('#projects');
+  const projectsMobileContainer = document.querySelector('.projects-mobile-container');
+  const projectsMobileSection = document.querySelector('#projects-mobile');
   
-  if (!projectsContainer) {
-    return;
-  }
-  
-  // Render projects
-  renderProjects(projectsContainer);
-  
-  // Force visibility
-  if (projectsSection) {
-    projectsSection.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
-  }
-  projectsContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
-  
-  // Force all project items visible
-  setTimeout(() => {
-    const projectItems = document.querySelectorAll('.project-item');
-    projectItems.forEach(item => {
-      item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
-    });
-  }, 100);
-  
-  // Initialize auto-scroll after images load
-  setTimeout(() => {
-    const images = projectsContainer.querySelectorAll('img');
-    let loaded = 0;
-    const total = images.length;
+  // Initialize desktop projects
+  if (projectsContainer) {
+    // Render projects
+    renderProjects(projectsContainer);
     
-    if (total === 0) {
-      initAutoScroll(projectsContainer);
-      return;
+    // Force visibility
+    if (projectsSection) {
+      projectsSection.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
     }
+    projectsContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
     
-    function checkAndStart() {
-      loaded++;
-      if (loaded === total) {
+    // Force all project items visible
+    setTimeout(() => {
+      const projectItems = projectsContainer.querySelectorAll('.project-item');
+      projectItems.forEach(item => {
+        item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
+      });
+    }, 100);
+    
+    // Initialize auto-scroll after images load (desktop only)
+    setTimeout(() => {
+      const images = projectsContainer.querySelectorAll('img');
+      let loaded = 0;
+      const total = images.length;
+      
+      if (total === 0) {
         initAutoScroll(projectsContainer);
+        return;
       }
-    }
+      
+      function checkAndStart() {
+        loaded++;
+        if (loaded === total) {
+          initAutoScroll(projectsContainer);
+        }
+      }
+      
+      images.forEach((img) => {
+        if (img.complete) {
+          checkAndStart();
+        } else {
+          img.addEventListener('load', checkAndStart, { once: true });
+          img.addEventListener('error', checkAndStart, { once: true });
+        }
+      });
+    }, 300);
+  }
+  
+  // Initialize mobile projects - simple vertical stack
+  if (projectsMobileContainer) {
+    renderMobileProjects(projectsMobileContainer);
     
-    images.forEach((img) => {
-      if (img.complete) {
-        checkAndStart();
-      } else {
-        img.addEventListener('load', checkAndStart, { once: true });
-        img.addEventListener('error', checkAndStart, { once: true });
-      }
-    });
-  }, 300);
+    if (projectsMobileSection) {
+      projectsMobileSection.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
+    }
+  }
+}
+
+// Render mobile projects - simple vertical stack - COMPLETELY DIFFERENT
+function renderMobileProjects(container) {
+  if (!container) return;
+  
+  console.log('🎯 Rendering mobile projects...', container);
+  
+  container.innerHTML = '';
+  container.style.cssText = 'display: flex !important; flex-direction: column !important; gap: 40px !important; padding: 40px 20px !important; width: 100% !important;';
+  
+  projects.forEach((project, index) => {
+    const imagePath = project.image;
+    if (!imagePath) return;
+    
+    const filename = imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+    const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Project ${project.id} - Credit: LEVEL DESIGN AGENCY LTD`;
+    
+    const item = document.createElement('div');
+    item.classList.add('projects-mobile-item');
+    item.style.cssText = 'width: 100% !important; display: block !important; margin: 0 !important; padding: 0 !important;';
+    
+    const img = document.createElement('img');
+    img.src = imagePath;
+    img.alt = altText;
+    img.loading = 'lazy';
+    img.style.cssText = 'width: 100% !important; height: auto !important; display: block !important; object-fit: contain !important;';
+    img.onerror = function() {
+      console.error('Failed to load image:', imagePath);
+      this.style.display = 'none';
+    };
+    img.onload = function() {
+      console.log(`✅ Mobile project image ${index + 1} loaded:`, imagePath);
+    };
+    
+    item.appendChild(img);
+    container.appendChild(item);
+  });
+  
+  console.log(`✅ Mobile projects rendered: ${container.children.length} items`);
 }
 
 // Projects auto-scroll using Swiper for smooth continuous scroll
@@ -866,7 +916,16 @@ function initAutoScroll(container) {
   const isProjectsContainer = container.classList.contains('projects-container');
   if (!isProjectsContainer) return;
   
-  // Initialize Swiper for SMOOTH continuous marquee scroll - NO hover pause
+  // DISABLE SWIPER ON MOBILE to prevent crashes - use simple scroll instead
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (isMobile) {
+    // On mobile, just enable simple horizontal scroll - no Swiper
+    container.style.overflowX = 'auto';
+    container.style.overflowY = 'hidden';
+    return; // Exit early, don't initialize Swiper
+  }
+  
+  // Initialize Swiper for SMOOTH continuous marquee scroll - NO hover pause (DESKTOP ONLY)
   const swiper = new Swiper(container, {
     slidesPerView: 'auto',
     spaceBetween: 30,
@@ -889,23 +948,20 @@ function initAutoScroll(container) {
     effect: 'slide',
   });
   
-  // Remove any hover handlers that might interfere - DISABLE ON MOBILE to prevent crashes
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  if (!isMobile) {
-    container.addEventListener('mouseenter', (e) => {
-      e.stopPropagation();
-      if (swiper && swiper.autoplay) {
-        swiper.autoplay.start(); // Force continue on hover
-      }
-    });
-    
-    container.addEventListener('mouseleave', (e) => {
-      e.stopPropagation();
-      if (swiper && swiper.autoplay) {
-        swiper.autoplay.start(); // Force continue on leave
-      }
-    });
-  }
+  // Hover handlers for desktop only
+  container.addEventListener('mouseenter', (e) => {
+    e.stopPropagation();
+    if (swiper && swiper.autoplay) {
+      swiper.autoplay.start(); // Force continue on hover
+    }
+  });
+  
+  container.addEventListener('mouseleave', (e) => {
+    e.stopPropagation();
+    if (swiper && swiper.autoplay) {
+      swiper.autoplay.start(); // Force continue on leave
+    }
+  });
 }
 
 // Render project items - horizontal scroll gallery with varying sizes

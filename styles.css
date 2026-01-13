@@ -938,10 +938,10 @@ section#services .container .grid.services-grid {
   filter: brightness(0); /* Black by default */
 }
 
-/* Smaller logo for We Serve U Better */
+/* Smaller logo for We Serve U Better - Reduced further */
 .client-logo-small {
-  width: 250px !important; /* Smaller container */
-  height: 100px !important;
+  width: 122px !important; /* Reduced from 175px (30% smaller again) */
+  height: 49px !important; /* Reduced from 70px (30% smaller again) */
   margin: 0 !important; /* Remove margins to rely on gap */
   padding: 0 !important; /* Remove all padding */
 }
@@ -2280,8 +2280,7 @@ textarea {
   /* Services Gallery Section - Images only */
   #services-gallery.section {
     position: relative;
-    padding: 0 0 30px 0; /* Bottom padding so border doesn't touch images */
-    min-height: 400px; /* Minimum height so section doesn't collapse */
+    padding: 30px 0 0 0 !important; /* Top padding only - bottom will be adjusted by JS */
     overflow: hidden;
     background: var(--bg);
     border-bottom: 1px solid #000000;
@@ -2290,15 +2289,16 @@ textarea {
 
   .dark-mode #services-gallery.section {
     border-bottom: 1px solid #ffffff;
+    background: var(--bg) !important;
   }
 
   .services-container {
-    min-height: 400px; /* Minimum height so container doesn't collapse */
     padding: 0;
     opacity: 1 !important;
     visibility: visible !important;
     overflow: hidden !important; /* Hide slides outside viewport */
     position: relative;
+    height: auto !important; /* Auto height based on images */
   }
   
   /* Simple slider - following the example pattern */
@@ -3036,6 +3036,97 @@ footer nav {
     display: none !important;
   }
   
+  /* Hide desktop projects section on mobile */
+  #projects.section.desktop-only {
+    display: none !important;
+  }
+  
+  /* Mobile Projects Section - New dedicated section - COMPLETELY DIFFERENT */
+  #projects-mobile.section {
+    background: var(--bg) !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-height: auto !important;
+    height: auto !important;
+  }
+  
+  .dark-mode #projects-mobile.section {
+    background: #000000 !important; /* Black background in dark mode */
+  }
+  
+  .projects-mobile-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 40px !important;
+    padding: 40px 20px !important;
+    max-width: 100vw !important;
+    overflow: visible !important;
+    width: 100% !important;
+  }
+  
+  .projects-mobile-item {
+    width: 100% !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+    flex-shrink: 0 !important;
+  }
+  
+  .projects-mobile-item img {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    object-fit: contain !important;
+    border-radius: 0 !important;
+    max-width: 100% !important;
+  }
+  
+  /* Hide ALL desktop projects styles on mobile */
+  #projects.section.desktop-only,
+  #projects.section.desktop-only *,
+  .projects-container,
+  .projects-container * {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  
+  /* Ensure desktop projects are visible on desktop */
+  @media (min-width: 769px) {
+    #projects-mobile.section {
+      display: none !important;
+    }
+    
+    #projects.section.desktop-only {
+      display: block !important;
+    }
+  }
+  
+  /* General utility classes for desktop/mobile visibility */
+  @media (max-width: 768px) {
+    .desktop-only {
+      display: none !important;
+    }
+    
+    .mobile-only {
+      display: block !important;
+    }
+  }
+  
+  @media (min-width: 769px) {
+    .mobile-only {
+      display: none !important;
+    }
+    
+    .desktop-only {
+      display: block !important;
+    }
+  }
+  
   .hero-social .social-icon {
     width: 32px;
     height: 32px;
@@ -3316,6 +3407,23 @@ footer nav {
     display: none !important;
   }
   
+  /* We Serve U Better logo - Reduced further on mobile */
+  .client-logo-small {
+    height: 59px !important; /* Reduced from 84px (30% smaller again) */
+    width: auto !important;
+  }
+  
+  .client-logo-small img,
+  .client-logo-small svg {
+    height: 59px !important; /* Reduced from 84px (30% smaller again) */
+    width: auto !important;
+  }
+  
+  /* Speed up marquee animation on mobile */
+  .marquee-track {
+    animation: marqueeRight 40s linear infinite !important; /* Faster - was 80s */
+  }
+  
   /* Work Grid - Mobile: Stack Vertically */
   .work-grid { 
     grid-template-columns: 1fr !important; 
@@ -3423,20 +3531,22 @@ footer nav {
     display: none; /* Hide on mobile as requested */
   }
   
-  /* Specialities Section - Mobile: Keep Slider Gallery */
+  /* Specialities Section - Mobile: Keep Slider Gallery, adjust height to images */
   #services-gallery.section {
-    padding: 30px 0 !important; /* Top padding - same as bottom */
+    padding: 30px 0 0 0 !important; /* Top padding only - bottom will be adjusted */
     overflow: hidden !important;
+    position: relative;
   }
   
   .services-container {
     height: auto !important; /* Auto height to fit images */
-    min-height: 400px !important;
     overflow: hidden !important;
     position: relative !important;
     padding: 0 !important; /* NO side padding */
     margin: 0 !important;
   }
+  
+  /* Calculate image height and adjust section padding - done via JS */
   
   .services-container .services-slider {
     display: flex !important;
@@ -3473,57 +3583,26 @@ footer nav {
     margin: 0 !important;
   }
   
-  /* Projects Section - Mobile: Keep Marquee System */
+  /* Projects Section - Mobile: COMPLETELY HIDE DESKTOP VERSION */
+  #projects.section.desktop-only {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  
   .projects-container {
-    gap: 60px;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    -webkit-overflow-scrolling: touch;
+    display: none !important;
+    visibility: hidden !important;
   }
   
-  .project-item {
-    grid-template-columns: 1fr;
-    grid-template-areas: 
-      "content"
-      "image";
-    gap: 20px;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    width: 80vw;
-  }
-  
-  .project-item.image-right {
-    grid-template-areas: 
-      "content"
-      "image";
-  }
-  
-  .project-content {
-    grid-area: content;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    order: 1;
-  }
-  
-  .project-title {
-    font-size: clamp(24px, 6vw, 36px);
-    margin-bottom: 8px;
-    order: 1;
-  }
-  
-  .project-year {
-    font-size: 12px;
-    margin-bottom: 16px;
-    display: block;
-    order: 2;
-  }
-  
-  .project-image {
-    grid-area: image;
-    width: 100%;
-    order: 3;
+  /* All desktop project styles hidden on mobile */
+  .projects-container *,
+  .project-item,
+  .swiper-wrapper,
+  .swiper-slide {
+    display: none !important;
   }
   
   /* Reviews - Center aligned with animations */
