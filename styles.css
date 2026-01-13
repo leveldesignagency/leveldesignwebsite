@@ -322,7 +322,28 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   }
 }
 
-/* Header - Mobile: Absolute position (unchanged) */
+  /* Header - Mobile: Add social icons */
+  .header {
+    position: relative;
+  }
+  
+  /* Add social icons to header on mobile */
+  .header::after {
+    content: '';
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    position: absolute;
+    right: 60px; /* Space for menu button */
+    top: 50%;
+    transform: translateY(-50%);
+    align-items: center;
+    z-index: 100;
+  }
+  
+  /* Create social icons in header using CSS - we'll need to add them to HTML or use JS */
+  
+  /* Header - Mobile: Absolute position (unchanged) */
 @media (max-width: 768px) {
   .site-header {
     position: absolute; 
@@ -2975,25 +2996,44 @@ footer nav {
     display: none !important;
   }
   
-  /* Hero Social Icons - Mobile: At very bottom of hero section, far from text */
+  /* Hero Social Icons - Mobile: HIDE in hero, show in header only */
   .hero-social {
-    position: absolute !important;
-    bottom: 10px !important; /* Very bottom, away from text */
-    left: 50% !important;
-    transform: translateX(-50%) !important; /* Center horizontally only */
-    right: auto !important;
-    top: auto !important;
-    flex-direction: row !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 24px;
-    margin: 0 !important;
-    padding: 0 !important;
-    order: 3;
-    z-index: 100 !important;
-    width: auto !important; /* Don't stretch full width */
-    height: auto !important;
-    pointer-events: auto !important; /* Ensure they're clickable */
+    display: none !important; /* HIDE in hero section on mobile */
+  }
+  
+  /* Header Social Icons - Mobile: Show in header */
+  .header-social.mobile-only {
+    display: flex !important;
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+    position: absolute;
+    right: 60px; /* Space for menu button */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+  }
+  
+  .header-social.mobile-only .social-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--text);
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+  
+  .header-social.mobile-only .social-icon:hover {
+    opacity: 1;
+  }
+  
+  .header-social.mobile-only .social-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Hide header social on desktop */
+  .desktop-only .header-social.mobile-only {
+    display: none !important;
   }
   
   .hero-social .social-icon {
@@ -3238,9 +3278,9 @@ footer nav {
     display: block !important;
   }
   
-  /* Company Logos - Mobile: BIGGER, Only SVGs, Same Size, Marquee */
+  /* Company Logos - Mobile: MUCH BIGGER, Only SVGs, Same Size, Marquee */
   .client-logo {
-    height: 80px !important; /* BIGGER - was 60px */
+    height: 120px !important; /* MUCH BIGGER - was 80px */
     width: auto !important;
     flex-shrink: 0;
     display: flex;
@@ -3250,7 +3290,7 @@ footer nav {
   
   .client-logo img,
   .client-logo svg {
-    height: 80px !important; /* BIGGER - was 60px */
+    height: 120px !important; /* MUCH BIGGER - was 80px */
     width: auto !important;
     max-width: none !important;
     display: block !important;
