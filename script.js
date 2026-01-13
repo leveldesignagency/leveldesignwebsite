@@ -325,12 +325,12 @@ function startServiceCycling() {
   
   // On mobile, keep Brand & Marketing image constant
   if (isMobile) {
-    const brandingWrapper = document.querySelector('.hero-service-image-wrapper[data-service="Brand & Marketing"]');
-    if (brandingWrapper) {
-      brandingWrapper.classList.add('active');
+    const firstServiceWrapper = document.querySelector('.hero-service-image-wrapper[data-service="web design & development"]');
+    if (firstServiceWrapper) {
+      firstServiceWrapper.classList.add('active');
     }
     // Hide all other images
-    document.querySelectorAll('.hero-service-image-wrapper:not([data-service="Brand & Marketing"])').forEach(wrapper => {
+    document.querySelectorAll('.hero-service-image-wrapper:not([data-service="web design & development"])').forEach(wrapper => {
       wrapper.classList.remove('active');
     });
     
@@ -473,7 +473,7 @@ function showNextSlide() {
         // Sync branding hero image with "Brand & Marketing" service
         const heroImageWrapper = document.querySelector('.hero-image-wrapper');
         if (heroImageWrapper) {
-          if (normalizedNextService === 'Brand & Marketing') {
+          if (normalizedNextService === 'web design & development') {
             setTimeout(() => {
               heroImageWrapper.classList.add('active');
             }, 200);
@@ -525,7 +525,7 @@ function showNextSlide() {
         // Sync branding hero image with "Brand & Marketing" service
         const heroImageWrapper = document.querySelector('.hero-image-wrapper');
         if (heroImageWrapper) {
-          if (normalizedNextService === 'Brand & Marketing') {
+          if (normalizedNextService === 'web design & development') {
             setTimeout(() => {
               heroImageWrapper.classList.add('active');
             }, 200);
