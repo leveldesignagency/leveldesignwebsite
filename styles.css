@@ -2974,18 +2974,14 @@ footer nav {
     transition: opacity 1s ease-in-out;
   }
   
-  /* Hero Image - Mobile: Centered below headline */
+  /* Ensure headline text is visible */
+  .headline .phrase {
+    color: var(--text) !important;
+  }
+  
+  /* Hero Image - Mobile: HIDE IT - background image is on hero section */
   .hero-image-wrapper {
-    position: relative !important;
-    left: auto !important;
-    right: auto !important;
-    top: auto !important;
-    transform: none !important;
-    width: 80% !important;
-    max-width: 400px;
-    margin: 24px auto 0;
-    order: 2;
-    z-index: 2 !important;
+    display: none !important;
   }
   
   /* Hero Social Icons - Mobile: Centered below image */
@@ -3055,11 +3051,12 @@ footer nav {
     -webkit-text-fill-color: transparent;
     color: transparent;
     font-family: "Bebas Neue", Impact, system-ui, sans-serif;
-    font-size: clamp(44px, 6.2vw, 92px) !important; /* EXACT same size as headline */
+    font-size: clamp(44px, 6.2vw, 92px) !important; /* EXACT same size as headline - matches h1.headline */
     font-weight: 400;
     line-height: 1.1 !important; /* EXACT same line-height as headline */
     white-space: normal;
     word-break: break-word;
+    display: block;
   }
   
   /* Light mode: use black image */
