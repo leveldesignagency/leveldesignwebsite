@@ -535,10 +535,10 @@ function showNextSlide() {
           }
         }
       } else {
-      // Mobile: keep Brand & Marketing image constant
-      const brandingWrapper = document.querySelector('.hero-service-image-wrapper[data-service="Brand & Marketing"]');
-      if (brandingWrapper) {
-        brandingWrapper.classList.add('active');
+      // Mobile: keep first service (web design & development) image constant
+      const firstServiceWrapper = document.querySelector('.hero-service-image-wrapper[data-service="web design & development"]');
+      if (firstServiceWrapper) {
+        firstServiceWrapper.classList.add('active');
       }
     }
     
