@@ -220,6 +220,19 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 
 /* Header - Desktop: Normal flow, scrolls with page */
 @media (min-width: 769px) {
+  /* FORCE HIDE header social icons on desktop - must be at top level */
+  .header-social,
+  .header-social.mobile-only,
+  .site-header .header-social,
+  .header-inner .header-social {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+  }
+  
   .site-header {
     position: relative !important; 
     width: 100% !important;
@@ -3143,18 +3156,31 @@ footer nav {
     border-top: none !important;
     border-bottom: none !important;
     background: transparent !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
   }
   
   .dark-mode #projects-title.projects-title-section {
     border-top: none !important;
     border-bottom: none !important;
     background: transparent !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
   }
   
   body:not(.dark-mode) #projects-title.projects-title-section {
     border-top: none !important;
     border-bottom: none !important;
     background: transparent !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  
+  #projects-title.projects-title-section h2 {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
   }
   
   .projects-mobile-container {
@@ -3202,7 +3228,7 @@ footer nav {
   
   .projects-mobile-item {
     width: auto !important;
-    height: 100% !important;
+    height: 100% !important; /* Match container height */
     min-width: 280px !important; /* Minimum width for items */
     background: transparent !important;
     border: none !important;
@@ -3218,11 +3244,12 @@ footer nav {
   
   .projects-mobile-item img {
     width: auto !important;
-    height: 100% !important;
+    height: 100% !important; /* Constant height - same as container */
     display: block !important;
-    object-fit: contain !important; /* Show full image */
+    object-fit: contain !important; /* Show full image without cropping */
     border-radius: 4px !important;
     max-width: none !important;
+    max-height: 100% !important;
   }
   
   /* Hide ALL desktop projects styles on mobile */
@@ -3274,12 +3301,23 @@ footer nav {
       display: block !important;
     }
     
-    /* Hide ALL header social icons on desktop */
+    /* FORCE HIDE ALL header social icons on desktop - multiple selectors for maximum specificity */
     .header-social,
-    .header-social.mobile-only {
+    .header-social.mobile-only,
+    .site-header .header-social,
+    .header-inner .header-social,
+    .header-inner .header-social.mobile-only,
+    .site-header .header-inner .header-social,
+    div.header-social,
+    div.header-social.mobile-only {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;
+      height: 0 !important;
+      width: 0 !important;
+      overflow: hidden !important;
+      position: absolute !important;
+      left: -9999px !important;
     }
     
     /* Ensure nav menu is on the right side on desktop */
@@ -3481,18 +3519,16 @@ footer nav {
   }
   
   .stat-icon {
-    font-size: 32px !important;
-    margin-bottom: 12px !important;
-    line-height: 1 !important;
+    display: none !important; /* Remove emojis */
   }
   
   .stat-number {
     font-family: "Bebas Neue", Impact, system-ui, sans-serif !important;
-    font-size: clamp(32px, 8vw, 48px) !important;
+    font-size: clamp(48px, 12vw, 72px) !important; /* Much bigger numbers */
     font-weight: 400 !important;
     color: var(--text) !important;
     line-height: 1 !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 12px !important;
   }
   
   .stat-label {
@@ -3537,6 +3573,55 @@ footer nav {
     grid-template-columns: 1fr !important; 
     gap: 32px !important;
     row-gap: 32px !important;
+  }
+  
+  /* Match process steps to services cards layout on mobile */
+  .steps {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  
+  .steps li {
+    padding: 24px 20px !important; /* Match card padding */
+    text-align: left !important;
+  }
+  
+  /* Match process card styling to services cards on mobile */
+  .steps li h3 {
+    font-size: clamp(24px, 5vw, 32px) !important; /* Match services card h3 */
+    text-align: left !important;
+    font-family: "Bebas Neue", Impact, system-ui, sans-serif !important;
+    font-weight: 400 !important;
+    color: var(--text-alt) !important;
+  }
+  
+  .steps li p {
+    font-size: clamp(14px, 2vw, 16px) !important; /* Match services card p */
+    text-align: left !important;
+    margin-top: 8px !important;
+  }
+  
+  /* Dark mode - match process cards to services cards */
+  .dark-mode .steps li {
+    background: #000000 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+  }
+  
+  .dark-mode .steps li h3 {
+    color: #ffffff !important;
+    text-align: center !important;
+  }
+  
+  .dark-mode .steps li p {
+    color: #ffffff !important;
+    text-align: center !important;
+  }
+  
+  .dark-mode .steps li h3::after {
+    background: var(--brand) !important;
+    margin: 8px auto 0 auto !important;
+    width: 70% !important;
   }
   
   .card {
@@ -3827,16 +3912,26 @@ footer nav {
     display: none; /* Hide on mobile as requested */
   }
   
-  /* Specialities Section - Mobile: Keep Slider Gallery, adjust height to images */
+  /* Specialities Section - Mobile: HIDE images */
   #services-gallery.section {
-    padding: 30px 0 60px 0 !important; /* Top and bottom padding to prevent overlap */
-    overflow: visible !important; /* Allow images to show fully */
-    position: relative;
-    border-bottom: none !important; /* Remove bottom border to prevent clipping */
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
   }
   
   .dark-mode #services-gallery.section {
-    border-bottom: none !important; /* Remove bottom border in dark mode too */
+    display: none !important;
+  }
+  
+  /* Hide all specialities content on mobile */
+  #services-gallery.section *,
+  .services-container,
+  .services-container * {
+    display: none !important;
+    visibility: hidden !important;
   }
   
   .services-container {
