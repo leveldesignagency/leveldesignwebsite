@@ -3042,20 +3042,28 @@ footer nav {
     gap: 4px;
   }
   
-  /* Hero slide text - masks the section background globally */
+  /* Hero slide - text masks the hero background image */
+  .hero-slide {
+    /* Position text to mask the background */
+    position: relative;
+    z-index: 10;
+  }
+  
   .hero-slide .text-content {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    /* Text masks the hero background - use same background image as hero */
+    /* Text masks the hero background - background image shows through text */
+    background-image: inherit;
     background-size: 100% auto;
     background-position: center;
     background-repeat: no-repeat;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    color: transparent;
   }
   
   /* Light mode: use black image */
@@ -3078,7 +3086,7 @@ footer nav {
     display: block;
     position: relative;
     z-index: 10;
-    /* Inherit transparent fill from parent */
+    /* Text is transparent, background shows through */
     color: transparent;
     -webkit-text-fill-color: transparent;
   }
