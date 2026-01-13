@@ -3237,9 +3237,9 @@ footer nav {
     display: block !important;
   }
   
-  /* Company Logos - Mobile: Only SVGs, Same Size, Marquee */
+  /* Company Logos - Mobile: BIGGER, Only SVGs, Same Size, Marquee */
   .client-logo {
-    height: 60px !important;
+    height: 80px !important; /* BIGGER - was 60px */
     width: auto !important;
     flex-shrink: 0;
     display: flex;
@@ -3249,13 +3249,17 @@ footer nav {
   
   .client-logo img,
   .client-logo svg {
-    height: 60px !important;
+    height: 80px !important; /* BIGGER - was 60px */
     width: auto !important;
     max-width: none !important;
     display: block !important;
   }
   
-  /* Show only SVG logos on mobile - hide PNG logos */
+  /* Hide PNG logos completely on mobile - they take up space even when hidden */
+  .client-logo:has(img[src$=".png"]) {
+    display: none !important; /* Hide the entire container for PNG logos */
+  }
+  
   .client-logo img[src$=".png"] {
     display: none !important;
   }
@@ -3263,6 +3267,12 @@ footer nav {
   .client-logo img[src$=".svg"],
   .client-logo svg {
     display: block !important;
+  }
+  
+  /* Also hide client-logo-small and client-logo-color containers if they have PNGs */
+  .client-logo-small:has(img[src$=".png"]),
+  .client-logo-color:has(img[src$=".png"]) {
+    display: none !important;
   }
   
   /* Work Grid - Mobile: Stack Vertically */
