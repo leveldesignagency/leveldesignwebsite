@@ -871,38 +871,66 @@ function initProjectsSection() {
   }
 }
 
-// Render mobile projects - FRESH START - Rearranged order
+// Render mobile projects - FRESH START - Rearranged order with auto-scroll
 function renderMobileProjects(container) {
   if (!container) return;
   
   container.innerHTML = '';
   
-  // Rearrange projects - reverse order and shuffle middle section
-  const rearrangedProjects = [...projects].reverse(); // Reverse the array for different order
+  // Rearrange projects - reverse order for different order
+  const rearrangedProjects = [...projects].reverse();
   
-  rearrangedProjects.forEach((project, index) => {
-    const imagePath = project.image;
-    if (!imagePath) return;
-    
-    const filename = imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
-    const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Project ${project.id} - Credit: LEVEL DESIGN AGENCY LTD`;
-    
-    const item = document.createElement('div');
-    item.classList.add('projects-mobile-item');
-    
-    const img = document.createElement('img');
-    img.src = imagePath;
-    img.alt = altText;
-    img.loading = 'lazy';
-    
-    img.onerror = function() {
-      this.style.display = 'none';
-      item.style.display = 'none';
-    };
-    
-    item.appendChild(img);
-    container.appendChild(item);
-  });
+  // Create a wrapper for seamless looping
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'display: flex; flex-direction: row; gap: 16px; width: max-content;';
+  
+  // Render projects twice for seamless loop
+  for (let loop = 0; loop < 2; loop++) {
+    rearrangedProjects.forEach((project, index) => {
+      const imagePath = project.image;
+      if (!imagePath) return;
+      
+      const filename = imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+      const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Project ${project.id} - Credit: LEVEL DESIGN AGENCY LTD`;
+      
+      const item = document.createElement('div');
+      item.classList.add('projects-mobile-item');
+      
+      const img = document.createElement('img');
+      img.src = imagePath;
+      img.alt = altText;
+      img.loading = 'lazy';
+      
+      img.onerror = function() {
+        this.style.display = 'none';
+        item.style.display = 'none';
+      };
+      
+      item.appendChild(img);
+      wrapper.appendChild(item);
+    });
+  }
+  
+  container.appendChild(wrapper);
+  
+  // Auto-scroll animation
+  let scrollPosition = 0;
+  const scrollSpeed = 0.5; // pixels per frame
+  const totalWidth = wrapper.offsetWidth / 2; // Half because we duplicated
+  
+  function autoScroll() {
+    scrollPosition += scrollSpeed;
+    if (scrollPosition >= totalWidth) {
+      scrollPosition = 0; // Reset for seamless loop
+    }
+    container.scrollLeft = scrollPosition;
+    requestAnimationFrame(autoScroll);
+  }
+  
+  // Start auto-scroll after a brief delay
+  setTimeout(() => {
+    autoScroll();
+  }, 500);
 }
 
 // Projects auto-scroll using Swiper for smooth continuous scroll
