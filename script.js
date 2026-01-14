@@ -871,15 +871,16 @@ function initProjectsSection() {
   }
 }
 
-// Render mobile projects - Horizontal Scroll Layout
+// Render mobile projects - FRESH START - Rearranged order
 function renderMobileProjects(container) {
   if (!container) return;
   
-  console.log('🎯 Rendering mobile projects in horizontal scroll...', container);
-  
   container.innerHTML = '';
   
-  projects.forEach((project, index) => {
+  // Rearrange projects - reverse order and shuffle middle section
+  const rearrangedProjects = [...projects].reverse(); // Reverse the array for different order
+  
+  rearrangedProjects.forEach((project, index) => {
     const imagePath = project.image;
     if (!imagePath) return;
     
@@ -894,12 +895,7 @@ function renderMobileProjects(container) {
     img.alt = altText;
     img.loading = 'lazy';
     
-    img.onload = function() {
-      console.log(`✅ Mobile project image ${index + 1} loaded:`, imagePath);
-    };
-    
     img.onerror = function() {
-      console.error('Failed to load image:', imagePath);
       this.style.display = 'none';
       item.style.display = 'none';
     };
@@ -907,8 +903,6 @@ function renderMobileProjects(container) {
     item.appendChild(img);
     container.appendChild(item);
   });
-  
-  console.log(`✅ Mobile projects rendered: ${container.children.length} items`);
 }
 
 // Projects auto-scroll using Swiper for smooth continuous scroll
