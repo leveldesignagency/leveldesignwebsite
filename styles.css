@@ -3171,33 +3171,49 @@ footer nav {
     display: none !important;
   }
   
-  /* Hide projects title on mobile - COMPLETE REMOVAL */
+  /* Projects title - VISIBLE on mobile like other sections */
   #projects-title.projects-title-section {
-    display: none !important;
-    visibility: hidden !important;
-    height: 0 !important;
-    min-height: 0 !important;
-    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 40px 20px !important;
     margin: 0 !important;
-    margin-top: 0 !important;
     margin-bottom: 0 !important;
-    overflow: hidden !important;
-    position: absolute !important;
-    left: -9999px !important;
-    line-height: 0 !important;
+    border-top: 1px solid var(--text) !important;
+    border-bottom: 1px solid var(--text) !important;
+    background: var(--bg) !important;
   }
   
-  #projects-title.projects-title-section * {
-    display: none !important;
-    visibility: hidden !important;
-    height: 0 !important;
-    padding: 0 !important;
+  .dark-mode #projects-title.projects-title-section {
+    border-top-color: #ffffff !important;
+    border-bottom-color: #ffffff !important;
+    background: #000000 !important;
+  }
+  
+  body:not(.dark-mode) #projects-title.projects-title-section {
+    border-top-color: #000000 !important;
+    border-bottom-color: #000000 !important;
+    background: #ffffff !important;
+  }
+  
+  #projects-title.projects-title-section h2 {
+    font-size: clamp(56px, 15vw, 90px) !important;
+    text-align: center !important;
     margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Ensure NO gap between projects title and projects section */
+  #projects-title.projects-title-section + #projects-mobile.section,
+  #projects-title.projects-title-section + #projects.section + #projects-mobile.section {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
   
   /* Mobile Projects Section - FRESH START - Clean horizontal scroll with auto-scroll */
   #projects-mobile.section {
-    background: #000000 !important; /* Always black on mobile */
+    background: var(--bg) !important;
     padding: 0 !important;
     margin: 0 !important;
     margin-top: 0 !important;
@@ -3212,7 +3228,7 @@ footer nav {
   }
   
   body:not(.dark-mode) #projects-mobile.section {
-    background: #ffffff !important; /* White in light mode */
+    background: #ffffff !important;
   }
   
   .projects-mobile-container {
@@ -3453,11 +3469,31 @@ footer nav {
   
   #work.section {
     padding: 120px 0 0 0 !important; /* NO bottom padding - remove gap before projects */
+    margin: 0 !important;
     margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
   }
   
-  /* Hide custom background element on mobile */
+  /* Ensure no gap between work section and projects title */
+  #work.section + #custom-background,
+  #work.section + #custom-background + #projects-title {
+    margin-top: 0 !important;
+  }
+  
+  /* Hide custom background element on mobile - COMPLETE REMOVAL */
   #custom-background.custom-bg {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+    overflow: hidden !important;
+  }
+  
+  #custom-background.custom-bg * {
     display: none !important;
     visibility: hidden !important;
     height: 0 !important;
@@ -3472,16 +3508,10 @@ footer nav {
   }
   
   /* All Title Sections - Mobile: Center, Large Font */
-  /* Projects title completely hidden on mobile - handled above */
+  #projects-title.projects-title-section,
   #services-title.services-title-section,
   #specialities-title.specialities-title-section,
-  #work-title.work-title-section {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-bottom: 0 !important; /* Remove bottom margin */
-  }
-  
+  #work-title.work-title-section,
   #process-title.process-title-section,
   #reviews-title.reviews-title-section,
   #contact-title.contact-title-section {
@@ -3490,8 +3520,11 @@ footer nav {
     justify-content: center !important;
     text-align: center !important;
     padding: 40px 20px !important;
+    margin: 0 !important;
+    margin-bottom: 0 !important;
     border-top: 1px solid var(--text) !important;
     border-bottom: 1px solid var(--text) !important;
+    background: var(--bg) !important;
   }
   
   /* Dark mode: borders should be white */
