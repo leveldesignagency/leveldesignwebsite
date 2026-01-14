@@ -3176,16 +3176,23 @@ footer nav {
     display: none !important;
     visibility: hidden !important;
     height: 0 !important;
+    min-height: 0 !important;
     padding: 0 !important;
     margin: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
     overflow: hidden !important;
     position: absolute !important;
     left: -9999px !important;
+    line-height: 0 !important;
   }
   
   #projects-title.projects-title-section * {
     display: none !important;
     visibility: hidden !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
   
   /* Mobile Projects Section - FRESH START - Clean horizontal scroll with auto-scroll */
@@ -3194,8 +3201,10 @@ footer nav {
     padding: 0 !important;
     margin: 0 !important;
     margin-top: 0 !important;
+    margin-bottom: 0 !important;
     overflow: hidden !important;
     display: block !important;
+    position: relative !important;
   }
   
   .dark-mode #projects-mobile.section {
@@ -3443,14 +3452,36 @@ footer nav {
   }
   
   #work.section {
-    padding: 120px 0 60px 0;
+    padding: 120px 0 0 0 !important; /* NO bottom padding - remove gap before projects */
+    margin-bottom: 0 !important;
+  }
+  
+  /* Hide custom background element on mobile */
+  #custom-background.custom-bg {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Override general section padding for projects-mobile */
+  #projects-mobile.section.mobile-only {
+    padding: 0 !important;
+    margin: 0 !important;
   }
   
   /* All Title Sections - Mobile: Center, Large Font */
-  #projects-title.projects-title-section,
+  /* Projects title completely hidden on mobile - handled above */
   #services-title.services-title-section,
   #specialities-title.specialities-title-section,
-  #work-title.work-title-section,
+  #work-title.work-title-section {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 0 !important; /* Remove bottom margin */
+  }
+  
   #process-title.process-title-section,
   #reviews-title.reviews-title-section,
   #contact-title.contact-title-section {
