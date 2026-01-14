@@ -2357,7 +2357,7 @@ textarea {
   /* Services Gallery Section - Images only */
   #services-gallery.section {
     position: relative;
-    padding: 30px 0 0 0 !important; /* Top padding only - bottom will be adjusted by JS */
+    padding: 30px 0 30px 0 !important; /* Top and bottom padding: 30px */
     overflow: hidden;
     background: var(--bg);
     border-bottom: 1px solid #000000;
