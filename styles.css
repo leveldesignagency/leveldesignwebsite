@@ -696,7 +696,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 
 /* Work section - fixed background, no color changes */
 #work.section {
-  padding: 60px 0 120px 0 !important;
+  padding: 60px 0 120px 0 !important; /* Increased bottom padding to prevent card cutoff */
   background: var(--bg) !important;
 }
 
@@ -3166,9 +3166,22 @@ footer nav {
     }
   }
   
-  /* Hide desktop projects section on mobile */
-  #projects.section.desktop-only {
+  /* Hide desktop projects section on mobile - AGGRESSIVE HIDING */
+  #projects.section.desktop-only,
+  #projects.section.desktop-only *,
+  .projects-container.desktop-only,
+  .projects-container.desktop-only * {
     display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    left: -9999px !important;
+    opacity: 0 !important;
+    width: 0 !important;
   }
   
   /* Projects title - VISIBLE on mobile like other sections */
@@ -3177,7 +3190,7 @@ footer nav {
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
-    padding: 40px 20px !important;
+    padding: 40px 20px 20px 20px !important; /* Reduced bottom padding */
     margin: 0 !important;
     margin-bottom: 0 !important;
     border-top: 1px solid var(--text) !important;
@@ -3204,7 +3217,29 @@ footer nav {
     padding: 0 !important;
   }
   
+  /* HIDE desktop projects section completely on mobile */
+  #projects.section.desktop-only {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    left: -9999px !important;
+  }
+  
+  #projects.section.desktop-only * {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  
   /* Ensure NO gap between projects title and projects section */
+  #projects-title.projects-title-section {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important; /* NO bottom padding - eliminate white space */
+  }
+  
   #projects-title.projects-title-section + #projects-mobile.section,
   #projects-title.projects-title-section + #projects.section + #projects-mobile.section {
     margin-top: 0 !important;
@@ -3228,6 +3263,15 @@ footer nav {
   }
   
   body:not(.dark-mode) #projects-mobile.section {
+    background: #ffffff !important;
+  }
+  
+  /* Ensure projects title background matches projects section */
+  .dark-mode #projects-title.projects-title-section {
+    background: #000000 !important;
+  }
+  
+  body:not(.dark-mode) #projects-title.projects-title-section {
     background: #ffffff !important;
   }
   
@@ -3468,10 +3512,15 @@ footer nav {
   }
   
   #work.section {
-    padding: 120px 0 0 0 !important; /* NO bottom padding - remove gap before projects */
+    padding: 120px 0 100px 0 !important; /* Increased bottom padding on mobile */
     margin: 0 !important;
     margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
+  }
+  
+  /* Increase work container height/padding on mobile */
+  .work-grid {
+    padding-bottom: 40px !important;
+    margin-bottom: 0 !important;
   }
   
   /* Ensure no gap between work section and projects title */
@@ -4293,7 +4342,7 @@ footer nav {
   }
   
   #work.section {
-    padding: 100px 0 50px 0;
+    padding: 100px 0 100px 0 !important; /* Increased bottom padding on mobile */
   }
   
   /* Cards */
