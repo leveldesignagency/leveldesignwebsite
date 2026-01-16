@@ -521,7 +521,6 @@ function showNextSlide() {
       }
       
       // Show service image wrapper for next service if it exists (desktop only)
-      const isMobile = window.matchMedia('(max-width: 768px)').matches;
       if (!isMobile) {
         // Normalize service name for comparison (remove \n and compare)
         const normalizedNextService = nextService.replace(/\n/g, ' ');
@@ -601,7 +600,6 @@ function showNextSlide() {
     }
     
       // Show service image wrapper for first service if it exists (desktop only)
-      const isMobile = window.matchMedia('(max-width: 768px)').matches;
       if (!isMobile) {
         // Normalize service name for comparison (remove \n and compare)
         const normalizedNextService = nextService.replace(/\n/g, ' ');
