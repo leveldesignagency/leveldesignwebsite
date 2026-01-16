@@ -282,9 +282,27 @@ function createServiceSlide(service) {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
   if (isMobile) {
     // Single text element for proper background-clip masking
+    const normalizedService = service.replace(/\n/g, ' ').toLowerCase();
+    let imagePath = 'public/branding_white.png'; // default
+    
+    // Map services to their white image files
+    if (normalizedService.includes('web design') || normalizedService.includes('development')) {
+      imagePath = 'public/branding_white.png';
+    } else if (normalizedService.includes('drone') || normalizedService.includes('photography')) {
+      imagePath = 'public/drone_white.png';
+    } else if (normalizedService.includes('social media')) {
+      imagePath = 'public/SOCIAL MEDIA_WHITE.png';
+    } else if (normalizedService.includes('videography')) {
+      imagePath = 'public/videography services white.png';
+    } else if (normalizedService.includes('motion') || normalizedService.includes('graphic')) {
+      imagePath = 'public/branding_white.png'; // default for now
+    } else if (normalizedService.includes('software') || normalizedService.includes('app')) {
+      imagePath = 'public/branding_white.png'; // default for now
+    }
+    
     slide.innerHTML = `
       <div class="border-line"></div>
-      <div class="text-content">
+      <div class="text-content" style="background-image: url('${imagePath}');">
         ${lines.map(line => line.trim()).join(' ')}
       </div>
     `;
@@ -475,6 +493,33 @@ function showNextSlide() {
       const newSlide = createServiceSlide(nextService);
       heroInner.appendChild(newSlide);
       
+      // Update mobile text background image based on service
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      if (isMobile && newSlide) {
+        const textContent = newSlide.querySelector('.text-content');
+        if (textContent) {
+          const normalizedService = nextService.replace(/\n/g, ' ').toLowerCase();
+          let imagePath = 'public/branding_white.png'; // default
+          
+          // Map services to their white image files
+          if (normalizedService.includes('web design') || normalizedService.includes('development')) {
+            imagePath = 'public/branding_white.png';
+          } else if (normalizedService.includes('drone') || normalizedService.includes('photography')) {
+            imagePath = 'public/drone_white.png';
+          } else if (normalizedService.includes('social media')) {
+            imagePath = 'public/SOCIAL MEDIA_WHITE.png';
+          } else if (normalizedService.includes('videography')) {
+            imagePath = 'public/videography services white.png';
+          } else if (normalizedService.includes('motion') || normalizedService.includes('graphic')) {
+            imagePath = 'public/branding_white.png'; // default for now
+          } else if (normalizedService.includes('software') || normalizedService.includes('app')) {
+            imagePath = 'public/branding_white.png'; // default for now
+          }
+          
+          textContent.style.backgroundImage = `url('${imagePath}')`;
+        }
+      }
+      
       // Show service image wrapper for next service if it exists (desktop only)
       const isMobile = window.matchMedia('(max-width: 768px)').matches;
       if (!isMobile) {
@@ -527,6 +572,33 @@ function showNextSlide() {
     const nextService = services[currentSlideIndex];
     const newSlide = createServiceSlide(nextService);
     heroInner.appendChild(newSlide);
+    
+    // Update mobile text background image based on service
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (isMobile && newSlide) {
+      const textContent = newSlide.querySelector('.text-content');
+      if (textContent) {
+        const normalizedService = nextService.replace(/\n/g, ' ').toLowerCase();
+        let imagePath = 'public/branding_white.png'; // default
+        
+        // Map services to their white image files
+        if (normalizedService.includes('web design') || normalizedService.includes('development')) {
+          imagePath = 'public/branding_white.png';
+        } else if (normalizedService.includes('drone') || normalizedService.includes('photography')) {
+          imagePath = 'public/drone_white.png';
+        } else if (normalizedService.includes('social media')) {
+          imagePath = 'public/SOCIAL MEDIA_WHITE.png';
+        } else if (normalizedService.includes('videography')) {
+          imagePath = 'public/videography services white.png';
+        } else if (normalizedService.includes('motion') || normalizedService.includes('graphic')) {
+          imagePath = 'public/branding_white.png'; // default for now
+        } else if (normalizedService.includes('software') || normalizedService.includes('app')) {
+          imagePath = 'public/branding_white.png'; // default for now
+        }
+        
+        textContent.style.backgroundImage = `url('${imagePath}')`;
+      }
+    }
     
       // Show service image wrapper for first service if it exists (desktop only)
       const isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -939,7 +1011,7 @@ function renderMobileProjects(container) {
   
   // Auto-scroll animation
   let scrollPosition = 0;
-  const scrollSpeed = 0.5; // pixels per frame
+  const scrollSpeed = 1.5; // pixels per frame (increased from 0.5 for faster scroll)
   const totalWidth = wrapper.offsetWidth / 2; // Half because we duplicated
   
   function autoScroll() {

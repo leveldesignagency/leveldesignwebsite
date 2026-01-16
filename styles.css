@@ -3942,13 +3942,9 @@ footer nav {
   }
   
   /* Light mode: use black image */
-  body:not(.dark-mode) .hero-slide .text-content {
-    background-image: url('public/branding_black.png');
-  }
-  
-  /* Dark mode: use white image */
-  .dark-mode .hero-slide .text-content {
-    background-image: url('public/branding_white.png');
+  /* Background image is set dynamically by JavaScript based on service */
+  .hero-slide .text-content {
+    background-image: url('public/branding_white.png'); /* Default fallback */
   }
   
   /* Hide word divs on mobile - text is directly in text-content */
