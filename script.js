@@ -417,10 +417,11 @@ function showNextSlide() {
   
   if (!isCycling) return;
   
-  // Fade out current slide
+  // Slide out current slide (exit animation)
   const currentSlide = heroInner.querySelector('.hero-slide');
   if (currentSlide) {
     currentSlide.classList.remove('active');
+    currentSlide.classList.add('exiting');
     
       // Hide service image wrapper for current service - fade out (desktop only)
       const isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -435,14 +436,35 @@ function showNextSlide() {
           }
         });
         
-        // Hide hero image when leaving "web design & development" service
-        const heroImageWrapper = document.querySelector('.hero-image-wrapper');
-        if (heroImageWrapper && normalizedCurrentService === 'web design & development') {
-          heroImageWrapper.classList.remove('active');
-        }
+        // Hide hero images when leaving their respective services
+        const allHeroImageWrappers = document.querySelectorAll('.hero-image-wrapper');
+        allHeroImageWrappers.forEach(wrapper => {
+          const wrapperService = wrapper.getAttribute('data-service');
+          if (wrapperService && wrapperService.toLowerCase() === normalizedCurrentService.toLowerCase()) {
+            // Capture current transform state before removing active
+            const computedStyle = window.getComputedStyle(wrapper);
+            const currentTransform = computedStyle.transform;
+            if (currentTransform && currentTransform !== 'none') {
+              // Extract translateX value from current transform
+              const matrix = new DOMMatrix(currentTransform);
+              const currentX = matrix.e; // translateX value
+              // Apply current transform and continue sliding left while fading
+              wrapper.style.transform = `translateY(-50%) translateX(${currentX}px)`;
+            }
+            wrapper.classList.remove('active');
+            // Continue sliding left while fading out
+            setTimeout(() => {
+              wrapper.style.transform = 'translateY(-50%) translateX(-30px)';
+              // Clear inline style after transition completes
+              setTimeout(() => {
+                wrapper.style.transform = '';
+              }, 1000);
+            }, 10);
+          }
+        });
       }
     
-    // Wait for fade out to complete, then create and show next slide
+    // Wait for exit animation to complete (0.6s + 0.2s delay for last word), then create and show next slide
     setTimeout(() => {
       if (currentSlide.parentNode) {
         currentSlide.parentNode.removeChild(currentSlide);
@@ -470,17 +492,18 @@ function showNextSlide() {
           }
         });
         
-        // Sync branding hero image with "Brand & Marketing" service
-        const heroImageWrapper = document.querySelector('.hero-image-wrapper');
-        if (heroImageWrapper) {
-          if (normalizedNextService === 'web design & development') {
+        // Sync hero images with their respective services
+        const allHeroImageWrappers = document.querySelectorAll('.hero-image-wrapper');
+        allHeroImageWrappers.forEach(wrapper => {
+          const wrapperService = wrapper.getAttribute('data-service');
+          if (wrapperService && wrapperService.toLowerCase() === normalizedNextService.toLowerCase()) {
             setTimeout(() => {
-              heroImageWrapper.classList.add('active');
+              wrapper.classList.add('active');
             }, 200);
           } else {
-            heroImageWrapper.classList.remove('active');
+            wrapper.classList.remove('active');
           }
-        }
+        });
       }
       
       // Fade in after a brief delay
@@ -522,17 +545,18 @@ function showNextSlide() {
           }
         });
         
-        // Sync branding hero image with "Brand & Marketing" service
-        const heroImageWrapper = document.querySelector('.hero-image-wrapper');
-        if (heroImageWrapper) {
-          if (normalizedNextService === 'web design & development') {
+        // Sync hero images with their respective services
+        const allHeroImageWrappers = document.querySelectorAll('.hero-image-wrapper');
+        allHeroImageWrappers.forEach(wrapper => {
+          const wrapperService = wrapper.getAttribute('data-service');
+          if (wrapperService && wrapperService.toLowerCase() === normalizedNextService.toLowerCase()) {
             setTimeout(() => {
-              heroImageWrapper.classList.add('active');
+              wrapper.classList.add('active');
             }, 200);
           } else {
-            heroImageWrapper.classList.remove('active');
+            wrapper.classList.remove('active');
           }
-        }
+        });
       } else {
       // Mobile: keep first service (web design & development) image constant
       const firstServiceWrapper = document.querySelector('.hero-service-image-wrapper[data-service="web design & development"]');
@@ -1533,5 +1557,200 @@ if (soundBtn && audioEl instanceof HTMLAudioElement) {
   });
 }
 
+
+// Projects Webview Tabs Functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+  
+  // Detect mobile device
+  const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  // Initialize: Hide all panels initially
+  tabPanels.forEach(panel => {
+    panel.classList.remove('active');
+    panel.style.display = 'none';
+    panel.style.height = '0';
+    panel.style.opacity = '0';
+  });
+  
+  // Function to load iframe only when tab is opened
+  function loadIframe(panel) {
+    const iframe = panel.querySelector('iframe[data-src]');
+    const fallback = panel.querySelector('.iframe-fallback');
+    
+    if (iframe && !iframe.src) {
+      const url = iframe.getAttribute('data-src');
+      
+      // List of known sites that block iframe embedding
+      const blockedSites = [];
+      
+      // Check if this site is known to block iframes
+      const isBlocked = blockedSites.some(site => url.includes(site));
+      
+      if (isBlocked && fallback) {
+        // Show fallback immediately for known blocked sites
+        iframe.style.display = 'none';
+        fallback.style.display = 'flex';
+        return;
+      }
+      
+      // Try to load iframe
+      iframe.src = url;
+      
+      // Ensure iframe is visible and fallback is hidden initially
+      if (fallback) {
+        fallback.style.display = 'none';
+      }
+      iframe.style.display = 'block';
+      
+      // Set up error handling for blocked iframes
+      iframe.onerror = function() {
+        if (fallback) {
+          iframe.style.display = 'none';
+          fallback.style.display = 'flex';
+        }
+      };
+      
+      // Check for connection refused or blocked errors
+      const checkConnection = setTimeout(() => {
+        // If iframe hasn't loaded or shows connection error, show fallback
+        if (isBlocked && fallback) {
+          // Check if iframe is showing an error page
+          try {
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            const bodyText = iframeDoc.body ? iframeDoc.body.innerText || iframeDoc.body.textContent : '';
+            // If we see connection error messages, show fallback
+            if (bodyText.includes('refused to connect') || 
+                bodyText.includes('ERR_') || 
+                bodyText.includes('This site can\'t be reached')) {
+              iframe.style.display = 'none';
+              fallback.style.display = 'flex';
+            }
+          } catch (e) {
+            // Can't access - likely blocked, show fallback for known blocked sites
+            if (isBlocked && fallback) {
+              iframe.style.display = 'none';
+              fallback.style.display = 'flex';
+            }
+          }
+        }
+      }, 3000);
+      
+      // Clear check if iframe loads successfully
+      iframe.onload = function() {
+        clearTimeout(checkConnection);
+      };
+      
+      // For known blocked sites, show fallback immediately
+      // For other sites, let them try to load - if they're blocked, browser will show blank
+      // We check after a delay if the iframe appears to be empty/blocked
+      const checkBlocked = setTimeout(() => {
+        // Only check for known blocked sites or if iframe failed to load
+        // We can't reliably check contentDocument due to CORS, so we rely on
+        // the known blocked list and onerror handler
+        if (isBlocked && fallback) {
+          iframe.style.display = 'none';
+          fallback.style.display = 'flex';
+        }
+      }, 1000);
+      
+      // If iframe loads successfully, clear the check
+      iframe.onload = function() {
+        clearTimeout(checkBlocked);
+        // If it's a known blocked site, still show fallback
+        if (isBlocked && fallback) {
+          iframe.style.display = 'none';
+          fallback.style.display = 'flex';
+        } else if (fallback) {
+          // For non-blocked sites, ensure fallback is hidden
+          fallback.style.display = 'none';
+          iframe.style.display = 'block';
+        }
+      };
+    }
+  }
+  
+  // Tab button click handler
+  tabButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      const targetTab = this.getAttribute('data-tab');
+      const targetPanel = document.getElementById(`tab-${targetTab}`);
+      
+      // On mobile: open in new tab instead of showing webview
+      if (isMobile && targetPanel) {
+        const url = targetPanel.getAttribute('data-url');
+        if (url) {
+          window.open(url, '_blank', 'noopener,noreferrer');
+          return;
+        }
+      }
+      
+      // Desktop behavior: show webview
+      // Remove active class from all buttons and panels
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      tabPanels.forEach(panel => {
+        panel.classList.remove('active');
+        panel.style.display = 'none';
+        panel.style.height = '0';
+        panel.style.opacity = '0';
+      });
+      
+      // Add active class to clicked button
+      this.classList.add('active');
+      
+      // Show and expand the target panel
+      if (targetPanel) {
+        // Load iframe when tab is opened
+        loadIframe(targetPanel);
+        
+        // Set display first
+        targetPanel.style.display = 'block';
+        
+        // Use requestAnimationFrame to ensure display is set before height transition
+        requestAnimationFrame(() => {
+          // Get the natural height of the content
+          targetPanel.style.height = 'auto';
+          const height = targetPanel.scrollHeight;
+          targetPanel.style.height = '0';
+          
+          // Force reflow
+          targetPanel.offsetHeight;
+          
+          // Animate to full height
+          targetPanel.style.height = height + 'px';
+          targetPanel.style.opacity = '1';
+          
+          // After transition, set to auto for responsive behavior
+          setTimeout(() => {
+            targetPanel.style.height = 'auto';
+            targetPanel.classList.add('active');
+          }, 400);
+        });
+      }
+    });
+  });
+  
+  // Auto-select Richtons tab on page load (desktop only)
+  if (!isMobile && tabButtons.length > 0) {
+    const richtonsButton = Array.from(tabButtons).find(btn => btn.getAttribute('data-tab') === 'richtons');
+    if (richtonsButton) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        richtonsButton.click();
+      }, 100);
+    }
+  }
+  
+  // Update on window resize
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      // Re-check mobile status on resize if needed
+      // The isMobile check happens on click, so this is mainly for future enhancements
+    }, 250);
+  });
+});
 
 // Cache bust: 1759795340
