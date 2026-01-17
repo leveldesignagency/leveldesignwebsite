@@ -1823,4 +1823,104 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// Contact Form Submission with EmailJS
+document.addEventListener('DOMContentLoaded', function() {
+  const contactForm = document.getElementById('contact-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const submitText = document.getElementById('submit-text');
+  const formMessage = document.getElementById('form-message');
+  
+  if (contactForm) {
+    // Check if EmailJS is loaded
+    if (typeof emailjs === 'undefined') {
+      console.error('EmailJS is not loaded. Please check that the EmailJS script is included in index.html');
+      if (formMessage) {
+        formMessage.textContent = 'Form service is not configured. Please contact us directly at help@leveldesignagency.com';
+        formMessage.className = 'form-message error';
+        formMessage.style.display = 'block';
+      }
+      return;
+    }
+    
+    // Initialize EmailJS with your Public Key
+    // TODO: Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS Public Key from https://www.emailjs.com/
+    // Get it from: Account → General → Public Key
+    emailjs.init('YOUR_PUBLIC_KEY');
+    
+    contactForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      // Disable submit button
+      submitBtn.disabled = true;
+      submitText.textContent = 'Sending...';
+      
+      // Hide previous messages
+      formMessage.style.display = 'none';
+      formMessage.className = 'form-message';
+      
+      // Get form data
+      const formData = {
+        name: contactForm.querySelector('input[name="name"]').value,
+        email: contactForm.querySelector('input[name="email"]').value,
+        message: contactForm.querySelector('textarea[name="message"]').value
+      };
+      
+      try {
+        // Send email using EmailJS
+        // TODO: Replace these with your actual IDs from EmailJS dashboard:
+        // - Service ID: Email Services → Copy Service ID (e.g., 'service_xxxxx')
+        // - Template ID: Email Templates → Copy Template ID (e.g., 'template_xxxxx')
+        const SERVICE_ID = 'YOUR_SERVICE_ID';
+        const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+        
+        // Check if credentials are configured
+        if (SERVICE_ID === 'YOUR_SERVICE_ID' || TEMPLATE_ID === 'YOUR_TEMPLATE_ID') {
+          throw new Error('EmailJS credentials not configured. Please update script.js with your Service ID and Template ID.');
+        }
+        
+        await emailjs.send(
+          SERVICE_ID,
+          TEMPLATE_ID,
+          {
+            to_email: 'help@leveldesignagency.com',
+            from_name: formData.name,
+            from_email: formData.email,
+            message: formData.message,
+            reply_to: formData.email
+          }
+        );
+        
+        // Success message
+        formMessage.textContent = 'Message sent successfully! We\'ll get back to you soon.';
+        formMessage.className = 'form-message success';
+        formMessage.style.display = 'block';
+        
+        // Reset form
+        contactForm.reset();
+        
+        // Re-enable submit button
+        submitBtn.disabled = false;
+        submitText.textContent = 'Send Message';
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          formMessage.style.display = 'none';
+        }, 5000);
+        
+      } catch (error) {
+        console.error('EmailJS Error:', error);
+        
+        // Error message
+        formMessage.textContent = 'Sorry, there was an error sending your message. Please try again or email us directly at help@leveldesignagency.com';
+        formMessage.className = 'form-message error';
+        formMessage.style.display = 'block';
+        
+        // Re-enable submit button
+        submitBtn.disabled = false;
+        submitText.textContent = 'Send Message';
+      }
+    });
+  }
+});
+
 // Cache bust: 1759795340

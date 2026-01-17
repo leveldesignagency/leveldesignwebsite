@@ -1157,7 +1157,7 @@
         <section id="contact" class="contact section" data-animate="fade-up">
             <div class="container">
                 <div class="contact-wrapper">
-                    <form class="contact-form" name="contact" netlify>
+                    <form class="contact-form" id="contact-form" name="contact">
                         <div class="form-row">
                             <div class="form-group">
                                 <label>
@@ -1178,13 +1178,14 @@
                                 <textarea name="message" rows="4" required></textarea>
                             </label>
                         </div>
-                        <button type="submit" class="btn primary">
-                            <span>Send Message</span>
+                        <button type="submit" class="btn primary" id="submit-btn">
+                            <span id="submit-text">Send Message</span>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <line x1="22" y1="2" x2="11" y2="13"></line>
                                 <polygon points="22,2 15,22 11,13 2,9 22,2"></polygon>
                             </svg>
                         </button>
+                        <div id="form-message" class="form-message" style="display: none;"></div>
                     </form>
                     <div class="contact-info">
                         <h3>Let's build something amazing</h3>
@@ -1226,6 +1227,8 @@
     <div class="custom-cursor" id="custom-cursor"></div>
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
       // Percentage loader - counts from 0 to 100%, then show logo briefly on mobile
       (function() {
@@ -1274,7 +1277,6 @@
       })();
     </script>
     <script src="script.js" defer></script>
-    </script>
 </body>
 </html>
 

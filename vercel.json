@@ -12,6 +12,18 @@
       "destination": "/sitemap.xml"
     },
     {
+      "source": "/LEVEL LOGO MAIN.svg",
+      "destination": "/LEVEL LOGO MAIN.svg"
+    },
+    {
+      "source": "/public/logo.svg",
+      "destination": "/public/logo.svg"
+    },
+    {
+      "source": "/public/logo.png",
+      "destination": "/public/logo.png"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
