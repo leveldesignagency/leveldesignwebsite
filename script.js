@@ -1872,7 +1872,6 @@ document.addEventListener('DOMContentLoaded', function() {
           SERVICE_ID,
           TEMPLATE_ID,
           {
-            to_email: 'help@leveldesignagency.com',
             from_name: formData.name,
             from_email: formData.email,
             message: formData.message,
@@ -1899,9 +1898,19 @@ document.addEventListener('DOMContentLoaded', function() {
         
       } catch (error) {
         console.error('EmailJS Error:', error);
+        console.error('Error details:', error.text || error.message || error);
         
-        // Error message
-        formMessage.textContent = 'Sorry, there was an error sending your message. Please try again or email us directly at help@leveldesignagency.com';
+        // More detailed error message
+        let errorMsg = 'Sorry, there was an error sending your message. ';
+        if (error.text) {
+          errorMsg += `Error: ${error.text}`;
+        } else if (error.message) {
+          errorMsg += `Error: ${error.message}`;
+        } else {
+          errorMsg += 'Please try again or email us directly at help@leveldesignagency.com';
+        }
+        
+        formMessage.textContent = errorMsg;
         formMessage.className = 'form-message error';
         formMessage.style.display = 'block';
         
