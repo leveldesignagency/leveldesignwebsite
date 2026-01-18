@@ -1843,9 +1843,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Initialize EmailJS with your Public Key
-    // TODO: Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS Public Key from https://www.emailjs.com/
-    // Get it from: Account → General → Public Key
-    emailjs.init('YOUR_PUBLIC_KEY');
+    emailjs.init('YZEUywDpGdF8ypKDn');
     
     contactForm.addEventListener('submit', async function(e) {
       e.preventDefault();
@@ -1867,16 +1865,8 @@ document.addEventListener('DOMContentLoaded', function() {
       
       try {
         // Send email using EmailJS
-        // TODO: Replace these with your actual IDs from EmailJS dashboard:
-        // - Service ID: Email Services → Copy Service ID (e.g., 'service_xxxxx')
-        // - Template ID: Email Templates → Copy Template ID (e.g., 'template_xxxxx')
-        const SERVICE_ID = 'YOUR_SERVICE_ID';
-        const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-        
-        // Check if credentials are configured
-        if (SERVICE_ID === 'YOUR_SERVICE_ID' || TEMPLATE_ID === 'YOUR_TEMPLATE_ID') {
-          throw new Error('EmailJS credentials not configured. Please update script.js with your Service ID and Template ID.');
-        }
+        const SERVICE_ID = 'service_3y4my2r';
+        const TEMPLATE_ID = 'template_jnkhrvh';
         
         await emailjs.send(
           SERVICE_ID,
