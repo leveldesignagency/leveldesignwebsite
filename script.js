@@ -1866,14 +1866,29 @@ document.addEventListener('DOMContentLoaded', function() {
       try {
         // Send email using EmailJS
         const SERVICE_ID = 'service_3y4my2r';
-        const TEMPLATE_ID = 'template_jnkhrvh';
+        const TEMPLATE_ID_TO_YOU = 'template_jnkhrvh'; // Email to you
+        const TEMPLATE_ID_AUTO_REPLY = 'template_brnzty1'; // Auto-reply to customer
         
+        // Send email to you
         await emailjs.send(
           SERVICE_ID,
-          TEMPLATE_ID,
+          TEMPLATE_ID_TO_YOU,
           {
             from_name: formData.name,
             from_email: formData.email,
+            message: formData.message,
+            reply_to: formData.email
+          }
+        );
+        
+        // Send auto-reply to customer
+        await emailjs.send(
+          SERVICE_ID,
+          TEMPLATE_ID_AUTO_REPLY,
+          {
+            name: formData.name, // Use 'name' to match template variable {{name}}
+            from_email: formData.email,
+            email: formData.email, // Also send as 'email' in case template uses {{email}}
             message: formData.message,
             reply_to: formData.email
           }
