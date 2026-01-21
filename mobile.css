@@ -843,8 +843,8 @@ html, body {
   background-position: center;
   background-repeat: no-repeat;
   /* Use logo SVG as mask - images show through logo shape */
-  mask-image: url('../LEVEL LOGO MAIN.svg');
-  -webkit-mask-image: url('../LEVEL LOGO MAIN.svg');
+  mask-image: url('LEVEL LOGO MAIN.svg');
+  -webkit-mask-image: url('LEVEL LOGO MAIN.svg');
   mask-size: contain;
   -webkit-mask-size: contain;
   mask-position: center;
