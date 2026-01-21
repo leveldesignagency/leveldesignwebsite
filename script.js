@@ -373,9 +373,9 @@ function setupMobileLogoMask() {
     return;
   }
   
-  // Hide the headline text on mobile
+  // Hide the headline text on mobile ONLY
   const headline = document.getElementById('hero-headline');
-  if (headline) {
+  if (headline && isMobile) {
     headline.style.display = 'none';
   }
   
