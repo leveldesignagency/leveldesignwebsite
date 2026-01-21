@@ -838,7 +838,6 @@ html, body {
 
 /* Background images that cycle - masked by logo shape (images show through logo) */
 .hero-logo-mask-bg {
-  position: absolute;
   width: 100%;
   height: 100%;
   background-size: cover;
@@ -855,23 +854,9 @@ html, body {
   -webkit-mask-repeat: no-repeat;
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
-  z-index: 1;
-  /* Ensure it's visible */
-  background-color: transparent;
-}
-
-/* Logo SVG overlay - black, visible on top, images show through via mask */
-.hero-logo-overlay {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  z-index: 2;
-  pointer-events: none;
-  /* Make logo black */
-  filter: brightness(0);
-  /* Use multiply blend mode - black logo will show, but images from masked bg will show through */
-  mix-blend-mode: multiply;
+  /* Add black background so logo shape is visible */
+  background-color: #000;
+  background-blend-mode: normal;
 }
 
 /* Hide headline and hero slides on mobile */

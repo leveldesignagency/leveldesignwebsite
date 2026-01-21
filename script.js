@@ -358,11 +358,20 @@ function startServiceCycling() {
 // Mobile Logo Mask with fast-cycling images
 function setupMobileLogoMask() {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  if (!isMobile) return;
+  if (!isMobile) {
+    console.log('Not mobile, skipping logo mask');
+    return;
+  }
   
   const logoMask = document.getElementById('hero-logo-mask');
   const logoMaskBg = document.getElementById('hero-logo-mask-bg');
-  if (!logoMask || !logoMaskBg) return;
+  
+  console.log('Setting up mobile logo mask', { logoMask, logoMaskBg, isMobile });
+  
+  if (!logoMask || !logoMaskBg) {
+    console.error('Logo mask elements not found!', { logoMask, logoMaskBg });
+    return;
+  }
   
   // Hide the headline text on mobile
   const headline = document.getElementById('hero-headline');
@@ -375,6 +384,10 @@ function setupMobileLogoMask() {
   heroSlides.forEach(slide => {
     slide.style.display = 'none';
   });
+  
+  // Make sure logo mask is visible
+  logoMask.style.display = 'flex';
+  logoMaskBg.style.display = 'block';
   
   // Images to cycle behind logo mask (same images used for services)
   const maskImages = [
@@ -389,14 +402,13 @@ function setupMobileLogoMask() {
   // Function to update the background image
   function updateMaskImage() {
     const imageUrl = maskImages[currentImageIndex];
-    logoMaskBg.style.backgroundImage = `url('${imageUrl}')`;
-    logoMaskBg.style.opacity = '0';
+    console.log('Updating mask image:', imageUrl, currentImageIndex);
     
-    // Fade in
-    setTimeout(() => {
-      logoMaskBg.style.transition = 'opacity 0.3s ease-in-out';
-      logoMaskBg.style.opacity = '1';
-    }, 10);
+    // Set background image
+    logoMaskBg.style.backgroundImage = `url('${imageUrl}')`;
+    logoMaskBg.style.backgroundSize = 'cover';
+    logoMaskBg.style.backgroundPosition = 'center';
+    logoMaskBg.style.opacity = '1';
     
     // Move to next image
     currentImageIndex = (currentImageIndex + 1) % maskImages.length;
@@ -405,6 +417,8 @@ function setupMobileLogoMask() {
   // Start cycling images - fast (1.5 seconds per image)
   updateMaskImage(); // Show first image immediately
   setInterval(updateMaskImage, 1500); // Change every 1.5 seconds
+  
+  console.log('Logo mask setup complete');
 }
 
 // Scroll-based service text changes for mobile - DISABLED, using logo mask instead
