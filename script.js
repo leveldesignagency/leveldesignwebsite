@@ -2013,9 +2013,9 @@ function validateFormData(formData) {
 // RECAPTCHA v3 CONFIGURATION
 // ============================================
 
-// Replace 'YOUR_RECAPTCHA_SITE_KEY' with your actual reCAPTCHA v3 site key
+// reCAPTCHA v3 Site Key
 // Get it from: https://www.google.com/recaptcha/admin
-const RECAPTCHA_SITE_KEY = 'YOUR_RECAPTCHA_SITE_KEY';
+const RECAPTCHA_SITE_KEY = '6LeCRlIsAAAAAGPZzNsKcCRa_BSgy6ICxaSAh1wm';
 
 /**
  * Execute reCAPTCHA v3 and get token
