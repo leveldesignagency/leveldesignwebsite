@@ -822,7 +822,7 @@ html, body {
   margin-bottom: 20px;
 }
 
-/* Mobile Hero Logo Mask - images cycle behind logo - MOBILE ONLY */
+/* Mobile Hero Logo Mask - FRESH START - MOBILE ONLY */
 @media (max-width: 768px) {
   .hero-logo-mask {
     position: absolute;
@@ -835,12 +835,12 @@ html, body {
     margin: 0;
   }
 
-  /* Background images that cycle behind transparent logo - white service images */
+  /* Background images that cycle - white service images - matches logo size */
   .hero-logo-mask-bg {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     height: 100%;
     background-size: cover;
     background-position: center;
@@ -850,7 +850,7 @@ html, body {
     z-index: 1;
   }
 
-  /* Logo PNG - full screen width, auto height, images show through transparent parts */
+  /* Logo PNG - screen width, auto height, NO filters, NO color changes, NO blend modes */
   .hero-logo-overlay {
     position: relative;
     width: 100vw;
@@ -858,6 +858,13 @@ html, body {
     display: block;
     z-index: 2;
     pointer-events: none;
+    /* ABSOLUTELY NO FILTERS - image displays exactly as it is */
+  }
+  
+  /* Ensure background matches logo height */
+  .hero-logo-mask-bg {
+    height: 100%;
+    min-height: 100%;
   }
 }
 

@@ -402,16 +402,30 @@ function setupMobileLogoMask() {
   // Function to update the background image
   function updateMaskImage() {
     const imageUrl = maskImages[currentImageIndex];
-    console.log('Updating mask image:', imageUrl, currentImageIndex);
     
-    // Set background image
+    // Set background image - cover the logo area
     logoMaskBg.style.backgroundImage = `url('${imageUrl}')`;
     logoMaskBg.style.backgroundSize = 'cover';
     logoMaskBg.style.backgroundPosition = 'center';
     logoMaskBg.style.opacity = '1';
     
+    // Make sure background height matches logo height
+    const logoImg = logoMask.querySelector('.hero-logo-overlay');
+    if (logoImg && logoImg.offsetHeight > 0) {
+      logoMaskBg.style.height = logoImg.offsetHeight + 'px';
+    }
+    
     // Move to next image
     currentImageIndex = (currentImageIndex + 1) % maskImages.length;
+  }
+  
+  // Update background height when logo loads
+  const logoImg = logoMask.querySelector('.hero-logo-overlay');
+  if (logoImg) {
+    logoImg.addEventListener('load', function() {
+      logoMaskBg.style.height = this.offsetHeight + 'px';
+      updateMaskImage(); // Start cycling once logo is loaded
+    });
   }
   
   // Start cycling images - fast (1.5 seconds per image)
