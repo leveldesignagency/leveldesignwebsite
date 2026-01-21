@@ -835,7 +835,7 @@ html, body {
     margin: 0;
   }
 
-  /* Background images that cycle behind transparent logo */
+  /* Background images that cycle behind transparent logo - white service images */
   .hero-logo-mask-bg {
     position: absolute;
     top: 0;
@@ -850,7 +850,7 @@ html, body {
     z-index: 1;
   }
 
-  /* Logo PNG - transparent parts show images behind - NO FILTERS, NO COLOR CHANGES */
+  /* Logo PNG - full screen width, auto height, images show through transparent parts */
   .hero-logo-overlay {
     position: relative;
     width: 100vw;
@@ -858,7 +858,6 @@ html, body {
     display: block;
     z-index: 2;
     pointer-events: none;
-    /* NO filters, NO color changes - leave image as is */
   }
 }
 
