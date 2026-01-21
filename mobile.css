@@ -856,20 +856,22 @@ html, body {
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
   z-index: 1;
+  /* Ensure it's visible */
+  background-color: transparent;
 }
 
-/* Logo SVG overlay - black, visible on top */
+/* Logo SVG overlay - black, visible on top, images show through via mask */
 .hero-logo-overlay {
   position: relative;
   width: 100%;
   height: 100%;
   object-fit: contain;
   z-index: 2;
+  pointer-events: none;
   /* Make logo black */
   filter: brightness(0);
-  pointer-events: none;
-  /* Use mix-blend-mode so images show through where logo is */
-  mix-blend-mode: screen;
+  /* Use multiply blend mode - black logo will show, but images from masked bg will show through */
+  mix-blend-mode: multiply;
 }
 
 /* Hide headline and hero slides on mobile */
