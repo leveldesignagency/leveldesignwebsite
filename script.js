@@ -2010,6 +2010,35 @@ function validateFormData(formData) {
 }
 
 // ============================================
+// RECAPTCHA v3 CONFIGURATION
+// ============================================
+
+// Replace 'YOUR_RECAPTCHA_SITE_KEY' with your actual reCAPTCHA v3 site key
+// Get it from: https://www.google.com/recaptcha/admin
+const RECAPTCHA_SITE_KEY = 'YOUR_RECAPTCHA_SITE_KEY';
+
+/**
+ * Execute reCAPTCHA v3 and get token
+ * Returns token if successful, null if reCAPTCHA not configured
+ */
+async function executeRecaptcha() {
+  // Check if reCAPTCHA is loaded and configured
+  if (typeof grecaptcha === 'undefined' || RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY') {
+    console.log('reCAPTCHA not configured - skipping verification');
+    return null;
+  }
+  
+  try {
+    // Execute reCAPTCHA v3 - returns a token
+    const token = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit' });
+    return token;
+  } catch (error) {
+    console.error('reCAPTCHA execution error:', error);
+    return null;
+  }
+}
+
+// ============================================
 // CONTACT FORM SUBMISSION WITH SECURITY
 // ============================================
 
@@ -2091,22 +2120,42 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       
+      // SECURITY CHECK 5: reCAPTCHA v3 verification
+      const recaptchaToken = await executeRecaptcha();
+      if (RECAPTCHA_SITE_KEY !== 'YOUR_RECAPTCHA_SITE_KEY' && !recaptchaToken) {
+        // reCAPTCHA is configured but failed - block submission
+        formMessage.textContent = 'Security verification failed. Please refresh the page and try again.';
+        formMessage.className = 'form-message error';
+        formMessage.style.display = 'block';
+        submitBtn.disabled = false;
+        submitText.textContent = 'Send Message';
+        return;
+      }
+      
       try {
         // Send email using EmailJS
         const SERVICE_ID = 'service_3y4my2r';
         const TEMPLATE_ID_TO_YOU = 'template_jnkhrvh'; // Email to you
         const TEMPLATE_ID_AUTO_REPLY = 'template_brnzty1'; // Auto-reply to customer
         
+        // Prepare email data with reCAPTCHA token (if available)
+        const emailDataToYou = {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          reply_to: formData.email
+        };
+        
+        // Add reCAPTCHA token if available (for logging/monitoring)
+        if (recaptchaToken) {
+          emailDataToYou.recaptcha_token = recaptchaToken;
+        }
+        
         // Send email to you (with sanitized data)
         await emailjs.send(
           SERVICE_ID,
           TEMPLATE_ID_TO_YOU,
-          {
-            from_name: formData.name,
-            from_email: formData.email,
-            message: formData.message,
-            reply_to: formData.email
-          }
+          emailDataToYou
         );
         
         // Send auto-reply to customer
