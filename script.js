@@ -323,38 +323,26 @@ function startServiceCycling() {
   // Check if mobile
   isMobile = window.matchMedia('(max-width: 768px)').matches;
   
-  // On mobile, fade out original headline after initial display, then show services
+  // On mobile, hide headline immediately and show logo mask
   const heroHeadline = document.getElementById('hero-headline');
-  if (!isMobile) {
-    // Desktop: fade out original text
+  if (isMobile) {
+    // Mobile: hide headline immediately, show logo mask
     if (heroHeadline) {
-      heroHeadline.style.transition = 'opacity 1s ease-in-out';
-      heroHeadline.style.opacity = '0';
+      heroHeadline.style.display = 'none';
     }
-  } else {
-    // Mobile: fade out original text after 3 seconds, then show services in same position
-    if (heroHeadline) {
-      setTimeout(() => {
-        heroHeadline.style.transition = 'opacity 1s ease-in-out';
-        heroHeadline.style.opacity = '0';
-      }, 3000);
-    }
+    // Start logo mask immediately
+    setupScrollBasedServices();
+    return; // Exit early for mobile
   }
   
-  // On mobile, keep Brand & Marketing image constant
-  if (isMobile) {
-    const firstServiceWrapper = document.querySelector('.hero-service-image-wrapper[data-service="web design & development"]');
-    if (firstServiceWrapper) {
-      firstServiceWrapper.classList.add('active');
-    }
-    // Hide all other images
-    document.querySelectorAll('.hero-service-image-wrapper:not([data-service="web design & development"])').forEach(wrapper => {
-      wrapper.classList.remove('active');
-    });
-    
-    // On mobile, use scroll-based service changes instead of auto-cycling
-    setupScrollBasedServices();
-  } else {
+  // Desktop: fade out original text
+  if (heroHeadline) {
+    heroHeadline.style.transition = 'opacity 1s ease-in-out';
+    heroHeadline.style.opacity = '0';
+  }
+  
+  // Desktop: hide all images when cycling starts
+  if (!isMobile) {
     // Desktop: hide all images when cycling starts
     document.querySelectorAll('.hero-service-image-wrapper').forEach(wrapper => {
       wrapper.classList.remove('active');
@@ -367,8 +355,69 @@ function startServiceCycling() {
   }
 }
 
-// Scroll-based service text changes for mobile - keep alternating
+// Mobile Logo Mask with fast-cycling images
+function setupMobileLogoMask() {
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (!isMobile) return;
+  
+  const logoMask = document.getElementById('hero-logo-mask');
+  const logoMaskBg = document.getElementById('hero-logo-mask-bg');
+  if (!logoMask || !logoMaskBg) return;
+  
+  // Hide the headline text on mobile
+  const headline = document.getElementById('hero-headline');
+  if (headline) {
+    headline.style.display = 'none';
+  }
+  
+  // Hide any hero slides on mobile
+  const heroSlides = document.querySelectorAll('.hero-slide');
+  heroSlides.forEach(slide => {
+    slide.style.display = 'none';
+  });
+  
+  // Images to cycle behind logo mask (same images used for services)
+  const maskImages = [
+    'public/branding_white.png',
+    'public/drone_white.png',
+    'public/SOCIAL MEDIA_WHITE.png',
+    'public/videography services white.png'
+  ];
+  
+  let currentImageIndex = 0;
+  
+  // Function to update the background image
+  function updateMaskImage() {
+    const imageUrl = maskImages[currentImageIndex];
+    logoMaskBg.style.backgroundImage = `url('${imageUrl}')`;
+    logoMaskBg.style.opacity = '0';
+    
+    // Fade in
+    setTimeout(() => {
+      logoMaskBg.style.transition = 'opacity 0.3s ease-in-out';
+      logoMaskBg.style.opacity = '1';
+    }, 10);
+    
+    // Move to next image
+    currentImageIndex = (currentImageIndex + 1) % maskImages.length;
+  }
+  
+  // Start cycling images - fast (1.5 seconds per image)
+  updateMaskImage(); // Show first image immediately
+  setInterval(updateMaskImage, 1500); // Change every 1.5 seconds
+}
+
+// Scroll-based service text changes for mobile - DISABLED, using logo mask instead
 function setupScrollBasedServices() {
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  
+  // On mobile, use logo mask instead of text slides
+  if (isMobile) {
+    setupMobileLogoMask();
+    return;
+  }
+  
+  // Desktop: keep original scroll-based text cycling
   const heroSection = document.querySelector('.hero');
   if (!heroSection) return;
   
@@ -1269,6 +1318,12 @@ function initServicesGallery() {
 // Initialize services gallery when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
   initServicesGallery();
+  
+  // Initialize mobile logo mask immediately on mobile
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (isMobile) {
+    setupMobileLogoMask();
+  }
 });
 
 

@@ -820,3 +820,45 @@ html, body {
   margin-bottom: 20px;
 }
 
+/* Mobile Hero Logo Mask - images cycle behind logo */
+.hero-logo-mask {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  max-width: 400px;
+  height: 80vw;
+  max-height: 400px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-logo-mask-bg {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Use logo SVG as mask - images show through logo shape */
+  mask-image: url('../LEVEL LOGO MAIN.svg');
+  -webkit-mask-image: url('../LEVEL LOGO MAIN.svg');
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Hide headline and hero slides on mobile */
+@media (max-width: 768px) {
+  .headline,
+  .hero-slide {
+    display: none !important;
+  }
+}
