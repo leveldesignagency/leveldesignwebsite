@@ -1823,7 +1823,196 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// Contact Form Submission with EmailJS
+// ============================================
+// SECURITY FUNCTIONS
+// ============================================
+
+/**
+ * Sanitize input to prevent XSS attacks
+ * Removes HTML tags and escapes special characters
+ */
+function sanitizeInput(input) {
+  if (typeof input !== 'string') return '';
+  
+  // Create a temporary div element to strip HTML
+  const div = document.createElement('div');
+  div.textContent = input;
+  let sanitized = div.textContent || div.innerText || '';
+  
+  // Trim whitespace
+  sanitized = sanitized.trim();
+  
+  // Remove any remaining HTML entities that might be dangerous
+  sanitized = sanitized.replace(/[<>]/g, '');
+  
+  return sanitized;
+}
+
+/**
+ * Validate email format
+ */
+function validateEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email) && email.length <= 254;
+}
+
+/**
+ * Rate limiting - prevent spam submissions
+ * Returns true if submission is allowed, false if rate limited
+ */
+function checkRateLimit() {
+  const RATE_LIMIT_KEY = 'form_submission_times';
+  const MAX_SUBMISSIONS = 3; // Max 3 submissions
+  const TIME_WINDOW = 60 * 60 * 1000; // 1 hour in milliseconds
+  
+  try {
+    const stored = localStorage.getItem(RATE_LIMIT_KEY);
+    let submissionTimes = stored ? JSON.parse(stored) : [];
+    
+    // Remove old submissions outside the time window
+    const now = Date.now();
+    submissionTimes = submissionTimes.filter(time => (now - time) < TIME_WINDOW);
+    
+    // Check if limit exceeded
+    if (submissionTimes.length >= MAX_SUBMISSIONS) {
+      return {
+        allowed: false,
+        remainingTime: Math.ceil((TIME_WINDOW - (now - submissionTimes[0])) / 1000 / 60) // minutes
+      };
+    }
+    
+    // Add current submission time
+    submissionTimes.push(now);
+    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(submissionTimes));
+    
+    return { allowed: true };
+  } catch (error) {
+    console.error('Rate limit check error:', error);
+    // If localStorage fails, allow submission (fail open, but log error)
+    return { allowed: true };
+  }
+}
+
+/**
+ * Detect random character patterns (bot-generated strings)
+ * Examples: "FzUwogzjkuoOzIBVkTeE", "elGqhBuBHHZOkkJJzWbqy"
+ */
+function isRandomString(text) {
+  if (!text || text.length < 8) return false;
+  
+  // Remove spaces and check if it's mostly random characters
+  const noSpaces = text.replace(/\s/g, '');
+  if (noSpaces.length < 8) return false;
+  
+  // Check for patterns that indicate random generation:
+  // 1. High ratio of consonants to vowels (random strings have more consonants)
+  const vowels = (noSpaces.match(/[aeiouAEIOU]/g) || []).length;
+  const consonants = (noSpaces.match(/[bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ]/g) || []).length;
+  const vowelRatio = vowels / (vowels + consonants || 1);
+  
+  // Random strings typically have < 30% vowels
+  if (vowelRatio < 0.3 && noSpaces.length >= 10) {
+    return true;
+  }
+  
+  // 2. Check for alternating case patterns (common in bot strings)
+  let caseChanges = 0;
+  for (let i = 1; i < noSpaces.length; i++) {
+    const prevIsUpper = noSpaces[i-1] === noSpaces[i-1].toUpperCase() && /[A-Z]/.test(noSpaces[i-1]);
+    const currIsUpper = noSpaces[i] === noSpaces[i].toUpperCase() && /[A-Z]/.test(noSpaces[i]);
+    if (prevIsUpper !== currIsUpper) caseChanges++;
+  }
+  const caseChangeRatio = caseChanges / noSpaces.length;
+  
+  // High case change ratio (>0.4) suggests random generation
+  if (caseChangeRatio > 0.4 && noSpaces.length >= 10) {
+    return true;
+  }
+  
+  // 3. Check for lack of common words (random strings have no dictionary words)
+  const commonWords = ['the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'her', 'was', 'one', 'our', 'out', 'day', 'get', 'has', 'him', 'his', 'how', 'its', 'may', 'new', 'now', 'old', 'see', 'two', 'way', 'who', 'boy', 'did', 'she', 'use', 'her', 'many', 'than', 'them', 'these', 'time', 'very', 'what', 'when', 'where', 'which', 'while', 'will', 'with', 'would', 'your', 'about', 'after', 'again', 'before', 'being', 'below', 'between', 'during', 'first', 'found', 'great', 'group', 'house', 'large', 'learn', 'never', 'other', 'place', 'point', 'right', 'small', 'sound', 'spell', 'still', 'study', 'their', 'there', 'these', 'thing', 'think', 'three', 'through', 'water', 'where', 'which', 'world', 'would', 'write'];
+  const textLower = noSpaces.toLowerCase();
+  const hasCommonWord = commonWords.some(word => textLower.includes(word));
+  
+  // If no common words AND high consonant ratio, likely random
+  if (!hasCommonWord && vowelRatio < 0.35 && noSpaces.length >= 12) {
+    return true;
+  }
+  
+  // 4. Check for repeated character patterns (like "HHZOkkJJ")
+  const repeatedPattern = /([A-Za-z]{2,})\1{1,}/g;
+  if (repeatedPattern.test(noSpaces) && noSpaces.length >= 10) {
+    return true;
+  }
+  
+  return false;
+}
+
+/**
+ * Validate form input lengths and content
+ */
+function validateFormData(formData) {
+  const errors = [];
+  
+  // Validate name
+  if (!formData.name || formData.name.length < 2) {
+    errors.push('Name must be at least 2 characters long.');
+  }
+  if (formData.name.length > 100) {
+    errors.push('Name must be less than 100 characters.');
+  }
+  
+  // Check name for random character patterns (bot detection)
+  if (isRandomString(formData.name)) {
+    errors.push('Please enter a valid name. Random character strings are not allowed.');
+  }
+  
+  // Validate email
+  if (!formData.email || !validateEmail(formData.email)) {
+    errors.push('Please enter a valid email address.');
+  }
+  
+  // Validate message
+  if (!formData.message || formData.message.length < 10) {
+    errors.push('Message must be at least 10 characters long.');
+  }
+  if (formData.message.length > 2000) {
+    errors.push('Message must be less than 2000 characters.');
+  }
+  
+  // Check message for random character patterns (bot detection)
+  if (isRandomString(formData.message)) {
+    errors.push('Your message appears to contain random characters. Please write a real message.');
+  }
+  
+  // Check for suspicious patterns (common spam indicators)
+  const spamPatterns = [
+    /http[s]?:\/\//gi, // URLs
+    /www\./gi,
+    /[a-z0-9]+@[a-z0-9]+\.[a-z]+/gi, // Multiple emails
+    /(free|cheap|discount|click here|buy now|viagra|casino|loan|debt)/gi // Spam keywords
+  ];
+  
+  const messageLower = formData.message.toLowerCase();
+  const spamCount = spamPatterns.reduce((count, pattern) => {
+    return count + (messageLower.match(pattern) || []).length;
+  }, 0);
+  
+  // If message contains too many spam indicators, flag it
+  if (spamCount > 3) {
+    errors.push('Your message contains suspicious content. Please revise and try again.');
+  }
+  
+  return {
+    valid: errors.length === 0,
+    errors: errors
+  };
+}
+
+// ============================================
+// CONTACT FORM SUBMISSION WITH SECURITY
+// ============================================
+
 document.addEventListener('DOMContentLoaded', function() {
   const contactForm = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submit-btn');
@@ -1848,7 +2037,7 @@ document.addEventListener('DOMContentLoaded', function() {
     contactForm.addEventListener('submit', async function(e) {
       e.preventDefault();
       
-      // Disable submit button
+      // Disable submit button to prevent double submissions
       submitBtn.disabled = true;
       submitText.textContent = 'Sending...';
       
@@ -1856,12 +2045,51 @@ document.addEventListener('DOMContentLoaded', function() {
       formMessage.style.display = 'none';
       formMessage.className = 'form-message';
       
-      // Get form data
-      const formData = {
+      // SECURITY CHECK 1: Honeypot field (bots will fill this)
+      const honeypot = contactForm.querySelector('input[name="website"]');
+      if (honeypot && honeypot.value.trim() !== '') {
+        // Bot detected - silently reject
+        console.warn('Bot detected via honeypot field');
+        submitBtn.disabled = false;
+        submitText.textContent = 'Send Message';
+        return; // Don't show error to bot
+      }
+      
+      // Get and sanitize form data
+      const rawData = {
         name: contactForm.querySelector('input[name="name"]').value,
         email: contactForm.querySelector('input[name="email"]').value,
         message: contactForm.querySelector('textarea[name="message"]').value
       };
+      
+      // SECURITY CHECK 2: Sanitize all inputs
+      const formData = {
+        name: sanitizeInput(rawData.name),
+        email: sanitizeInput(rawData.email).toLowerCase().trim(),
+        message: sanitizeInput(rawData.message)
+      };
+      
+      // SECURITY CHECK 3: Validate form data
+      const validation = validateFormData(formData);
+      if (!validation.valid) {
+        formMessage.textContent = validation.errors.join(' ');
+        formMessage.className = 'form-message error';
+        formMessage.style.display = 'block';
+        submitBtn.disabled = false;
+        submitText.textContent = 'Send Message';
+        return;
+      }
+      
+      // SECURITY CHECK 4: Rate limiting
+      const rateLimit = checkRateLimit();
+      if (!rateLimit.allowed) {
+        formMessage.textContent = `Too many submissions. Please wait ${rateLimit.remainingTime} minutes before trying again.`;
+        formMessage.className = 'form-message error';
+        formMessage.style.display = 'block';
+        submitBtn.disabled = false;
+        submitText.textContent = 'Send Message';
+        return;
+      }
       
       try {
         // Send email using EmailJS
@@ -1869,7 +2097,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const TEMPLATE_ID_TO_YOU = 'template_jnkhrvh'; // Email to you
         const TEMPLATE_ID_AUTO_REPLY = 'template_brnzty1'; // Auto-reply to customer
         
-        // Send email to you
+        // Send email to you (with sanitized data)
         await emailjs.send(
           SERVICE_ID,
           TEMPLATE_ID_TO_YOU,
@@ -1886,9 +2114,9 @@ document.addEventListener('DOMContentLoaded', function() {
           SERVICE_ID,
           TEMPLATE_ID_AUTO_REPLY,
           {
-            name: formData.name, // Use 'name' to match template variable {{name}}
+            name: formData.name,
             from_email: formData.email,
-            email: formData.email, // Also send as 'email' in case template uses {{email}}
+            email: formData.email,
             message: formData.message,
             reply_to: formData.email
           }
