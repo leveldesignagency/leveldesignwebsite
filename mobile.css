@@ -836,14 +836,9 @@ html, body {
   justify-content: center;
 }
 
-/* SVG container */
-.hero-logo-mask-svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* Background images that cycle - masked by inline SVG logo */
+/* Background images that cycle */
 .hero-logo-mask-bg {
+  position: absolute;
   width: 100%;
   height: 100%;
   background-size: cover;
@@ -851,8 +846,21 @@ html, body {
   background-repeat: no-repeat;
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
-  /* Black background so logo shape is visible */
-  fill: #000;
+  z-index: 1;
+}
+
+/* Logo overlay - black, images show through using mix-blend-mode */
+.hero-logo-overlay {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 2;
+  pointer-events: none;
+  /* Make logo black */
+  filter: brightness(0);
+  /* Screen blend mode - white parts of logo become transparent, showing images behind */
+  mix-blend-mode: screen;
 }
 
 /* Hide headline and hero slides on mobile */
