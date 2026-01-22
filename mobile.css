@@ -822,48 +822,6 @@ html, body {
   margin-bottom: 20px;
 }
 
-/* Mobile Hero Logo - MOBILE ONLY */
-@media (max-width: 768px) {
-  .hero-logo-mask {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    z-index: 10;
-    padding: 0;
-    margin: 0;
-    /* Height set by JavaScript to match logo */
-  }
-
-  /* Background images - ABSOLUTELY positioned BEHIND */
-  .hero-logo-mask-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: 1;
-    padding: 0;
-    margin: 0;
-    /* Height set by JavaScript to match logo */
-  }
-
-  /* Logo PNG - ABSOLUTELY positioned ON TOP */
-  .hero-logo-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: auto;
-    display: block;
-    z-index: 2;
-    padding: 0;
-    margin: 0;
-  }
-}
-
 /* Hide headline and hero slides on mobile */
 @media (max-width: 768px) {
   .headline,

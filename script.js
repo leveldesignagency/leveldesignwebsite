@@ -355,88 +355,8 @@ function startServiceCycling() {
   }
 }
 
-// Mobile Logo with cycling images behind - FRESH START
-function setupMobileLogoMask() {
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  if (!isMobile) return;
-  
-  const logoMask = document.getElementById('hero-logo-mask');
-  const logoMaskBg = document.getElementById('hero-logo-mask-bg');
-  const logoImg = document.querySelector('.hero-logo-overlay');
-  
-  if (!logoMask || !logoMaskBg || !logoImg) return;
-  
-  // Hide headline on mobile
-  const headline = document.getElementById('hero-headline');
-  if (headline) headline.style.display = 'none';
-  
-  // Hide hero slides on mobile
-  document.querySelectorAll('.hero-slide').forEach(slide => {
-    slide.style.display = 'none';
-  });
-  
-  // White service images to cycle
-  const images = [
-    'public/branding_white.png',
-    'public/drone_white.png',
-    'public/SOCIAL MEDIA_WHITE.png',
-    'public/videography services white.png'
-  ];
-  
-  let currentIndex = 0;
-  
-  function updateImage() {
-    // Set background image
-    logoMaskBg.style.backgroundImage = `url('${images[currentIndex]}')`;
-    
-    // Set background height to match logo height
-    const logoHeight = logoImg.offsetHeight;
-    if (logoHeight > 0) {
-      logoMaskBg.style.height = logoHeight + 'px';
-    }
-    
-    currentIndex = (currentIndex + 1) % images.length;
-  }
-  
-  function setHeight() {
-    // Get logo's natural height based on its aspect ratio
-    const logoWidth = logoImg.offsetWidth || window.innerWidth;
-    const logoAspectRatio = logoImg.naturalHeight / logoImg.naturalWidth;
-    const logoHeight = logoWidth * logoAspectRatio;
-    
-    if (logoHeight > 0) {
-      // Set container and background height to match logo
-      logoMask.style.height = logoHeight + 'px';
-      logoMaskBg.style.height = logoHeight + 'px';
-    }
-  }
-  
-  // Start when logo loads
-  if (logoImg.complete && logoImg.naturalHeight > 0) {
-    setHeight();
-    updateImage();
-    setInterval(updateImage, 1500);
-  } else {
-    logoImg.addEventListener('load', () => {
-      setHeight();
-      updateImage();
-      setInterval(updateImage, 1500);
-    }, { once: true });
-  }
-  
-  // Update on resize
-  window.addEventListener('resize', setHeight);
-}
-
-// Scroll-based service text changes for mobile - DISABLED, using logo mask instead
+// Scroll-based service text changes
 function setupScrollBasedServices() {
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  
-  // On mobile, use logo mask instead of text slides
-  if (isMobile) {
-    setupMobileLogoMask();
-    return;
-  }
   
   // Desktop: keep original scroll-based text cycling
   const heroSection = document.querySelector('.hero');
@@ -1343,7 +1263,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize mobile logo mask immediately on mobile
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
   if (isMobile) {
-    setupMobileLogoMask();
   }
 });
 
