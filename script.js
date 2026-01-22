@@ -355,90 +355,57 @@ function startServiceCycling() {
   }
 }
 
-// Mobile Logo Mask with fast-cycling images
+// Mobile Logo with cycling images behind - FRESH START
 function setupMobileLogoMask() {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  if (!isMobile) {
-    console.log('Not mobile, skipping logo mask');
-    return;
-  }
+  if (!isMobile) return;
   
   const logoMask = document.getElementById('hero-logo-mask');
   const logoMaskBg = document.getElementById('hero-logo-mask-bg');
+  const logoImg = document.querySelector('.hero-logo-overlay');
   
-  console.log('Setting up mobile logo mask', { logoMask, logoMaskBg, isMobile });
+  if (!logoMask || !logoMaskBg || !logoImg) return;
   
-  if (!logoMask || !logoMaskBg) {
-    console.error('Logo mask elements not found!', { logoMask, logoMaskBg });
-    return;
-  }
-  
-  // Hide the headline text on mobile ONLY
+  // Hide headline on mobile
   const headline = document.getElementById('hero-headline');
-  if (headline && isMobile) {
-    headline.style.display = 'none';
-  }
+  if (headline) headline.style.display = 'none';
   
-  // Hide any hero slides on mobile
-  const heroSlides = document.querySelectorAll('.hero-slide');
-  heroSlides.forEach(slide => {
+  // Hide hero slides on mobile
+  document.querySelectorAll('.hero-slide').forEach(slide => {
     slide.style.display = 'none';
   });
   
-  // Make sure logo mask is visible
-  logoMask.style.display = 'flex';
-  logoMaskBg.style.display = 'block';
-  
-  // Images to cycle behind logo mask (same images used for services)
-  const maskImages = [
+  // White service images to cycle
+  const images = [
     'public/branding_white.png',
     'public/drone_white.png',
     'public/SOCIAL MEDIA_WHITE.png',
     'public/videography services white.png'
   ];
   
-  let currentImageIndex = 0;
+  let currentIndex = 0;
   
-  // Function to update the background image
-  function updateMaskImage() {
-    const imageUrl = maskImages[currentImageIndex];
-    const logoImg = logoMask.querySelector('.hero-logo-overlay');
-    
-    // Set background image
-    logoMaskBg.style.backgroundImage = `url('${imageUrl}')`;
-    logoMaskBg.style.backgroundSize = 'cover';
-    logoMaskBg.style.backgroundPosition = 'center';
-    logoMaskBg.style.opacity = '1';
+  function updateImage() {
+    logoMaskBg.style.backgroundImage = `url('${images[currentIndex]}')`;
     
     // Match background height to logo height
-    if (logoImg) {
-      if (logoImg.complete && logoImg.naturalHeight > 0) {
-        logoMaskBg.style.height = logoImg.offsetHeight + 'px';
-      } else {
-        logoImg.addEventListener('load', function updateHeight() {
-          logoMaskBg.style.height = this.offsetHeight + 'px';
-          logoImg.removeEventListener('load', updateHeight);
-        }, { once: true });
-      }
+    if (logoImg.offsetHeight > 0) {
+      logoMaskBg.style.height = logoImg.offsetHeight + 'px';
     }
     
-    // Move to next image
-    currentImageIndex = (currentImageIndex + 1) % maskImages.length;
+    currentIndex = (currentIndex + 1) % images.length;
   }
   
-  // Wait for logo to load, then start cycling
-  const logoImg = logoMask.querySelector('.hero-logo-overlay');
-  if (logoImg && logoImg.complete) {
-    updateMaskImage();
-    setInterval(updateMaskImage, 1500);
-  } else if (logoImg) {
-    logoImg.addEventListener('load', function() {
-      updateMaskImage();
-      setInterval(updateMaskImage, 1500);
+  // Start when logo loads
+  if (logoImg.complete) {
+    updateImage();
+    setInterval(updateImage, 1500);
+  } else {
+    logoImg.addEventListener('load', () => {
+      updateImage();
+      setInterval(updateImage, 1500);
     }, { once: true });
   }
-  
-  console.log('Logo mask setup complete');
 }
 
 // Scroll-based service text changes for mobile - DISABLED, using logo mask instead
