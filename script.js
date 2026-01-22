@@ -402,35 +402,41 @@ function setupMobileLogoMask() {
   // Function to update the background image
   function updateMaskImage() {
     const imageUrl = maskImages[currentImageIndex];
+    const logoImg = logoMask.querySelector('.hero-logo-overlay');
     
-    // Set background image - cover the logo area
+    // Set background image
     logoMaskBg.style.backgroundImage = `url('${imageUrl}')`;
     logoMaskBg.style.backgroundSize = 'cover';
     logoMaskBg.style.backgroundPosition = 'center';
     logoMaskBg.style.opacity = '1';
     
-    // Make sure background height matches logo height
-    const logoImg = logoMask.querySelector('.hero-logo-overlay');
-    if (logoImg && logoImg.offsetHeight > 0) {
-      logoMaskBg.style.height = logoImg.offsetHeight + 'px';
+    // Match background height to logo height
+    if (logoImg) {
+      if (logoImg.complete && logoImg.naturalHeight > 0) {
+        logoMaskBg.style.height = logoImg.offsetHeight + 'px';
+      } else {
+        logoImg.addEventListener('load', function updateHeight() {
+          logoMaskBg.style.height = this.offsetHeight + 'px';
+          logoImg.removeEventListener('load', updateHeight);
+        }, { once: true });
+      }
     }
     
     // Move to next image
     currentImageIndex = (currentImageIndex + 1) % maskImages.length;
   }
   
-  // Update background height when logo loads
+  // Wait for logo to load, then start cycling
   const logoImg = logoMask.querySelector('.hero-logo-overlay');
-  if (logoImg) {
+  if (logoImg && logoImg.complete) {
+    updateMaskImage();
+    setInterval(updateMaskImage, 1500);
+  } else if (logoImg) {
     logoImg.addEventListener('load', function() {
-      logoMaskBg.style.height = this.offsetHeight + 'px';
-      updateMaskImage(); // Start cycling once logo is loaded
-    });
+      updateMaskImage();
+      setInterval(updateMaskImage, 1500);
+    }, { once: true });
   }
-  
-  // Start cycling images - fast (1.5 seconds per image)
-  updateMaskImage(); // Show first image immediately
-  setInterval(updateMaskImage, 1500); // Change every 1.5 seconds
   
   console.log('Logo mask setup complete');
 }
