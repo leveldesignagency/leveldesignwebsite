@@ -399,14 +399,20 @@ function setupMobileLogoMask() {
   }
   
   function setHeight() {
-    const logoHeight = logoImg.offsetHeight;
+    // Get logo's natural height based on its aspect ratio
+    const logoWidth = logoImg.offsetWidth || window.innerWidth;
+    const logoAspectRatio = logoImg.naturalHeight / logoImg.naturalWidth;
+    const logoHeight = logoWidth * logoAspectRatio;
+    
     if (logoHeight > 0) {
+      // Set container and background height to match logo
+      logoMask.style.height = logoHeight + 'px';
       logoMaskBg.style.height = logoHeight + 'px';
     }
   }
   
   // Start when logo loads
-  if (logoImg.complete) {
+  if (logoImg.complete && logoImg.naturalHeight > 0) {
     setHeight();
     updateImage();
     setInterval(updateImage, 1500);

@@ -829,13 +829,13 @@ html, body {
     top: 0;
     left: 0;
     width: 100vw;
-    height: auto;
     z-index: 10;
     padding: 0;
     margin: 0;
+    /* Height set by JavaScript to match logo */
   }
 
-  /* Background images - BEHIND logo */
+  /* Background images - ABSOLUTELY positioned BEHIND */
   .hero-logo-mask-bg {
     position: absolute;
     top: 0;
@@ -847,12 +847,14 @@ html, body {
     z-index: 1;
     padding: 0;
     margin: 0;
-    /* Height will be set by JavaScript to match logo */
+    /* Height set by JavaScript to match logo */
   }
 
-  /* Logo PNG - ON TOP */
+  /* Logo PNG - ABSOLUTELY positioned ON TOP */
   .hero-logo-overlay {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: auto;
     display: block;
