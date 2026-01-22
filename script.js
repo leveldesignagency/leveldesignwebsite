@@ -1259,11 +1259,6 @@ function initServicesGallery() {
 // Initialize services gallery when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
   initServicesGallery();
-  
-  // Initialize mobile logo mask immediately on mobile
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  if (isMobile) {
-  }
 });
 
 

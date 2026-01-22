@@ -3617,16 +3617,17 @@ footer nav {
     opacity: 1 !important;
   }
   
-  /* Mobile: Show only white/light images */
+  /* Mobile: Light mode = black images, Dark mode = white images */
+  /* Light mode on mobile: show black images */
   .hero-image-wrapper .hero-image-light {
-    display: block !important;
-  }
-  
-  .hero-image-wrapper .hero-image-dark {
     display: none !important;
   }
   
-  /* Dark mode on mobile: still show white images (as per user request) */
+  .hero-image-wrapper .hero-image-dark {
+    display: block !important;
+  }
+  
+  /* Dark mode on mobile: show white images */
   .dark-mode .hero-image-wrapper .hero-image-light {
     display: block !important;
   }
