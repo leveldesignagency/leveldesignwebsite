@@ -822,25 +822,26 @@ html, body {
   margin-bottom: 20px;
 }
 
-/* Mobile Hero Logo - MOBILE ONLY */
+/* Mobile Hero Logo - DIFFERENT APPROACH - MOBILE ONLY */
 @media (max-width: 768px) {
   .hero-logo-mask {
     position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
-    height: auto;
     z-index: 10;
     padding: 0;
     margin: 0;
+    /* Container will size to logo */
   }
 
-  /* Background images - positioned BEHIND logo, same dimensions */
+  /* Background images - BEHIND logo, covers entire container */
   .hero-logo-mask-bg {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
+    height: 100%;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -849,7 +850,7 @@ html, body {
     margin: 0;
   }
 
-  /* Logo PNG - positioned ON TOP of background */
+  /* Logo PNG - ON TOP, container sizes to this */
   .hero-logo-overlay {
     position: relative;
     width: 100vw;
@@ -858,11 +859,7 @@ html, body {
     z-index: 2;
     padding: 0;
     margin: 0;
-  }
-  
-  /* Make background height match logo height */
-  .hero-logo-mask-bg {
-    height: 100%;
+    /* Logo determines container height */
   }
 }
 

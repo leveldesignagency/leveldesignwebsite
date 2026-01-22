@@ -388,39 +388,19 @@ function setupMobileLogoMask() {
   function updateImage() {
     // Set background image
     logoMaskBg.style.backgroundImage = `url('${images[currentIndex]}')`;
-    
-    // Match background height exactly to logo height
-    const logoHeight = logoImg.offsetHeight || logoImg.clientHeight;
-    if (logoHeight > 0) {
-      logoMaskBg.style.height = logoHeight + 'px';
-    }
-    
     currentIndex = (currentIndex + 1) % images.length;
   }
   
-  // Update height whenever logo size changes
-  function updateHeight() {
-    const logoHeight = logoImg.offsetHeight || logoImg.clientHeight;
-    if (logoHeight > 0) {
-      logoMaskBg.style.height = logoHeight + 'px';
-    }
-  }
-  
-  // Start when logo loads
+  // Start cycling when logo loads
   if (logoImg.complete) {
-    updateHeight();
     updateImage();
     setInterval(updateImage, 1500);
   } else {
     logoImg.addEventListener('load', () => {
-      updateHeight();
       updateImage();
       setInterval(updateImage, 1500);
     }, { once: true });
   }
-  
-  // Update height on resize
-  window.addEventListener('resize', updateHeight);
 }
 
 // Scroll-based service text changes for mobile - DISABLED, using logo mask instead
