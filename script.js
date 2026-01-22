@@ -388,19 +388,38 @@ function setupMobileLogoMask() {
   function updateImage() {
     // Set background image
     logoMaskBg.style.backgroundImage = `url('${images[currentIndex]}')`;
+    
+    // Set background height to match logo height
+    const logoHeight = logoImg.offsetHeight;
+    if (logoHeight > 0) {
+      logoMaskBg.style.height = logoHeight + 'px';
+    }
+    
     currentIndex = (currentIndex + 1) % images.length;
   }
   
-  // Start cycling when logo loads
+  function setHeight() {
+    const logoHeight = logoImg.offsetHeight;
+    if (logoHeight > 0) {
+      logoMaskBg.style.height = logoHeight + 'px';
+    }
+  }
+  
+  // Start when logo loads
   if (logoImg.complete) {
+    setHeight();
     updateImage();
     setInterval(updateImage, 1500);
   } else {
     logoImg.addEventListener('load', () => {
+      setHeight();
       updateImage();
       setInterval(updateImage, 1500);
     }, { once: true });
   }
+  
+  // Update on resize
+  window.addEventListener('resize', setHeight);
 }
 
 // Scroll-based service text changes for mobile - DISABLED, using logo mask instead
