@@ -3901,7 +3901,14 @@ footer nav {
   #process.section .steps { width: 100%; max-width: 480px; margin-left: auto; margin-right: auto; gap: 28px; }
   #compliance.section .container { max-width: 360px; margin-left: auto; margin-right: auto; }
   #compliance.section { padding-top: 80px !important; padding-bottom: 80px !important; }
-  /* Contact: text first, form lowest; form wider (640px max) */
+  /* Contact: text first, form lowest; proper padding for container, wrapper and form */
+  #contact.section .container {
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 40px;
+    padding-bottom: 48px;
+    box-sizing: border-box;
+  }
   #contact.section .contact-wrapper {
     display: flex !important;
     flex-direction: column !important;
@@ -3909,13 +3916,33 @@ footer nav {
     max-width: 640px;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding: 0;
+    gap: 40px;
     box-sizing: border-box;
   }
-  #contact.section .contact-info { order: 1; }
-  #contact.section .contact-form { order: 2; width: 100%; max-width: 100%; padding: 0; box-sizing: border-box; }
-  #contact.section form { width: 100%; max-width: 100%; padding: 0; box-sizing: border-box; }
+  #contact.section .contact-info { order: 1; padding: 0 0 8px 0; }
+  #contact.section .contact-form {
+    order: 2;
+    width: 100%;
+    max-width: 100%;
+    padding: 32px 24px !important;
+    box-sizing: border-box;
+  }
+  #contact.section form {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  #contact.section .contact-form input,
+  #contact.section .contact-form textarea {
+    padding: 16px 18px !important;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  #contact.section .contact-form .form-row { gap: 20px; }
+  #contact.section .contact-form .form-group { margin-bottom: 0; }
+  #contact.section .contact-form .btn.primary { margin-top: 8px; padding: 16px 24px; }
   .section-title-block-wrap .section-title-block { padding-top: 40px; padding-bottom: 36px; text-align: center; }
   .section-title-block-wrap .section-title-kicker { font-size: 0.75rem; margin: 0 0 12px 0; }
   .section-title-block-wrap .section-title-heading { margin: 0 0 14px 0; }
@@ -5695,4 +5722,24 @@ footer nav {
   }
 }
 
+/* MOBILE ONLY: One title size for all — matches section title block, allows wrap */
+@media (max-width: 768px) {
+  .section-title-block-wrap .section-title-heading,
+  #services-title .section-title-heading,
+  #specialities-title .section-title-heading,
+  #work-title .section-title-heading,
+  #projects-title .section-title-heading,
+  #process-title .section-title-heading,
+  #reviews-title .section-title-heading,
+  #contact-title .section-title-heading,
+  .hero.hero-single .hero-content .headline,
+  .hero.hero-single .hero-content .hero-headline-single,
+  #who-we-work-with .audience-title,
+  .audience-title,
+  #extras .capability-title,
+  .capability-title {
+    font-size: clamp(40px, 5vw, 64px) !important;
+    white-space: normal !important;
+  }
+}
 
