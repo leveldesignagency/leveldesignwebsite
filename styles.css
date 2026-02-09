@@ -3826,27 +3826,52 @@ footer nav {
     text-align: center;
   }
   
-  /* Mobile hero: no image, stacked structure, no overlap */
+  /* Mobile hero: no image, strict stack — headline, then paragraph, then button. No overlap. */
   .hero.hero-single .hero-inner {
-    flex-direction: column;
-    gap: 32px;
-    text-align: center;
-    align-items: center;
-    padding: 48px 0 56px;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: center !important;
+    gap: 0 !important;
+    padding: 56px 0 64px !important;
+    position: relative !important;
   }
   .hero.hero-single .hero-image-single {
     display: none !important;
   }
   .hero.hero-single .hero-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
     max-width: 100%;
     width: 100%;
+    gap: 0;
   }
-  .hero.hero-single .hero-headline-single {
-    font-size: clamp(22px, 5.5vw, 28px);
-    margin-bottom: 12px;
+  /* Stop headline from being absolutely positioned (overlap fix) */
+  .hero.hero-single .hero-content .hero-headline-single,
+  .hero.hero-single .hero-content .headline {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    font-size: clamp(22px, 5.5vw, 28px) !important;
+    margin: 0 0 16px 0 !important;
+    line-height: 1.15 !important;
   }
-  .hero.hero-single .hero-subhead {
-    margin-bottom: 20px;
+  .hero.hero-single .hero-content .hero-subhead {
+    margin: 0 0 24px 0 !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+  }
+  .hero.hero-single .hero-content .hero-cta-single {
+    margin-top: 8px !important;
+  }
+  .hero.hero-single .hero-social {
+    position: static !important;
+    transform: none !important;
+    margin-top: 32px;
   }
   .hero.hero-single .container {
     padding: 0 24px;
@@ -3870,7 +3895,16 @@ footer nav {
   #contact.section .contact-wrapper,
   #contact.section form { max-width: 520px; width: 100%; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; box-sizing: border-box; }
   .section-title-block-wrap .section-title-block { padding-top: 40px; padding-bottom: 36px; }
-  .section-title-block-wrap .section-title-heading { font-size: clamp(32px, 8vw, 44px) !important; }
+  /* One size for all section title headings on mobile (match services) */
+  .section-title-block-wrap .section-title-heading,
+  #services-title .section-title-heading,
+  #specialities-title .section-title-heading,
+  #work-title .section-title-heading,
+  #projects-title .section-title-heading,
+  #process-title .section-title-heading,
+  #reviews-title .section-title-heading,
+  #contact-title .section-title-heading { font-size: clamp(32px, 8vw, 44px) !important; }
+  .audience-title { font-size: clamp(32px, 8vw, 44px) !important; }
   #services.section .card,
   #process.section .steps li,
   #process.section .steps li h3,
