@@ -4154,7 +4154,7 @@ footer nav {
   }
   
   .hero-inner {
-    padding: 0;
+    padding: 48px 24px 56px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -4166,18 +4166,22 @@ footer nav {
     z-index: 2 !important;
   }
   
-  /* Single hero - mobile: stack content then image */
+  /* Single hero - mobile: stack content, padding, title matches "What we deliver" */
+  .hero.hero-single {
+    padding: 48px 0 56px !important;
+  }
   .hero.hero-single .hero-inner {
     flex-direction: column;
     align-items: center;
     text-align: center;
     gap: 32px;
+    padding: 32px 24px 40px !important;
   }
   .hero.hero-single .hero-content {
     max-width: 100%;
   }
   .hero.hero-single .hero-headline-single {
-    font-size: 24px;
+    font-size: clamp(32px, 8vw, 44px) !important;
     text-align: center;
   }
   .hero.hero-single .hero-subhead {
@@ -4185,6 +4189,7 @@ footer nav {
     font-size: 1rem;
   }
   .hero.hero-single .hero-image-single {
+    display: none !important;
     max-width: 320px;
     width: 100%;
   }
@@ -4209,6 +4214,26 @@ footer nav {
     width: 100% !important;
     z-index: 3 !important;
     transition: opacity 1s ease-in-out;
+  }
+  
+  /* Single hero: headline same size as "What we deliver", static layout, no overlap */
+  .hero.hero-single .hero-content .headline,
+  .hero.hero-single .hero-content .hero-headline-single {
+    font-size: clamp(32px, 8vw, 44px) !important;
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+  }
+  
+  /* Audience & capability titles: same size as "What we deliver" */
+  #who-we-work-with .audience-title,
+  .audience-title {
+    font-size: clamp(32px, 8vw, 44px) !important;
+  }
+  #extras .capability-title,
+  .capability-title {
+    font-size: clamp(32px, 8vw, 44px) !important;
   }
   
   /* Ensure headline text is visible */
