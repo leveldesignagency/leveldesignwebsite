@@ -1291,9 +1291,15 @@ body:not(.dark-mode) .capability-list li span:hover {
   }
   .capability-header {
     margin-bottom: 36px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
   }
   .capability-title {
     font-size: clamp(32px, 8vw, 44px);
+  }
+  .capability-list {
+    justify-content: center;
   }
   .capability-list li span {
     padding: 14px 20px;
@@ -5725,6 +5731,12 @@ footer nav {
   #extras h2.capability-title {
     font-size: 44px !important;
     white-space: normal !important;
+  }
+
+  /* Hero headline is the biggest text on the page (section titles are 44px) */
+  .hero.hero-single .hero-content .hero-headline-single,
+  .hero.hero-single .hero-content h1.headline {
+    font-size: clamp(52px, 12vw, 64px) !important;
   }
 }
 
