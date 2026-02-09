@@ -5699,24 +5699,24 @@ footer nav {
   }
 }
 
-/* MOBILE ONLY: ONE fixed title size — 44px for every title (hero excluded) */
+/* MOBILE ONLY: ONE fixed title size — 44px. Override old 56–90px h2 rules. Hero excluded. */
 @media (max-width: 768px) {
   .section-title-block-wrap .section-title-heading,
   .section-title-block-wrap h2.section-title-heading,
-  #services-title .section-title-heading,
-  #services-title h2,
-  #specialities-title .section-title-heading,
-  #specialities-title h2,
-  #work-title .section-title-heading,
-  #work-title h2,
-  #projects-title .section-title-heading,
-  #projects-title h2,
-  #process-title .section-title-heading,
-  #process-title h2,
-  #reviews-title .section-title-heading,
-  #reviews-title h2.section-title-heading,
-  #contact-title .section-title-heading,
-  #contact-title h2,
+  #services-title.section-title-block-wrap h2.section-title-heading,
+  #services-title.section-title-block-wrap h2,
+  #specialities-title.section-title-block-wrap h2.section-title-heading,
+  #specialities-title.section-title-block-wrap h2,
+  #work-title.section-title-block-wrap h2.section-title-heading,
+  #work-title.section-title-block-wrap h2,
+  #projects-title.section-title-block-wrap h2.section-title-heading,
+  #projects-title.section-title-block-wrap h2,
+  #process-title.section-title-block-wrap h2.section-title-heading,
+  #process-title.section-title-block-wrap h2,
+  #reviews-title.section-title-block-wrap h2.section-title-heading,
+  #reviews-title.section-title-block-wrap h2,
+  #contact-title.section-title-block-wrap h2.section-title-heading,
+  #contact-title.section-title-block-wrap h2,
   #who-we-work-with .audience-title,
   .audience-title,
   #who-we-work-with h2.audience-title,
@@ -5728,17 +5728,17 @@ footer nav {
   }
 }
 
-/* DESKTOP ONLY: Section titles match "We work where clarity can't be optional" (audience title). Hero unchanged. */
+/* DESKTOP ONLY: Section titles match "We work where clarity can't be optional" (audience title). Hero unchanged. Override any h2 56px rules. */
 @media (min-width: 769px) {
   .section-title-block-wrap .section-title-heading,
   .section-title-block-wrap h2.section-title-heading,
-  #services-title .section-title-heading,
-  #specialities-title .section-title-heading,
-  #work-title .section-title-heading,
-  #projects-title .section-title-heading,
-  #process-title .section-title-heading,
-  #reviews-title .section-title-heading,
-  #contact-title .section-title-heading,
+  #services-title.section-title-block-wrap h2.section-title-heading,
+  #specialities-title.section-title-block-wrap h2.section-title-heading,
+  #work-title.section-title-block-wrap h2.section-title-heading,
+  #projects-title.section-title-block-wrap h2.section-title-heading,
+  #process-title.section-title-block-wrap h2.section-title-heading,
+  #reviews-title.section-title-block-wrap h2.section-title-heading,
+  #contact-title.section-title-block-wrap h2.section-title-heading,
   .audience-title,
   #who-we-work-with .audience-title,
   .capability-title,
