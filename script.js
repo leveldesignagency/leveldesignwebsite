@@ -80,149 +80,30 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.16 });
 animated.forEach(el => io.observe(el));
 
-// Smooth scroll for internal links - account for header height
+// Instant scroll for internal links (no animation - avoids scroll lag)
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('🔍 Initializing smooth scroll handler...');
-  
-  // Handle all anchor link clicks - attach directly to links
   const allLinks = document.querySelectorAll('a[href^="#"]');
-  console.log(`🔍 Found ${allLinks.length} anchor links with href starting with #`);
-  
-  if (allLinks.length === 0) {
-    console.error('❌ No anchor links found!');
-    return;
-  }
-  
-  allLinks.forEach(function(link, index) {
-    const href = link.getAttribute('href');
-    console.log(`🔍 Link ${index + 1}: href="${href}"`, link);
-    
+  allLinks.forEach(function(link) {
     link.addEventListener('click', function(e) {
-      console.log('🖱️ CLICK DETECTED on link:', this);
-      console.log('🖱️ Event target:', e.target);
-      console.log('🖱️ Current target:', e.currentTarget);
-      
       const href = this.getAttribute('href');
-      console.log('🖱️ Link href:', href);
-      
-      if (!href || href === '#') {
-        console.log('⚠️ Invalid href, exiting');
-        return;
-      }
-      
-      const id = href.substring(1); // Remove the #
-      console.log('🖱️ Target ID:', id);
-      
-      if (!id) {
-        console.log('⚠️ No ID found, exiting');
-        return;
-      }
-      
+      if (!href || href === '#') return;
+      const id = href.substring(1);
+      if (!id) return;
       const target = document.getElementById(id);
-      console.log('🖱️ Target element:', target);
-      
-      if (!target) {
-        console.error(`❌ Target element with id "${id}" not found`);
-        return;
-      }
-      
-      console.log('✅ Target found, preventing default and scrolling...');
+      if (!target) return;
       e.preventDefault();
-      e.stopPropagation(); // Prevent event bubbling
-      
-      // Get current scroll position BEFORE any calculations
       const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-      console.log('📊 Current scroll position:', currentScroll);
-      
-      // Calculate scroll position - we want the top border of title section at position 0 (top of page)
-      // Use getBoundingClientRect for more accurate position calculation
       const targetRect = target.getBoundingClientRect();
-      const targetPosition = targetRect.top + currentScroll;
-      
-      // No header offset - top border should be at position 0 (top of page)
-      console.log('📏 Target rect top (viewport):', targetRect.top);
-      console.log('📏 Calculated scroll position (top of page):', targetPosition);
-      
-      // Custom smooth scroll using requestAnimationFrame (works regardless of CSS)
-      const scrollPosition = Math.max(0, targetPosition);
-      console.log('✅ Attempting to scroll to position:', scrollPosition);
-      console.log('📊 Start position:', window.pageYOffset);
-      console.log('📊 Distance to travel:', scrollPosition - (window.pageYOffset || 0));
-      
-      // Store animation ID so we can track it
-      let animationId = null;
-      let isScrolling = true;
-      
-      const startPosition = window.pageYOffset || document.documentElement.scrollTop;
-      const distance = scrollPosition - startPosition;
-      const duration = 800; // 800ms
-      let startTime = null;
-      
-      function smoothScrollStep(currentTime) {
-        if (!isScrolling) {
-          console.log('⚠️ Scroll animation cancelled');
-          return;
-        }
-        
-        if (startTime === null) startTime = currentTime;
-        const timeElapsed = currentTime - startTime;
-        const progress = Math.min(timeElapsed / duration, 1);
-        
-        // Easing function (easeInOutCubic)
-        const ease = progress < 0.5
-          ? 4 * progress * progress * progress
-          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-        
-        const currentPosition = startPosition + (distance * ease);
-        
-        // Force scroll - use both methods
-        window.scrollTo(0, currentPosition);
-        document.documentElement.scrollTop = currentPosition;
-        document.body.scrollTop = currentPosition;
-        
-        const actualPosition = window.pageYOffset || document.documentElement.scrollTop;
-        console.log('📊 Progress:', Math.round(progress * 100) + '%', 'Target:', Math.round(currentPosition), 'Actual:', Math.round(actualPosition));
-        
-        if (progress < 1) {
-          animationId = requestAnimationFrame(smoothScrollStep);
-        } else {
-          // Ensure we end at exact position
-          window.scrollTo(0, scrollPosition);
-          document.documentElement.scrollTop = scrollPosition;
-          document.body.scrollTop = scrollPosition;
-          const finalPos = window.pageYOffset || document.documentElement.scrollTop;
-          console.log('✅ Smooth scroll completed. Final position:', finalPos);
-          isScrolling = false;
-        }
-      }
-      
-      animationId = requestAnimationFrame(smoothScrollStep);
-      
-      // Safety check - if scroll doesn't complete in 1 second, force it
-      setTimeout(() => {
-        if (isScrolling) {
-          console.log('⚠️ Scroll taking too long, forcing to position');
-          isScrolling = false;
-          window.scrollTo(0, scrollPosition);
-          document.documentElement.scrollTop = scrollPosition;
-          document.body.scrollTop = scrollPosition;
-        }
-      }, 1000);
-      
-      // Close mobile menu if open
+      const scrollPosition = Math.max(0, targetRect.top + currentScroll);
+      window.scrollTo(0, scrollPosition);
       const navLinks = document.getElementById('nav-links');
       const navToggle = document.querySelector('.nav-toggle');
       if (navLinks && navLinks.classList.contains('open')) {
-        console.log('📱 Closing mobile menu');
         navLinks.classList.remove('open');
-        if (navToggle) {
-          navToggle.setAttribute('aria-expanded', 'false');
-        }
+        if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
       }
     });
   });
-  
-  console.log('✅ Smooth scroll handler initialized');
 });
 
 // Year in footer
@@ -1167,11 +1048,7 @@ function renderServicesImages(container) {
     img.style.width = '100%';
     img.style.height = 'auto';
     
-    img.onload = () => {
-      console.log(`✅ Specialities image ${index + 1} loaded: ${imagePath}`);
-    };
-    img.onerror = (e) => {
-      console.error(`❌ Specialities image ${index + 1} FAILED: ${imagePath}`, e);
+    img.onerror = () => {
       img.parentElement?.classList.add('placeholder');
     };
     
@@ -1187,8 +1064,6 @@ function renderServicesImages(container) {
   // Duplicate first slide at the end for seamless loop
   const firstSlide = slider.firstElementChild.cloneNode(true);
   slider.appendChild(firstSlide);
-  
-  console.log(`Total slides created: ${slider.children.length} (including duplicate for seamless loop)`);
 }
 
 // Simple auto-slide for specialities section - following the example pattern
@@ -1205,15 +1080,12 @@ function initServicesGallery() {
   setTimeout(() => {
     const slider = servicesContainer.querySelector('.services-slider');
     if (!slider) {
-      console.error('Specialities: Slider not found');
       setTimeout(initServicesGallery, 200);
       return;
     }
     
     const slides = slider.querySelectorAll('.service-slide');
-    console.log(`Specialities: Found ${slides.length} slides`);
     if (slides.length === 0) {
-      console.error('Specialities: No slides found');
       setTimeout(initServicesGallery, 200);
       return;
     }
@@ -1247,9 +1119,7 @@ function initServicesGallery() {
       }
     };
     
-    // Initialize position
     move();
-    console.log(`Specialities slider initialized with ${actualSlides} slides`);
     
     // Start interval for auto-slide
     setInterval(slide, interval);
@@ -1877,8 +1747,6 @@ function checkRateLimit() {
     
     return { allowed: true };
   } catch (error) {
-    console.error('Rate limit check error:', error);
-    // If localStorage fails, allow submission (fail open, but log error)
     return { allowed: true };
   }
 }
@@ -2014,7 +1882,6 @@ const RECAPTCHA_SITE_KEY = '6LeCRlIsAAAAAGPZzNsKcCRa_BSgy6ICxaSAh1wm';
 async function executeRecaptcha() {
   // Check if reCAPTCHA is loaded and configured
   if (typeof grecaptcha === 'undefined' || RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY') {
-    console.log('reCAPTCHA not configured - skipping verification');
     return null;
   }
   
@@ -2023,7 +1890,6 @@ async function executeRecaptcha() {
     const token = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit' });
     return token;
   } catch (error) {
-    console.error('reCAPTCHA execution error:', error);
     return null;
   }
 }
@@ -2041,7 +1907,6 @@ document.addEventListener('DOMContentLoaded', function() {
   if (contactForm) {
     // Check if EmailJS is loaded
     if (typeof emailjs === 'undefined') {
-      console.error('EmailJS is not loaded. Please check that the EmailJS script is included in index.html');
       if (formMessage) {
         formMessage.textContent = 'Form service is not configured. Please contact us directly at help@leveldesignagency.com';
         formMessage.className = 'form-message error';
@@ -2067,8 +1932,6 @@ document.addEventListener('DOMContentLoaded', function() {
       // SECURITY CHECK 1: Honeypot field (bots will fill this)
       const honeypot = contactForm.querySelector('input[name="website"]');
       if (honeypot && honeypot.value.trim() !== '') {
-        // Bot detected - silently reject
-        console.warn('Bot detected via honeypot field');
         submitBtn.disabled = false;
         submitText.textContent = 'Send Message';
         return; // Don't show error to bot
@@ -2179,9 +2042,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
         
       } catch (error) {
-        console.error('EmailJS Error:', error);
-        console.error('Error details:', error.text || error.message || error);
-        
         // More detailed error message
         let errorMsg = 'Sorry, there was an error sending your message. ';
         if (error.text) {

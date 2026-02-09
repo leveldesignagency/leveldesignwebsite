@@ -744,13 +744,26 @@ html, body {
 }
 
 .mobile-footer .back-to-top {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   margin: 20px 0;
   color: var(--text);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
+}
+.mobile-footer .back-to-top::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-right: 1.5px solid currentColor;
+  border-top: 1.5px solid currentColor;
+  transform: rotate(-45deg);
 }
 
 .mobile-footer-social {
