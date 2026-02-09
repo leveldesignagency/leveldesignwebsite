@@ -993,12 +993,21 @@ body:not(.dark-mode) .section-title-block-wrap {
 @media (max-width: 768px) {
   .section-title-block-wrap .section-title-block {
     text-align: center;
-    padding-top: 32px;
-    padding-bottom: 28px;
+    padding-top: 40px;
+    padding-bottom: 36px;
     max-width: 100%;
+  }
+  .section-title-block-wrap .section-title-kicker {
+    font-size: 0.75rem;
+    margin: 0 0 12px 0;
   }
   .section-title-block-wrap .section-title-heading {
     font-size: clamp(32px, 8vw, 44px);
+    margin: 0 0 14px 0;
+  }
+  .section-title-block-wrap .section-title-lead {
+    font-size: 1.05rem;
+    margin: 0;
   }
 }
 
@@ -3848,7 +3857,7 @@ footer nav {
     width: 100%;
     gap: 0;
   }
-  /* Stop headline from being absolutely positioned (overlap fix) */
+  /* Stop headline from being absolutely positioned (overlap fix). Same size as "What we deliver". */
   .hero.hero-single .hero-content .hero-headline-single,
   .hero.hero-single .hero-content .headline {
     position: static !important;
@@ -3856,7 +3865,7 @@ footer nav {
     left: auto !important;
     transform: none !important;
     width: 100% !important;
-    font-size: clamp(22px, 5.5vw, 28px) !important;
+    font-size: clamp(32px, 8vw, 44px) !important;
     margin: 0 0 16px 0 !important;
     line-height: 1.15 !important;
   }
@@ -3892,10 +3901,26 @@ footer nav {
   #process.section .steps { width: 100%; max-width: 480px; margin-left: auto; margin-right: auto; gap: 28px; }
   #compliance.section .container { max-width: 360px; margin-left: auto; margin-right: auto; }
   #compliance.section { padding-top: 80px !important; padding-bottom: 80px !important; }
-  #contact.section .contact-wrapper,
-  #contact.section form { max-width: 520px; width: 100%; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; box-sizing: border-box; }
-  .section-title-block-wrap .section-title-block { padding-top: 40px; padding-bottom: 36px; }
-  /* One size for all section title headings on mobile (match services) */
+  /* Contact: text first, form lowest; form wider (640px max) */
+  #contact.section .contact-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100%;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+    box-sizing: border-box;
+  }
+  #contact.section .contact-info { order: 1; }
+  #contact.section .contact-form { order: 2; width: 100%; max-width: 100%; padding: 0; box-sizing: border-box; }
+  #contact.section form { width: 100%; max-width: 100%; padding: 0; box-sizing: border-box; }
+  .section-title-block-wrap .section-title-block { padding-top: 40px; padding-bottom: 36px; text-align: center; }
+  .section-title-block-wrap .section-title-kicker { font-size: 0.75rem; margin: 0 0 12px 0; }
+  .section-title-block-wrap .section-title-heading { margin: 0 0 14px 0; }
+  .section-title-block-wrap .section-title-lead { font-size: 1.05rem; margin: 0; }
+  /* One size for all titles on mobile — same as "What we deliver" */
   .section-title-block-wrap .section-title-heading,
   #services-title .section-title-heading,
   #specialities-title .section-title-heading,
