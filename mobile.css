@@ -173,17 +173,17 @@ html, body {
   border-bottom: none;
 }
 
-/* Mobile Hero */
+/* Mobile Hero - centre aligned, well spaced */
 .mobile-hero {
-  padding: 100px 20px 60px;
+  padding: 100px 24px 64px;
   min-height: 50vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   gap: 0;
   position: relative;
-  text-align: left;
+  text-align: center;
 }
 
 .mobile-hero-main-text {
@@ -195,24 +195,25 @@ html, body {
   opacity: 0;
   transition: opacity 1s ease-in;
   margin-bottom: 0;
-  text-align: left;
+  text-align: center;
 }
 
 .mobile-hero-main-text.show {
   opacity: 1;
 }
 
-/* Services Text Section - Before Company Logos */
+/* Services Text Section - Before Company Logos, centre aligned */
 .mobile-services-text {
-  padding: 60px 20px;
+  padding: 56px 24px;
   min-height: 40vh;
   position: relative;
+  text-align: center;
 }
 
 .mobile-service-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 40px;
   opacity: 1;
   transition: opacity 0.5s ease;
@@ -224,7 +225,7 @@ html, body {
   line-height: 1;
   color: var(--text);
   font-weight: 400;
-  text-align: left;
+  text-align: center;
   flex: 1;
 }
 
@@ -256,9 +257,10 @@ html, body {
   display: block;
 }
 
-/* Mobile Sections */
+/* Mobile Sections - consistent spacing, centre aligned */
 .mobile-section {
-  padding: 60px 0;
+  padding: 56px 24px;
+  text-align: center;
 }
 
 .mobile-section:not(.mobile-section-title-wrapper) {
@@ -279,7 +281,7 @@ html, body {
 }
 
 .mobile-section-title-wrapper {
-  padding: 20px 20px;
+  padding: 32px 24px;
   border-top: 1px solid var(--text);
   border-bottom: 1px solid var(--text);
   text-align: center;
@@ -386,12 +388,14 @@ html, body {
   margin: 0 auto;
 }
 
-/* Services Cards */
+/* Services Cards - centre aligned, well spaced */
 .mobile-services-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
-  padding: 20px 20px;
+  gap: 28px;
+  padding: 24px 24px 48px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 .mobile-services-title h2 {
@@ -403,6 +407,7 @@ html, body {
   color: var(--text-alt);
   padding: 32px 24px;
   border: 2px solid var(--text-alt);
+  text-align: center;
 }
 
 .dark-mode .mobile-service-card {
@@ -467,11 +472,14 @@ html, body {
   padding: 0;
 }
 
-/* Work Cards */
+/* Work Cards - centre aligned, well spaced */
 .mobile-work-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 32px;
+  gap: 28px;
+  padding: 24px 24px 48px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 .mobile-work-card {
@@ -504,6 +512,7 @@ html, body {
 
 .mobile-work-card .work-meta {
   padding: 24px;
+  text-align: center;
 }
 
 .mobile-work-card .work-meta span {
@@ -579,12 +588,14 @@ html, body {
   object-fit: contain;
 }
 
-/* Process Steps */
+/* Process Steps - centre aligned, well spaced */
 .mobile-process-steps {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 20px 20px;
+  gap: 28px;
+  padding: 24px 24px 48px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 .mobile-process-step {
@@ -593,6 +604,7 @@ html, body {
   background: var(--bg-alt);
   color: var(--text-alt);
   width: 100%;
+  text-align: center;
 }
 
 .dark-mode .mobile-process-step {
@@ -626,12 +638,14 @@ html, body {
   color: var(--text);
 }
 
-/* Reviews */
+/* Reviews - centre aligned, well spaced */
 .mobile-reviews {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 20px 20px;
+  gap: 28px;
+  padding: 24px 24px 48px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 .mobile-review-card {
@@ -640,6 +654,7 @@ html, body {
   background: var(--bg-alt);
   color: var(--text-alt);
   width: 100%;
+  text-align: center;
 }
 
 .dark-mode .mobile-review-card {
@@ -660,13 +675,16 @@ html, body {
   font-weight: 600;
 }
 
-/* Contact Form */
+/* Contact Form - centre aligned, well spaced */
 .mobile-contact-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
   position: relative;
   z-index: 1;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 0 24px 48px;
 }
 
 .mobile-contact-form input,
@@ -727,9 +745,9 @@ html, body {
   z-index: 1;
 }
 
-/* Footer */
+/* Footer - centre aligned, well spaced */
 .mobile-footer {
-  padding: 40px 20px;
+  padding: 48px 24px;
   text-align: center;
   border-top: 1px solid var(--text);
 }
