@@ -1339,8 +1339,17 @@ body:not(.dark-mode) .capability-list li span:hover {
   .audience-card {
     padding: 32px;
   }
+  .audience-card .step-num {
+    font-size: 28px;
+  }
   .audience-card h3 {
     font-size: clamp(22px, 2.2vw, 28px);
+  }
+  .audience-card h3::after {
+    margin-top: 8px;
+  }
+  .audience-card p {
+    font-size: clamp(14px, 2vw, 16px);
   }
   .capability-header {
     margin-bottom: 36px;
@@ -4953,6 +4962,28 @@ footer nav {
     text-align: left !important;
   }
   
+  /* Audience cards — same as process steps on mobile */
+  .audience-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .audience-card {
+    padding: 24px 20px !important;
+    text-align: left !important;
+  }
+  .audience-card .step-num {
+    font-size: 28px;
+    text-align: left;
+  }
+  .audience-card h3 {
+    font-size: clamp(24px, 5vw, 32px) !important;
+    text-align: left !important;
+  }
+  .audience-card p {
+    font-size: clamp(14px, 2vw, 16px) !important;
+    text-align: left !important;
+  }
+  
   /* Match process card styling to services cards on mobile */
   .steps li h3 {
     font-size: clamp(24px, 5vw, 32px) !important; /* Match services card h3 */
@@ -4983,6 +5014,19 @@ footer nav {
   .dark-mode .steps li p {
     color: #ffffff !important;
     text-align: center !important;
+  }
+  
+  .dark-mode .audience-card {
+    background: var(--bg-alt) !important;
+    color: var(--text-alt) !important;
+    text-align: left !important;
+  }
+  .dark-mode .audience-card h3,
+  .dark-mode .audience-card p {
+    color: var(--text-alt) !important;
+  }
+  .dark-mode .audience-card h3::after {
+    background: var(--brand) !important;
   }
   
   .dark-mode .steps li h3::after {
@@ -5271,6 +5315,30 @@ footer nav {
   }
   
   .steps li > div {
+    text-align: left;
+  }
+  
+  /* Audience cards — same as steps on this breakpoint */
+  .audience-card {
+    padding: 32px 24px;
+    text-align: left;
+  }
+  .audience-card .step-num {
+    font-size: 28px;
+    text-align: left;
+  }
+  .audience-card h3 {
+    font-size: clamp(20px, 3vw, 24px);
+    text-align: left;
+  }
+  .audience-card h3::after {
+    margin: 8px 0 0 0;
+  }
+  .audience-card p {
+    font-size: clamp(14px, 2vw, 16px);
+    text-align: left;
+  }
+  .audience-card > div {
     text-align: left;
   }
   
@@ -5627,6 +5695,17 @@ footer nav {
   }
   
   .steps li h3 {
+    font-size: 18px;
+  }
+  
+  /* Audience cards — same as steps on small mobile */
+  .audience-card {
+    padding: 20px 16px;
+  }
+  .audience-card .step-num {
+    font-size: 24px;
+  }
+  .audience-card h3 {
     font-size: 18px;
   }
   
