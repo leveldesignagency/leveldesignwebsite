@@ -1001,7 +1001,7 @@ function initScrollAnimations() {
 // Initialize projects section when DOM is loaded
 document.addEventListener('DOMContentLoaded', initProjectsSection);
 
-// Services Gallery Section - COMPLETELY REBUILT TO MATCH PROJECTS EXACTLY
+// Services Gallery ("Where we go deep" carousel) — paths match public/Projects/services/*.png
 const servicesImages = [
   'public/Projects/services/LEVEL _SERVICES-01.png',
   'public/Projects/services/LEVEL _SERVICES-02.png',
