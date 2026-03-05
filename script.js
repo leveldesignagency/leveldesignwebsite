@@ -1378,10 +1378,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const wheelDelay = 400; // 400ms delay between word changes (faster)
   const exitDelay = 0; // No delay for exiting (instant)
   
-  // Scroll lock DISABLED — was causing temperamental/fighting scroll from hero and elsewhere.
-  // Page always scrolls normally; word position can still update on scroll (see below).
+  // Scroll lock when WE ARE section is in view — restores "pop and lock" word cycling
   function shouldLockScroll() {
-    return false; // Never lock — allow normal scrolling everywhere
+    const rect = aboutSection.getBoundingClientRect();
+    const vh = window.innerHeight;
+    // Lock when section occupies the main part of the viewport (e.g. section is "in view")
+    return rect.top <= vh * 0.5 && rect.bottom >= vh * 0.5;
   }
   
   function handleWheel(e) {
@@ -1431,9 +1433,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Handle programmatic scrolling — no longer force-locking scroll position
+  // Handle programmatic scrolling — when not in lock zone, sync word index to scroll position
   function handleScroll() {
     if (!aboutSection) return;
+    if (shouldLockScroll()) return; // While locked, wheel controls the word — don't overwrite
     const rect = aboutSection.getBoundingClientRect();
     // Optional: update word index based on scroll position when section is in view
     if (rect.top <= window.innerHeight * 0.4 && rect.bottom >= window.innerHeight * 0.6) {
@@ -1477,8 +1480,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Passive: true — we no longer preventDefault, so scrolling is smooth
-  window.addEventListener('wheel', throttledWheel, { passive: true });
+  // Wheel listener must be non-passive so we can preventDefault when locking in WE ARE section
+  window.addEventListener('wheel', throttledWheel, { passive: false });
   window.addEventListener('scroll', throttledScroll, { passive: true });
 });
 
