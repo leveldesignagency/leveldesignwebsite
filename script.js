@@ -1376,54 +1376,72 @@ document.addEventListener('DOMContentLoaded', function() {
   
   let lastWheelTime = 0;
   const wheelDelay = 400;
-  const exitDelay = 0;
   
-  // Section in view = wheel cycles words (lock). No scroll forcing — wheel preventDefault only.
+  // Anchor lock: only engage when user WHEELS in section (no auto-snap from scroll). Hold scroll while cycling; release on last word.
+  let scrollLockPosition = null;
+  let weAreLockActive = false;
+  
+  function getRect() {
+    return aboutSection.getBoundingClientRect();
+  }
+  
   function isAboutInView() {
-    const rect = aboutSection.getBoundingClientRect();
+    const rect = getRect();
     const vh = window.innerHeight;
-    return rect.top <= vh * 0.5 && rect.bottom >= vh * 0.5;
+    return rect.top <= vh * 0.6 && rect.bottom >= vh * 0.4;
   }
   
   function handleWheel(e) {
-    if (!isAboutInView()) return;
+    const rect = getRect();
+    const vh = window.innerHeight;
+    const inZone = rect.top <= vh * 0.6 && rect.bottom >= vh * 0.4;
+    
+    // First wheel in zone: snap section to top and start lock (do not engage from scroll events)
+    if (inZone && !weAreLockActive) {
+      scrollLockPosition = aboutSection.offsetTop;
+      weAreLockActive = true;
+      window.scrollTo(0, scrollLockPosition);
+    }
+    
+    if (!weAreLockActive || !inZone) return;
     
     const now = Date.now();
     const isAtFirstWord = currentWordIndex === 0;
     const isAtLastWord = currentWordIndex === words.length - 1;
     const isScrollingUp = e.deltaY < 0;
     const isScrollingDown = e.deltaY > 0;
-    const isTryingToExit = (isAtFirstWord && isScrollingUp) || (isAtLastWord && isScrollingDown);
+    const exitUp = isAtFirstWord && isScrollingUp;
+    const exitDown = isAtLastWord && isScrollingDown;
     
-    if (isTryingToExit) return; // Allow scroll off section
+    if (exitUp || exitDown) {
+      weAreLockActive = false;
+      scrollLockPosition = null;
+      return; // allow scroll
+    }
     
     if (now - lastWheelTime < wheelDelay) return;
     lastWheelTime = now;
     
     if (e.deltaY > 0) {
-      if (currentWordIndex === words.length - 1) return;
       nextWord();
     } else {
-      if (currentWordIndex === 0) return;
       prevWord();
     }
     e.preventDefault();
   }
   
-  // Optional: sync word to scroll position when user scrolls with scrollbar/touch (no forcing)
+  // While locked, hold scroll position. Do not sync word to scroll (would fight wheel).
   function handleScroll() {
     if (!aboutSection) return;
-    const rect = aboutSection.getBoundingClientRect();
-    const vh = window.innerHeight;
-    if (rect.top > vh * 0.4 || rect.bottom < vh * 0.6) return;
-    const sectionHeight = aboutSection.offsetHeight;
-    const scrollIntoSection = -rect.top;
-    const progress = Math.max(0, Math.min(1, scrollIntoSection / (sectionHeight * 0.6)));
-    const newIndex = Math.min(words.length - 1, Math.floor(progress * words.length));
-    if (newIndex !== currentWordIndex) {
-      currentWordIndex = newIndex;
-      updateWordPosition();
+    if (weAreLockActive && scrollLockPosition != null) {
+      if (Math.abs(window.scrollY - scrollLockPosition) > 3) {
+        window.scrollTo(0, scrollLockPosition);
+      }
+      return;
     }
+    // Section scrolled out of view — clear lock so next visit can lock again
+    const rect = getRect();
+    if (rect.bottom < 0) weAreLockActive = false;
   }
   
   // Throttle wheel handler to prevent lag
