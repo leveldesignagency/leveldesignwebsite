@@ -741,7 +741,7 @@
     </header>
 
     <main id="main">
-        <section class="hero hero-single" data-animate="fade-up">
+        <section class="hero hero-single" data-animate="fade-up" id="hero-single">
             <div class="container hero-inner">
                 <div class="hero-content">
                     <h1 class="headline hero-headline-single">Design that Ships.<br>Interfaces that Think.<br>Systems that scale.</h1>
@@ -998,30 +998,6 @@
             </div>
         </section>
 
-        <!-- CAPABILITY — beyond the page, sharp UI -->
-        <section id="extras" class="capability-section section" data-animate="fade-up">
-            <div class="container capability-section-inner">
-                <header class="capability-header">
-                    <p class="capability-kicker">When the project demands more</p>
-                    <h2 class="capability-title">Beyond the page.</h2>
-                    <p class="capability-lead">Video, photography, graphic design, branding, marketing, software, and production. We extend the same standard — sharp, intentional, on-brand.</p>
-                </header>
-                <ul class="capability-list">
-                    <li><span>Video</span></li>
-                    <li><span>Photography</span></li>
-                    <li><span>Graphic Design</span></li>
-                    <li><span>Branding</span></li>
-                    <li><span>Marketing</span></li>
-                    <li><span>Software &amp; app development</span></li>
-                    <li><span>Content &amp; social</span></li>
-                    <li><span>Drone</span></li>
-                    <li><span>Golf course flyover</span></li>
-                    <li><span>Video editing</span></li>
-                    <li><span>Print &amp; motion</span></li>
-                </ul>
-            </div>
-        </section>
-
         <section id="services-title" class="services-title-section section-title-block-wrap" data-animate="fade-up">
             <div class="container section-title-block">
                 <p class="section-title-kicker">Services</p>
@@ -1030,105 +1006,148 @@
             </div>
         </section>
         
-        <section id="services" class="services section" data-animate="fade-up">
-            <div class="container">
-                <div class="grid services-grid">
-                    <article class="card">
-                        <span class="glow"></span>
-                        <div>
-                            <h3>Brand & Identity</h3>
-                            <p>Logos, typography systems, and visual languages that are distinct and enduring.</p>
-                            <ul>
+        <section id="services" class="services deliver-section section" data-animate="fade-up">
+            <!-- What we deliver — two-column sticky blocks (40/60), one block for now -->
+            <div class="deliver-blocks">
+                <div class="deliver-block">
+                    <div class="deliver-block-inner">
+                        <div class="deliver-left">
+                            <p class="deliver-kicker">Bring out the branding iron</p>
+                            <h2 class="deliver-title">Brand & Identity.</h2>
+                        </div>
+                        <div class="deliver-right">
+                            <div class="deliver-image-wrap" aria-hidden="true">
+                                <img src="public/Mugs_Mockup.png" alt="Brand & Identity — LEVEL Design" />
+                            </div>
+                            <p class="deliver-lead">Logos, typography systems, and visual languages that are distinct and enduring.</p>
+                            <ul class="deliver-items" aria-label="Offerings">
                                 <li>Naming & Strategy</li>
                                 <li>Logo & Visual System</li>
                                 <li>Design Guidelines</li>
                             </ul>
                         </div>
-                    </article>
-                    <article class="card">
-                        <span class="glow"></span>
-                        <div>
-                            <h3>Web Design & Build</h3>
-                            <p>Fast, accessible sites with modern stacks. SEO-first, conversion-forward.</p>
-                            <ul>
+                    </div>
+                </div>
+                <div class="deliver-block">
+                    <div class="deliver-block-inner">
+                        <div class="deliver-left">
+                            <p class="deliver-kicker">Sites that convert</p>
+                            <h2 class="deliver-title">Web Design & Build.</h2>
+                        </div>
+                        <div class="deliver-right">
+                            <div class="deliver-image-wrap" aria-hidden="true">
+                                <img src="public/web design construction.png" alt="Web Design & Build — LEVEL Design" />
+                            </div>
+                            <p class="deliver-lead">Fast, accessible sites with modern stacks. SEO-first, conversion-forward.</p>
+                            <ul class="deliver-items" aria-label="Offerings">
                                 <li>Marketing Sites</li>
                                 <li>CMS & Content Systems</li>
                                 <li>Component Libraries</li>
                             </ul>
                         </div>
-                    </article>
-                    <article class="card">
-                        <span class="glow"></span>
-                        <div>
-                            <h3>AI Systems & Portals</h3>
-                            <p>Internal tools and customer portals powered by AI that augment your team.</p>
-                            <ul>
+                    </div>
+                </div>
+                <div class="deliver-block">
+                    <div class="deliver-block-inner">
+                        <div class="deliver-left">
+                            <p class="deliver-kicker">Powered by AI</p>
+                            <h2 class="deliver-title">AI Systems & Portals.</h2>
+                        </div>
+                        <div class="deliver-right">
+                            <div class="deliver-image-wrap" aria-hidden="true"><!-- image --></div>
+                            <p class="deliver-lead">Internal tools and customer portals powered by AI that augment your team.</p>
+                            <ul class="deliver-items" aria-label="Offerings">
                                 <li>Workflow Automations</li>
                                 <li>Chat & Agent Integrations</li>
                                 <li>Dashboards & Data Backends</li>
                             </ul>
                         </div>
-                    </article>
-                    <article class="card">
-                        <span class="glow"></span>
-                        <div>
-                            <h3>Consulting & Growth</h3>
-                            <p>Roadmaps, experiments, and measurable outcomes. We partner for results.</p>
-                            <ul>
+                    </div>
+                </div>
+                <div class="deliver-block">
+                    <div class="deliver-block-inner">
+                        <div class="deliver-left">
+                            <p class="deliver-kicker">Strategy and results</p>
+                            <h2 class="deliver-title">Consulting & Growth.</h2>
+                        </div>
+                        <div class="deliver-right">
+                            <div class="deliver-image-wrap" aria-hidden="true"><!-- image --></div>
+                            <p class="deliver-lead">Roadmaps, experiments, and measurable outcomes. We partner for results.</p>
+                            <ul class="deliver-items" aria-label="Offerings">
                                 <li>Product & UX Strategy</li>
                                 <li>Funnel & Experimentation</li>
                                 <li>Data & Analytics</li>
                             </ul>
                         </div>
-                    </article>
-                    <article class="card">
-                        <span class="glow"></span>
-                        <div>
-                            <h3>Photography</h3>
-                            <p>Professional photography services for commercial, wedding, and event needs. We capture moments that matter.</p>
-                            <ul>
+                    </div>
+                </div>
+                <div class="deliver-block">
+                    <div class="deliver-block-inner">
+                        <div class="deliver-left">
+                            <p class="deliver-kicker">Capture the moment</p>
+                            <h2 class="deliver-title">Photography.</h2>
+                        </div>
+                        <div class="deliver-right">
+                            <div class="deliver-image-wrap" aria-hidden="true"><!-- image --></div>
+                            <p class="deliver-lead">Professional photography services for commercial, wedding, and event needs. We capture moments that matter.</p>
+                            <ul class="deliver-items" aria-label="Offerings">
                                 <li>Commercial Photography</li>
                                 <li>Wedding & Event Coverage</li>
                                 <li>Product & Lifestyle Shoots</li>
                             </ul>
                         </div>
-                    </article>
-                    <article class="card">
-                        <span class="glow"></span>
-                        <div>
-                            <h3>Videography & Editing</h3>
-                            <p>Complete video production from concept to final cut. Including drone services for stunning aerial perspectives.</p>
-                            <ul>
+                    </div>
+                </div>
+                <div class="deliver-block">
+                    <div class="deliver-block-inner">
+                        <div class="deliver-left">
+                            <p class="deliver-kicker">From concept to cut</p>
+                            <h2 class="deliver-title">Videography & Editing.</h2>
+                        </div>
+                        <div class="deliver-right">
+                            <div class="deliver-image-wrap" aria-hidden="true"><!-- image --></div>
+                            <p class="deliver-lead">Complete video production from concept to final cut. Including drone services for stunning aerial perspectives.</p>
+                            <ul class="deliver-items" aria-label="Offerings">
                                 <li>Video Production</li>
                                 <li>Post-Production Editing</li>
                                 <li>Drone Services</li>
                             </ul>
                         </div>
-                    </article>
-                    <article class="card">
-                        <span class="glow"></span>
-                        <div>
-                            <h3>Social Media Management</h3>
-                            <p>Strategic social media presence that builds communities and drives engagement across all platforms.</p>
-                            <ul>
+                    </div>
+                </div>
+                <div class="deliver-block">
+                    <div class="deliver-block-inner">
+                        <div class="deliver-left">
+                            <p class="deliver-kicker">Community and growth</p>
+                            <h2 class="deliver-title">Social Media Management.</h2>
+                        </div>
+                        <div class="deliver-right">
+                            <div class="deliver-image-wrap" aria-hidden="true"><!-- image --></div>
+                            <p class="deliver-lead">Strategic social media presence that builds communities and drives engagement across all platforms.</p>
+                            <ul class="deliver-items" aria-label="Offerings">
                                 <li>Content Strategy & Creation</li>
                                 <li>Community Management</li>
                                 <li>Analytics & Growth</li>
                             </ul>
                         </div>
-                    </article>
-                    <article class="card">
-                        <span class="glow"></span>
-                        <div>
-                            <h3>Packaging & Merchandise</h3>
-                            <p>Eye-catching packaging designs and merchandise that extends your brand into physical touchpoints.</p>
-                            <ul>
+                    </div>
+                </div>
+                <div class="deliver-block">
+                    <div class="deliver-block-inner">
+                        <div class="deliver-left">
+                            <p class="deliver-kicker">Beyond the screen</p>
+                            <h2 class="deliver-title">Packaging & Merchandise.</h2>
+                        </div>
+                        <div class="deliver-right">
+                            <div class="deliver-image-wrap" aria-hidden="true"><!-- image --></div>
+                            <p class="deliver-lead">Eye-catching packaging designs and merchandise that extends your brand into physical touchpoints.</p>
+                            <ul class="deliver-items" aria-label="Offerings">
                                 <li>Product Packaging Design</li>
                                 <li>Merchandise Development</li>
                                 <li>Print Production</li>
                             </ul>
                         </div>
-                    </article>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1274,51 +1293,96 @@
                     </div>
             </div>
             
-            <!-- Webview Content Container - Separate from tabs -->
-            <div class="container">
+            <!-- Webview Content Container — two-column: left = title + description, right = scaled webview -->
+            <div class="container container-webview">
                 <div class="projects-tab-content">
                         <div class="tab-panel" id="tab-richtons" data-url="https://richtons.co.uk">
-                            <div class="webview-wrapper">
-                                <iframe data-src="https://richtons.co.uk" frameborder="0" allowfullscreen title="Richtons website"></iframe>
-                                <div class="iframe-fallback" style="display: none;">
-                                    <p>This website cannot be displayed in an embedded view due to security restrictions.</p>
-                                    <a href="https://richtons.co.uk" target="_blank" rel="noopener noreferrer" class="fallback-link">Open Richtons in a new tab →</a>
+                            <div class="project-panel-inner">
+                                <div class="project-copy">
+                                    <h3 class="project-webview-title">Richtons</h3>
+                                    <p class="project-webview-desc">Richtons required a clear, credible digital presence that reflects their surveying and engineering expertise. We delivered a responsive site with project showcases, service pages, and a contact flow that converts. Built with a focus on trust and clarity so their work speaks for itself.</p>
+                                    <a href="https://richtons.co.uk" target="_blank" rel="noopener noreferrer" class="project-webview-url">www.richtons.co.uk</a>
+                                </div>
+                                <div class="webview-wrapper">
+                                    <div class="webview-scaled">
+                                        <iframe data-src="https://richtons.co.uk" frameborder="0" allowfullscreen title="Richtons website"></iframe>
+                                    </div>
+                                    <div class="iframe-fallback" style="display: none;">
+                                        <p>This website cannot be displayed in an embedded view due to security restrictions.</p>
+                                        <a href="https://richtons.co.uk" target="_blank" rel="noopener noreferrer" class="fallback-link">Open Richtons in a new tab →</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="tab-panel" id="tab-ontimely" data-url="https://www.ontimely.co.uk">
-                            <div class="webview-wrapper">
-                                <iframe data-src="https://www.ontimely.co.uk" frameborder="0" allowfullscreen title="OnTimely website"></iframe>
-                                <div class="iframe-fallback" style="display: none;">
-                                    <p>This website cannot be displayed in an embedded view due to security restrictions.</p>
-                                    <a href="https://www.ontimely.co.uk" target="_blank" rel="noopener noreferrer" class="fallback-link">Open OnTimely in a new tab →</a>
+                            <div class="project-panel-inner">
+                                <div class="project-copy">
+                                    <h3 class="project-webview-title">OnTimely</h3>
+                                    <p class="project-webview-desc">OnTimely is a full event management platform and mobile app. We handled front-to-back design: branding, web app UI, and mobile experience. The result is a cohesive product that helps organisers run events from one place.</p>
+                                    <a href="https://www.ontimely.co.uk" target="_blank" rel="noopener noreferrer" class="project-webview-url">www.ontimely.co.uk</a>
+                                </div>
+                                <div class="webview-wrapper">
+                                    <div class="webview-scaled">
+                                        <iframe data-src="https://www.ontimely.co.uk" frameborder="0" allowfullscreen title="OnTimely website"></iframe>
+                                    </div>
+                                    <div class="iframe-fallback" style="display: none;">
+                                        <p>This website cannot be displayed in an embedded view due to security restrictions.</p>
+                                        <a href="https://www.ontimely.co.uk" target="_blank" rel="noopener noreferrer" class="fallback-link">Open OnTimely in a new tab →</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="tab-panel" id="tab-osamamoussa" data-url="https://osamamoussa.co.uk">
-                            <div class="webview-wrapper">
-                                <iframe data-src="https://osamamoussa.co.uk" frameborder="0" allowfullscreen title="Osama Moussa website"></iframe>
-                                <div class="iframe-fallback" style="display: none;">
-                                    <p>This website cannot be displayed in an embedded view due to security restrictions.</p>
-                                    <a href="https://osamamoussa.co.uk" target="_blank" rel="noopener noreferrer" class="fallback-link">Open Osama Moussa in a new tab →</a>
+                            <div class="project-panel-inner">
+                                <div class="project-copy">
+                                    <h3 class="project-webview-title">Osama Moussa</h3>
+                                    <p class="project-webview-desc">A focused portfolio site for Osama Moussa. We built a minimal, fast layout that puts the work first — clean typography, simple navigation, and a structure that’s easy to update as the portfolio grows.</p>
+                                    <a href="https://osamamoussa.co.uk" target="_blank" rel="noopener noreferrer" class="project-webview-url">www.osamamoussa.co.uk</a>
+                                </div>
+                                <div class="webview-wrapper">
+                                    <div class="webview-scaled">
+                                        <iframe data-src="https://osamamoussa.co.uk" frameborder="0" allowfullscreen title="Osama Moussa website"></iframe>
+                                    </div>
+                                    <div class="iframe-fallback" style="display: none;">
+                                        <p>This website cannot be displayed in an embedded view due to security restrictions.</p>
+                                        <a href="https://osamamoussa.co.uk" target="_blank" rel="noopener noreferrer" class="fallback-link">Open Osama Moussa in a new tab →</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="tab-panel" id="tab-goglamp" data-url="https://goglamp.co.uk">
-                            <div class="webview-wrapper">
-                                <iframe data-src="https://goglamp.co.uk" frameborder="0" allowfullscreen title="Goglamp website"></iframe>
-                                <div class="iframe-fallback" style="display: none;">
-                                    <p>This website cannot be displayed in an embedded view due to security restrictions.</p>
-                                    <a href="https://goglamp.co.uk" target="_blank" rel="noopener noreferrer" class="fallback-link">Open Goglamp in a new tab →</a>
+                            <div class="project-panel-inner">
+                                <div class="project-copy">
+                                    <h3 class="project-webview-title">Goglamp</h3>
+                                    <p class="project-webview-desc">Goglamp needed a site that matches the quality of their product. We delivered a modern, responsive build with clear product presentation and a straightforward path to contact — designed to support both brand and sales.</p>
+                                    <a href="https://goglamp.co.uk" target="_blank" rel="noopener noreferrer" class="project-webview-url">www.goglamp.co.uk</a>
+                                </div>
+                                <div class="webview-wrapper">
+                                    <div class="webview-scaled">
+                                        <iframe data-src="https://goglamp.co.uk" frameborder="0" allowfullscreen title="Goglamp website"></iframe>
+                                    </div>
+                                    <div class="iframe-fallback" style="display: none;">
+                                        <p>This website cannot be displayed in an embedded view due to security restrictions.</p>
+                                        <a href="https://goglamp.co.uk" target="_blank" rel="noopener noreferrer" class="fallback-link">Open Goglamp in a new tab →</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="tab-panel" id="tab-ndsurgeon" data-url="https://www.ndsurgeon.com">
-                            <div class="webview-wrapper">
-                                <iframe data-src="https://www.ndsurgeon.com" frameborder="0" allowfullscreen title="ND Surgeon website"></iframe>
-                                <div class="iframe-fallback" style="display: none;">
-                                    <p>This website cannot be displayed in an embedded view due to security restrictions.</p>
-                                    <a href="https://www.ndsurgeon.com" target="_blank" rel="noopener noreferrer" class="fallback-link">Open ND Surgeon in a new tab →</a>
+                            <div class="project-panel-inner">
+                                <div class="project-copy">
+                                    <h3 class="project-webview-title">ND Surgeon</h3>
+                                    <p class="project-webview-desc">ND Surgeon required a professional, trustworthy site for a surgical practice. We built a responsive site with clear service information, credentials, and an accessible contact flow — designed for both patients and referrers.</p>
+                                    <a href="https://www.ndsurgeon.com" target="_blank" rel="noopener noreferrer" class="project-webview-url">www.ndsurgeon.com</a>
+                                </div>
+                                <div class="webview-wrapper">
+                                    <div class="webview-scaled">
+                                        <iframe data-src="https://www.ndsurgeon.com" frameborder="0" allowfullscreen title="ND Surgeon website"></iframe>
+                                    </div>
+                                    <div class="iframe-fallback" style="display: none;">
+                                        <p>This website cannot be displayed in an embedded view due to security restrictions.</p>
+                                        <a href="https://www.ndsurgeon.com" target="_blank" rel="noopener noreferrer" class="fallback-link">Open ND Surgeon in a new tab →</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1656,6 +1720,11 @@
 
     <canvas id="cursor-canvas"></canvas>
     <div class="custom-cursor" id="custom-cursor"></div>
+    <div id="custom-scrollbar" class="custom-scrollbar" aria-hidden="true">
+        <div class="custom-scrollbar-track">
+            <div class="custom-scrollbar-thumb" id="custom-scrollbar-thumb"></div>
+        </div>
+    </div>
     <!-- reCAPTCHA v3 -->
     <script src="https://www.google.com/recaptcha/api.js?render=6LeCRlIsAAAAAGPZzNsKcCRa_BSgy6ICxaSAh1wm"></script>
     <!-- Swiper JS -->

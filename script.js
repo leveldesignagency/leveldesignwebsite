@@ -71,6 +71,66 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+// Custom overlay scrollbar — thumb position, drag, track click
+(function() {
+  var track = document.querySelector('.custom-scrollbar-track');
+  var thumb = document.getElementById('custom-scrollbar-thumb');
+  if (!track || !thumb) return;
+
+  function updateThumb() {
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    var scrollMax = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    var trackHeight = track.offsetHeight;
+    var thumbHeight = thumb.offsetHeight;
+    if (scrollMax <= 0) {
+      thumb.style.transform = 'translateY(0)';
+      return;
+    }
+    var ratio = scrollY / scrollMax;
+    var top = ratio * (trackHeight - thumbHeight);
+    thumb.style.transform = 'translateY(' + Math.max(0, top) + 'px)';
+  }
+
+  window.addEventListener('scroll', updateThumb, { passive: true });
+  window.addEventListener('resize', updateThumb);
+  document.addEventListener('DOMContentLoaded', updateThumb);
+  updateThumb();
+
+  track.addEventListener('click', function(e) {
+    if (e.target === thumb) return;
+    var rect = track.getBoundingClientRect();
+    var y = e.clientY - rect.top;
+    var ratio = y / rect.height;
+    var scrollMax = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    window.scrollTo(0, ratio * scrollMax);
+  });
+
+  var dragging = false;
+  var startY = 0;
+  var startScrollY = 0;
+
+  thumb.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    dragging = true;
+    startY = e.clientY;
+    startScrollY = window.pageYOffset;
+  });
+  document.addEventListener('mousemove', function(e) {
+    if (!dragging) return;
+    var dy = e.clientY - startY;
+    var trackHeight = track.offsetHeight;
+    var thumbHeight = thumb.offsetHeight;
+    var scrollMax = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    if (trackHeight > thumbHeight && scrollMax > 0) {
+      var ratio = dy / (trackHeight - thumbHeight);
+      window.scrollTo(0, startScrollY + ratio * scrollMax);
+    }
+  });
+  document.addEventListener('mouseup', function() {
+    dragging = false;
+  });
+})();
+
 // Intersection animations
 const animated = document.querySelectorAll('[data-animate]');
 const io = new IntersectionObserver((entries) => {
@@ -1318,11 +1378,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const wheelDelay = 400; // 400ms delay between word changes (faster)
   const exitDelay = 0; // No delay for exiting (instant)
   
-  // Check if we should lock scrolling - works for both wheel and programmatic scrolling
+  // Scroll lock DISABLED — was causing temperamental/fighting scroll from hero and elsewhere.
+  // Page always scrolls normally; word position can still update on scroll (see below).
   function shouldLockScroll() {
-    const rect = aboutSection.getBoundingClientRect();
-    // Lock when section top reaches or passes viewport top AND section is still visible
-    return rect.top <= 0 && rect.bottom > window.innerHeight;
+    return false; // Never lock — allow normal scrolling everywhere
   }
   
   function handleWheel(e) {
@@ -1372,27 +1431,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Handle programmatic scrolling (from smooth scroll, anchor links, etc.)
+  // Handle programmatic scrolling — no longer force-locking scroll position
   function handleScroll() {
-    if (!shouldLockScroll()) {
-      return; // Not in lock zone
-    }
-    
-    // Don't lock if we're at the last word (Storytellers) - allow scrolling to continue
-    const isAtLastWord = currentWordIndex === words.length - 1;
-    if (isAtLastWord) {
-      return; // Allow normal scrolling past the section
-    }
-    
-    // If we're in the lock zone but scroll position changed programmatically,
-    // we need to maintain the lock by preventing further scroll
+    if (!aboutSection) return;
     const rect = aboutSection.getBoundingClientRect();
-    if (rect.top < 0) {
-      // Section has scrolled past the top, lock it at the top
-      window.scrollTo({
-        top: aboutSection.offsetTop,
-        behavior: 'auto' // Instant, no smooth scroll
-      });
+    // Optional: update word index based on scroll position when section is in view
+    if (rect.top <= window.innerHeight * 0.4 && rect.bottom >= window.innerHeight * 0.6) {
+      const sectionHeight = aboutSection.offsetHeight;
+      const scrollIntoSection = -rect.top;
+      const progress = Math.max(0, Math.min(1, scrollIntoSection / (sectionHeight * 0.6)));
+      const newIndex = Math.min(words.length - 1, Math.floor(progress * words.length));
+      if (newIndex !== currentWordIndex) {
+        currentWordIndex = newIndex;
+        updateWordPosition();
+      }
     }
   }
   
@@ -1425,8 +1477,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Keep passive: false because we need preventDefault
-  window.addEventListener('wheel', throttledWheel, { passive: false });
+  // Passive: true — we no longer preventDefault, so scrolling is smooth
+  window.addEventListener('wheel', throttledWheel, { passive: true });
   window.addEventListener('scroll', throttledScroll, { passive: true });
 });
 
@@ -1504,10 +1556,30 @@ document.addEventListener('DOMContentLoaded', function() {
     panel.style.opacity = '0';
   });
   
-  // Function to load iframe only when tab is opened
+  // Desktop viewport size — iframe gets this so sites render desktop layout; we scale down to fit
+  const WEBVIEW_VIEWPORT_W = 1200;
+  const WEBVIEW_VIEWPORT_H = 675;
+
+  function scaleWebviewToFit(wrapper) {
+    if (!wrapper || !wrapper.offsetParent) return; // not visible
+    const w = wrapper.offsetWidth;
+    const h = wrapper.offsetHeight;
+    if (w <= 0 || h <= 0) return;
+    const scale = Math.min(w / WEBVIEW_VIEWPORT_W, h / WEBVIEW_VIEWPORT_H);
+    const scaled = wrapper.querySelector('.webview-scaled');
+    if (scaled) scaled.style.transform = 'scale(' + scale + ')';
+  }
+
+  function scaleVisibleWebviews() {
+    const activePanel = document.querySelector('.tab-panel.active');
+    if (!activePanel) return;
+    activePanel.querySelectorAll('.webview-wrapper').forEach(scaleWebviewToFit);
+  }
+
+  // Function to load iframe only when tab is opened (iframe may be inside .webview-scaled)
   function loadIframe(panel) {
-    const iframe = panel.querySelector('iframe[data-src]');
-    const fallback = panel.querySelector('.iframe-fallback');
+    const iframe = panel.querySelector('.webview-wrapper iframe[data-src]') || panel.querySelector('iframe[data-src]');
+    const fallback = panel.querySelector('.webview-wrapper .iframe-fallback') || panel.querySelector('.iframe-fallback');
     
     if (iframe && !iframe.src) {
       const url = iframe.getAttribute('data-src');
@@ -1629,34 +1701,14 @@ document.addEventListener('DOMContentLoaded', function() {
       // Add active class to clicked button
       this.classList.add('active');
       
-      // Show and expand the target panel
+      // Show the target panel (no height animation — was causing content to jump up then down)
       if (targetPanel) {
-        // Load iframe when tab is opened
         loadIframe(targetPanel);
-        
-        // Set display first
-        targetPanel.style.display = 'block';
-        
-        // Use requestAnimationFrame to ensure display is set before height transition
-        requestAnimationFrame(() => {
-          // Get the natural height of the content
-          targetPanel.style.height = 'auto';
-          const height = targetPanel.scrollHeight;
-          targetPanel.style.height = '0';
-          
-          // Force reflow
-          targetPanel.offsetHeight;
-          
-          // Animate to full height
-          targetPanel.style.height = height + 'px';
-          targetPanel.style.opacity = '1';
-          
-          // After transition, set to auto for responsive behavior
-          setTimeout(() => {
-            targetPanel.style.height = 'auto';
-            targetPanel.classList.add('active');
-          }, 400);
-        });
+        targetPanel.style.display = '';
+        targetPanel.style.height = '';
+        targetPanel.style.opacity = '';
+        targetPanel.classList.add('active');
+        requestAnimationFrame(function() { scaleVisibleWebviews(); });
       }
     });
   });
@@ -1668,19 +1720,20 @@ document.addEventListener('DOMContentLoaded', function() {
       // Small delay to ensure DOM is ready
       setTimeout(() => {
         richtonsButton.click();
+        requestAnimationFrame(function() { scaleVisibleWebviews(); });
       }, 100);
     }
   }
-  
-  // Update on window resize
-  let resizeTimer;
+
+  // Rescale webviews when window or wrapper size changes
   window.addEventListener('resize', function() {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function() {
-      // Re-check mobile status on resize if needed
-      // The isMobile check happens on click, so this is mainly for future enhancements
-    }, 250);
+    requestAnimationFrame(scaleVisibleWebviews);
   });
+  const webviewSection = document.querySelector('#projects-webview');
+  if (webviewSection && typeof ResizeObserver !== 'undefined') {
+    const ro = new ResizeObserver(function() { scaleVisibleWebviews(); });
+    document.querySelectorAll('.webview-wrapper').forEach(function(w) { ro.observe(w); });
+  }
 });
 
 // ============================================
