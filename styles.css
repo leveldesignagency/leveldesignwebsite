@@ -59,69 +59,8 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: clip; /* clip allows position:sticky to work; hidden can break it */
-  overflow-y: auto; /* explicit so vertical scroll always allowed */
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  touch-action: pan-y; /* allow vertical touch scroll, avoid capture */
-}
-
-/* Hide native scrollbar on desktop — custom overlay scrollbar used instead */
-@media (min-width: 769px) {
-  html { scrollbar-width: none; }
-  html::-webkit-scrollbar { width: 0; height: 0; display: none; }
-  body { scrollbar-width: none; }
-  body::-webkit-scrollbar { width: 0; height: 0; display: none; }
-}
-
-/* Custom overlay scrollbar — fixed right, inset, red thumb 40% height, faded track */
-.custom-scrollbar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 14px;
-  height: 100vh;
-  padding-right: 10px;
-  box-sizing: content-box;
-  z-index: 9998;
-  pointer-events: none;
-}
-.custom-scrollbar .custom-scrollbar-track {
-  pointer-events: auto;
-  width: 8px;
-  height: 100%;
-  margin-left: auto;
-  margin-right: 0;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 4px;
-  position: relative;
-}
-body:not(.dark-mode) .custom-scrollbar .custom-scrollbar-track {
-  background: rgba(0, 0, 0, 0.08);
-}
-.custom-scrollbar-thumb {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 40vh;
-  min-height: 80px;
-  max-height: 70%;
-  background: var(--brand);
-  border-radius: 4px;
-  pointer-events: auto;
-  cursor: grab;
-  transition: background 0.2s ease;
-}
-.custom-scrollbar-thumb:hover {
-  background: #ff5555;
-}
-.custom-scrollbar-thumb:active {
-  cursor: grabbing;
-}
-
-@media (max-width: 768px) {
-  .custom-scrollbar {
-    display: none;
-  }
 }
 
 /* Mobile: Allow vertical scrolling */

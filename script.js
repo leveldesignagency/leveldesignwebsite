@@ -71,66 +71,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// Custom overlay scrollbar — thumb position, drag, track click
-(function() {
-  var track = document.querySelector('.custom-scrollbar-track');
-  var thumb = document.getElementById('custom-scrollbar-thumb');
-  if (!track || !thumb) return;
-
-  function updateThumb() {
-    var scrollY = window.pageYOffset || document.documentElement.scrollTop;
-    var scrollMax = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-    var trackHeight = track.offsetHeight;
-    var thumbHeight = thumb.offsetHeight;
-    if (scrollMax <= 0) {
-      thumb.style.transform = 'translateY(0)';
-      return;
-    }
-    var ratio = scrollY / scrollMax;
-    var top = ratio * (trackHeight - thumbHeight);
-    thumb.style.transform = 'translateY(' + Math.max(0, top) + 'px)';
-  }
-
-  window.addEventListener('scroll', updateThumb, { passive: true });
-  window.addEventListener('resize', updateThumb);
-  document.addEventListener('DOMContentLoaded', updateThumb);
-  updateThumb();
-
-  track.addEventListener('click', function(e) {
-    if (e.target === thumb) return;
-    var rect = track.getBoundingClientRect();
-    var y = e.clientY - rect.top;
-    var ratio = y / rect.height;
-    var scrollMax = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-    window.scrollTo(0, ratio * scrollMax);
-  });
-
-  var dragging = false;
-  var startY = 0;
-  var startScrollY = 0;
-
-  thumb.addEventListener('mousedown', function(e) {
-    e.preventDefault();
-    dragging = true;
-    startY = e.clientY;
-    startScrollY = window.pageYOffset;
-  });
-  document.addEventListener('mousemove', function(e) {
-    if (!dragging) return;
-    var dy = e.clientY - startY;
-    var trackHeight = track.offsetHeight;
-    var thumbHeight = thumb.offsetHeight;
-    var scrollMax = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-    if (trackHeight > thumbHeight && scrollMax > 0) {
-      var ratio = dy / (trackHeight - thumbHeight);
-      window.scrollTo(0, startScrollY + ratio * scrollMax);
-    }
-  });
-  document.addEventListener('mouseup', function() {
-    dragging = false;
-  });
-})();
-
 // Intersection animations
 const animated = document.querySelectorAll('[data-animate]');
 const io = new IntersectionObserver((entries) => {
@@ -1375,73 +1315,85 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   let lastWheelTime = 0;
-  const wheelDelay = 400;
+  const wheelDelay = 400; // 400ms delay between word changes (faster)
+  const exitDelay = 0; // No delay for exiting (instant)
   
-  // Anchor lock: only engage when user WHEELS in section (no auto-snap from scroll). Hold scroll while cycling; release on last word.
-  let scrollLockPosition = null;
-  let weAreLockActive = false;
-  
-  function getRect() {
-    return aboutSection.getBoundingClientRect();
-  }
-  
-  function isAboutInView() {
-    const rect = getRect();
-    const vh = window.innerHeight;
-    return rect.top <= vh * 0.6 && rect.bottom >= vh * 0.4;
+  // Check if we should lock scrolling - works for both wheel and programmatic scrolling
+  function shouldLockScroll() {
+    const rect = aboutSection.getBoundingClientRect();
+    // Lock when section top reaches or passes viewport top AND section is still visible
+    return rect.top <= 0 && rect.bottom > window.innerHeight;
   }
   
   function handleWheel(e) {
-    const rect = getRect();
-    const vh = window.innerHeight;
-    const inZone = rect.top <= vh * 0.6 && rect.bottom >= vh * 0.4;
-    
-    // First wheel in zone: snap section to top and start lock (do not engage from scroll events)
-    if (inZone && !weAreLockActive) {
-      scrollLockPosition = aboutSection.offsetTop;
-      weAreLockActive = true;
-      window.scrollTo(0, scrollLockPosition);
+    if (!shouldLockScroll()) {
+      return; // Not in lock zone, allow normal scrolling
     }
-    
-    if (!weAreLockActive || !inZone) return;
     
     const now = Date.now();
     const isAtFirstWord = currentWordIndex === 0;
     const isAtLastWord = currentWordIndex === words.length - 1;
     const isScrollingUp = e.deltaY < 0;
     const isScrollingDown = e.deltaY > 0;
-    const exitUp = isAtFirstWord && isScrollingUp;
-    const exitDown = isAtLastWord && isScrollingDown;
+    const isTryingToExit = (isAtFirstWord && isScrollingUp) || (isAtLastWord && isScrollingDown);
     
-    if (exitUp || exitDown) {
-      weAreLockActive = false;
-      scrollLockPosition = null;
-      return; // allow scroll
+    // If trying to exit, allow normal scroll immediately
+    if (isTryingToExit) {
+      return; // Don't prevent default, allow normal scroll
     }
     
-    if (now - lastWheelTime < wheelDelay) return;
-    lastWheelTime = now;
+    const requiredDelay = isTryingToExit ? exitDelay : wheelDelay;
     
-    if (e.deltaY > 0) {
-      nextWord();
-    } else {
-      prevWord();
+    if (now - lastWheelTime > requiredDelay) {
+      lastWheelTime = now;
+      
+      if (e.deltaY > 0) {
+        // Scrolling down - next word
+        if (currentWordIndex === words.length - 1) {
+          // At last word (Storytellers) and scrolling down - resume normal scrolling
+          return; // Don't prevent default, allow normal scroll
+        } else {
+          // Not at last word - go to next word
+          nextWord();
+        }
+      } else {
+        // Scrolling up - previous word
+        if (currentWordIndex === 0) {
+          // At first word (LEVEL) and scrolling up - resume normal scrolling
+          return; // Don't prevent default, allow normal scroll
+        } else {
+          // Not at first word - go to previous word
+          prevWord();
+        }
+      }
+      
+      // Prevent default scroll to lock the page
+      e.preventDefault();
     }
-    e.preventDefault();
   }
   
-  // While locked, hold scroll position. Do not sync word to scroll (would fight wheel).
+  // Handle programmatic scrolling (from smooth scroll, anchor links, etc.)
   function handleScroll() {
-    if (!aboutSection) return;
-    if (weAreLockActive && scrollLockPosition != null) {
-      if (Math.abs(window.scrollY - scrollLockPosition) > 3) {
-        window.scrollTo(0, scrollLockPosition);
-      }
-      return;
+    if (!shouldLockScroll()) {
+      return; // Not in lock zone
     }
-    // Section scrolled out of view — clear lock so next visit can lock again
-    const rect = getRect();
-    if (rect.bottom < 0) weAreLockActive = false;
+    
+    // Don't lock if we're at the last word (Storytellers) - allow scrolling to continue
+    const isAtLastWord = currentWordIndex === words.length - 1;
+    if (isAtLastWord) {
+      return; // Allow normal scrolling past the section
+    }
+    
+    // If we're in the lock zone but scroll position changed programmatically,
+    // we need to maintain the lock by preventing further scroll
+    const rect = aboutSection.getBoundingClientRect();
+    if (rect.top < 0) {
+      // Section has scrolled past the top, lock it at the top
+      window.scrollTo({
+        top: aboutSection.offsetTop,
+        behavior: 'auto' // Instant, no smooth scroll
+      });
+    }
   }
   
   // Throttle wheel handler to prevent lag
@@ -1473,7 +1425,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Wheel listener must be non-passive so we can preventDefault when locking in WE ARE section
+  // Keep passive: false because we need preventDefault
   window.addEventListener('wheel', throttledWheel, { passive: false });
   window.addEventListener('scroll', throttledScroll, { passive: true });
 });
