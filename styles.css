@@ -3279,15 +3279,17 @@ body:not(.dark-mode) .work-card {
   z-index: 2;
 }
 
-.work-card .work-media video {
+.work-card .work-media video,
+.work-card .work-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 8px;
 }
 
-/* Remove hover effects on video */
-.work-card:hover .work-media video {
+/* Remove hover effects on video/image */
+.work-card:hover .work-media video,
+.work-card:hover .work-media img {
   transform: none;
 }
 
@@ -4580,6 +4582,21 @@ footer nav {
 #services.deliver-section[data-animate].in .deliver-block:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 0.46s; }
 #services.deliver-section[data-animate].in .deliver-block:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 0.54s; }
 #services.deliver-section[data-animate].in .deliver-block:nth-child(8) { opacity: 1; transform: translateY(0); transition-delay: 0.62s; }
+
+/* Hide last four deliver blocks for now (Photography, Videography, Social Media, Packaging) — all viewports */
+.deliver-blocks > .deliver-block:nth-child(5),
+.deliver-blocks > .deliver-block:nth-child(6),
+.deliver-blocks > .deliver-block:nth-child(7),
+.deliver-blocks > .deliver-block:nth-child(8) {
+  display: none !important;
+  visibility: hidden !important;
+  overflow: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+}
 
 /* Section title blocks — staggered fade + subtle scale for heading */
 .section-title-block-wrap[data-animate] { opacity: 1 !important; transform: none !important; }
