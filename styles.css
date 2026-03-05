@@ -52,7 +52,7 @@
 html { 
   -webkit-text-size-adjust: 100%; /* Prevent iOS text size adjustment */
   -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
-  scroll-behavior: auto; /* Changed from smooth - causes lag */
+  scroll-behavior: smooth;
 }
 
 html, body { 

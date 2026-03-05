@@ -1375,48 +1375,18 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   let lastWheelTime = 0;
-  const wheelDelay = 400; // 400ms delay between word changes (faster)
-  const exitDelay = 0; // No delay for exiting (instant)
+  const wheelDelay = 400;
+  const exitDelay = 0;
   
-  // Full-screen anchor lock: section snaps to fill viewport, wheel cycles words, release after last word
-  let scrollLockPosition = null;
-  let weAreLockActive = false;
-  let exitedAfterLastWord = false;
-  
-  function getAboutRect() {
-    return aboutSection.getBoundingClientRect();
-  }
-  
-  function shouldLockScroll() {
-    return weAreLockActive;
-  }
-  
-  function engageLock() {
-    const rect = getAboutRect();
+  // Section in view = wheel cycles words (lock). No scroll forcing — wheel preventDefault only.
+  function isAboutInView() {
+    const rect = aboutSection.getBoundingClientRect();
     const vh = window.innerHeight;
-    if (rect.top > 100 || rect.bottom < vh * 0.7) return;
-    if (exitedAfterLastWord) return;
-    scrollLockPosition = aboutSection.offsetTop;
-    weAreLockActive = true;
-    window.scrollTo({ top: scrollLockPosition, left: 0, behavior: 'auto' });
-  }
-  
-  function releaseLock() {
-    weAreLockActive = false;
-    scrollLockPosition = null;
+    return rect.top <= vh * 0.5 && rect.bottom >= vh * 0.5;
   }
   
   function handleWheel(e) {
-    const rect = getAboutRect();
-    const vh = window.innerHeight;
-    // When section is in view but not yet locked, engage on first wheel into zone
-    if (!weAreLockActive && rect.top <= 100 && rect.bottom >= vh * 0.7 && !exitedAfterLastWord) {
-      engageLock();
-    }
-    
-    if (!shouldLockScroll()) {
-      return; // Not in lock zone, allow normal scrolling
-    }
+    if (!isAboutInView()) return;
     
     const now = Date.now();
     const isAtFirstWord = currentWordIndex === 0;
@@ -1425,73 +1395,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const isScrollingDown = e.deltaY > 0;
     const isTryingToExit = (isAtFirstWord && isScrollingUp) || (isAtLastWord && isScrollingDown);
     
-    // If trying to exit, release lock and allow normal scroll
-    if (isTryingToExit) {
-      if (isAtLastWord && isScrollingDown) exitedAfterLastWord = true;
-      releaseLock();
-      return; // Don't prevent default, allow normal scroll
-    }
+    if (isTryingToExit) return; // Allow scroll off section
     
-    const requiredDelay = isTryingToExit ? exitDelay : wheelDelay;
+    if (now - lastWheelTime < wheelDelay) return;
+    lastWheelTime = now;
     
-    if (now - lastWheelTime > requiredDelay) {
-      lastWheelTime = now;
-      
-      if (e.deltaY > 0) {
-        // Scrolling down - next word
-        if (currentWordIndex === words.length - 1) {
-          return;
-        } else {
-          nextWord();
-        }
-      } else {
-        // Scrolling up - previous word
-        if (currentWordIndex === 0) {
-          return;
-        } else {
-          prevWord();
-        }
-      }
-      
-      e.preventDefault();
+    if (e.deltaY > 0) {
+      if (currentWordIndex === words.length - 1) return;
+      nextWord();
+    } else {
+      if (currentWordIndex === 0) return;
+      prevWord();
     }
+    e.preventDefault();
   }
   
-  // Hold scroll at lock position while active; engage lock when section enters zone; reset exit flag when section leaves
+  // Optional: sync word to scroll position when user scrolls with scrollbar/touch (no forcing)
   function handleScroll() {
     if (!aboutSection) return;
-    const rect = getAboutRect();
+    const rect = aboutSection.getBoundingClientRect();
     const vh = window.innerHeight;
-    
-    // While locked, force scroll position so section stays full screen
-    if (weAreLockActive && scrollLockPosition != null) {
-      if (Math.abs(window.scrollY - scrollLockPosition) > 2) {
-        window.scrollTo(0, scrollLockPosition);
-      }
-      return;
-    }
-    
-    // Section scrolled out of view above — reset so we can lock again on next visit
-    if (rect.bottom < 0) {
-      exitedAfterLastWord = false;
-    }
-    
-    // Section entering view — snap to full screen and engage lock (so next wheel will cycle words)
-    if (rect.top <= 100 && rect.bottom >= vh * 0.7 && !exitedAfterLastWord) {
-      engageLock();
-      return;
-    }
-    
-    // When not in lock zone, sync word index to scroll position for scrollbar/drag
-    if (rect.top <= vh * 0.4 && rect.bottom >= vh * 0.6) {
-      const sectionHeight = aboutSection.offsetHeight;
-      const scrollIntoSection = -rect.top;
-      const progress = Math.max(0, Math.min(1, scrollIntoSection / (sectionHeight * 0.6)));
-      const newIndex = Math.min(words.length - 1, Math.floor(progress * words.length));
-      if (newIndex !== currentWordIndex) {
-        currentWordIndex = newIndex;
-        updateWordPosition();
-      }
+    if (rect.top > vh * 0.4 || rect.bottom < vh * 0.6) return;
+    const sectionHeight = aboutSection.offsetHeight;
+    const scrollIntoSection = -rect.top;
+    const progress = Math.max(0, Math.min(1, scrollIntoSection / (sectionHeight * 0.6)));
+    const newIndex = Math.min(words.length - 1, Math.floor(progress * words.length));
+    if (newIndex !== currentWordIndex) {
+      currentWordIndex = newIndex;
+      updateWordPosition();
     }
   }
   
