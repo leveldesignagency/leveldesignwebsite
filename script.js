@@ -1753,62 +1753,9 @@ function checkRateLimit() {
 }
 
 /**
- * Detect random character patterns (bot-generated strings)
- * Examples: "FzUwogzjkuoOzIBVkTeE", "elGqhBuBHHZOkkJJzWbqy"
- */
-function isRandomString(text) {
-  if (!text || text.length < 8) return false;
-  
-  // Remove spaces and check if it's mostly random characters
-  const noSpaces = text.replace(/\s/g, '');
-  if (noSpaces.length < 8) return false;
-  
-  // Check for patterns that indicate random generation:
-  // 1. High ratio of consonants to vowels (random strings have more consonants)
-  const vowels = (noSpaces.match(/[aeiouAEIOU]/g) || []).length;
-  const consonants = (noSpaces.match(/[bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ]/g) || []).length;
-  const vowelRatio = vowels / (vowels + consonants || 1);
-  
-  // Random strings typically have < 30% vowels
-  if (vowelRatio < 0.3 && noSpaces.length >= 10) {
-    return true;
-  }
-  
-  // 2. Check for alternating case patterns (common in bot strings)
-  let caseChanges = 0;
-  for (let i = 1; i < noSpaces.length; i++) {
-    const prevIsUpper = noSpaces[i-1] === noSpaces[i-1].toUpperCase() && /[A-Z]/.test(noSpaces[i-1]);
-    const currIsUpper = noSpaces[i] === noSpaces[i].toUpperCase() && /[A-Z]/.test(noSpaces[i]);
-    if (prevIsUpper !== currIsUpper) caseChanges++;
-  }
-  const caseChangeRatio = caseChanges / noSpaces.length;
-  
-  // High case change ratio (>0.4) suggests random generation
-  if (caseChangeRatio > 0.4 && noSpaces.length >= 10) {
-    return true;
-  }
-  
-  // 3. Check for lack of common words (random strings have no dictionary words)
-  const commonWords = ['the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'her', 'was', 'one', 'our', 'out', 'day', 'get', 'has', 'him', 'his', 'how', 'its', 'may', 'new', 'now', 'old', 'see', 'two', 'way', 'who', 'boy', 'did', 'she', 'use', 'her', 'many', 'than', 'them', 'these', 'time', 'very', 'what', 'when', 'where', 'which', 'while', 'will', 'with', 'would', 'your', 'about', 'after', 'again', 'before', 'being', 'below', 'between', 'during', 'first', 'found', 'great', 'group', 'house', 'large', 'learn', 'never', 'other', 'place', 'point', 'right', 'small', 'sound', 'spell', 'still', 'study', 'their', 'there', 'these', 'thing', 'think', 'three', 'through', 'water', 'where', 'which', 'world', 'would', 'write'];
-  const textLower = noSpaces.toLowerCase();
-  const hasCommonWord = commonWords.some(word => textLower.includes(word));
-  
-  // If no common words AND high consonant ratio, likely random
-  if (!hasCommonWord && vowelRatio < 0.35 && noSpaces.length >= 12) {
-    return true;
-  }
-  
-  // 4. Check for repeated character patterns (like "HHZOkkJJ")
-  const repeatedPattern = /([A-Za-z]{2,})\1{1,}/g;
-  if (repeatedPattern.test(noSpaces) && noSpaces.length >= 10) {
-    return true;
-  }
-  
-  return false;
-}
-
-/**
- * Validate form input lengths and content
+ * Validate form input lengths and content.
+ * Bot/spam handling is left to reCAPTCHA v3 + rate limiting — avoid heuristic "random string" checks
+ * that falsely reject real names and short professional messages.
  */
 function validateFormData(formData) {
   const errors = [];
@@ -1819,11 +1766,6 @@ function validateFormData(formData) {
   }
   if (formData.name.length > 100) {
     errors.push('Name must be less than 100 characters.');
-  }
-  
-  // Check name for random character patterns (bot detection)
-  if (isRandomString(formData.name)) {
-    errors.push('Please enter a valid name. Random character strings are not allowed.');
   }
   
   // Validate email
@@ -1839,26 +1781,17 @@ function validateFormData(formData) {
     errors.push('Message must be less than 2000 characters.');
   }
   
-  // Check message for random character patterns (bot detection)
-  if (isRandomString(formData.message)) {
-    errors.push('Your message appears to contain random characters. Please write a real message.');
-  }
-  
-  // Check for suspicious patterns (common spam indicators)
+  // Light spam keyword check only (URLs/links are normal in project briefs)
   const spamPatterns = [
-    /http[s]?:\/\//gi, // URLs
-    /www\./gi,
-    /[a-z0-9]+@[a-z0-9]+\.[a-z]+/gi, // Multiple emails
-    /(free|cheap|discount|click here|buy now|viagra|casino|loan|debt)/gi // Spam keywords
+    /(viagra|casino|crypto wallet|click here to win|seo service guaranteed)/gi
   ];
   
   const messageLower = formData.message.toLowerCase();
-  const spamCount = spamPatterns.reduce((count, pattern) => {
+  const spamKeywordHits = spamPatterns.reduce((count, pattern) => {
     return count + (messageLower.match(pattern) || []).length;
   }, 0);
   
-  // If message contains too many spam indicators, flag it
-  if (spamCount > 3) {
+  if (spamKeywordHits > 0) {
     errors.push('Your message contains suspicious content. Please revise and try again.');
   }
   
