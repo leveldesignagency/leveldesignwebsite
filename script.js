@@ -580,7 +580,55 @@ document.addEventListener('DOMContentLoaded', function() {
   workCards.forEach(card => cardObserver.observe(card));
   steps.forEach(step => cardObserver.observe(step));
   reviewCards.forEach(card => cardObserver.observe(card));
+
+  initReviewsCarousel();
 });
+
+function initReviewsCarousel() {
+  const reviewsSection = document.querySelector('#reviews');
+  const wrapper = reviewsSection?.querySelector('.reviews-wrapper');
+  const track = reviewsSection?.querySelector('.reviews-track');
+  const cards = track ? Array.from(track.querySelectorAll('.review-card')) : [];
+  const prevBtn = document.querySelector('[data-review-nav="prev"]');
+  const nextBtn = document.querySelector('[data-review-nav="next"]');
+
+  if (!wrapper || !track || cards.length === 0 || !prevBtn || !nextBtn) return;
+
+  let activeIndex = cards.length > 2 ? 1 : 0;
+
+  const clamp = (value, min, max) => Math.max(min, Math.min(value, max));
+
+  const update = () => {
+    const activeCard = cards[activeIndex];
+    if (!activeCard) return;
+
+    const activeCenter = activeCard.offsetLeft + activeCard.offsetWidth / 2;
+    const targetOffset = activeCenter - wrapper.clientWidth / 2;
+    const maxOffset = Math.max(track.scrollWidth - wrapper.clientWidth, 0);
+    const safeOffset = clamp(targetOffset, 0, maxOffset);
+    track.style.transform = `translate3d(${-safeOffset}px, 0, 0)`;
+
+    cards.forEach((card, index) => {
+      card.classList.toggle('is-active', index === activeIndex);
+    });
+
+    prevBtn.disabled = activeIndex === 0;
+    nextBtn.disabled = activeIndex === cards.length - 1;
+  };
+
+  prevBtn.addEventListener('click', () => {
+    activeIndex = clamp(activeIndex - 1, 0, cards.length - 1);
+    update();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    activeIndex = clamp(activeIndex + 1, 0, cards.length - 1);
+    update();
+  });
+
+  window.addEventListener('resize', update);
+  update();
+}
 
 // Pointer tracking for work cards - DISABLED
 // All pointer tracking code removed
