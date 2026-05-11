@@ -6871,7 +6871,7 @@ footer nav {
   }
 }
 
-/* DESKTOP ONLY: Section titles match "We work where clarity can't be optional" (audience title). Hero unchanged. Override any h2 56px rules. */
+/* DESKTOP ONLY: Section titles match the audience title scale. Hero unchanged. Override any h2 56px rules. */
 @media (min-width: 769px) {
   .section-title-block-wrap .section-title-heading,
   .section-title-block-wrap h2.section-title-heading,
