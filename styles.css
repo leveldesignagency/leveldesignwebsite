@@ -991,6 +991,7 @@ body:not(.dark-mode) .hero-image-wrapper[data-service="videography services"] {
   color: var(--text);
   margin: 0 0 14px 0;
   padding: 0;
+  white-space: nowrap;
 }
 .section-title-block-wrap .section-title-lead {
   font-family: Inter, system-ui, sans-serif;
@@ -1060,12 +1061,16 @@ body:not(.dark-mode) .section-title-block-wrap {
   padding: 0;
 }
 .audience-section-inner {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
   padding-top: 88px;
   padding-bottom: 96px;
 }
 .audience-header {
-  margin-bottom: 64px;
-  max-width: 720px;
+  margin-bottom: 56px;
+  width: 100%;
+  max-width: 1100px;
 }
 .audience-kicker {
   font-family: Inter, system-ui, sans-serif;
@@ -1080,13 +1085,15 @@ body:not(.dark-mode) .section-title-block-wrap {
 .audience-title {
   font-family: "Bebas Neue", Impact, system-ui, sans-serif;
   font-weight: 400;
-  font-size: clamp(40px, 5vw, 64px);
-  line-height: 0.95;
+  font-size: clamp(56px, 7.4vw, 112px);
+  line-height: 0.9;
   color: var(--text);
   margin: 0 0 20px 0;
   padding: 0;
   letter-spacing: 0.02em;
-  white-space: nowrap;
+  white-space: normal;
+  width: 100%;
+  max-width: 980px;
 }
 .audience-lead {
   font-family: Inter, system-ui, sans-serif;
@@ -1095,120 +1102,137 @@ body:not(.dark-mode) .section-title-block-wrap {
   color: var(--muted);
   margin: 0;
   padding: 0;
+  max-width: 980px;
 }
-/* Who we work with — pill/tag list (no card grid) */
-.audience-list {
-  list-style: none;
+
+.industry-panels {
+  position: relative;
+  display: grid;
+  gap: 18px;
+}
+
+.industry-panels::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -80px;
+  height: 240px;
+  background: radial-gradient(circle at 50% 55%, rgba(255, 45, 45, 0.12), rgba(255, 45, 45, 0.04) 32%, transparent 70%);
+  filter: blur(22px);
+  pointer-events: none;
+}
+
+.industry-panel {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+  min-height: 290px;
+  transition: border-color 0.28s ease, background 0.28s ease;
+}
+
+body:not(.dark-mode) .industry-panel {
+  border-color: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.industry-panel-layout {
+  display: grid;
+  grid-template-columns: minmax(56px, 88px) minmax(0, 1.5fr) minmax(260px, 340px);
+  gap: 20px 28px;
+  align-items: start;
+  min-height: 100%;
+  padding: 30px 32px 32px;
+}
+
+.industry-panel-index {
+  font-family: "Bebas Neue", Impact, system-ui, sans-serif;
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1;
+  color: var(--brand);
+  letter-spacing: 0.08em;
+}
+
+.industry-panel-title {
+  font-family: "Bebas Neue", Impact, system-ui, sans-serif;
+  font-size: clamp(34px, 4.6vw, 72px);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  color: var(--text);
   margin: 0;
-  padding: 0;
+}
+
+.industry-panel-main {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.industry-panel-side {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  min-height: 100%;
+}
+
+.industry-panel-copy {
+  margin: 0;
+  max-width: 58ch;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.industry-panel-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 0;
+  gap: 10px;
+  justify-content: flex-start;
+  align-self: end;
+  padding-bottom: 2px;
 }
-.audience-list li {
-  margin: 0;
-  padding: 0;
-  border: 0;
+
+.industry-panel-tags span {
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
-.audience-list li span {
-  display: inline-block;
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--text);
-  padding: 16px 28px;
-  margin-right: 12px;
-  margin-bottom: 12px;
-  border: 2px solid currentColor;
-  border-radius: 0;
-  background: transparent;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+
+body:not(.dark-mode) .industry-panel-tags span {
+  border-color: rgba(0, 0, 0, 0.12);
 }
-.audience-list li span:hover {
-  background: var(--brand);
-  color: var(--text);
-  border-color: var(--brand);
-}
-body:not(.dark-mode) .audience-list li span {
-  border-color: var(--text);
-}
-body:not(.dark-mode) .audience-list li span:hover {
-  background: var(--brand);
-  color: #fff;
-  border-color: var(--brand);
-}
-/* Who we work with — same style as How we work (process) cards */
-.audience-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-  border: none;
-  border-radius: 0;
-}
-.audience-card {
-  position: relative;
-  padding: 32px;
-  background: var(--bg-alt);
-  color: var(--text-alt);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
-  transition: all 0.4s cubic-bezier(0.5, 1, 0.89, 1);
-  overflow: hidden;
-}
-.audience-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  transition: left 0.6s ease;
-  z-index: 1;
-}
-.audience-card:hover {
-  transform: translate3d(0, -4px, 0) rotate(1deg);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-}
-.audience-card:hover::before {
-  left: 100%;
-}
-.audience-card:nth-child(4n) {
-  border-right: none;
-}
-.audience-card:last-child {
-  border-right: none;
-}
-.audience-card > div {
-  position: relative;
-  z-index: 2;
-}
-.audience-card .step-num {
-  font-family: "Bebas Neue", Impact, system-ui, sans-serif;
-  font-size: 32px;
-  color: var(--brand);
-  display: block;
-  margin-bottom: 6px;
-  letter-spacing: 1px;
-  text-align: left;
-}
-.audience-card h3 {
-  font-family: "Bebas Neue", Impact, system-ui, sans-serif;
-  font-weight: 400;
-  font-size: clamp(22px, 2.2vw, 28px);
-  letter-spacing: 0.02em;
-  color: var(--text-alt) !important;
-  margin: 0 0 12px 0;
-  padding: 0;
-  line-height: 1.15;
-}
-.audience-card p {
-  font-family: Inter, system-ui, sans-serif;
-  font-size: clamp(16px, 1.2vw, 18px);
-  line-height: 1.5;
-  color: var(--text-alt) !important;
-  margin: 0;
-  padding: 0;
+
+@media (max-width: 900px) {
+  .audience-header {
+    margin-bottom: 28px;
+    max-width: none;
+  }
+
+  .industry-panel-layout {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 16px;
+    padding: 24px 20px 24px;
+    min-height: 0;
+  }
+
+  .industry-panel-title {
+    font-size: clamp(28px, 7vw, 48px);
+  }
+
+  .industry-panel-main,
+  .industry-panel-side {
+    grid-column: 2 / -1;
+  }
+
+  .industry-panel {
+    min-height: 0;
+  }
 }
 
 /* When the project demands more — capability section */
@@ -4625,7 +4649,7 @@ footer nav {
 .audience-section[data-animate] .audience-kicker,
 .audience-section[data-animate] .audience-title,
 .audience-section[data-animate] .audience-lead,
-.audience-section[data-animate] .audience-card {
+.audience-section[data-animate] .industry-panel {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
@@ -4633,14 +4657,14 @@ footer nav {
 .audience-section[data-animate].in .audience-kicker { opacity: 1; transform: translateY(0); transition-delay: 0s; }
 .audience-section[data-animate].in .audience-title { opacity: 1; transform: translateY(0); transition-delay: 0.12s; }
 .audience-section[data-animate].in .audience-lead { opacity: 1; transform: translateY(0); transition-delay: 0.24s; }
-.audience-section[data-animate].in .audience-card:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.36s; }
-.audience-section[data-animate].in .audience-card:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.44s; }
-.audience-section[data-animate].in .audience-card:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.52s; }
-.audience-section[data-animate].in .audience-card:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.6s; }
-.audience-section[data-animate].in .audience-card:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.68s; }
-.audience-section[data-animate].in .audience-card:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 0.76s; }
-.audience-section[data-animate].in .audience-card:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 0.84s; }
-.audience-section[data-animate].in .audience-card:nth-child(8) { opacity: 1; transform: translateY(0); transition-delay: 0.92s; }
+.audience-section[data-animate].in .industry-panel:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.34s; }
+.audience-section[data-animate].in .industry-panel:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.42s; }
+.audience-section[data-animate].in .industry-panel:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+.audience-section[data-animate].in .industry-panel:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.58s; }
+.audience-section[data-animate].in .industry-panel:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.66s; }
+.audience-section[data-animate].in .industry-panel:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 0.74s; }
+.audience-section[data-animate].in .industry-panel:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 0.82s; }
+.audience-section[data-animate].in .industry-panel:nth-child(8) { opacity: 1; transform: translateY(0); transition-delay: 0.9s; }
 
 /* Work — stagger cards + subtle hover lift */
 #work[data-animate] { opacity: 1 !important; transform: none !important; }
@@ -6835,8 +6859,8 @@ footer nav {
   #extras .capability-title,
   .capability-title,
   #extras h2.capability-title {
-    font-size: 44px !important;
-    white-space: normal !important;
+    font-size: clamp(30px, 7.2vw, 44px) !important;
+    white-space: nowrap !important;
   }
 
   /* Hero headline is the biggest text on the page (section titles are 44px) */
@@ -6862,7 +6886,88 @@ footer nav {
   #who-we-work-with .audience-title,
   .capability-title,
   #extras .capability-title {
-    font-size: clamp(40px, 5vw, 64px) !important;
+    font-size: clamp(56px, 7.4vw, 112px) !important;
+    white-space: nowrap !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #who-we-work-with.section > .container,
+  #who-we-work-with .audience-section-inner,
+  #who-we-work-with .audience-header {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  #who-we-work-with .audience-header {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 24px;
+  }
+
+  #who-we-work-with .audience-title,
+  #who-we-work-with .audience-lead,
+  #who-we-work-with .audience-kicker {
+    width: 100%;
+    max-width: none;
+    text-align: left !important;
+  }
+
+  #who-we-work-with .industry-panel {
+    min-height: 0;
+  }
+
+  #who-we-work-with .industry-panel-layout {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    padding: 22px 20px 22px !important;
+  }
+
+  #who-we-work-with .industry-panel-index,
+  #who-we-work-with .industry-panel-main,
+  #who-we-work-with .industry-panel-side {
+    grid-column: auto !important;
+    justify-self: stretch !important;
+    width: 100%;
+  }
+
+  #who-we-work-with .industry-panel-index {
+    margin-bottom: 2px;
+    text-align: left !important;
+  }
+
+  #who-we-work-with .industry-panel-main {
+    gap: 12px;
+  }
+
+  #who-we-work-with .industry-panel-title {
+    font-size: clamp(26px, 8.2vw, 42px);
+    line-height: 0.94;
+    text-align: left !important;
+    white-space: normal !important;
+    max-width: none;
+  }
+
+  #who-we-work-with .industry-panel-copy {
+    max-width: none;
+    text-align: left !important;
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+
+  #who-we-work-with .industry-panel-side {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    min-height: 0;
+  }
+
+  #who-we-work-with .industry-panel-tags {
+    justify-content: flex-start !important;
+    align-self: start !important;
+  }
+
+  #who-we-work-with .industry-panel-tags span {
+    text-align: left;
   }
 }
 
