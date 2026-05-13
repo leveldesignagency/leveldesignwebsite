@@ -716,7 +716,7 @@
                     <li><a href="#services-title">Services</a></li>
                     <li><a href="#work-title">Work</a></li>
                     <li><a href="#process-title">Process</a></li>
-                    <li><a href="#about">About</a></li>
+                    <li class="nav-about-link"><a href="#about">About</a></li>
                     <li><a href="#contact-title" class="cta">Start a project</a></li>
                 </ul>
             </nav>
@@ -737,16 +737,61 @@
     </header>
 
     <main id="main">
+        <div class="site-flow-background" aria-hidden="true">
+            <svg class="site-flow-svg" viewBox="0 0 1600 6200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="site-flow-core-gradient" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#310306" />
+                        <stop offset="45%" stop-color="#9c1218" />
+                        <stop offset="100%" stop-color="#ff5757" />
+                    </linearGradient>
+                    <linearGradient id="site-flow-hot-gradient" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#5a0a0f" />
+                        <stop offset="55%" stop-color="#ff4040" />
+                        <stop offset="100%" stop-color="#ffb5b5" />
+                    </linearGradient>
+                    <filter id="site-flow-glow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="2" result="blur" />
+                        <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
+
+                    <path id="site-flow-path-a" d="M 180 -160 V 420 H 500 V 980 H 340 V 1560 H 760 V 2240 H 520 V 3020 H 980 V 3860 H 740 V 4700 H 1120 V 6360" />
+                    <path id="site-flow-path-b" d="M 1410 -160 V 560 H 1080 V 1220 H 1290 V 1880 H 900 V 2580 H 1160 V 3340 H 700 V 4140 H 940 V 4940 H 560 V 6360" />
+                    <path id="site-flow-path-c" d="M 820 -220 V 260 H 1040 V 820 H 720 V 1400 H 980 V 1980 H 680 V 2740 H 1020 V 3560 H 760 V 4440 H 1080 V 6360" />
+                    <path id="site-flow-path-d" d="M 1180 180 H 1360 V 980 H 1000 V 1700 H 1240 V 2440 H 860 V 3220 H 1090 V 4040 H 900 V 6360" />
+                </defs>
+
+                <g class="site-flow-layer site-flow-layer-base">
+                    <use href="#site-flow-path-a" class="site-flow-path site-flow-base" />
+                    <use href="#site-flow-path-b" class="site-flow-path site-flow-base" />
+                    <use href="#site-flow-path-c" class="site-flow-path site-flow-base" />
+                    <use href="#site-flow-path-d" class="site-flow-path site-flow-base" />
+                </g>
+
+                <g class="site-flow-layer site-flow-layer-pulse" filter="url(#site-flow-glow)">
+                    <use href="#site-flow-path-a" class="site-flow-path site-flow-pulse site-flow-pulse-a" />
+                    <use href="#site-flow-path-b" class="site-flow-path site-flow-pulse site-flow-pulse-b" />
+                    <use href="#site-flow-path-c" class="site-flow-path site-flow-pulse site-flow-pulse-c" />
+                    <use href="#site-flow-path-d" class="site-flow-path site-flow-pulse site-flow-pulse-d" />
+                </g>
+
+                <g class="site-flow-layer site-flow-layer-detail">
+                    <use href="#site-flow-path-a" class="site-flow-path site-flow-detail site-flow-detail-a" transform="translate(10 0)" />
+                    <use href="#site-flow-path-b" class="site-flow-path site-flow-detail site-flow-detail-b" transform="translate(-10 0)" />
+                    <use href="#site-flow-path-c" class="site-flow-path site-flow-detail site-flow-detail-c" transform="translate(12 0)" />
+                    <use href="#site-flow-path-d" class="site-flow-path site-flow-detail site-flow-detail-d" transform="translate(-8 0)" />
+                </g>
+            </svg>
+        </div>
         <section class="hero hero-single" data-animate="fade-up" id="hero-single">
             <div class="container hero-inner">
                 <div class="hero-content">
                     <h1 class="headline hero-headline-single">Design that Ships.<br>Interfaces that Think.<br>Systems that scale.</h1>
                     <p class="hero-subhead">We solve problems: new websites, rebuilds, affordable app development, and SaaS products. From idea to launch.</p>
                     <a href="#contact-title" class="btn primary hero-cta-single">Start a project</a>
-                </div>
-                <div class="hero-image-single">
-                    <img src="public/branding_white.png" alt="LEVEL Design Agency: Web design and development" class="hero-image hero-image-light" />
-                    <img src="public/branding_black.png" alt="LEVEL Design Agency: Web design and development" class="hero-image hero-image-dark" />
                 </div>
                 <div class="hero-social">
                     <a href="https://www.linkedin.com/company/level-design-agency-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon">
@@ -1236,15 +1281,15 @@
         <!-- Statistics Section - Mobile Only -->
         <section id="statistics-mobile" class="statistics-mobile section mobile-only">
             <div class="statistics-container">
-                <div class="stat-item">
+                <div class="stat-item" data-reveal>
                     <div class="stat-number">50+</div>
                     <div class="stat-label">Projects Delivered</div>
                 </div>
-                <div class="stat-item">
+                <div class="stat-item" data-reveal>
                     <div class="stat-number">100%</div>
                     <div class="stat-label">Client Satisfaction</div>
                 </div>
-                <div class="stat-item">
+                <div class="stat-item" data-reveal>
                     <div class="stat-number">15+</div>
                     <div class="stat-label">Years Experience</div>
                 </div>
@@ -1537,68 +1582,85 @@
         
         <section id="reviews" class="reviews section" data-animate="fade-up">
             <div class="container">
-                <div class="reviews-wrapper">
-                    <div class="reviews-track" role="list">
-                        <article class="review-card" role="listitem">
-                            <div class="review-content">
-                                <div class="review-author">
-                                    <strong>Najib Daulatzai</strong>
-                                </div>
-                                <p class="review-rating" aria-label="5 out of 5 stars">★★★★★</p>
-                                <p class="review-text">Great service. Very professional and delivered an excellent website. Would highly recommend.</p>
+                <div class="reviews-marquee-shell">
+                    <aside class="reviews-summary">
+                        <p class="reviews-summary-kicker">No fluff. Just feedback.</p>
+                        <p class="reviews-summary-rating" aria-label="5 out of 5 stars">★★★★★</p>
+                        <p class="reviews-summary-copy">Straight from the teams we have helped with websites, branding, launch work, and content. The common thread is clarity, quality, and a process that does not waste time.</p>
+                    </aside>
+
+                    <div class="reviews-marquee-stage" aria-label="Client testimonials">
+                        <div class="reviews-marquee reviews-marquee-forward">
+                            <div class="reviews-marquee-track" role="list">
+                                <article class="review-tile" role="listitem" style="--review-tile-width: 28rem;">
+                                    <p class="review-tile-rating" aria-hidden="true">★★★★★</p>
+                                    <blockquote class="review-tile-quote">Great service. Very professional and delivered an excellent website. Would highly recommend.</blockquote>
+                                    <p class="review-tile-author">Najib Daulatzai</p>
+                                </article>
+                                <article class="review-tile" role="listitem" style="--review-tile-width: 34rem;">
+                                    <p class="review-tile-rating" aria-hidden="true">★★★★★</p>
+                                    <blockquote class="review-tile-quote">LEVEL Design Agency delivered a professional, friendly and efficient service. I am really pleased with the new website and would totally recommend them.</blockquote>
+                                    <p class="review-tile-author">Kim Dale Porter</p>
+                                </article>
+                                <article class="review-tile" role="listitem" style="--review-tile-width: 25rem;">
+                                    <p class="review-tile-rating" aria-hidden="true">★★★★★</p>
+                                    <blockquote class="review-tile-quote">Great work. They created our design pack and updated our logo.</blockquote>
+                                    <p class="review-tile-author">ODXC</p>
+                                </article>
+
+                                <article class="review-tile" role="presentation" aria-hidden="true" style="--review-tile-width: 28rem;">
+                                    <p class="review-tile-rating" aria-hidden="true">★★★★★</p>
+                                    <blockquote class="review-tile-quote">Great service. Very professional and delivered an excellent website. Would highly recommend.</blockquote>
+                                    <p class="review-tile-author">Najib Daulatzai</p>
+                                </article>
+                                <article class="review-tile" role="presentation" aria-hidden="true" style="--review-tile-width: 34rem;">
+                                    <p class="review-tile-rating" aria-hidden="true">★★★★★</p>
+                                    <blockquote class="review-tile-quote">LEVEL Design Agency delivered a professional, friendly and efficient service. I am really pleased with the new website and would totally recommend them.</blockquote>
+                                    <p class="review-tile-author">Kim Dale Porter</p>
+                                </article>
+                                <article class="review-tile" role="presentation" aria-hidden="true" style="--review-tile-width: 25rem;">
+                                    <p class="review-tile-rating" aria-hidden="true">★★★★★</p>
+                                    <blockquote class="review-tile-quote">Great work. They created our design pack and updated our logo.</blockquote>
+                                    <p class="review-tile-author">ODXC</p>
+                                </article>
                             </div>
-                        </article>
-                        <article class="review-card" role="listitem">
-                            <div class="review-content">
-                                <div class="review-author">
-                                    <strong>Kim Dale Porter</strong>
-                                </div>
-                                <p class="review-rating" aria-label="5 out of 5 stars">★★★★★</p>
-                                <p class="review-text">Level Design Agency delivered a professional, friendly and efficient service. I am really pleased with the new website and would totally recommend them.</p>
+                        </div>
+
+                        <div class="reviews-marquee reviews-marquee-reverse">
+                            <div class="reviews-marquee-track" role="list">
+                                <article class="review-tile" role="listitem" style="--review-tile-width: 40rem;">
+                                    <p class="review-tile-rating" aria-hidden="true">★★★★★</p>
+                                    <blockquote class="review-tile-quote">We brought LEVEL in to produce headshots for our 80 employees. They took stunning photography of all of our staff, ranging from recruiters and market specialists to directors. This has helped boost our company's presence online and we recommend them for all your photography needs.</blockquote>
+                                    <p class="review-tile-author">sam davies</p>
+                                </article>
+                                <article class="review-tile" role="listitem" style="--review-tile-width: 41rem;">
+                                    <p class="review-tile-rating" aria-hidden="true">★★★★★</p>
+                                    <blockquote class="review-tile-quote">We brought LEVEL in at the start of our corporate journey. They branded our entire company, built a phenomenal website, and understood exactly what we wanted for the company's identity.</blockquote>
+                                    <p class="review-tile-author">Tony N</p>
+                                </article>
+                                <article class="review-tile" role="listitem" style="--review-tile-width: 38rem;">
+                                    <p class="review-tile-rating" aria-hidden="true">★★★★★</p>
+                                    <blockquote class="review-tile-quote">We as Wombat's CITY HOSTEL have been working successfully together since early 2022. We can recommend Level Design especially for its video design and the passionate creativity in all social media aspects.</blockquote>
+                                    <p class="review-tile-author">Marcus P.</p>
+                                </article>
+
+                                <article class="review-tile" role="presentation" aria-hidden="true" style="--review-tile-width: 40rem;">
+                                    <p class="review-tile-rating" aria-hidden="true">★★★★★</p>
+                                    <blockquote class="review-tile-quote">We brought LEVEL in to produce headshots for our 80 employees. They took stunning photography of all of our staff, ranging from recruiters and market specialists to directors. This has helped boost our company's presence online and we recommend them for all your photography needs.</blockquote>
+                                    <p class="review-tile-author">sam davies</p>
+                                </article>
+                                <article class="review-tile" role="presentation" aria-hidden="true" style="--review-tile-width: 41rem;">
+                                    <p class="review-tile-rating" aria-hidden="true">★★★★★</p>
+                                    <blockquote class="review-tile-quote">We brought LEVEL in at the start of our corporate journey. They branded our entire company, built a phenomenal website, and understood exactly what we wanted for the company's identity.</blockquote>
+                                    <p class="review-tile-author">Tony N</p>
+                                </article>
+                                <article class="review-tile" role="presentation" aria-hidden="true" style="--review-tile-width: 38rem;">
+                                    <p class="review-tile-rating" aria-hidden="true">★★★★★</p>
+                                    <blockquote class="review-tile-quote">We as Wombat's CITY HOSTEL have been working successfully together since early 2022. We can recommend Level Design especially for its video design and the passionate creativity in all social media aspects.</blockquote>
+                                    <p class="review-tile-author">Marcus P.</p>
+                                </article>
                             </div>
-                        </article>
-                        <article class="review-card" role="listitem">
-                            <div class="review-content">
-                                <div class="review-author">
-                                    <strong>ODXC</strong>
-                                </div>
-                                <p class="review-rating" aria-label="5 out of 5 stars">★★★★★</p>
-                                <p class="review-text">Great work. They created our design pack and updated our logo.</p>
-                            </div>
-                        </article>
-                        <article class="review-card" role="listitem">
-                            <div class="review-content">
-                                <div class="review-author">
-                                    <strong>sam davies</strong>
-                                </div>
-                                <p class="review-rating" aria-label="5 out of 5 stars">★★★★★</p>
-                                <p class="review-text">We brought LEVEL in to produce headshots for our 80 employees. They took stunning photography of all of our staff, ranging from recruiters and market specialists to directors. This has helped boost our company's presence online and we recommend them for all your photography needs.</p>
-                            </div>
-                        </article>
-                        <article class="review-card" role="listitem">
-                            <div class="review-content">
-                                <div class="review-author">
-                                    <strong>Tony N</strong>
-                                </div>
-                                <p class="review-rating" aria-label="5 out of 5 stars">★★★★★</p>
-                                <p class="review-text">We brought LEVEL in at the start of our corporate journey. They branded our entire company, and they built a phenomenal website and we could not be happier with their workflow.</p>
-                                <p class="review-text">We recommend their services for their ability to understand exactly what you want for your company's identity.</p>
-                            </div>
-                        </article>
-                        <article class="review-card" role="listitem">
-                            <div class="review-content">
-                                <div class="review-author">
-                                    <strong>Marcus P.</strong>
-                                </div>
-                                <p class="review-rating" aria-label="5 out of 5 stars">★★★★★</p>
-                                <p class="review-text">We as Wombat's CITY HOSTEL have been working successfully together since early 2022.</p>
-                                <p class="review-text">We can recommend Level Design especially for its video design and the passionate creativity in all social media aspects, which we very much appreciate.</p>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="reviews-nav" aria-label="Review navigation">
-                        <button class="reviews-nav-btn" type="button" aria-label="Previous review" data-review-nav="prev">‹</button>
-                        <button class="reviews-nav-btn" type="button" aria-label="Next review" data-review-nav="next">›</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1673,14 +1735,39 @@
 
     <footer class="site-footer desktop-only" data-animate="fade-up">
         <div class="container footer-inner">
-            <div class="footer-brand">
-                <img src="LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" class="footer-logo" />
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#top" class="footer-logo-link" aria-label="LEVEL Design Agency">
+                        <img src="LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" class="footer-logo" />
+                    </a>
+                </div>
+                <div class="footer-links-wrap">
+                    <nav class="footer-nav" aria-label="Footer">
+                        <a href="#services-title" class="footer-link">Services</a>
+                        <a href="#work-title" class="footer-link">Work</a>
+                        <a href="#projects-title" class="footer-link">Projects</a>
+                        <a href="#process-title" class="footer-link">Process</a>
+                        <a href="#reviews-title" class="footer-link">Reviews</a>
+                        <a href="#contact-title" class="footer-link">Contact</a>
+                    </nav>
+                    <div class="footer-social" aria-label="Social links">
+                        <a href="https://www.linkedin.com/company/level-design-agency-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="footer-social-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/leveldesignagency" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="footer-social-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <nav aria-label="Footer">
-                <a href="#top" class="back-to-top">BACK TO THE TOP</a>
-            </nav>
-            <div class="footer-meta">
-                <span>© <span id="year"></span> LEVEL DESIGN AGENCY LTD</span>
+            <div class="footer-bottom">
+                <div class="footer-meta">
+                    <span>© <span id="year"></span> LEVEL DESIGN AGENCY LTD</span>
+                </div>
             </div>
         </div>
     </footer>

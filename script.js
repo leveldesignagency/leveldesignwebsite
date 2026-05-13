@@ -80,6 +80,43 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.16 });
 animated.forEach(el => io.observe(el));
 
+/** Scroll-linked reveals: each element gets .in when it enters the viewport (not when the parent section does). */
+function initScrollRevealItems() {
+  const prefersReduced =
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealSelector = [
+    '#who-we-work-with .industry-panel',
+    '#work .work-card',
+    '#process .steps > li',
+    '#services.deliver-section .deliver-block',
+    '[data-reveal]',
+  ].join(', ');
+  const nodes = document.querySelectorAll(revealSelector);
+  if (!nodes.length) return;
+
+  if (prefersReduced) {
+    nodes.forEach((el) => el.classList.add('in'));
+    return;
+  }
+
+  const revealIo = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          revealIo.unobserve(entry.target);
+        }
+      }
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -7% 0px' }
+  );
+
+  nodes.forEach((el) => revealIo.observe(el));
+}
+
+initScrollRevealItems();
+
 // Instant scroll for internal links (no animation - avoids scroll lag)
 document.addEventListener('DOMContentLoaded', function() {
   const allLinks = document.querySelectorAll('a[href^="#"]');
@@ -572,62 +609,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Observe all card types
   const cards = document.querySelectorAll('.card');
-  const workCards = document.querySelectorAll('.work-card');
-  const steps = document.querySelectorAll('.steps li');
-  const reviewCards = document.querySelectorAll('.review-card');
-  
-  cards.forEach(card => cardObserver.observe(card));
-  workCards.forEach(card => cardObserver.observe(card));
-  steps.forEach(step => cardObserver.observe(step));
-  reviewCards.forEach(card => cardObserver.observe(card));
 
-  initReviewsCarousel();
+  cards.forEach(card => cardObserver.observe(card));
+
+  initReviewsMarquee();
 });
 
-function initReviewsCarousel() {
-  const reviewsSection = document.querySelector('#reviews');
-  const wrapper = reviewsSection?.querySelector('.reviews-wrapper');
-  const track = reviewsSection?.querySelector('.reviews-track');
-  const cards = track ? Array.from(track.querySelectorAll('.review-card')) : [];
-  const prevBtn = document.querySelector('[data-review-nav="prev"]');
-  const nextBtn = document.querySelector('[data-review-nav="next"]');
+function initReviewsMarquee() {
+  const tracks = Array.from(document.querySelectorAll('.reviews-marquee-track'));
+  if (tracks.length === 0) return;
 
-  if (!wrapper || !track || cards.length === 0 || !prevBtn || !nextBtn) return;
+  const updateTrackDistances = () => {
+    tracks.forEach((track) => {
+      const firstPrimary = track.querySelector('.review-tile:not([aria-hidden="true"])');
+      const firstClone = track.querySelector('.review-tile[aria-hidden="true"]');
+      if (!firstPrimary || !firstClone) return;
 
-  let activeIndex = cards.length > 2 ? 1 : 0;
-
-  const clamp = (value, min, max) => Math.max(min, Math.min(value, max));
-
-  const update = () => {
-    const activeCard = cards[activeIndex];
-    if (!activeCard) return;
-
-    const activeCenter = activeCard.offsetLeft + activeCard.offsetWidth / 2;
-    const targetOffset = activeCenter - wrapper.clientWidth / 2;
-    const maxOffset = Math.max(track.scrollWidth - wrapper.clientWidth, 0);
-    const safeOffset = clamp(targetOffset, 0, maxOffset);
-    track.style.transform = `translate3d(${-safeOffset}px, 0, 0)`;
-
-    cards.forEach((card, index) => {
-      card.classList.toggle('is-active', index === activeIndex);
+      const distance = firstClone.offsetLeft - firstPrimary.offsetLeft;
+      if (distance > 0) {
+        track.style.setProperty('--reviews-marquee-distance', `${distance}px`);
+      }
     });
-
-    prevBtn.disabled = activeIndex === 0;
-    nextBtn.disabled = activeIndex === cards.length - 1;
   };
 
-  prevBtn.addEventListener('click', () => {
-    activeIndex = clamp(activeIndex - 1, 0, cards.length - 1);
-    update();
-  });
-
-  nextBtn.addEventListener('click', () => {
-    activeIndex = clamp(activeIndex + 1, 0, cards.length - 1);
-    update();
-  });
-
-  window.addEventListener('resize', update);
-  update();
+  updateTrackDistances();
+  window.addEventListener('resize', updateTrackDistances);
 }
 
 // Pointer tracking for work cards - DISABLED
@@ -1713,7 +1719,6 @@ document.addEventListener('DOMContentLoaded', function() {
   if (!isMobile && tabButtons.length > 0) {
     const richtonsButton = Array.from(tabButtons).find(btn => btn.getAttribute('data-tab') === 'richtons');
     if (richtonsButton) {
-      // Small delay to ensure DOM is ready
       setTimeout(() => {
         richtonsButton.click();
         requestAnimationFrame(function() { scaleVisibleWebviews(); });
@@ -2044,6 +2049,38 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const siteFlow = document.querySelector('.site-flow-background');
+  if (!siteFlow) return;
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let latestScroll = window.scrollY || window.pageYOffset || 0;
+
+  const updateScroll = () => {
+    latestScroll = window.scrollY || window.pageYOffset || 0;
+  };
+
+  const animateFlow = (time) => {
+    const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+    const progress = latestScroll / maxScroll;
+    const timeDrift = prefersReducedMotion ? 0 : time * 0.06;
+    const travel = -(latestScroll * 0.92 + timeDrift);
+    const sway = (progress - 0.5) * 72 + (prefersReducedMotion ? 0 : Math.sin(time * 0.00055) * 26);
+    const scale = 1 + (progress * 0.06);
+
+    siteFlow.style.setProperty('--site-flow-scroll', `${travel.toFixed(2)}px`);
+    siteFlow.style.setProperty('--site-flow-sway', `${sway.toFixed(2)}px`);
+    siteFlow.style.setProperty('--site-flow-scale', `${scale.toFixed(4)}`);
+
+    requestAnimationFrame(animateFlow);
+  };
+
+  updateScroll();
+  window.addEventListener('scroll', updateScroll, { passive: true });
+  window.addEventListener('resize', updateScroll);
+  requestAnimationFrame(animateFlow);
 });
 
 // Cache bust: 1759795340
