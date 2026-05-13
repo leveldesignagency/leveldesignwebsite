@@ -2055,6 +2055,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const siteFlow = document.querySelector('.site-flow-background');
   if (!siteFlow) return;
 
+  const mobileFlowOff =
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(max-width: 768px)').matches;
+  if (mobileFlowOff) {
+    siteFlow.setAttribute('hidden', 'true');
+    return;
+  }
+
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let latestScroll = window.scrollY || window.pageYOffset || 0;
 

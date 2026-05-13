@@ -282,6 +282,13 @@ body:not(.dark-mode) .site-flow-background {
   opacity: 0.14;
 }
 
+/* Mobile: hide decorative SVG paths (filters, dash offsets, breathe keyframes — costly on phones) */
+@media (max-width: 768px) {
+  .site-flow-background {
+    display: none !important;
+  }
+}
+
 @keyframes site-flow-breathe {
   0% {
     opacity: 0.58;
@@ -7318,15 +7325,6 @@ body:not(.dark-mode) .footer-social-link {
 
   #who-we-work-with .industry-panel-tags span {
     text-align: left;
-  }
-
-  .site-flow-background {
-    opacity: 0.56;
-  }
-
-  .site-flow-svg {
-    width: 145%;
-    left: 54%;
   }
 
 }
