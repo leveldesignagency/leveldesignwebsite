@@ -450,7 +450,7 @@ html, body {
 }
 
 .mobile-service-card ul li::before {
-  content: "— ";
+  content: "- ";
   color: var(--brand);
 }
 

@@ -71,51 +71,126 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// Intersection animations
-const animated = document.querySelectorAll('[data-animate]');
-const io = new IntersectionObserver((entries) => {
-  for (const entry of entries) {
-    if (entry.isIntersecting) entry.target.classList.add('in');
-  }
-}, { threshold: 0.16 });
-animated.forEach(el => io.observe(el));
+// Entrance animations — section fades + per-item scroll reveals with stagger
+const REVEAL_ITEM_SELECTORS = [
+  '#markets-strip .market-chip',
+  '#markets-strip',
+  '#work .work-card',
+  '#process .steps > li',
+  '#services.deliver-section .deliver-block',
+  '#statistics-mobile .stat-item',
+  '#contact .form-group',
+  '#contact .contact-form > .btn',
+  '#contact .contact-info h3',
+  '#contact .contact-info > p',
+  '#contact .contact-methods',
+  '[data-reveal]',
+].join(', ');
 
-/** Scroll-linked reveals: each element gets .in when it enters the viewport (not when the parent section does). */
-function initScrollRevealItems() {
-  const prefersReduced =
+let sectionRevealIo = null;
+let itemRevealIo = null;
+
+function prefersReducedMotion() {
+  return (
     typeof window.matchMedia === 'function' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const revealSelector = [
-    '#who-we-work-with .industry-panel',
-    '#work .work-card',
-    '#process .steps > li',
-    '#services.deliver-section .deliver-block',
-    '[data-reveal]',
-  ].join(', ');
-  const nodes = document.querySelectorAll(revealSelector);
-  if (!nodes.length) return;
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+}
 
-  if (prefersReduced) {
-    nodes.forEach((el) => el.classList.add('in'));
+function revealElement(el) {
+  if (!el || el.classList.contains('in')) return;
+  el.classList.add('in');
+}
+
+function assignRevealIndex(elements) {
+  elements.forEach((el, index) => {
+    if (!el.style.getPropertyValue('--reveal-i')) {
+      el.style.setProperty('--reveal-i', String(index % 16));
+    }
+  });
+}
+
+function initSectionRevealAnimations() {
+  const sections = document.querySelectorAll('[data-animate]');
+  if (!sections.length) return;
+
+  if (prefersReducedMotion()) {
+    sections.forEach(revealElement);
     return;
   }
 
-  const revealIo = new IntersectionObserver(
+  sectionRevealIo = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in');
-          revealIo.unobserve(entry.target);
-        }
+        if (entry.isIntersecting) revealElement(entry.target);
       }
     },
-    { threshold: 0.12, rootMargin: '0px 0px -7% 0px' }
+    { threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
   );
 
-  nodes.forEach((el) => revealIo.observe(el));
+  sections.forEach((el) => sectionRevealIo.observe(el));
 }
 
-initScrollRevealItems();
+/** Scroll-linked reveals: each element gets .in when it enters the viewport. */
+function initScrollRevealItems() {
+  const nodes = document.querySelectorAll(REVEAL_ITEM_SELECTORS);
+  if (!nodes.length) return itemRevealIo;
+
+  assignRevealIndex(Array.from(nodes));
+
+  if (prefersReducedMotion()) {
+    nodes.forEach(revealElement);
+    return itemRevealIo;
+  }
+
+  if (!itemRevealIo) {
+    itemRevealIo = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            revealElement(entry.target);
+            itemRevealIo.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -8% 0px' }
+    );
+  }
+
+  nodes.forEach((el) => {
+    if (!el.classList.contains('in')) itemRevealIo.observe(el);
+  });
+
+  return itemRevealIo;
+}
+
+window.LEVEL_observeRevealTargets = function (elements) {
+  if (!elements || !elements.length) return;
+  const list = Array.from(elements);
+  assignRevealIndex(list);
+  if (prefersReducedMotion()) {
+    list.forEach(revealElement);
+    return;
+  }
+  if (!itemRevealIo) initScrollRevealItems();
+  list.forEach((el) => {
+    if (!el.classList.contains('in')) itemRevealIo.observe(el);
+  });
+};
+
+function revealAboveFold() {
+  revealElement(document.getElementById('hero-single'));
+  revealElement(document.querySelector('.site-header'));
+}
+
+function initEntranceAnimations() {
+  initSectionRevealAnimations();
+  initScrollRevealItems();
+  revealAboveFold();
+}
+
+document.addEventListener('level:hero-intent', revealAboveFold);
+document.addEventListener('DOMContentLoaded', initEntranceAnimations);
 
 // Instant scroll for internal links (no animation - avoids scroll lag)
 document.addEventListener('DOMContentLoaded', function() {
@@ -829,23 +904,12 @@ function initProjectsSection() {
   
   // Initialize desktop projects
   if (projectsContainer) {
-    // Render projects
     renderProjects(projectsContainer);
-    
-    // Force visibility
+
     if (projectsSection) {
-      projectsSection.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
+      projectsSection.classList.add('projects-ready');
     }
-    projectsContainer.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
-    
-    // Force all project items visible
-    setTimeout(() => {
-      const projectItems = projectsContainer.querySelectorAll('.project-item');
-      projectItems.forEach(item => {
-        item.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
-      });
-    }, 100);
-    
+
     // Initialize auto-scroll after images load (desktop only)
     setTimeout(() => {
       const images = projectsContainer.querySelectorAll('img');
@@ -880,7 +944,7 @@ function initProjectsSection() {
     renderMobileProjects(projectsMobileContainer);
     
     if (projectsMobileSection) {
-      projectsMobileSection.style.cssText = 'opacity: 1 !important; visibility: visible !important; display: block !important;';
+      projectsMobileSection.classList.add('projects-ready');
     }
   } else if (projectsMobileContainer && window.innerWidth > 768) {
     // Hide mobile projects container on desktop
@@ -1055,7 +1119,7 @@ function initScrollAnimations() {
 // Initialize projects section when DOM is loaded
 document.addEventListener('DOMContentLoaded', initProjectsSection);
 
-// Services Gallery ("Where we go deep" carousel) — paths match public/Projects/services/*.png
+// Services Gallery ("Where we go deep" carousel) - paths match public/Projects/services/*.png
 const servicesImages = [
   'public/Projects/services/LEVEL _SERVICES-01.png',
   'public/Projects/services/LEVEL _SERVICES-02.png',
@@ -1558,7 +1622,7 @@ document.addEventListener('DOMContentLoaded', function() {
     panel.style.opacity = '0';
   });
   
-  // Desktop viewport size — iframe gets this so sites render desktop layout; we scale down to fit
+  // Desktop viewport size - iframe gets this so sites render desktop layout; we scale down to fit
   const WEBVIEW_VIEWPORT_W = 1200;
   const WEBVIEW_VIEWPORT_H = 675;
 
@@ -1703,7 +1767,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Add active class to clicked button
       this.classList.add('active');
       
-      // Show the target panel (no height animation — was causing content to jump up then down)
+      // Show the target panel (no height animation - was causing content to jump up then down)
       if (targetPanel) {
         loadIframe(targetPanel);
         targetPanel.style.display = '';
@@ -1807,7 +1871,7 @@ function checkRateLimit() {
 
 /**
  * Validate form input lengths and content.
- * Bot/spam handling is left to reCAPTCHA v3 + rate limiting — avoid heuristic "random string" checks
+ * Bot/spam handling is left to reCAPTCHA v3 + rate limiting - avoid heuristic "random string" checks
  * that falsely reject real names and short professional messages.
  */
 function validateFormData(formData) {
