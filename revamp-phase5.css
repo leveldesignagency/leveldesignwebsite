@@ -1,0 +1,103 @@
+/* Phase 5 — Noco-style page margins (generous horizontal inset) */
+
+:root {
+  --container-x: clamp(28px, 8vw, 128px);
+  --header-x: var(--container-x);
+  --hero-x: var(--container-x);
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --container-x: clamp(52px, 8.5vw, 140px);
+    --header-x: var(--container-x);
+    --hero-x: var(--container-x);
+  }
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --container-x: clamp(72px, 9vw, 168px);
+  }
+}
+
+/* Let horizontal padding define margins — no narrow centred max-width rail */
+.header-inner,
+.hero-shell,
+.section > .container,
+.audience-section-inner.container,
+.deliver-row-inner.container,
+#work .container,
+#reviews .container,
+#projects-webview .container-webview,
+.projects-tabs-wrapper,
+.hero-selected-work,
+.project-case {
+  max-width: none !important;
+  width: 100% !important;
+}
+
+/* Projects / webview — drop legacy 48px gutters */
+.projects-tabs-wrapper {
+  padding-left: var(--container-x) !important;
+  padding-right: var(--container-x) !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+}
+
+.tab-panel.active {
+  padding-left: var(--container-x) !important;
+  padding-right: var(--container-x) !important;
+}
+
+.deliver-row-inner.container,
+.section-title-block,
+.detail-wrap,
+.detail-band-inner,
+.detail-hero,
+.article-hero,
+.article-wrap {
+  padding-left: var(--container-x) !important;
+  padding-right: var(--container-x) !important;
+}
+
+.detail-wrap,
+.detail-band-inner,
+.article-hero-inner,
+.article-wrap,
+.article-content {
+  max-width: none !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.project-panel-inner > .webview-wrapper {
+  padding-left: clamp(24px, 3vw, 40px) !important;
+}
+
+.reviews-marquee-shell {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+#reviews .container {
+  width: 100% !important;
+}
+
+/* Markets strip — align with page margins */
+.markets-compact {
+  width: 100% !important;
+  margin-left: 0 !important;
+  padding-left: var(--container-x);
+  padding-right: var(--container-x);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --container-x: clamp(24px, 6vw, 40px);
+  }
+
+  .hero-selected-work {
+    max-width: none !important;
+  }
+}

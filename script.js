@@ -1,51 +1,3 @@
-// Custom Cursor - Design Company Crosshair (Immediate tracking, no lag)
-document.addEventListener('DOMContentLoaded', function() {
-  const cursor = document.getElementById('custom-cursor');
-  if (!cursor) return;
-  
-  // Hide default cursor completely - apply to all elements
-  const hideCursor = () => {
-    document.documentElement.style.cursor = 'none';
-    document.body.style.cursor = 'none';
-    document.querySelectorAll('*').forEach(el => {
-      el.style.cursor = 'none';
-    });
-  };
-  hideCursor();
-  
-  // Re-apply on any new elements added
-  const observer = new MutationObserver(() => {
-    document.querySelectorAll('*').forEach(el => {
-      if (el.style.cursor !== 'none') {
-        el.style.cursor = 'none';
-      }
-    });
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
-  
-  // Immediate tracking - no easing for perfect sync
-  document.addEventListener('mousemove', (e) => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-  });
-  
-  // Hide cursor when mouse leaves window
-  document.addEventListener('mouseleave', () => {
-    cursor.style.opacity = '0';
-  });
-  
-  document.addEventListener('mouseenter', () => {
-    cursor.style.opacity = '1';
-  });
-  
-  // Add hover effect on interactive elements
-  const interactiveElements = document.querySelectorAll('a, button, .card, .work-card, .nav a, input, textarea, select, .back-to-top');
-  interactiveElements.forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-  });
-});
-
 // Nav toggle
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.getElementById('nav-links');
@@ -78,6 +30,7 @@ const REVEAL_ITEM_SELECTORS = [
   '#work .work-card',
   '#process .steps > li',
   '#services.deliver-section .deliver-block',
+  '#services.deliver-section .deliver-row',
   '#statistics-mobile .stat-item',
   '#contact .form-group',
   '#contact .contact-form > .btn',
@@ -181,6 +134,7 @@ window.LEVEL_observeRevealTargets = function (elements) {
 function revealAboveFold() {
   revealElement(document.getElementById('hero-single'));
   revealElement(document.querySelector('.site-header'));
+  revealElement(document.getElementById('clients'));
 }
 
 function initEntranceAnimations() {
@@ -222,473 +176,13 @@ document.addEventListener('DOMContentLoaded', function() {
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-// Auto Dark Mode based on local time zone
-// Dark mode: 6 PM (18:00) to 6 AM (06:00)
-// Light mode: 6 AM (06:00) to 6 PM (18:00)
+// Dark grey UI only
 function initDarkMode() {
-  const now = new Date();
-  const hour = now.getHours();
-  
-  // Dark mode between 6 PM (18:00) and 6 AM (06:00)
-  const isDarkMode = hour >= 18 || hour < 6;
-  
-  // Apply to body and html
-  if (isDarkMode) {
-    document.body.classList.add('dark-mode');
-    document.documentElement.classList.add('dark-mode');
-  } else {
-    document.body.classList.remove('dark-mode');
-    document.documentElement.classList.remove('dark-mode');
-  }
+  document.body.classList.add('dark-mode');
+  document.documentElement.classList.add('dark-mode');
 }
 
-// Initialize dark mode on page load
 initDarkMode();
-
-// Update dark mode every minute to handle time changes
-setInterval(initDarkMode, 60000);
-
-// Hero cycling animation system
-const services = [
-  "web design &\ndevelopment",
-  "ariel drone\nphotography",
-  "motion & graphic\ndesign",
-  "social media\nmanagement",
-  "videography\nservices",
-  "software & app\ndevelopment"
-];
-
-let currentSlideIndex = 0;
-let isInitialAnimation = true;
-let isCycling = false;
-let isMobile = window.matchMedia('(max-width: 768px)').matches;
-let scrollBasedServiceIndex = 0;
-
-function createServiceSlide(service) {
-  const slide = document.createElement('div');
-  slide.className = 'hero-slide';
-  
-  // Handle line breaks in service names
-  const lines = service.split('\n');
-  
-  // On mobile, combine all words into single text for proper masking
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  if (isMobile) {
-    // Single text element for proper background-clip masking
-    const normalizedService = service.replace(/\n/g, ' ').toLowerCase();
-    let imagePath = 'public/branding_white.png'; // default
-    
-    // Map services to their white image files
-    if (normalizedService.includes('web design') || normalizedService.includes('development')) {
-      imagePath = 'public/branding_white.png';
-    } else if (normalizedService.includes('drone') || normalizedService.includes('photography')) {
-      imagePath = 'public/drone_white.png';
-    } else if (normalizedService.includes('social media')) {
-      imagePath = 'public/SOCIAL MEDIA_WHITE.png';
-    } else if (normalizedService.includes('videography')) {
-      imagePath = 'public/videography services white.png';
-    } else if (normalizedService.includes('motion') || normalizedService.includes('graphic')) {
-      imagePath = 'public/branding_white.png'; // default for now
-    } else if (normalizedService.includes('software') || normalizedService.includes('app')) {
-      imagePath = 'public/branding_white.png'; // default for now
-    }
-    
-    slide.innerHTML = `
-      <div class="border-line"></div>
-      <div class="text-content" style="background-image: url('${imagePath}');">
-        ${lines.map(line => line.trim()).join(' ')}
-      </div>
-    `;
-  } else {
-    // Desktop: keep separate word divs
-    slide.innerHTML = `
-      <div class="border-line"></div>
-      <div class="text-content">
-        ${lines.map(line => `<div class="word">${line.trim()}</div>`).join('')}
-      </div>
-    `;
-  }
-  
-  return slide;
-}
-
-function startServiceCycling() {
-  // Check if mobile
-  isMobile = window.matchMedia('(max-width: 768px)').matches;
-  
-  // On mobile, hide headline immediately and show logo mask
-  const heroHeadline = document.getElementById('hero-headline');
-  if (isMobile) {
-    // Mobile: hide headline immediately, show logo mask
-    if (heroHeadline) {
-      heroHeadline.style.display = 'none';
-    }
-    // Start logo mask immediately
-    setupScrollBasedServices();
-    return; // Exit early for mobile
-  }
-  
-  // Desktop: fade out original text
-  if (heroHeadline) {
-    heroHeadline.style.transition = 'opacity 1s ease-in-out';
-    heroHeadline.style.opacity = '0';
-  }
-  
-  // Desktop: hide all images when cycling starts
-  if (!isMobile) {
-    // Desktop: hide all images when cycling starts
-    document.querySelectorAll('.hero-service-image-wrapper').forEach(wrapper => {
-      wrapper.classList.remove('active');
-    });
-    
-    // Start the service cycling immediately for desktop
-    setTimeout(() => {
-      showNextSlide();
-    }, 1000);
-  }
-}
-
-// Scroll-based service text changes
-function setupScrollBasedServices() {
-  
-  // Desktop: keep original scroll-based text cycling
-  const heroSection = document.querySelector('.hero');
-  if (!heroSection) return;
-  
-  // Keep the auto-cycling but make it scroll-triggered
-  let lastScrollY = window.scrollY;
-  let scrollThreshold = 150; // Change service every 150px of scroll
-  
-  function updateServiceOnScroll() {
-    const currentScrollY = window.scrollY;
-    const scrollDelta = currentScrollY - lastScrollY;
-    
-    if (Math.abs(scrollDelta) >= scrollThreshold) {
-      scrollBasedServiceIndex = (scrollBasedServiceIndex + (scrollDelta > 0 ? 1 : -1) + services.length) % services.length;
-      updateServiceSlide(scrollBasedServiceIndex);
-      lastScrollY = currentScrollY;
-    }
-  }
-  
-  function updateServiceSlide(index) {
-    const heroSection = document.querySelector('.hero');
-    if (!heroSection) return;
-    
-    // Remove existing slide with fade out
-    const existingSlide = heroSection.querySelector('.hero-slide');
-    if (existingSlide) {
-      existingSlide.style.opacity = '0';
-      existingSlide.style.transition = 'opacity 0.5s ease-in-out';
-      setTimeout(() => {
-        if (existingSlide.parentNode) {
-          existingSlide.parentNode.removeChild(existingSlide);
-        }
-      }, 500);
-    }
-    
-    // Create and show new slide with fade in - positioned in same spot as headline
-    const service = services[index];
-    const newSlide = createServiceSlide(service);
-    newSlide.style.opacity = '0';
-    newSlide.style.transition = 'opacity 0.5s ease-in-out';
-    heroSection.appendChild(newSlide); // Append directly to hero, not hero-inner
-    
-    // Fade in new slide
-    setTimeout(() => {
-      newSlide.style.opacity = '1';
-    }, 50);
-  }
-  
-  // Initial service - start after main title fades out
-  setTimeout(() => {
-    updateServiceSlide(0);
-    
-    // Auto-cycle services with fade in/out
-    setInterval(() => {
-      if (window.scrollY < 500) { // Only auto-cycle if near top
-        scrollBasedServiceIndex = (scrollBasedServiceIndex + 1) % services.length;
-        updateServiceSlide(scrollBasedServiceIndex);
-      }
-    }, 4000);
-  }, 3500); // Start after main title fades (3s fade + 0.5s delay)
-}
-
-function showNextSlide() {
-  const heroInner = document.querySelector('.hero-inner');
-  
-  if (!isCycling) return;
-  
-  // Slide out current slide (exit animation)
-  const currentSlide = heroInner.querySelector('.hero-slide');
-  if (currentSlide) {
-    currentSlide.classList.remove('active');
-    currentSlide.classList.add('exiting');
-    
-      // Hide service image wrapper for current service - fade out (desktop only)
-      const isMobile = window.matchMedia('(max-width: 768px)').matches;
-      if (!isMobile) {
-        const currentService = services[(currentSlideIndex - 1 + services.length) % services.length];
-        const normalizedCurrentService = currentService.replace(/\n/g, ' ');
-        const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
-        allImageWrappers.forEach(wrapper => {
-          const wrapperService = wrapper.getAttribute('data-service');
-          if (wrapperService === normalizedCurrentService) {
-            wrapper.classList.remove('active');
-          }
-        });
-        
-        // Hide hero images when leaving their respective services
-        const allHeroImageWrappers = document.querySelectorAll('.hero-image-wrapper');
-        allHeroImageWrappers.forEach(wrapper => {
-          const wrapperService = wrapper.getAttribute('data-service');
-          if (wrapperService && wrapperService.toLowerCase() === normalizedCurrentService.toLowerCase()) {
-            // Capture current transform state before removing active
-            const computedStyle = window.getComputedStyle(wrapper);
-            const currentTransform = computedStyle.transform;
-            if (currentTransform && currentTransform !== 'none') {
-              // Extract translateX value from current transform
-              const matrix = new DOMMatrix(currentTransform);
-              const currentX = matrix.e; // translateX value
-              // Apply current transform and continue sliding left while fading
-              wrapper.style.transform = `translateY(-50%) translateX(${currentX}px)`;
-            }
-            wrapper.classList.remove('active');
-            // Continue sliding left while fading out
-            setTimeout(() => {
-              wrapper.style.transform = 'translateY(-50%) translateX(-30px)';
-              // Clear inline style after transition completes
-              setTimeout(() => {
-                wrapper.style.transform = '';
-              }, 1000);
-            }, 10);
-          }
-        });
-      }
-    
-    // Wait for exit animation to complete (0.6s + 0.2s delay for last word), then create and show next slide
-    setTimeout(() => {
-      if (currentSlide.parentNode) {
-        currentSlide.parentNode.removeChild(currentSlide);
-      }
-      
-      // Create and show next slide after current one is completely gone
-      const nextService = services[currentSlideIndex];
-      const newSlide = createServiceSlide(nextService);
-      heroInner.appendChild(newSlide);
-      
-      // Update mobile text background image based on service
-      const isMobile = window.matchMedia('(max-width: 768px)').matches;
-      if (isMobile && newSlide) {
-        const textContent = newSlide.querySelector('.text-content');
-        if (textContent) {
-          const normalizedService = nextService.replace(/\n/g, ' ').toLowerCase();
-          let imagePath = 'public/branding_white.png'; // default
-          
-          // Map services to their white image files
-          if (normalizedService.includes('web design') || normalizedService.includes('development')) {
-            imagePath = 'public/branding_white.png';
-          } else if (normalizedService.includes('drone') || normalizedService.includes('photography')) {
-            imagePath = 'public/drone_white.png';
-          } else if (normalizedService.includes('social media')) {
-            imagePath = 'public/SOCIAL MEDIA_WHITE.png';
-          } else if (normalizedService.includes('videography')) {
-            imagePath = 'public/videography services white.png';
-          } else if (normalizedService.includes('motion') || normalizedService.includes('graphic')) {
-            imagePath = 'public/branding_white.png'; // default for now
-          } else if (normalizedService.includes('software') || normalizedService.includes('app')) {
-            imagePath = 'public/branding_white.png'; // default for now
-          }
-          
-          textContent.style.backgroundImage = `url('${imagePath}')`;
-        }
-      }
-      
-      // Show service image wrapper for next service if it exists (desktop only)
-      if (!isMobile) {
-        // Normalize service name for comparison (remove \n and compare)
-        const normalizedNextService = nextService.replace(/\n/g, ' ');
-        const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
-        allImageWrappers.forEach(wrapper => {
-          const wrapperService = wrapper.getAttribute('data-service');
-          if (wrapperService === normalizedNextService) {
-            setTimeout(() => {
-              wrapper.classList.add('active');
-            }, 200);
-          } else {
-            wrapper.classList.remove('active');
-          }
-        });
-        
-        // Sync hero images with their respective services
-        const allHeroImageWrappers = document.querySelectorAll('.hero-image-wrapper');
-        allHeroImageWrappers.forEach(wrapper => {
-          const wrapperService = wrapper.getAttribute('data-service');
-          if (wrapperService && wrapperService.toLowerCase() === normalizedNextService.toLowerCase()) {
-            setTimeout(() => {
-              wrapper.classList.add('active');
-            }, 200);
-          } else {
-            wrapper.classList.remove('active');
-          }
-        });
-      }
-      
-      // Fade in after a brief delay
-      setTimeout(() => {
-        newSlide.classList.add('active');
-      }, 100);
-      
-      // Move to next service
-      currentSlideIndex = (currentSlideIndex + 1) % services.length;
-      
-      // Schedule next slide or return to initial text
-      setTimeout(() => {
-        if (isCycling) {
-          // Continue cycling - loop constantly
-          showNextSlide();
-        }
-      }, 5000); // Increased from 3000ms to 5000ms
-    }, 1000);
-  } else {
-    // No current slide, create and show first slide
-    const nextService = services[currentSlideIndex];
-    const newSlide = createServiceSlide(nextService);
-    heroInner.appendChild(newSlide);
-    
-    // Update mobile text background image based on service
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    if (isMobile && newSlide) {
-      const textContent = newSlide.querySelector('.text-content');
-      if (textContent) {
-        const normalizedService = nextService.replace(/\n/g, ' ').toLowerCase();
-        let imagePath = 'public/branding_white.png'; // default
-        
-        // Map services to their white image files
-        if (normalizedService.includes('web design') || normalizedService.includes('development')) {
-          imagePath = 'public/branding_white.png';
-        } else if (normalizedService.includes('drone') || normalizedService.includes('photography')) {
-          imagePath = 'public/drone_white.png';
-        } else if (normalizedService.includes('social media')) {
-          imagePath = 'public/SOCIAL MEDIA_WHITE.png';
-        } else if (normalizedService.includes('videography')) {
-          imagePath = 'public/videography services white.png';
-        } else if (normalizedService.includes('motion') || normalizedService.includes('graphic')) {
-          imagePath = 'public/branding_white.png'; // default for now
-        } else if (normalizedService.includes('software') || normalizedService.includes('app')) {
-          imagePath = 'public/branding_white.png'; // default for now
-        }
-        
-        textContent.style.backgroundImage = `url('${imagePath}')`;
-      }
-    }
-    
-      // Show service image wrapper for first service if it exists (desktop only)
-      if (!isMobile) {
-        // Normalize service name for comparison (remove \n and compare)
-        const normalizedNextService = nextService.replace(/\n/g, ' ');
-        const allImageWrappers = document.querySelectorAll('.hero-service-image-wrapper');
-        allImageWrappers.forEach(wrapper => {
-          const wrapperService = wrapper.getAttribute('data-service');
-          if (wrapperService === normalizedNextService) {
-            setTimeout(() => {
-              wrapper.classList.add('active');
-            }, 200);
-          } else {
-            wrapper.classList.remove('active');
-          }
-        });
-        
-        // Sync hero images with their respective services
-        const allHeroImageWrappers = document.querySelectorAll('.hero-image-wrapper');
-        allHeroImageWrappers.forEach(wrapper => {
-          const wrapperService = wrapper.getAttribute('data-service');
-          if (wrapperService && wrapperService.toLowerCase() === normalizedNextService.toLowerCase()) {
-            setTimeout(() => {
-              wrapper.classList.add('active');
-            }, 200);
-          } else {
-            wrapper.classList.remove('active');
-          }
-        });
-      } else {
-      // Mobile: keep first service (web design & development) image constant
-      const firstServiceWrapper = document.querySelector('.hero-service-image-wrapper[data-service="web design & development"]');
-      if (firstServiceWrapper) {
-        firstServiceWrapper.classList.add('active');
-      }
-    }
-    
-    // Fade in
-    setTimeout(() => {
-      newSlide.classList.add('active');
-    }, 100);
-    
-    // Move to next service
-    currentSlideIndex = (currentSlideIndex + 1) % services.length;
-    
-    // Schedule next slide or return to initial text
-    setTimeout(() => {
-      if (isCycling) {
-        // Continue cycling - loop constantly
-        showNextSlide();
-      }
-    }, 5000); // Increased from 3000ms to 5000ms
-  }
-}
-
-
-
-// Headline animation: each phrase fades in over 3s; next starts 1s after previous start
-const phrases = document.querySelectorAll('.headline .phrase');
-if (phrases.length === 3) {
-  let currentIndex = 0;
-  
-  function showNextPhrase() {
-    if (currentIndex < phrases.length) {
-      phrases[currentIndex].classList.add('show');
-      currentIndex++;
-      
-      // Start next phrase 1s after previous started
-      if (currentIndex < phrases.length) {
-        setTimeout(showNextPhrase, 1000);
-      } else {
-        // After all phrases are shown, start the cycling after 3 seconds
-        setTimeout(() => {
-          isInitialAnimation = false;
-          isCycling = true;
-          startServiceCycling();
-        }, 3000);
-      }
-    }
-  }
-  
-  // Start animation after a brief delay
-  setTimeout(showNextPhrase, 500);
-}
-
-// Removed heavy parallax effects for performance - was causing lag
-
-// Header fade handled by DOMContentLoaded listener above
-
-// Scroll animations for all card sections
-document.addEventListener('DOMContentLoaded', function() {
-  const cardObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => {
-          entry.target.classList.add('animate-in');
-        }, index * 50);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '100px 0px 0px 0px' });
-
-  // Observe all card types
-  const cards = document.querySelectorAll('.card');
-
-  cards.forEach(card => cardObserver.observe(card));
-
-  initReviewsMarquee();
-});
 
 function initReviewsMarquee() {
   const tracks = Array.from(document.querySelectorAll('.reviews-marquee-track'));
@@ -711,546 +205,8 @@ function initReviewsMarquee() {
   window.addEventListener('resize', updateTrackDistances);
 }
 
-// Pointer tracking for work cards - DISABLED
-// All pointer tracking code removed
+document.addEventListener('DOMContentLoaded', initReviewsMarquee);
 
-// Initialize pointer tracking for work cards - DISABLED
-// document.addEventListener('DOMContentLoaded', () => {
-//   setupWorkCardPointerTracking();
-// });
-
-// Cursor trail removed per design requirements
-
-// Custom background - DISABLED to prevent color changes
-// const customBackground = document.getElementById('custom-background');
-// const workSection = document.querySelector('#work');
-
-// function updateCustomBackground() {
-//   if (!customBackground || !workSection) return;
-//   
-//   const workRect = workSection.getBoundingClientRect();
-//   const workTop = workRect.top + window.scrollY;
-//   const scrollY = window.scrollY;
-//   
-//   // Activate background when we reach the work section
-//   if (scrollY >= workTop) {
-//     customBackground.classList.add('active');
-//   } else {
-//     customBackground.classList.remove('active');
-//   }
-// }
-
-// Custom background - DISABLED to prevent color changes on scroll
-// window.addEventListener('scroll', throttledBackgroundUpdate, { passive: true });
-// window.addEventListener('resize', throttledBackgroundUpdate, { passive: true });
-
-// Cursor trail and parallax removed per design requirements
-
-// Projects Section - Dynamic image loading from folders
-// Define all project images from folders (excluding services)
-const projectFolders = {
-  'commercial photography': [
-    'public/Projects/commercial photography/20220515170316_IMG_2146.jpg',
-    'public/Projects/commercial photography/20220515173923_IMG_2328 (1).JPG',
-    'public/Projects/commercial photography/20220515174927_IMG_2412.jpg',
-    'public/Projects/commercial photography/20220515184056_IMG_2570_edited.jpg',
-    'public/Projects/commercial photography/IMG_1069.jpg',
-    'public/Projects/commercial photography/IMG_1145.jpg',
-    'public/Projects/commercial photography/IMG_1303 (1).jpg',
-    'public/Projects/commercial photography/IMG_1499.jpg'
-  ],
-  'graphic design': [
-    'public/Projects/graphic design/bc298ad2-d03a-485f-b161-76d37995eaa3.png',
-    'public/Projects/graphic design/Beer Pong Tournament.jpg',
-    'public/Projects/graphic design/Brochure_Final.png',
-    'public/Projects/graphic design/COFFEE WEEK.png',
-    'public/Projects/graphic design/Coffee_Dynamic2_edited.jpg',
-    'public/Projects/graphic design/Event_Posters_23_Beer Pong.png',
-    'public/Projects/graphic design/Event_Posters_23_Beer Tasting.png',
-    'public/Projects/graphic design/Event_Posters_23_Comedy Night.png',
-    'public/Projects/graphic design/Event_Posters_23_Cooking Night.png',
-    'public/Projects/graphic design/Event_Posters_23_Flip Cup-13.png',
-    'public/Projects/graphic design/Event_Posters_23_Flip Cup-27.png',
-    'public/Projects/graphic design/Event_Posters_23_Flower Crown.png',
-    'public/Projects/graphic design/Event_Posters_23_Karaoke Night.png',
-    'public/Projects/graphic design/Event_Posters_23_Never Have I Ever-09.png',
-    'public/Projects/graphic design/Event_Posters_23_Pub Quiz.png',
-    'public/Projects/graphic design/Event_Posters_23_Quiz Evening Yellow.png',
-    'public/Projects/graphic design/Event_Posters_23_Treasure Hunt.png',
-    'public/Projects/graphic design/Event_Posters_23_Yogo.png',
-    'public/Projects/graphic design/Events_23_long.jpg',
-    'public/Projects/graphic design/HALLOWEEN.png',
-    'public/Projects/graphic design/instagram post - grand jam tour.png',
-    'public/Projects/graphic design/JOIN US FOR BREAKFAST.jpg',
-    'public/Projects/graphic design/LETS GET WAVY - WAVES FESTIVAL DESIGN FOR PROMO.jpg',
-    // Removed: 'public/Projects/graphic design/O zapft 20% jpg.jpg', - filename contains % causing HTTP2 errors
-    'public/Projects/graphic design/OKTOBERFEST POSTER - IN HOUSE.jpg',
-    'public/Projects/graphic design/paramount brochure mockup.png',
-    'public/Projects/graphic design/POLYTECH BRANDED CONTENT.png',
-    'public/Projects/graphic design/POLYTECH.png',
-    'public/Projects/graphic design/POP UP BANNER DEMO.jpg',
-    'public/Projects/graphic design/Rosetum Lodge_Booklet.jpg',
-    'public/Projects/graphic design/Rosetum Lodge.jpg',
-    'public/Projects/graphic design/Social Follow Wombat\'s.jpg',
-    'public/Projects/graphic design/St Patricks Poster.jpg',
-    'public/Projects/graphic design/time for a coffee vienna coffee festival_edited.jpg',
-    'public/Projects/graphic design/Vienna Coffee Festival.jpg',
-    'public/Projects/graphic design/WAVEBREAKER.png',
-    'public/Projects/graphic design/WAVES FESTIVAL.jpg',
-    'public/Projects/graphic design/WOMBEATS.png',
-    'public/Projects/graphic design/WOMTOBERFEST .jpg',
-    'public/Projects/graphic design/WOMTOBERFEST A4 - FOR PRINT - A4.jpg',
-    'public/Projects/graphic design/WORLD TOURISM DAY 22.jpg'
-  ],
-  'movember': [
-    'public/Projects/movember/BIRD.png',
-    'public/Projects/movember/CAPTAIN HOOK.png',
-    'public/Projects/movember/EVEREST.png',
-    'public/Projects/movember/GENTLEMAN.png',
-    'public/Projects/movember/HANGOVER.png',
-    'public/Projects/movember/I TRIED.png',
-    'public/Projects/movember/MOVEMBER.png'
-  ],
-  'promotions': [
-    'public/Projects/promotions/ac3c0f_782e3a0351644b6e8cbd20484b21a42a~mv2.avif',
-    'public/Projects/promotions/Acting_Headshots_Black.jpg',
-    'public/Projects/promotions/Banner-01.png',
-    'public/Projects/promotions/Banner-02.png',
-    'public/Projects/promotions/Banner-04.png',
-    'public/Projects/promotions/Branded Content Is still Important.jpg'
-  ]
-};
-
-// Remove duplicates (files with (1) if base exists)
-function removeDuplicates(imageArray) {
-  const seen = new Set();
-  const result = [];
-  
-  for (const image of imageArray) {
-    // Remove (1) from filename for comparison
-    const baseName = image.replace(/\s*\(1\)\s*/g, '');
-    if (!seen.has(baseName)) {
-      seen.add(baseName);
-      result.push(image);
-    }
-  }
-  
-  return result;
-}
-
-// Distribute images proportionally from each folder
-function buildProjectsArray() {
-  const allImages = [];
-  
-  // Count total images per folder
-  const folderCounts = {};
-  for (const [folder, images] of Object.entries(projectFolders)) {
-    const uniqueImages = removeDuplicates(images);
-    folderCounts[folder] = uniqueImages.length;
-    projectFolders[folder] = uniqueImages; // Update with deduplicated
-  }
-  
-  const totalImages = Object.values(folderCounts).reduce((a, b) => a + b, 0);
-  
-  // Calculate how many to show from each (proportional, but ensure at least 1 from each)
-  const maxPerFolder = Math.ceil(totalImages / Object.keys(folderCounts).length);
-  
-  // Interleave images from different folders
-  const folderArrays = Object.entries(projectFolders).map(([folder, images]) => ({
-    folder,
-    images: [...images],
-    index: 0
-  }));
-  
-  let id = 1;
-  while (folderArrays.some(f => f.index < f.images.length)) {
-    // Round-robin through folders
-    for (const folderData of folderArrays) {
-      if (folderData.index < folderData.images.length) {
-        allImages.push({
-          id: id++,
-          image: folderData.images[folderData.index],
-          size: getRandomSize() // Varying sizes
-        });
-        folderData.index++;
-      }
-    }
-  }
-  
-  return allImages;
-}
-
-// Generate random size classes for varying image heights
-function getRandomSize() {
-  const sizes = ['small', 'medium', 'large', 'xlarge'];
-  const weights = [0.2, 0.3, 0.3, 0.2]; // Distribution
-  const rand = Math.random();
-  let sum = 0;
-  for (let i = 0; i < sizes.length; i++) {
-    sum += weights[i];
-    if (rand <= sum) return sizes[i];
-  }
-  return 'medium';
-}
-
-const projects = buildProjectsArray();
-
-// Initialize projects section
-function initProjectsSection() {
-  const projectsContainer = document.querySelector('.projects-container');
-  const projectsSection = document.querySelector('#projects');
-  const projectsMobileContainer = document.querySelector('.projects-mobile-container');
-  const projectsMobileSection = document.querySelector('#projects-mobile');
-  
-  // Initialize desktop projects
-  if (projectsContainer) {
-    renderProjects(projectsContainer);
-
-    if (projectsSection) {
-      projectsSection.classList.add('projects-ready');
-    }
-
-    // Initialize auto-scroll after images load (desktop only)
-    setTimeout(() => {
-      const images = projectsContainer.querySelectorAll('img');
-      let loaded = 0;
-      const total = images.length;
-      
-      if (total === 0) {
-        initAutoScroll(projectsContainer);
-        return;
-      }
-      
-      function checkAndStart() {
-        loaded++;
-        if (loaded === total) {
-          initAutoScroll(projectsContainer);
-        }
-      }
-      
-      images.forEach((img) => {
-        if (img.complete) {
-          checkAndStart();
-        } else {
-          img.addEventListener('load', checkAndStart, { once: true });
-          img.addEventListener('error', checkAndStart, { once: true });
-        }
-      });
-    }, 300);
-  }
-  
-  // Initialize mobile projects - ONLY on mobile devices
-  if (projectsMobileContainer && window.innerWidth <= 768) {
-    renderMobileProjects(projectsMobileContainer);
-    
-    if (projectsMobileSection) {
-      projectsMobileSection.classList.add('projects-ready');
-    }
-  } else if (projectsMobileContainer && window.innerWidth > 768) {
-    // Hide mobile projects container on desktop
-    if (projectsMobileSection) {
-      projectsMobileSection.style.cssText = 'display: none !important; visibility: hidden !important;';
-    }
-  }
-}
-
-// Render mobile projects - FRESH START - Rearranged order with auto-scroll
-function renderMobileProjects(container) {
-  if (!container) return;
-  
-  container.innerHTML = '';
-  
-  // Rearrange projects - reverse order for different order
-  const rearrangedProjects = [...projects].reverse();
-  
-  // Create a wrapper for seamless looping
-  const wrapper = document.createElement('div');
-  wrapper.style.cssText = 'display: flex; flex-direction: row; gap: 16px; width: max-content;';
-  
-  // Render projects twice for seamless loop
-  for (let loop = 0; loop < 2; loop++) {
-    rearrangedProjects.forEach((project, index) => {
-      const imagePath = project.image;
-      if (!imagePath) return;
-      
-      const filename = imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
-      const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Project ${project.id} - Credit: LEVEL DESIGN AGENCY LTD`;
-      
-      const item = document.createElement('div');
-      item.classList.add('projects-mobile-item');
-      
-      const img = document.createElement('img');
-      img.src = imagePath;
-      img.alt = altText;
-      img.loading = 'lazy';
-      
-      img.onerror = function() {
-        this.style.display = 'none';
-        item.style.display = 'none';
-      };
-      
-      item.appendChild(img);
-      wrapper.appendChild(item);
-    });
-  }
-  
-  container.appendChild(wrapper);
-  
-  // Auto-scroll animation
-  let scrollPosition = 0;
-  const scrollSpeed = 1.5; // pixels per frame (increased from 0.5 for faster scroll)
-  const totalWidth = wrapper.offsetWidth / 2; // Half because we duplicated
-  
-  function autoScroll() {
-    scrollPosition += scrollSpeed;
-    if (scrollPosition >= totalWidth) {
-      scrollPosition = 0; // Reset for seamless loop
-    }
-    container.scrollLeft = scrollPosition;
-    requestAnimationFrame(autoScroll);
-  }
-  
-  // Start auto-scroll after a brief delay
-  setTimeout(() => {
-    autoScroll();
-  }, 500);
-}
-
-// Projects auto-scroll using Swiper for smooth continuous scroll
-function initAutoScroll(container) {
-  if (!container || !window.Swiper) return;
-  
-  if (container.dataset.autoScrollInitialized === 'true') return;
-  container.dataset.autoScrollInitialized = 'true';
-  
-  const isProjectsContainer = container.classList.contains('projects-container');
-  if (!isProjectsContainer) return;
-  
-  // DISABLE SWIPER ON MOBILE to prevent crashes - use simple scroll instead
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  if (isMobile) {
-    // On mobile, just enable simple horizontal scroll - no Swiper
-    container.style.overflowX = 'auto';
-    container.style.overflowY = 'hidden';
-    return; // Exit early, don't initialize Swiper
-  }
-  
-  // Initialize Swiper for SMOOTH continuous marquee scroll - NO hover pause (DESKTOP ONLY)
-  const swiper = new Swiper(container, {
-    slidesPerView: 'auto',
-    spaceBetween: 30,
-    freeMode: false,
-    speed: 5000,
-    autoplay: {
-      delay: 0,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: false, // NO pause on hover
-      stopOnLastSlide: false,
-    },
-    loop: true,
-    loopAdditionalSlides: 10,
-    allowTouchMove: false,
-    grabCursor: false,
-    watchSlidesProgress: false,
-    watchSlidesVisibility: false,
-    slidesOffsetBefore: 0,
-    slidesOffsetAfter: 0,
-    effect: 'slide',
-  });
-  
-  // Hover handlers for desktop only
-  container.addEventListener('mouseenter', (e) => {
-    e.stopPropagation();
-    if (swiper && swiper.autoplay) {
-      swiper.autoplay.start(); // Force continue on hover
-    }
-  });
-  
-  container.addEventListener('mouseleave', (e) => {
-    e.stopPropagation();
-    if (swiper && swiper.autoplay) {
-      swiper.autoplay.start(); // Force continue on leave
-    }
-  });
-}
-
-// Render project items - horizontal scroll gallery with varying sizes
-function renderProjects(container) {
-  // Create Swiper wrapper if it doesn't exist
-  let wrapper = container.querySelector('.swiper-wrapper');
-  if (!wrapper) {
-    wrapper = document.createElement('div');
-    wrapper.classList.add('swiper-wrapper');
-    container.appendChild(wrapper);
-  }
-  
-  projects.forEach((project, index) => {
-    const slide = document.createElement('div');
-    slide.classList.add('swiper-slide');
-    
-    const projectItem = document.createElement('div');
-    projectItem.classList.add('project-item');
-    projectItem.classList.add(`project-size-${project.size || 'medium'}`);
-    projectItem.dataset.id = project.id;
-    projectItem.dataset.index = index;
-    
-    const imagePath = project.image;
-    
-    // Extract filename for descriptive alt text
-    const filename = imagePath ? imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ') : '';
-    const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Project ${project.id} - Credit: LEVEL DESIGN AGENCY LTD`;
-    
-    const imageHTML = imagePath 
-      ? `<div class="project-image"><img src="${imagePath}" alt="${altText}" loading="lazy" onerror="this.parentElement.classList.add('placeholder')"></div>`
-      : `<div class="project-image placeholder"></div>`;
-    
-    projectItem.innerHTML = imageHTML;
-    slide.appendChild(projectItem);
-    wrapper.appendChild(slide);
-  });
-}
-
-// Collage layout - no scroll lock needed
-function initScrollAnimations() {
-  // Disabled for collage layout - images scroll normally with page
-  return;
-}
-
-// Initialize projects section when DOM is loaded
-document.addEventListener('DOMContentLoaded', initProjectsSection);
-
-// Services Gallery ("Where we go deep" carousel) - paths match public/Projects/services/*.png
-const servicesImages = [
-  'public/Projects/services/LEVEL _SERVICES-01.png',
-  'public/Projects/services/LEVEL _SERVICES-02.png',
-  'public/Projects/services/LEVEL _SERVICES-03.png',
-  'public/Projects/services/LEVEL _SERVICES-04.png',
-  'public/Projects/services/LEVEL _SERVICES-05.png',
-  'public/Projects/services/LEVEL _SERVICES-06.png'
-];
-
-// Render services images - Simple slider (no Swiper) - Optimized for performance
-function renderServicesImages(container) {
-  // Create slider wrapper if it doesn't exist
-  let slider = container.querySelector('.services-slider');
-  if (!slider) {
-    slider = document.createElement('div');
-    slider.classList.add('services-slider');
-    container.appendChild(slider);
-  }
-  
-  // Clear existing content
-  slider.innerHTML = '';
-  
-  // Create all slides
-  servicesImages.forEach((imagePath, index) => {
-    const slide = document.createElement('div');
-    slide.classList.add('service-slide');
-    slide.dataset.index = index;
-    
-    const serviceItem = document.createElement('div');
-    serviceItem.classList.add('service-item');
-    serviceItem.dataset.id = `service-${index + 1}`;
-    serviceItem.dataset.index = index;
-    
-    const filename = imagePath.split('/').pop().replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
-    const altText = filename ? `${filename} - Credit: LEVEL DESIGN AGENCY LTD` : `Service ${index + 1} - Credit: LEVEL DESIGN AGENCY LTD`;
-    
-    // Load all images - don't use lazy loading for slider
-    const img = document.createElement('img');
-    img.src = imagePath;
-    img.alt = altText;
-    img.loading = 'eager';
-    img.decoding = 'async';
-    img.style.display = 'block';
-    img.style.width = '100%';
-    img.style.height = 'auto';
-    
-    img.onerror = () => {
-      img.parentElement?.classList.add('placeholder');
-    };
-    
-    const imageDiv = document.createElement('div');
-    imageDiv.classList.add('service-image');
-    imageDiv.appendChild(img);
-    
-    serviceItem.appendChild(imageDiv);
-    slide.appendChild(serviceItem);
-    slider.appendChild(slide);
-  });
-  
-  // Duplicate first slide at the end for seamless loop
-  const firstSlide = slider.firstElementChild.cloneNode(true);
-  slider.appendChild(firstSlide);
-}
-
-// Simple auto-slide for specialities section - following the example pattern
-function initServicesGallery() {
-  const servicesContainer = document.querySelector('.services-container');
-  if (!servicesContainer) {
-    setTimeout(initServicesGallery, 100);
-    return;
-  }
-  
-  // Render images
-  renderServicesImages(servicesContainer);
-  
-  setTimeout(() => {
-    const slider = servicesContainer.querySelector('.services-slider');
-    if (!slider) {
-      setTimeout(initServicesGallery, 200);
-      return;
-    }
-    
-    const slides = slider.querySelectorAll('.service-slide');
-    if (slides.length === 0) {
-      setTimeout(initServicesGallery, 200);
-      return;
-    }
-    
-    // Transform value in viewport width units
-    let currentSlide = 0;
-    const actualSlides = 6; // 6 original slides (duplicate is 7th, not counted)
-    const interval = 5000; // 5 seconds between slides
-    
-    // Function to move slider using viewport width units
-    const move = () => {
-      slider.style.transform = `translateX(-${currentSlide * 100}vw)`;
-    };
-    
-    // Function to slide forward - seamless infinite loop
-    const slide = () => {
-      currentSlide++;
-      
-      // When we reach the duplicate slide (slide 6), instantly jump back to 0
-      if (currentSlide >= actualSlides) {
-        // Remove transition for instant jump
-        slider.style.transition = 'none';
-        currentSlide = 0;
-        move();
-        // Force reflow
-        requestAnimationFrame(() => {
-          slider.style.transition = '';
-        });
-      } else {
-        move();
-      }
-    };
-    
-    move();
-    
-    // Start interval for auto-slide
-    setInterval(slide, interval);
-  }, 200);
-}
-
-// Initialize services gallery when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  initServicesGallery();
-});
-
-
-// Bullet points are now integrated directly into the main cards - no separate sub-cards needed
 
 // CLIENT LOGOS MARQUEE INTERACTIONS
 document.addEventListener('DOMContentLoaded', function() {
@@ -1259,90 +215,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (!marqueeRows.length || !clientLogos.length) return;
   
-  // Set logo indices for staggered shimmer animation
   clientLogos.forEach((logo, index) => {
     logo.style.setProperty('--logo-index', index);
   });
-  
-  // Client logo hover effects - REMOVED: No pause on hover, keep scrolling
-  // Logos continue scrolling even when hovered
-  
-  clientLogos.forEach((logo, index) => {
-    // Click interaction with ripple effect
-    logo.addEventListener('click', () => {
-      // Add ripple effect
-      const ripple = document.createElement('div');
-      ripple.style.cssText = `
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        background: rgba(255, 45, 45, 0.3);
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        animation: ripple 0.6s ease-out;
-        pointer-events: none;
-        z-index: 1000;
-      `;
-      
-      logo.appendChild(ripple);
-      
-      setTimeout(() => {
-        ripple.remove();
-      }, 600);
-    });
-  });
-  
-  // Add ripple animation
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes ripple {
-      to {
-        width: 200px;
-        height: 200px;
-        opacity: 0;
-      }
-    }
-  `;
-  document.head.appendChild(style);
-  
-  // Intersection observer for animation triggers
+
+  const clientsSection = document.querySelector('.clients');
+  if (!clientsSection) return;
+
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        // Start marquee animations
-        marqueeRows.forEach((row, index) => {
-          const track = row.querySelector('.marquee-track');
-          if (track) {
-            track.style.animationPlayState = 'running';
-          }
-        });
-      }
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      marqueeRows.forEach((row) => {
+        const track = row.querySelector('.marquee-track');
+        if (track) track.style.animationPlayState = 'running';
+      });
     });
   }, { threshold: 0.3 });
-  
-  observer.observe(document.querySelector('.clients'));
-  
-  // Dynamic speed adjustment based on content
-  function adjustMarqueeSpeed() {
-    marqueeRows.forEach(row => {
-      const track = row.querySelector('.marquee-track');
-      if (track) {
-        const items = track.querySelectorAll('.client-logo');
-        const totalWidth = items.length * 420; // 300px width + 120px margin
-        const speed = totalWidth / 30; // 30 seconds duration
-        
-        // Adjust animation duration based on content
-        track.style.animationDuration = `${30}s`;
-      }
-    });
-  }
-  
-  adjustMarqueeSpeed();
-  
-  // Recalculate on resize
-  window.addEventListener('resize', adjustMarqueeSpeed);
+
+  observer.observe(clientsSection);
 });
 
 
@@ -1386,7 +276,9 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
   `;
-  
+
+  aboutSection.setAttribute('aria-hidden', 'false');
+
   const wordList = aboutSection.querySelector('.word-list');
   const wordItems = aboutSection.querySelectorAll('.word-item');
   const descriptionList = aboutSection.querySelector('.description-list');
@@ -1548,9 +440,6 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('scroll', throttledScroll, { passive: true });
 });
 
-// Pointer tracking for work cards - DISABLED
-// All pointer tracking code removed
-
 // Email copy to clipboard functionality
 document.addEventListener('DOMContentLoaded', function() {
   const emailCopy = document.getElementById('email-copy');
@@ -1612,7 +501,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const tabPanels = document.querySelectorAll('.tab-panel');
   
   // Detect mobile device
-  const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const isMobile = window.innerWidth <= 900 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   
   // Initialize: Hide all panels initially
   tabPanels.forEach(panel => {
@@ -1624,16 +513,17 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Desktop viewport size - iframe gets this so sites render desktop layout; we scale down to fit
   const WEBVIEW_VIEWPORT_W = 1200;
-  const WEBVIEW_VIEWPORT_H = 675;
+  const WEBVIEW_VIEWPORT_H = 750;
 
   function scaleWebviewToFit(wrapper) {
     if (!wrapper || !wrapper.offsetParent) return; // not visible
+    if (wrapper.classList.contains('webview-wrapper--static')) return;
     const w = wrapper.offsetWidth;
-    const h = wrapper.offsetHeight;
-    if (w <= 0 || h <= 0) return;
-    const scale = Math.min(w / WEBVIEW_VIEWPORT_W, h / WEBVIEW_VIEWPORT_H);
+    if (w <= 0) return;
+    const scale = w / WEBVIEW_VIEWPORT_W;
     const scaled = wrapper.querySelector('.webview-scaled');
     if (scaled) scaled.style.transform = 'scale(' + scale + ')';
+    wrapper.style.height = Math.round(WEBVIEW_VIEWPORT_H * scale) + 'px';
   }
 
   function scaleVisibleWebviews() {
@@ -1650,7 +540,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (iframe && !iframe.src) {
       const url = iframe.getAttribute('data-src');
       
-      // List of known sites that block iframe embedding
+      // Sites that block iframe embedding — use static preview image instead
       const blockedSites = [];
       
       // Check if this site is known to block iframes
@@ -1778,14 +668,16 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
-  
-  // Auto-select Richtons tab on page load (desktop only)
+
+  // Auto-select first tab on page load (desktop only)
   if (!isMobile && tabButtons.length > 0) {
-    const richtonsButton = Array.from(tabButtons).find(btn => btn.getAttribute('data-tab') === 'richtons');
-    if (richtonsButton) {
+    const defaultButton =
+      Array.from(tabButtons).find((btn) => btn.getAttribute('data-tab') === 'richtons') ||
+      tabButtons[0];
+    if (defaultButton) {
       setTimeout(() => {
-        richtonsButton.click();
-        requestAnimationFrame(function() { scaleVisibleWebviews(); });
+        defaultButton.click();
+        requestAnimationFrame(scaleVisibleWebviews);
       }, 100);
     }
   }
@@ -1946,31 +838,79 @@ async function executeRecaptcha() {
 }
 
 // ============================================
-// CONTACT FORM SUBMISSION WITH SECURITY
+// CONTACT FORM — lazy-load EmailJS + reCAPTCHA
 // ============================================
+
+function loadExternalScript(src) {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) {
+      resolve();
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = src;
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error(`Failed to load ${src}`));
+    document.head.appendChild(script);
+  });
+}
+
+let formLibsPromise = null;
+
+function ensureFormLibs() {
+  if (!formLibsPromise) {
+    formLibsPromise = Promise.all([
+      loadExternalScript('https://www.google.com/recaptcha/api.js?render=6LeCRlIsAAAAAGPZzNsKcCRa_BSgy6ICxaSAh1wm'),
+      loadExternalScript('https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js'),
+    ]).then(() => {
+      if (typeof emailjs !== 'undefined') {
+        emailjs.init('YZEUywDpGdF8ypKDn');
+      }
+    });
+  }
+  return formLibsPromise;
+}
 
 document.addEventListener('DOMContentLoaded', function() {
   const contactForm = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submit-btn');
   const submitText = document.getElementById('submit-text');
   const formMessage = document.getElementById('form-message');
-  
-  if (contactForm) {
-    // Check if EmailJS is loaded
-    if (typeof emailjs === 'undefined') {
-      if (formMessage) {
+
+  if (!contactForm) return;
+
+  const contactSection = document.getElementById('contact-title') || contactForm;
+  const preloadForm = () => { ensureFormLibs().catch(() => {}); };
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        preloadForm();
+        io.disconnect();
+      }
+    }, { rootMargin: '200px 0px' });
+    io.observe(contactSection);
+  }
+  contactForm.addEventListener('focusin', preloadForm, { once: true });
+
+  contactForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      try {
+        await ensureFormLibs();
+      } catch (error) {
+        formMessage.textContent = 'Form service failed to load. Please email help@leveldesignagency.com directly.';
+        formMessage.className = 'form-message error';
+        formMessage.style.display = 'block';
+        return;
+      }
+
+      if (typeof emailjs === 'undefined') {
         formMessage.textContent = 'Form service is not configured. Please contact us directly at help@leveldesignagency.com';
         formMessage.className = 'form-message error';
         formMessage.style.display = 'block';
+        return;
       }
-      return;
-    }
-    
-    // Initialize EmailJS with your Public Key
-    emailjs.init('YZEUywDpGdF8ypKDn');
-    
-    contactForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
       
       // Disable submit button to prevent double submissions
       submitBtn.disabled = true;
@@ -2112,47 +1052,4 @@ document.addEventListener('DOMContentLoaded', function() {
         submitText.textContent = 'Send Message';
       }
     });
-  }
 });
-
-document.addEventListener('DOMContentLoaded', function() {
-  const siteFlow = document.querySelector('.site-flow-background');
-  if (!siteFlow) return;
-
-  const mobileFlowOff =
-    typeof window.matchMedia === 'function' &&
-    window.matchMedia('(max-width: 768px)').matches;
-  if (mobileFlowOff) {
-    siteFlow.setAttribute('hidden', 'true');
-    return;
-  }
-
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let latestScroll = window.scrollY || window.pageYOffset || 0;
-
-  const updateScroll = () => {
-    latestScroll = window.scrollY || window.pageYOffset || 0;
-  };
-
-  const animateFlow = (time) => {
-    const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
-    const progress = latestScroll / maxScroll;
-    const timeDrift = prefersReducedMotion ? 0 : time * 0.06;
-    const travel = -(latestScroll * 0.92 + timeDrift);
-    const sway = (progress - 0.5) * 72 + (prefersReducedMotion ? 0 : Math.sin(time * 0.00055) * 26);
-    const scale = 1 + (progress * 0.06);
-
-    siteFlow.style.setProperty('--site-flow-scroll', `${travel.toFixed(2)}px`);
-    siteFlow.style.setProperty('--site-flow-sway', `${sway.toFixed(2)}px`);
-    siteFlow.style.setProperty('--site-flow-scale', `${scale.toFixed(4)}`);
-
-    requestAnimationFrame(animateFlow);
-  };
-
-  updateScroll();
-  window.addEventListener('scroll', updateScroll, { passive: true });
-  window.addEventListener('resize', updateScroll);
-  requestAnimationFrame(animateFlow);
-});
-
-// Cache bust: 1759795340

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark-mode">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -105,8 +105,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
-    <!-- Swiper CSS for smooth scrolling -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="revamp.css" />
+    <link rel="stylesheet" href="revamp-phase3.css" />
+    <link rel="stylesheet" href="revamp-phase4.css" />
+    <link rel="stylesheet" href="revamp-phase5.css" />
+    <link rel="stylesheet" href="revamp-phase6.css" />
+    <link rel="stylesheet" href="project.css" />
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="alternate icon" href="favicon.png">
     
@@ -700,10 +704,6 @@
     </script>
 </head>
 <body id="top">
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="loading-screen">
-        <div class="loading-percent" id="loading-percent">0%</div>
-    </div>
     <a class="skip-link" href="#main">Skip to content</a>
 
     <!-- Desktop Version -->
@@ -744,74 +744,74 @@
     </header>
 
     <main id="main">
-        <div class="site-flow-background" aria-hidden="true">
-            <svg class="site-flow-svg" viewBox="0 0 1600 6200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                <defs>
-                    <linearGradient id="site-flow-core-gradient" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="#310306" />
-                        <stop offset="45%" stop-color="#9c1218" />
-                        <stop offset="100%" stop-color="#ff5757" />
-                    </linearGradient>
-                    <linearGradient id="site-flow-hot-gradient" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0%" stop-color="#5a0a0f" />
-                        <stop offset="55%" stop-color="#ff4040" />
-                        <stop offset="100%" stop-color="#ffb5b5" />
-                    </linearGradient>
-                    <filter id="site-flow-glow" x="-20%" y="-20%" width="140%" height="140%">
-                        <feGaussianBlur stdDeviation="2" result="blur" />
-                        <feMerge>
-                            <feMergeNode in="blur" />
-                            <feMergeNode in="SourceGraphic" />
-                        </feMerge>
-                    </filter>
-
-                    <path id="site-flow-path-a" d="M 180 -160 V 420 H 500 V 980 H 340 V 1560 H 760 V 2240 H 520 V 3020 H 980 V 3860 H 740 V 4700 H 1120 V 6360" />
-                    <path id="site-flow-path-b" d="M 1410 -160 V 560 H 1080 V 1220 H 1290 V 1880 H 900 V 2580 H 1160 V 3340 H 700 V 4140 H 940 V 4940 H 560 V 6360" />
-                    <path id="site-flow-path-c" d="M 820 -220 V 260 H 1040 V 820 H 720 V 1400 H 980 V 1980 H 680 V 2740 H 1020 V 3560 H 760 V 4440 H 1080 V 6360" />
-                    <path id="site-flow-path-d" d="M 1180 180 H 1360 V 980 H 1000 V 1700 H 1240 V 2440 H 860 V 3220 H 1090 V 4040 H 900 V 6360" />
-                </defs>
-
-                <g class="site-flow-layer site-flow-layer-base">
-                    <use href="#site-flow-path-a" class="site-flow-path site-flow-base" />
-                    <use href="#site-flow-path-b" class="site-flow-path site-flow-base" />
-                    <use href="#site-flow-path-c" class="site-flow-path site-flow-base" />
-                    <use href="#site-flow-path-d" class="site-flow-path site-flow-base" />
-                </g>
-
-                <g class="site-flow-layer site-flow-layer-pulse" filter="url(#site-flow-glow)">
-                    <use href="#site-flow-path-a" class="site-flow-path site-flow-pulse site-flow-pulse-a" />
-                    <use href="#site-flow-path-b" class="site-flow-path site-flow-pulse site-flow-pulse-b" />
-                    <use href="#site-flow-path-c" class="site-flow-path site-flow-pulse site-flow-pulse-c" />
-                    <use href="#site-flow-path-d" class="site-flow-path site-flow-pulse site-flow-pulse-d" />
-                </g>
-
-                <g class="site-flow-layer site-flow-layer-detail">
-                    <use href="#site-flow-path-a" class="site-flow-path site-flow-detail site-flow-detail-a" transform="translate(10 0)" />
-                    <use href="#site-flow-path-b" class="site-flow-path site-flow-detail site-flow-detail-b" transform="translate(-10 0)" />
-                    <use href="#site-flow-path-c" class="site-flow-path site-flow-detail site-flow-detail-c" transform="translate(12 0)" />
-                    <use href="#site-flow-path-d" class="site-flow-path site-flow-detail site-flow-detail-d" transform="translate(-8 0)" />
-                </g>
-            </svg>
-        </div>
         <section class="hero hero-single" data-animate="fade-up" id="hero-single">
-            <div class="container hero-inner">
-                <div class="hero-content">
-                    <p class="hero-intent-kicker">Web design · AI search · AI systems</p>
-                    <h1 class="headline hero-headline-single">Websites that win work.<br>Visible in AI search.<br>Built to convert.</h1>
-                    <p class="hero-subhead">LEVEL helps businesses with serious budgets turn search and AI discovery into qualified enquiries through premium web design, AI search optimisation (AEO), and practical AI support.</p>
-                    <a href="#contact-title" class="btn primary hero-cta-single">Start a project</a>
+            <div class="container hero-inner hero-shell">
+                <div class="hero-content hero-intro">
+                    <p class="hero-intent-kicker" hidden>Web design · AI search · AI systems</p>
+                    <h1 class="headline hero-headline-single">
+                        <span class="hero-line-bright">Design. Build. Optimise.</span>
+                        <span class="hero-line-dim">Convert.</span>
+                    </h1>
+                    <p class="hero-subhead">Premium web design and AI search optimisation for teams that need qualified enquiries, not vanity traffic.</p>
+                    <div class="hero-actions">
+                        <a href="#contact-title" class="btn primary hero-cta-single">Start a project</a>
+                        <a href="#work-title" class="btn btn-outline-run hero-cta-secondary">View work →</a>
+                    </div>
                 </div>
-                <div class="hero-social">
-                    <a href="https://www.linkedin.com/company/level-design-agency-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                        </svg>
-                    </a>
-                    <a href="https://www.instagram.com/leveldesignagency" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                        </svg>
-                    </a>
+
+                <div class="hero-selected-work">
+                    <article class="hero-spotlight" aria-label="Selected work">
+                        <div class="hero-spotlight-panel" data-active-project="ontimely">
+                            <div class="hero-spotlight-copy">
+                                <p class="hero-spotlight-kicker">Selected work</p>
+                                <h2 class="hero-spotlight-title">OnTimely.</h2>
+                                <p class="hero-spotlight-desc">Event management platform and mobile app.</p>
+                                <a href="projects/ontimely.html" class="btn primary hero-spotlight-cta">View project →</a>
+                            </div>
+                            <div class="hero-spotlight-media">
+                                <img src="public/ontimely project.png?v=2" alt="OnTimely event management platform" loading="eager" />
+                            </div>
+                        </div>
+                    </article>
+
+                    <div class="hero-picks" role="tablist" aria-label="Featured work">
+                        <button type="button" class="hero-pick is-active" role="tab" aria-selected="true" data-project="ontimely">
+                            <span class="hero-pick-thumb">
+                                <img src="public/ontimely project.png?v=2" alt="" loading="eager" />
+                            </span>
+                            <span class="hero-pick-text">
+                                <strong>OnTimely</strong>
+                                <em>Event management</em>
+                            </span>
+                        </button>
+                        <button type="button" class="hero-pick" role="tab" aria-selected="false" data-project="kleen">
+                            <span class="hero-pick-thumb">
+                                <img src="public/Kleen Promo.png" alt="" loading="eager" />
+                            </span>
+                            <span class="hero-pick-text">
+                                <strong>KLEEN</strong>
+                                <em>Web app service</em>
+                            </span>
+                        </button>
+                        <button type="button" class="hero-pick" role="tab" aria-selected="false" data-project="pocdocs">
+                            <span class="hero-pick-thumb">
+                                <img src="public/pocdocs-01.png?v=1" alt="" loading="lazy" />
+                            </span>
+                            <span class="hero-pick-text">
+                                <strong>Pocdocs</strong>
+                                <em>Web platform</em>
+                            </span>
+                        </button>
+                        <button type="button" class="hero-pick" role="tab" aria-selected="false" data-project="nimbus">
+                            <span class="hero-pick-thumb">
+                                <img src="public/Nimbus-01.png" alt="" loading="lazy" />
+                            </span>
+                            <span class="hero-pick-text">
+                                <strong>Nimbus</strong>
+                                <em>Chrome extension</em>
+                            </span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -822,148 +822,121 @@
                 <!-- Single Row - Scrolling Client Logos -->
                 <div class="marquee-row">
                     <div class="marquee-track">
-                        <!-- Client Logo 1 -->
-                        <div class="client-logo">
-                            <a href="#" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-01.svg" alt="Client Logo 1">
-                            </a>
-                        </div>
-                        
-                        <!-- Client Logo 2 -->
-                        <div class="client-logo">
-                            <a href="https://kellehergroupm.co.uk/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-02.svg" alt="Kelleher Group Maintenance">
-                            </a>
-                        </div>
-                        
-                        <!-- Client Logo 3 -->
                         <div class="client-logo">
                             <a href="https://www.hostelworld.com/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-03.svg" alt="Hostelworld">
+                                <img src="public/ClientLogos/HostelWorld.svg" alt="Hostelworld">
                             </a>
                         </div>
-                        
-                        <!-- Client Logo 4 -->
+
                         <div class="client-logo">
                             <a href="https://www.wombats-hostels.com/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-04.svg" alt="Wombats Hostels">
+                                <img src="public/ClientLogos/WombatsCityHostel.svg" alt="Wombat's City Hostels">
                             </a>
                         </div>
-                        
-                        <!-- Client Logo 5 -->
+
+                        <div class="client-logo">
+                            <a href="https://kellehergroupm.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Kelleher.svg" alt="Kelleher Group Maintenance">
+                            </a>
+                        </div>
+
                         <div class="client-logo">
                             <a href="https://www.ndsurgeon.com/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-05.svg" alt="ND Surgeon">
+                                <img src="public/ClientLogos/NajibDaulatzai.svg" alt="Najib Daulatzai">
                             </a>
                         </div>
-                        
-                        <!-- Client Logo 6 -->
+
                         <div class="client-logo">
-                            <a href="https://richtons.co.uk/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-06.svg" alt="Richtons">
+                            <a href="https://www.richtons.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/RichtonsEnvironmentalServices.svg" alt="Richtons Environmental Services">
                             </a>
                         </div>
-                        
-                        <!-- Client Logo 7 -->
+
                         <div class="client-logo">
-                            <a href="https://www.ontimely.co.uk/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-07.svg" alt="OnTimely">
+                            <a href="https://www.osamamoussa.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/osamamoussa.svg" alt="Osama Moussa">
                             </a>
                         </div>
-                        
-                        <!-- Client Logo 8 -->
+
                         <div class="client-logo">
-                            <a href="https://osamamoussa.co.uk/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-08.svg" alt="Osama Moussa">
+                            <a href="https://www.apx-fs.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/APX.svg" alt="APX">
                             </a>
                         </div>
-                        
-                        <!-- Client Logo 9 - We Serve U Better (shrunk) -->
-                        <div class="client-logo client-logo-small">
+
+                        <div class="client-logo">
                             <a href="https://weserveubetter.at/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-09.svg" alt="We Serve U Better">
+                                <img src="public/ClientLogos/Weserveubetter.svg" alt="We Serve U Better">
                             </a>
                         </div>
-                        
-                        <!-- Client Logo 12 - ITD (keep original colors) -->
-                        <div class="client-logo client-logo-color">
-                            <a href="https://www.inthedungeon.co.uk/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/ITD__Main.png" alt="ITD - In The Dungeon">
-                            </a>
-                        </div>
-                        
-                        <!-- Client Logo 13 - Welbee -->
+
                         <div class="client-logo">
-                            <a href="https://welbee.co.uk/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Welbee_Logo_-01.png" alt="Welbee">
+                            <a href="https://www.inthedungeon.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/ITD__Main.svg" alt="In the Dungeon">
                             </a>
                         </div>
-                        
+
+                        <div class="client-logo client-logo-nolink" aria-label="Britos">
+                            <img src="public/ClientLogos/Britos.svg" alt="Britos">
+                        </div>
+
                         <!-- Duplicate logos for seamless loop -->
                         <div class="client-logo">
-                            <a href="#" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-01.svg" alt="Client Logo 1">
-                            </a>
-                        </div>
-                        
-                        <div class="client-logo">
-                            <a href="https://kellehergroupm.co.uk/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-02.svg" alt="Kelleher Group Maintenance">
-                            </a>
-                        </div>
-                        
-                        <div class="client-logo">
                             <a href="https://www.hostelworld.com/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-03.svg" alt="Hostelworld">
+                                <img src="public/ClientLogos/HostelWorld.svg" alt="Hostelworld">
                             </a>
                         </div>
-                        
+
                         <div class="client-logo">
                             <a href="https://www.wombats-hostels.com/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-04.svg" alt="Wombats Hostels">
+                                <img src="public/ClientLogos/WombatsCityHostel.svg" alt="Wombat's City Hostels">
                             </a>
                         </div>
-                        
+
+                        <div class="client-logo">
+                            <a href="https://kellehergroupm.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/Kelleher.svg" alt="Kelleher Group Maintenance">
+                            </a>
+                        </div>
+
                         <div class="client-logo">
                             <a href="https://www.ndsurgeon.com/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-05.svg" alt="ND Surgeon">
+                                <img src="public/ClientLogos/NajibDaulatzai.svg" alt="Najib Daulatzai">
                             </a>
                         </div>
-                        
+
                         <div class="client-logo">
-                            <a href="https://richtons.co.uk/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-06.svg" alt="Richtons">
+                            <a href="https://www.richtons.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/RichtonsEnvironmentalServices.svg" alt="Richtons Environmental Services">
                             </a>
                         </div>
-                        
+
                         <div class="client-logo">
-                            <a href="https://www.ontimely.co.uk/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-07.svg" alt="OnTimely">
+                            <a href="https://www.osamamoussa.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/osamamoussa.svg" alt="Osama Moussa">
                             </a>
                         </div>
-                        
+
                         <div class="client-logo">
-                            <a href="https://osamamoussa.co.uk/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-08.svg" alt="Osama Moussa">
+                            <a href="https://www.apx-fs.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/APX.svg" alt="APX">
                             </a>
                         </div>
-                        
-                        <div class="client-logo client-logo-small">
+
+                        <div class="client-logo">
                             <a href="https://weserveubetter.at/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Logos-09.svg" alt="We Serve U Better">
+                                <img src="public/ClientLogos/Weserveubetter.svg" alt="We Serve U Better">
                             </a>
                         </div>
-                        
-                        <div class="client-logo client-logo-color">
-                            <a href="https://www.inthedungeon.co.uk/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/ITD__Main.png" alt="ITD - In The Dungeon">
-                            </a>
-                        </div>
-                        
+
                         <div class="client-logo">
-                            <a href="https://welbee.co.uk/" target="_blank" rel="noopener noreferrer">
-                                <img src="public/ClientLogos/Welbee_Logo_-01.png" alt="Welbee">
+                            <a href="https://www.inthedungeon.co.uk/" target="_blank" rel="noopener noreferrer">
+                                <img src="public/ClientLogos/ITD__Main.svg" alt="In the Dungeon">
                             </a>
+                        </div>
+
+                        <div class="client-logo client-logo-nolink" aria-label="Britos">
+                            <img src="public/ClientLogos/Britos.svg" alt="Britos">
                         </div>
                     </div>
                 </div>
@@ -989,89 +962,59 @@
             <div class="container section-title-block">
                 <p class="section-title-kicker">Services</p>
                 <h2 class="section-title-heading">What we deliver.</h2>
-                <p class="section-title-lead">Brand, web, product, and growth.</p>
             </div>
         </section>
         
-        <section id="services" class="services deliver-section section" data-animate="fade-up">
-            <!-- What we deliver: two-column sticky blocks (40/60), one block for now -->
+        <section id="services" class="services deliver-section deliver-section--significa section" data-animate="fade-up">
             <div class="deliver-blocks">
-                <div class="deliver-block">
-                    <div class="deliver-block-inner">
-                        <div class="deliver-left">
-                            <p class="deliver-kicker">Bring out the branding iron</p>
-                            <h2 class="deliver-title">Brand & Identity.</h2>
+                <article class="deliver-row">
+                    <div class="container deliver-row-inner">
+                        <div class="deliver-row-copy">
+                            <h3 class="deliver-row-name">Brand &amp; Identity.</h3>
+                            <p class="deliver-row-headline">Logos, typography systems, and visual languages that are distinct and enduring.</p>
+                            <a href="services/brand-identity.html" class="btn primary deliver-row-cta">View service →</a>
                         </div>
-                        <div class="deliver-right">
-                            <div class="deliver-image-wrap" aria-hidden="true">
-                                <img src="public/Mugs_Mockup.png" alt="Brand &amp; Identity: LEVEL Design" />
-                            </div>
-                            <p class="deliver-lead">Logos, typography systems, and visual languages that are distinct and enduring.</p>
-                            <ul class="deliver-items" aria-label="Offerings">
-                                <li>Naming & Strategy</li>
-                                <li>Logo & Visual System</li>
-                                <li>Design Guidelines</li>
-                            </ul>
+                        <div class="deliver-row-media">
+                            <img src="public/Mugs_Mockup.png" alt="Brand and identity work by LEVEL Design" loading="lazy" />
                         </div>
                     </div>
-                </div>
-                <div class="deliver-block">
-                    <div class="deliver-block-inner">
-                        <div class="deliver-left">
-                            <p class="deliver-kicker">Sites that convert</p>
-                            <h2 class="deliver-title">Web Design & Build.</h2>
+                </article>
+                <article class="deliver-row">
+                    <div class="container deliver-row-inner">
+                        <div class="deliver-row-copy">
+                            <h3 class="deliver-row-name">Web Design &amp; Build.</h3>
+                            <p class="deliver-row-headline">Fast, accessible sites with modern stacks. SEO-first, conversion-forward.</p>
+                            <a href="services/web-design.html" class="btn primary deliver-row-cta">View service →</a>
                         </div>
-                        <div class="deliver-right">
-                            <div class="deliver-image-wrap" aria-hidden="true">
-                                <img src="public/web design construction.png" alt="Web Design &amp; Build: LEVEL Design" />
-                            </div>
-                            <p class="deliver-lead">Fast, accessible sites with modern stacks. SEO-first, conversion-forward.</p>
-                            <ul class="deliver-items" aria-label="Offerings">
-                                <li>Marketing Sites</li>
-                                <li>CMS & Content Systems</li>
-                                <li>Component Libraries</li>
-                            </ul>
+                        <div class="deliver-row-media">
+                            <img src="public/web design construction.png" alt="Web design and build by LEVEL Design" loading="lazy" />
                         </div>
                     </div>
-                </div>
-                <div class="deliver-block">
-                    <div class="deliver-block-inner">
-                        <div class="deliver-left">
-                            <p class="deliver-kicker">Powered by AI</p>
-                            <h2 class="deliver-title">AI Systems &amp; Portals.</h2>
+                </article>
+                <article class="deliver-row">
+                    <div class="container deliver-row-inner">
+                        <div class="deliver-row-copy">
+                            <h3 class="deliver-row-name">AI Systems &amp; Portals.</h3>
+                            <p class="deliver-row-headline">Internal tools and customer portals powered by AI that augment your team.</p>
+                            <a href="services/ai-systems-portals.html" class="btn primary deliver-row-cta">View service →</a>
                         </div>
-                        <div class="deliver-right">
-                            <div class="deliver-image-wrap" aria-hidden="true">
-                                <img src="public/ai-systems-portals.png" alt="AI Systems &amp; Portals: LEVEL Design" />
-                            </div>
-                            <p class="deliver-lead">Internal tools and customer portals powered by AI that augment your team.</p>
-                            <ul class="deliver-items" aria-label="Offerings">
-                                <li>Workflow Automations</li>
-                                <li>Chat & Agent Integrations</li>
-                                <li>Dashboards & Data Backends</li>
-                            </ul>
+                        <div class="deliver-row-media">
+                            <img src="public/ai-systems-portals.png" alt="AI systems and portals by LEVEL Design" loading="lazy" />
                         </div>
                     </div>
-                </div>
-                <div class="deliver-block">
-                    <div class="deliver-block-inner">
-                        <div class="deliver-left">
-                            <p class="deliver-kicker">Strategy and results</p>
-                            <h2 class="deliver-title">Consulting & Growth.</h2>
+                </article>
+                <article class="deliver-row">
+                    <div class="container deliver-row-inner">
+                        <div class="deliver-row-copy">
+                            <h3 class="deliver-row-name">Consulting &amp; Growth.</h3>
+                            <p class="deliver-row-headline">Roadmaps, experiments, and measurable outcomes. We partner for results.</p>
+                            <a href="services/consulting-growth.html" class="btn primary deliver-row-cta">View service →</a>
                         </div>
-                        <div class="deliver-right">
-                            <div class="deliver-image-wrap" aria-hidden="true">
-                                <img src="public/consultingandgrowth.jpg" alt="Consulting &amp; Growth: LEVEL Design" />
-                            </div>
-                            <p class="deliver-lead">Roadmaps, experiments, and measurable outcomes. We partner for results.</p>
-                            <ul class="deliver-items" aria-label="Offerings">
-                                <li>Product & UX Strategy</li>
-                                <li>Funnel & Experimentation</li>
-                                <li>Data & Analytics</li>
-                            </ul>
+                        <div class="deliver-row-media">
+                            <img src="public/consultingandgrowth.jpg" alt="Consulting and growth by LEVEL Design" loading="lazy" />
                         </div>
                     </div>
-                </div>
+                </article>
                 <div class="deliver-block">
                     <div class="deliver-block-inner">
                         <div class="deliver-left">
@@ -1151,6 +1094,12 @@
                 <p class="section-title-lead">Focused capability across design and build.</p>
             </div>
         </section>
+
+        <section id="services-gallery" class="services-gallery section" data-animate="fade-up">
+            <div class="services-container">
+                <!-- Services images rendered by services-gallery.js -->
+            </div>
+        </section>
         
         <!-- Statistics Section - Mobile Only -->
         <section id="statistics-mobile" class="statistics-mobile section mobile-only" data-animate="fade-up">
@@ -1170,13 +1119,6 @@
             </div>
         </section>
         
-        <!-- Services Gallery Section -->
-        <section id="services-gallery" class="services-gallery section" data-animate="fade-up">
-            <div class="services-container">
-                <!-- Services images will be rendered here by JavaScript -->
-            </div>
-        </section>
-
         <section id="work-title" class="work-title-section section-title-block-wrap" data-animate="fade-up">
             <div class="container section-title-block">
                 <p class="section-title-kicker">Selected work</p>
@@ -1188,7 +1130,7 @@
         <section id="work" class="work section" data-animate="fade-up">
             <div class="container">
                 <div class="grid work-grid">
-                    <a class="work-card" href="https://www.ontimely.co.uk" target="_blank" rel="noopener noreferrer" aria-label="OnTimely - Event Management Portal">
+                    <a class="work-card" href="https://www.ontimely.co.uk" target="_blank" rel="noopener noreferrer" aria-label="OnTimely — Event management">
                         <span class="glow"></span>
                         <div class="work-media">
                             <video autoplay muted loop playsinline>
@@ -1197,21 +1139,23 @@
                             </video>
                         </div>
                         <div class="work-meta">
-                            <span>OnTimely - Event Management</span>
-                            <strong>Front-to-back design of a complete event management platform and mobile app</strong>
+                            <strong class="work-name">OnTimely</strong>
+                            <span class="work-type">Event management</span>
+                            <p class="work-desc">Front-to-back design of a complete event management platform and mobile app.</p>
                         </div>
                     </a>
-                    <a class="work-card" href="https://kleenapp.co.uk" target="_blank" rel="noopener noreferrer" aria-label="KLEEN">
+                    <a class="work-card" href="https://kleenapp.co.uk" target="_blank" rel="noopener noreferrer" aria-label="KLEEN — Web app service">
                         <span class="glow"></span>
                         <div class="work-media">
                             <img src="public/Kleen Promo.png" alt="KLEEN: web app connecting clients with specialist cleaners" />
                         </div>
                         <div class="work-meta">
-                            <span>KLEEN</span>
-                            <strong>Web app platform connecting domestic and commercial clients with specialist cleaners: end-to-end design and build.</strong>
+                            <strong class="work-name">KLEEN</strong>
+                            <span class="work-type">Web app service</span>
+                            <p class="work-desc">Platform connecting domestic and commercial clients with specialist cleaners — end-to-end design and build.</p>
                         </div>
                     </a>
-                    <a class="work-card" href="https://chromewebstore.google.com/detail/abmihilkdbamlelkmpfegjfimcjpcihh?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" aria-label="Nimbus - Chrome Extension">
+                    <a class="work-card" href="https://chromewebstore.google.com/detail/abmihilkdbamlelkmpfegjfimcjpcihh?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" aria-label="Nimbus — Chrome extension">
                         <span class="glow"></span>
                         <div class="work-media">
                             <video autoplay muted loop playsinline>
@@ -1220,20 +1164,14 @@
                             </video>
                         </div>
                         <div class="work-meta">
-                            <span>Nimbus: Chrome Extension</span>
-                            <strong>In-browser learning: highlight any text for instant definitions, AI explanations, translation, and pronunciation. Built by LEVEL.</strong>
+                            <strong class="work-name">Nimbus</strong>
+                            <span class="work-type">Chrome extension</span>
+                            <p class="work-desc">In-browser learning: highlight any text for definitions, AI explanations, translation, and pronunciation.</p>
                         </div>
                     </a>
                 </div>
             </div>
         </section>
-
-        <!-- Custom Background Element -->
-        <div id="custom-background" class="custom-bg">
-            <div class="bg-layer bg-black"></div>
-            <div class="bg-layer bg-red"></div>
-            <div class="bg-layer bg-pattern"></div>
-        </div>
 
         <!-- Projects Title Section -->
         <section id="projects-title" class="projects-title-section section-title-block-wrap" data-animate="fade-up">
@@ -1247,16 +1185,75 @@
         <!-- Projects Gallery Section - Desktop -->
         <section id="projects" class="projects section desktop-only" data-animate="fade-up">
             <div class="projects-container">
-                <!-- Projects will be rendered here by JavaScript -->
+                <!-- Projects rendered by projects-gallery.js -->
             </div>
         </section>
         
         <!-- Projects Gallery Section - Mobile Only -->
         <section id="projects-mobile" class="projects-mobile section mobile-only" data-animate="fade-up">
             <div class="projects-mobile-container">
-                <!-- Projects will be rendered here by JavaScript -->
+                <!-- Projects rendered by projects-gallery.js -->
             </div>
         </section>
+
+        <!-- Articles Section (hidden — not ready)
+        <section id="articles-title" class="section-title-block-wrap" data-animate="fade-up">
+            <div class="container section-title-block">
+                <p class="section-title-kicker">Journal</p>
+                <h2 class="section-title-heading">Articles.</h2>
+                <p class="section-title-lead">Ideas, observations, and practical notes from the studio.</p>
+            </div>
+        </section>
+
+        <section id="articles" class="articles-section section" data-animate="fade-up">
+            <div class="articles-layout">
+                <div class="articles-row articles-row--compact">
+                    <a href="articles/clarity-beats-cleverness.html" class="article-card article-card--compact article-card--coral">
+                        <p class="article-card-tag">Design</p>
+                        <h3>Why clarity beats cleverness</h3>
+                    </a>
+                    <a href="articles/building-useful-digital-tools.html" class="article-card article-card--compact article-card--blue">
+                        <p class="article-card-tag">Technology</p>
+                        <h3>Building useful digital tools</h3>
+                    </a>
+                    <a href="articles/small-decisions-stronger-brands.html" class="article-card article-card--compact article-card--lime">
+                        <p class="article-card-tag">Strategy</p>
+                        <h3>Small decisions, stronger brands</h3>
+                    </a>
+                    <a href="articles/first-sketch-to-launch.html" class="article-card article-card--compact article-card--violet">
+                        <p class="article-card-tag">Process</p>
+                        <h3>From first sketch to launch</h3>
+                    </a>
+                    <a href="articles/notes-behind-the-scenes.html" class="article-card article-card--compact article-card--orange">
+                        <p class="article-card-tag">Culture</p>
+                        <h3>Notes from behind the scenes</h3>
+                    </a>
+                    <a href="articles/making-good-work-work-harder.html" class="article-card article-card--compact article-card--teal">
+                        <p class="article-card-tag">Growth</p>
+                        <h3>Making good work work harder</h3>
+                    </a>
+                </div>
+
+                <div class="articles-row articles-row--feature">
+                    <a href="articles/changing-shape-of-the-web.html" class="article-card article-card--feature article-card--pink">
+                        <p class="article-card-tag">Featured story</p>
+                        <h3>The changing shape of the web</h3>
+                        <p class="article-card-summary">A few thoughts on designing digital experiences that still feel human.</p>
+                    </a>
+                    <a href="articles/systems-room-for-ideas.html" class="article-card article-card--feature article-card--yellow">
+                        <p class="article-card-tag">Studio notes</p>
+                        <h3>Good systems create room for ideas</h3>
+                        <p class="article-card-summary">How structure helps creative teams move faster without flattening the work.</p>
+                    </a>
+                    <a href="articles/designing-for-what-happens-next.html" class="article-card article-card--feature article-card--green">
+                        <p class="article-card-tag">Perspective</p>
+                        <h3>Designing for what happens next</h3>
+                        <p class="article-card-summary">Thinking beyond launch day and building brands that can keep evolving.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+        -->
         
         <!-- Projects Webview Tabs Section -->
         <section id="projects-webview" class="projects-webview section" data-animate="fade-up">
@@ -1274,8 +1271,8 @@
                         <button class="tab-button" data-tab="kleen" aria-label="View KLEEN website">
                             <span>KLEEN</span>
                         </button>
-                        <button class="tab-button" data-tab="ndsurgeon" aria-label="View ND Surgeon website">
-                            <span>ND SURGEON</span>
+                        <button class="tab-button" data-tab="ndsurgeon" aria-label="View Najib Daulatzai website">
+                            <span>NAJIB DAULATZAI</span>
                         </button>
                     </div>
             </div>
@@ -1357,17 +1354,17 @@
                         <div class="tab-panel" id="tab-ndsurgeon" data-url="https://www.ndsurgeon.com">
                             <div class="project-panel-inner">
                                 <div class="project-copy">
-                                    <h3 class="project-webview-title">ND Surgeon</h3>
-                                    <p class="project-webview-desc">ND Surgeon required a professional, trustworthy site for a surgical practice. We built a responsive site with clear service information, credentials, and an accessible contact flow, built for both patients and referrers.</p>
+                                    <h3 class="project-webview-title">Najib Daulatzai</h3>
+                                    <p class="project-webview-desc">Mr Najib required a professional, trustworthy site for a surgical practice. We built a responsive site with clear service information, credentials, and an accessible contact flow, built for both patients and referrers.</p>
                                     <a href="https://www.ndsurgeon.com" target="_blank" rel="noopener noreferrer" class="project-webview-url">www.ndsurgeon.com</a>
                                 </div>
                                 <div class="webview-wrapper">
                                     <div class="webview-scaled">
-                                        <iframe data-src="https://www.ndsurgeon.com" frameborder="0" allowfullscreen title="ND Surgeon website"></iframe>
+                                        <iframe data-src="https://www.ndsurgeon.com" frameborder="0" allowfullscreen title="Najib Daulatzai website"></iframe>
                                     </div>
                                     <div class="iframe-fallback" style="display: none;">
                                         <p>This website cannot be displayed in an embedded view due to security restrictions.</p>
-                                        <a href="https://www.ndsurgeon.com" target="_blank" rel="noopener noreferrer" class="fallback-link">Open ND Surgeon in a new tab →</a>
+                                        <a href="https://www.ndsurgeon.com" target="_blank" rel="noopener noreferrer" class="fallback-link">Open Najib Daulatzai in a new tab →</a>
                                     </div>
                                 </div>
                             </div>
@@ -1440,7 +1437,7 @@
             </div>
         </section>
 
-        <section id="about" class="about section" aria-hidden="true"></section>
+        <section id="about" class="about section desktop-only" aria-label="About LEVEL"></section>
 
         <section id="reviews-title" class="reviews-title-section section-title-block-wrap" data-animate="fade-up">
             <div class="container section-title-block">
@@ -1607,7 +1604,7 @@
     <!-- End Desktop Version -->
     <!-- End Mobile Version -->
 
-    <footer class="site-footer desktop-only" data-animate="fade-up">
+    <footer class="site-footer" data-animate="fade-up">
         <div class="container footer-inner">
             <div class="footer-top">
                 <div class="footer-brand">
@@ -1646,62 +1643,11 @@
         </div>
     </footer>
 
-    <canvas id="cursor-canvas"></canvas>
-    <div class="custom-cursor" id="custom-cursor"></div>
-    <!-- reCAPTCHA v3 -->
-    <script src="https://www.google.com/recaptcha/api.js?render=6LeCRlIsAAAAAGPZzNsKcCRa_BSgy6ICxaSAh1wm"></script>
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <!-- EmailJS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script>
-      // Percentage loader - counts from 0 to 100%, then show logo briefly on mobile
-      (function() {
-        const loader = document.getElementById('loading-screen');
-        const percentEl = document.getElementById('loading-percent');
-        if (!loader || !percentEl) return;
-        
-        let percent = 0;
-        const targetPercent = 100;
-        const duration = 2000; // 2 seconds total
-        const interval = 20; // Update every 20ms
-        const increment = (targetPercent / duration) * interval;
-        
-        const updatePercent = () => {
-          percent += increment;
-          if (percent >= targetPercent) {
-            percent = targetPercent;
-            percentEl.textContent = '100%';
-            
-            // Hide loading screen when complete
-            setTimeout(() => {
-              loader.style.opacity = '0';
-              setTimeout(() => loader.remove(), 500);
-            }, 200);
-            return;
-          }
-          
-          percentEl.textContent = Math.floor(percent) + '%';
-          setTimeout(updatePercent, interval);
-        };
-        
-        // Start counting
-        updatePercent();
-        
-        // Also hide on window load (fallback)
-        window.addEventListener('load', function() {
-          if (loader && loader.parentNode) {
-            percent = 100;
-            percentEl.textContent = '100%';
-            setTimeout(() => {
-              loader.style.opacity = '0';
-              setTimeout(() => loader.remove(), 500);
-            }, 200);
-          }
-        });
-      })();
-    </script>
     <script src="hero-intent.js" defer></script>
+    <script src="text-reveal.js" defer></script>
+    <script src="hero-selected-work.js" defer></script>
+    <script src="services-gallery.js" defer></script>
+    <script src="projects-gallery.js" defer></script>
     <script src="script.js" defer></script>
 </body>
 </html>

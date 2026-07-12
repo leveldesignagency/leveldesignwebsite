@@ -8,9 +8,10 @@
   const HERO_VARIANTS = {
     default: {
       kicker: 'Web design · AI search · AI systems',
-      headline: 'Websites that win work.<br>Visible in AI search.<br>Built to convert.',
+      headline:
+        '<span class="hero-line-bright">Design. Build. Optimise.</span><span class="hero-line-dim">Convert.</span>',
       subhead:
-        'LEVEL helps businesses with serious budgets turn search and AI discovery into qualified enquiries through premium web design, AI search optimisation (AEO), and practical AI support.',
+        'Premium web design and AI search optimisation for teams that need qualified enquiries, not vanity traffic.',
       cta: 'Start a project',
       metaTitle: 'Web Design, AI Search Optimisation & AI Support | LEVEL Design Agency',
       metaDescription:

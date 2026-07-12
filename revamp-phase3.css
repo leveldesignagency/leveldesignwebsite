@@ -1,0 +1,113 @@
+/* Phase 3 — flat UI, tight margins, button roles */
+
+.hero-line-bright { color: var(--text); }
+.hero-line-dim { color: var(--ref-text-dim); }
+
+/* Hero CTA: red default → black slide + red border on hover */
+.hero-cta-single.btn.primary {
+  background: var(--brand) !important;
+  color: #fff !important;
+  border: 1.5px solid var(--brand) !important;
+  box-shadow: none !important;
+}
+
+.hero-cta-single.btn.primary::before {
+  background: #0a0a0a !important;
+}
+
+.hero-cta-single.btn.primary:hover {
+  color: #fff !important;
+  border-color: var(--brand) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* View work: flat ghost, red border on hover */
+.hero-cta-secondary.btn-outline-run:hover {
+  border-color: var(--brand) !important;
+  color: #fff !important;
+}
+
+/* Work + gallery sizing */
+#work .container {
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-x);
+  padding-right: var(--container-x);
+}
+
+#work .work-grid {
+  gap: 14px !important;
+}
+
+.work-card {
+  padding: 12px !important;
+  box-shadow: none !important;
+}
+
+.work-card .work-media {
+  aspect-ratio: 16 / 9 !important;
+}
+
+#services-gallery .service-image img {
+  max-height: 62vh !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}
+
+/* In the wild */
+.project-webview-title {
+  font-family: Inter, system-ui, sans-serif !important;
+  font-size: var(--type-section) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.15 !important;
+  text-transform: none !important;
+}
+
+.project-webview-desc {
+  font-size: 1.1rem !important;
+  line-height: 1.6 !important;
+  font-weight: 500 !important;
+  color: var(--muted) !important;
+}
+
+.projects-tabs .tab-button {
+  font-size: 1rem !important;
+  padding: 14px 18px !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+}
+
+.projects-tabs .tab-button.active {
+  background: var(--brand) !important;
+  border-color: var(--brand) !important;
+  color: #fff !important;
+}
+
+.deliver-row-cta {
+  max-width: 200px;
+  width: 100%;
+  justify-content: center;
+}
+
+.audience-title--compact {
+  font-size: var(--type-section) !important;
+}
+
+/* Kill legacy desktop type blow-up at end of styles.css */
+@media (min-width: 769px) {
+  .section-title-block-wrap .section-title-heading,
+  .audience-title,
+  .audience-title--compact {
+    font-size: var(--type-section) !important;
+    line-height: 1.15 !important;
+    white-space: normal !important;
+  }
+
+  .hero.hero-single .hero-headline-single {
+    font-size: var(--type-hero) !important;
+    line-height: 1.04 !important;
+  }
+}

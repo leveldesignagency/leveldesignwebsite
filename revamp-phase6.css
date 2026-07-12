@@ -1,0 +1,368 @@
+/* Phase 6 — section title blocks: larger type, no dark bands */
+
+:root {
+  --type-section: clamp(2.25rem, 4.5vw, 3.5rem);
+  --header-h: 92px;
+}
+
+.section-title-block-wrap,
+#services-title.section-title-block-wrap,
+#specialities-title.section-title-block-wrap,
+#work-title.section-title-block-wrap,
+#projects-title.section-title-block-wrap,
+#process-title.section-title-block-wrap,
+#reviews-title.section-title-block-wrap,
+#contact-title.section-title-block-wrap,
+#services-title.services-title-section,
+#specialities-title.specialities-title-section,
+#work-title.work-title-section,
+#projects-title.projects-title-section,
+#process-title.process-title-section,
+#reviews-title.reviews-title-section,
+#contact-title.contact-title-section {
+  background: var(--bg) !important;
+  border: none !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: block !important;
+  align-items: unset !important;
+  justify-content: unset !important;
+  margin-bottom: 0 !important;
+}
+
+.dark-mode #services-title.services-title-section,
+.dark-mode #specialities-title.specialities-title-section,
+.dark-mode #work-title.work-title-section,
+.dark-mode #projects-title.projects-title-section,
+.dark-mode #process-title.process-title-section,
+.dark-mode #reviews-title.reviews-title-section,
+.dark-mode #contact-title.contact-title-section,
+.dark-mode #services-title.section-title-block-wrap,
+.dark-mode #specialities-title.section-title-block-wrap,
+.dark-mode #work-title.section-title-block-wrap,
+.dark-mode #projects-title.section-title-block-wrap,
+.dark-mode #process-title.section-title-block-wrap,
+.dark-mode #reviews-title.section-title-block-wrap,
+.dark-mode #contact-title.section-title-block-wrap {
+  background: var(--bg) !important;
+  border: none !important;
+}
+
+.section-title-block-wrap .section-title-heading,
+.section-title-block-wrap h2.section-title-heading,
+#services-title.section-title-block-wrap h2.section-title-heading,
+#specialities-title.section-title-block-wrap h2.section-title-heading,
+#work-title.section-title-block-wrap h2.section-title-heading,
+#projects-title.section-title-block-wrap h2.section-title-heading,
+#process-title.section-title-block-wrap h2.section-title-heading,
+#reviews-title.section-title-block-wrap h2.section-title-heading,
+#contact-title.section-title-block-wrap h2.section-title-heading,
+#services-title.services-title-section h2,
+#specialities-title.specialities-title-section h2,
+#work-title.work-title-section h2,
+#projects-title.projects-title-section h2,
+#process-title.process-title-section h2,
+#reviews-title.reviews-title-section h2,
+#contact-title.contact-title-section h2 {
+  font-family: Inter, system-ui, sans-serif !important;
+  font-size: var(--type-section) !important;
+  font-weight: 700 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.03em !important;
+  white-space: normal !important;
+  color: var(--text) !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+.section-title-block-wrap .section-title-kicker {
+  font-family: "Bebas Neue", Impact, system-ui, sans-serif !important;
+  font-size: var(--type-kicker) !important;
+  color: var(--muted) !important;
+  text-align: left !important;
+}
+
+.section-title-block-wrap .section-title-lead {
+  font-size: 1.1rem !important;
+  line-height: 1.55 !important;
+  color: var(--muted) !important;
+  max-width: 52ch;
+  text-align: left !important;
+}
+
+.section-title-block-wrap .section-title-block,
+.section-title-block-wrap .container.section-title-block,
+#reviews-title .section-title-block {
+  display: block !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+}
+
+.reviews-title-head,
+.reviews-title-copy {
+  width: auto !important;
+  max-width: none !important;
+  text-align: left !important;
+  margin: 0 !important;
+}
+
+@media (min-width: 769px) {
+  #projects-title.projects-title-section,
+  #services-title.services-title-section,
+  #specialities-title.specialities-title-section,
+  #work-title.work-title-section,
+  #process-title.process-title-section,
+  #reviews-title.reviews-title-section,
+  #contact-title.contact-title-section {
+    height: auto !important;
+    display: block !important;
+    border: none !important;
+    background: var(--bg) !important;
+  }
+
+  .section-title-block-wrap .section-title-heading,
+  .section-title-block-wrap h2.section-title-heading,
+  #services-title.section-title-block-wrap h2.section-title-heading,
+  #specialities-title.section-title-block-wrap h2.section-title-heading,
+  #work-title.section-title-block-wrap h2.section-title-heading,
+  #projects-title.section-title-block-wrap h2.section-title-heading,
+  #process-title.section-title-block-wrap h2.section-title-heading,
+  #reviews-title.section-title-block-wrap h2.section-title-heading,
+  #contact-title.section-title-block-wrap h2.section-title-heading {
+    font-size: var(--type-section) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --type-section: clamp(2rem, 8vw, 2.75rem);
+  }
+
+  #projects-title.projects-title-section,
+  #services-title.services-title-section,
+  #specialities-title.specialities-title-section,
+  #work-title.work-title-section,
+  #process-title.process-title-section,
+  #reviews-title.reviews-title-section,
+  #contact-title.contact-title-section {
+    display: block !important;
+    padding: 0 !important;
+    border: none !important;
+    text-align: left !important;
+  }
+
+  .section-title-block-wrap .section-title-block {
+    text-align: left !important;
+    padding-top: 40px !important;
+    padding-bottom: 36px !important;
+  }
+
+  .section-title-block-wrap .section-title-heading,
+  .section-title-block-wrap h2.section-title-heading,
+  #services-title.services-title-section h2,
+  #specialities-title.specialities-title-section h2,
+  #work-title.work-title-section h2,
+  #projects-title.projects-title-section h2,
+  #process-title.process-title-section h2,
+  #reviews-title.reviews-title-section h2,
+  #contact-title.contact-title-section h2 {
+    font-size: var(--type-section) !important;
+    white-space: normal !important;
+    text-align: left !important;
+    margin: 0 !important;
+    width: auto !important;
+  }
+}
+
+/* Section title blocks — left aligned with page content */
+#services-title.services-title-section,
+#services-title.section-title-block-wrap,
+#specialities-title.specialities-title-section,
+#specialities-title.section-title-block-wrap,
+#work-title.work-title-section,
+#work-title.section-title-block-wrap,
+#projects-title.projects-title-section,
+#projects-title.section-title-block-wrap,
+#process-title.process-title-section,
+#process-title.section-title-block-wrap,
+#reviews-title.reviews-title-section,
+#reviews-title.section-title-block-wrap,
+#contact-title.contact-title-section,
+#contact-title.section-title-block-wrap {
+  display: block !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+}
+
+.section-title-block-wrap .container.section-title-block,
+.section-title-block-wrap .section-title-block,
+#services-title .container.section-title-block,
+#services-title .section-title-block,
+#specialities-title .container.section-title-block,
+#specialities-title .section-title-block,
+#projects-title .container.section-title-block,
+#projects-title .section-title-block {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  text-align: left !important;
+}
+
+.section-title-block-wrap .section-title-kicker,
+.section-title-block-wrap .section-title-heading,
+.section-title-block-wrap .section-title-lead,
+.section-title-block-wrap h2.section-title-heading {
+  text-align: left !important;
+}
+
+/* ITD logo — same muted default / bright hover as other client logos */
+#clients .client-logo-color {
+  opacity: 0.42 !important;
+  transition: opacity 0.35s ease, transform 0.35s ease !important;
+}
+
+#clients .client-logo-color:hover {
+  opacity: 1 !important;
+}
+
+#clients .client-logo-color img {
+  filter: none !important;
+}
+
+/* Client logos — uniform scale (wide marks like Najib set the reference height) */
+#clients .marquee-row {
+  height: 80px !important;
+  margin: 8px 0 !important;
+}
+
+#clients .marquee-track {
+  gap: 80px !important;
+}
+
+#clients .client-logo,
+#clients .client-logo-small,
+#clients .client-logo-nolink,
+#clients .client-logo-color {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  flex: 0 0 auto;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 12px !important;
+  margin: 0 !important;
+}
+
+#clients .client-logo a,
+#clients .client-logo-nolink {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+#clients .client-logo img,
+#clients .client-logo-small img,
+#clients .client-logo-nolink img,
+#clients .client-logo-color img {
+  width: auto !important;
+  height: 48px !important;
+  max-width: min(200px, 30vw) !important;
+  max-height: 48px !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 768px) {
+  #clients .marquee-row {
+    height: 72px !important;
+    margin: 4px 0 !important;
+  }
+
+  #clients .marquee-track {
+    gap: 56px !important;
+  }
+
+  #clients .client-logo img,
+  #clients .client-logo-small img,
+  #clients .client-logo-nolink img,
+  #clients .client-logo-color img {
+    height: 44px !important;
+    max-height: 44px !important;
+    max-width: min(200px, 40vw) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #clients .marquee-row {
+    height: 64px !important;
+  }
+
+  #clients .client-logo img,
+  #clients .client-logo-small img,
+  #clients .client-logo-nolink img,
+  #clients .client-logo-color img {
+    height: 40px !important;
+    max-height: 40px !important;
+    max-width: min(180px, 44vw) !important;
+  }
+}
+
+/* Markets tabs — align with section margins (no extra bleed/padding) */
+#who-we-work-with .markets-compact {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+#markets-strip.markets-strip,
+.markets-strip {
+  gap: 12px !important;
+  width: 100% !important;
+}
+
+@media (min-width: 640px) {
+  #markets-strip.markets-strip,
+  .markets-strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+}
+
+#markets-strip .market-chip {
+  padding: 14px 18px !important;
+}
+
+#who-we-work-with .market-detail {
+  margin-top: 4px;
+}
+
+/* Header — tighter side margins, more top breathing room */
+.site-header .header-inner {
+  padding-top: 18px !important;
+  padding-bottom: 14px !important;
+  height: auto !important;
+  min-height: var(--header-h) !important;
+  align-items: center !important;
+}
+
+@media (min-width: 769px) {
+  :root {
+    --header-x: clamp(20px, 3vw, 40px);
+  }
+
+  .site-header .header-inner {
+    padding-left: var(--header-x) !important;
+    padding-right: var(--header-x) !important;
+  }
+}

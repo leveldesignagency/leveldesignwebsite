@@ -1,0 +1,264 @@
+/* Phase 4 — header, spotlight, logos, markets, work, reviews, projects, text reveal */
+
+/* ── Header & logo ── */
+.logo-img {
+  height: 54px !important;
+}
+
+.site-header .header-inner {
+  align-items: center !important;
+}
+
+/* Hero spotlight — inset handled by .hero-selected-work */
+.hero-spotlight {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ── Scroll typography reveal ── */
+.text-reveal {
+  display: block;
+}
+
+.text-reveal-char {
+  display: inline;
+  opacity: 0.5;
+  will-change: opacity;
+  transition: opacity 0.08s linear;
+}
+
+.text-reveal--done .text-reveal-char {
+  opacity: 1;
+}
+
+/* ── Client logos — match page background, not pure black ── */
+#clients.clients.section,
+#clients.section,
+#clients .container,
+#clients .marquee-row,
+#clients .marquee-track,
+.clients {
+  background: var(--bg) !important;
+}
+
+#clients .marquee-row::before {
+  background: linear-gradient(to right, var(--bg), transparent) !important;
+}
+
+#clients .marquee-row::after {
+  background: linear-gradient(to left, var(--bg), transparent) !important;
+}
+
+/* ── Client logos — grey default, white on hover, slightly larger ── */
+#clients .marquee-row {
+  height: 200px !important;
+}
+
+.client-logo {
+  width: 380px !important;
+  height: 160px !important;
+}
+
+.dark-mode .client-logo:not(.client-logo-color) {
+  animation: none !important;
+}
+
+#clients .client-logo:not(.client-logo-color) {
+  opacity: 0.42;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+#clients .client-logo:not(.client-logo-color):hover {
+  opacity: 1;
+}
+
+#clients .client-logo:not(.client-logo-color) img,
+.dark-mode .client-logo:not(.client-logo-color) img,
+.client-logo:not(.client-logo-color) img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 1 !important;
+  transition: filter 0.35s ease !important;
+}
+
+#clients .client-logo:not(.client-logo-color):hover img,
+.dark-mode .client-logo:not(.client-logo-color):hover img,
+.client-logo:not(.client-logo-color):hover img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 1 !important;
+}
+
+.client-logo:hover {
+  transform: scale(1.04) !important;
+}
+
+.client-logo-color img {
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+#clients .client-logo-color {
+  opacity: 0.42;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+#clients .client-logo-color:hover {
+  opacity: 1;
+}
+
+/* ── Markets — larger title, full-bleed tab strip ── */
+.audience-title--compact,
+#markets-heading {
+  font-size: clamp(1.85rem, 3.2vw, 2.5rem) !important;
+}
+
+.markets-compact {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  padding-left: var(--container-x);
+  padding-right: var(--container-x);
+  box-sizing: border-box;
+}
+
+.markets-strip {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .markets-strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+#markets-strip .market-chip,
+.market-chip {
+  width: 100%;
+  min-width: 0;
+  padding: 14px 18px;
+  box-sizing: border-box;
+}
+
+/* ── Work that ships — wider cards ── */
+#work .container {
+  max-width: none !important;
+  padding-left: var(--container-x) !important;
+  padding-right: var(--container-x) !important;
+}
+
+#work .work-grid {
+  max-width: 1480px;
+  margin: 0 auto;
+  gap: 12px !important;
+}
+
+.work-card {
+  padding: 8px !important;
+}
+
+/* ── Reviews — wider layout, matched gradients, no corner lines ── */
+#reviews .container {
+  max-width: none !important;
+  width: min(1680px, calc(100% - 2 * var(--container-x)));
+  padding-left: var(--container-x) !important;
+  padding-right: var(--container-x) !important;
+}
+
+.reviews-marquee-shell {
+  width: min(1680px, 100%);
+  margin: 0 auto;
+}
+
+.review-tile::after {
+  display: none !important;
+}
+
+.reviews-summary {
+  background:
+    linear-gradient(135deg, rgba(255, 45, 45, 0.08), transparent 30%),
+    rgba(255, 255, 255, 0.025) !important;
+}
+
+.reviews-summary::before {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05), transparent 24%),
+    linear-gradient(180deg, transparent 62%, rgba(255, 45, 45, 0.06)) !important;
+}
+
+/* ── In the wild — full-width tabs, flat buttons ── */
+.projects-tabs-wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  padding: 0 var(--container-x) !important;
+  box-sizing: border-box;
+}
+
+.projects-tabs {
+  gap: 8px !important;
+  padding: 28px 0 20px !important;
+}
+
+.projects-tabs .tab-button {
+  border-radius: 0 !important;
+  font-family: Inter, system-ui, sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
+  background: transparent !important;
+  padding: 14px 10px !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.projects-tabs .tab-button:hover {
+  border-color: var(--brand) !important;
+  background: transparent !important;
+  color: #fff !important;
+  transform: none !important;
+}
+
+.projects-tabs .tab-button.active {
+  background: var(--brand) !important;
+  border-color: var(--brand) !important;
+  color: #fff !important;
+}
+
+#projects-webview .container-webview {
+  max-width: none !important;
+  padding-left: var(--container-x) !important;
+  padding-right: var(--container-x) !important;
+}
+
+.tab-panel.active {
+  padding-left: var(--container-x) !important;
+  padding-right: var(--container-x) !important;
+}
+
+.project-panel-inner {
+  max-width: 1520px;
+}
+
+@media (max-width: 768px) {
+  .markets-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-selected-work {
+    max-width: none;
+  }
+
+  #clients .marquee-row {
+    height: 140px !important;
+  }
+
+  #clients .client-logo {
+    width: 280px !important;
+    height: 120px !important;
+  }
+}
