@@ -2801,12 +2801,12 @@ body:not(.dark-mode) .project-panel-inner > .webview-wrapper {
 #about.section { background: var(--bg-alt); color: var(--text-alt); }
 #reviews.section { background: var(--bg); }
 #contact.section { 
-  background: var(--bg-alt); 
-  color: var(--text-alt); 
+  background: var(--bg); 
+  color: var(--text); 
 }
 
 .dark-mode #contact.section {
-  background: #000000;
+  background: var(--bg);
   color: #ffffff;
 }
 #contact.section h2 {
@@ -4257,7 +4257,7 @@ body:not(.dark-mode) .review-tile {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: rgba(255, 255, 255, 0.1) 0px 10px 16px -8px, rgba(255, 255, 255, 0.15) 0px 20px 36px -14px;
+  box-shadow: none;
   padding: 40px;
   border-radius: 0;
 }
@@ -4312,12 +4312,14 @@ body:not(.dark-mode) .review-tile {
   display: inline-block;
   background-image: linear-gradient(currentColor, currentColor);
   background-repeat: no-repeat;
-  background-position: 0 100%;
-  background-size: 0 1px;
-  transition: background-size 0.3s ease;
+  background-position: right bottom;
+  background-size: 0% 1px;
+  transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-position 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .contact-method:hover span {
+  background-position: left bottom;
   background-size: 100% 1px;
 }
 
@@ -5029,13 +5031,13 @@ textarea {
   padding: 42px 0 26px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   background: var(--bg);
-  margin-top: 64px;
+  margin-top: 0;
 }
 
-/* Dark mode footer - black background */
+/* Dark mode footer - match page background */
 .dark-mode .site-footer {
   border-top: 1px solid rgba(255, 255, 255, 0.14);
-  background: #000000;
+  background: var(--bg);
 }
 .footer-inner { 
   display: grid; 
@@ -5601,7 +5603,10 @@ body:not(.dark-mode) .footer-social-link {
     justify-content: flex-start !important;
     text-align: left !important;
     gap: 28px !important;
-    padding: 0 !important;
+    padding-left: var(--container-x) !important;
+    padding-right: var(--container-x) !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
   }
   .hero.hero-single .hero-content {
     display: flex !important;
@@ -5622,8 +5627,22 @@ body:not(.dark-mode) .footer-social-link {
     max-width: 100% !important;
   }
   .hero-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
     justify-content: flex-start;
+    align-items: stretch !important;
+    gap: 10px !important;
     width: 100%;
+  }
+
+  .hero-actions .btn,
+  .hero-actions .btn.primary,
+  .hero-actions .btn.btn-outline-run {
+    flex: 1 1 0 !important;
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
   }
   .hero-showcase {
     width: 100%;
@@ -5678,10 +5697,6 @@ body:not(.dark-mode) .footer-social-link {
     padding: 8px 12px;
     flex: 1 1 calc(50% - 6px);
     max-width: calc(50% - 3px);
-  }
-
-  .market-chip-label {
-    font-size: 1rem;
   }
   #extras.capability-section .capability-section-inner {
     padding-top: 56px;
@@ -6002,10 +6017,10 @@ body:not(.dark-mode) .footer-social-link {
   }
   .hero.hero-single .hero-inner {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: stretch;
+    text-align: left;
     gap: 32px;
-    padding: 32px 24px 40px !important;
+    padding: 0 var(--container-x) 40px !important;
   }
   .hero.hero-single .hero-content {
     max-width: 100%;
@@ -6537,7 +6552,7 @@ body:not(.dark-mode) .footer-social-link {
   
   /* Override general section padding for projects-mobile */
   #projects-mobile.section.mobile-only {
-    padding: 0 !important;
+    padding: 0 var(--container-x) clamp(40px, 8vw, 64px) !important;
     margin: 0 !important;
   }
   
@@ -6598,10 +6613,10 @@ body:not(.dark-mode) .footer-social-link {
     width: auto !important;
   }
   
-  /* Hide specialities title on mobile */
-  #specialities-title.specialities-title-section {
+  /* Hide specialities title on mobile — overridden by revamp-phase7 / project.css */
+  /* #specialities-title.specialities-title-section {
     display: none !important;
-  }
+  } */
   
   /* Statistics Section - Mobile Only */
   #statistics-mobile.section {
@@ -7297,6 +7312,11 @@ body:not(.dark-mode) .footer-social-link {
     width: 100%;
     justify-content: center;
   }
+
+  .hero-actions .btn.primary,
+  .hero-actions .btn.btn-outline-run {
+    width: auto !important;
+  }
   
   /* Footer - Ensure visible on mobile */
   .site-footer {
@@ -7749,12 +7769,13 @@ body:not(.dark-mode) .footer-social-link {
 }
 
 #contact.section {
-  background: var(--bg-surface) !important;
+  background: var(--bg) !important;
   color: var(--text) !important;
+  padding-bottom: clamp(48px, 6vw, 80px) !important;
 }
 
 .dark-mode #contact.section {
-  background: var(--bg-surface) !important;
+  background: var(--bg) !important;
   color: var(--text) !important;
 }
 

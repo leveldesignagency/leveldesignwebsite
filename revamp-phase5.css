@@ -29,6 +29,7 @@
 #work .container,
 #reviews .container,
 #projects-webview .container-webview,
+.site-footer .container.footer-inner,
 .projects-tabs-wrapper,
 .hero-selected-work,
 .project-case {
@@ -55,7 +56,8 @@
 .detail-band-inner,
 .detail-hero,
 .article-hero,
-.article-wrap {
+.article-wrap,
+.site-footer .container.footer-inner {
   padding-left: var(--container-x) !important;
   padding-right: var(--container-x) !important;
 }

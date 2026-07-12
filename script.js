@@ -37,6 +37,7 @@ const REVEAL_ITEM_SELECTORS = [
   '#contact .contact-info h3',
   '#contact .contact-info > p',
   '#contact .contact-methods',
+  '#services-gallery .service-slide',
   '[data-reveal]',
 ].join(', ');
 

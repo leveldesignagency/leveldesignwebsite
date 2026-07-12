@@ -287,12 +287,26 @@
         const on = chip.dataset.market === market.id;
         chip.classList.toggle('is-active', on);
         chip.setAttribute('aria-pressed', on ? 'true' : 'false');
+        if (on && window.matchMedia('(max-width: 900px)').matches) {
+          chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
       });
-      detailEl.innerHTML = `
+
+      const updateDetail = () => {
+        detailEl.innerHTML = `
         <p class="market-detail-label">${market.label}</p>
         <p class="market-detail-text">${market.detail}</p>
       `;
-      detailEl.dataset.market = market.id;
+        detailEl.dataset.market = market.id;
+        detailEl.classList.remove('is-switching');
+      };
+
+      if (window.matchMedia('(max-width: 900px)').matches) {
+        detailEl.classList.add('is-switching');
+        window.setTimeout(updateDetail, 140);
+      } else {
+        updateDetail();
+      }
     };
 
     strip.innerHTML = MARKETS.map(

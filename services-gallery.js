@@ -65,6 +65,11 @@
     if (firstSlide) {
       slider.appendChild(firstSlide.cloneNode(true));
     }
+
+    const slides = slider.querySelectorAll('.service-slide');
+    if (typeof window.LEVEL_observeRevealTargets === 'function') {
+      window.LEVEL_observeRevealTargets(slides);
+    }
   }
 
   function initServicesGallery() {
