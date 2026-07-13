@@ -511,7 +511,7 @@ h3,
 .market-chip {
   background: transparent !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
-  border-radius: 8px !important;
+  border-radius: 0 !important;
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease !important;
 }
 

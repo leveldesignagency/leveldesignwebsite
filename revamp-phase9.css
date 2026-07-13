@@ -1,6 +1,11 @@
 /* Phase 9 — mobile menu, section dividers, project page shell */
 
-/* ── Mobile hamburger — full screen, centred ── */
+/* Markets chips — square corners everywhere */
+.market-chip,
+#markets-strip .market-chip {
+  border-radius: 0 !important;
+}
+
 @media (max-width: 768px) {
   body.nav-open {
     overflow: hidden;
