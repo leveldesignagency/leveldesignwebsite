@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="../revamp-phase4.css" />
     <link rel="stylesheet" href="../revamp-phase5.css" />
     <link rel="stylesheet" href="../revamp-phase6.css" />
+    <link rel="stylesheet" href="../revamp-phase9.css" />
     <link rel="stylesheet" href="../project.css" />
     <link rel="icon" type="image/png" href="../favicon.png">
 </head>
@@ -24,7 +25,12 @@
                 <img src="../LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" class="logo-img" />
             </a>
             <nav class="nav" aria-label="Primary">
-                <ul class="nav-links">
+                <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+                <ul id="nav-links" class="nav-links">
                     <li><a href="../index.html#services-title">Services</a></li>
                     <li><a href="../index.html#work-title">Work</a></li>
                     <li><a href="../index.html#contact-title" class="cta">Start a project</a></li>
@@ -39,7 +45,11 @@
         </div>
 
         <div class="detail-wrap">
-            <a href="../index.html#hero-single" class="detail-back">← Back to work</a>
+            <a href="../index.html#hero-single" class="detail-back" aria-label="Back to work">
+                <span class="detail-back-box" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+                </span>
+            </a>
             <header class="detail-intro">
                 <p class="detail-kicker">Selected work</p>
                 <h1 class="detail-title">Nimbus.</h1>
@@ -110,5 +120,6 @@
             </div>
         </div>
     </main>
+    <script src="../script.js" defer></script>
 </body>
 </html>

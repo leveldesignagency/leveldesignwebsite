@@ -572,7 +572,7 @@ h3,
 }
 
 #work.section {
-  background: var(--bg-subtle) !important;
+  background: var(--bg) !important;
 }
 
 .work-card {

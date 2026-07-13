@@ -973,20 +973,40 @@ a.article-card:hover {
 .detail-back {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
   margin-bottom: clamp(28px, 4vw, 40px);
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
   text-decoration: none;
-  transition: color 0.2s ease;
+  line-height: 0;
 }
 
-.detail-back:hover {
+.detail-back-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
   color: var(--text);
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.detail-back-box svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.detail-back:hover .detail-back-box {
+  border-color: var(--brand);
+  background: rgba(255, 45, 45, 0.08);
+  color: var(--brand);
+  transform: translateX(-2px);
 }
 
 .detail-kicker {
@@ -1203,6 +1223,52 @@ a.article-card:hover {
 }
 
 @media (max-width: 900px) {
+  .detail-wrap {
+    padding-top: clamp(28px, 5vw, 40px);
+    padding-bottom: clamp(56px, 10vw, 80px);
+  }
+
+  .detail-hero {
+    padding-top: clamp(12px, 2vw, 16px);
+  }
+
+  .detail-hero img {
+    height: clamp(220px, 52vw, 360px);
+    border-radius: var(--ref-radius-md);
+  }
+
+  .detail-meta {
+    gap: 16px 28px;
+    margin-bottom: clamp(36px, 6vw, 56px);
+  }
+
+  .detail-bands {
+    margin: 0;
+  }
+
+  .detail-band {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: clamp(36px, 7vw, 56px);
+    padding-bottom: clamp(36px, 7vw, 56px);
+  }
+
+  .detail-band-head {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .detail-outro {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .detail-outro .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
   .detail-band-inner--split,
   .detail-band-inner--reverse {
     grid-template-columns: 1fr;
@@ -1214,6 +1280,17 @@ a.article-card:hover {
 
   .detail-feature-grid {
     grid-template-columns: 1fr;
+  }
+
+  .detail-page--ontimely .detail-wrap--ontimely {
+    gap: clamp(36px, 8vw, 56px);
+    padding-top: clamp(24px, 4vw, 36px);
+  }
+
+  .detail-page--ontimely .detail-meta {
+    margin-bottom: 0;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
   }
 }
 

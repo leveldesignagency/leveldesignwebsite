@@ -5,6 +5,7 @@ if (navToggle && navLinks) {
   navToggle.addEventListener('click', () => {
     const isOpen = navLinks.classList.toggle('open');
     navToggle.setAttribute('aria-expanded', String(isOpen));
+    document.body.classList.toggle('nav-open', isOpen);
   });
 }
 
@@ -168,6 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (navLinks && navLinks.classList.contains('open')) {
         navLinks.classList.remove('open');
         if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('nav-open');
       }
     });
   });

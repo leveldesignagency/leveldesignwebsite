@@ -2428,7 +2428,7 @@ body:not(.dark-mode) .capability-list li span:hover {
 }
 
 .dark-mode #projects-webview.section {
-  background: #000000;
+  background: var(--bg);
 }
 
 /* Tabs — horizontal padding matches page margins */
@@ -2823,18 +2823,18 @@ body:not(.dark-mode) .project-panel-inner > .webview-wrapper {
 }
 
 .dark-mode #work.section {
-  background: #000000 !important;
+  background: var(--bg) !important;
 }
 
 #about.section {
-  background: #000000;
+  background: var(--bg);
   height: 150vh; /* Even shorter for faster exit */
   position: relative;
 }
 
-/* Dark mode - about section stays black */
+/* Dark mode - about section matches page grey */
 .dark-mode #about.section {
-  background: #000000;
+  background: var(--bg);
 }
 
 .about-content {
@@ -7761,7 +7761,7 @@ body:not(.dark-mode) .footer-social-link {
 }
 
 #work.section {
-  background: var(--bg-subtle) !important;
+  background: var(--bg) !important;
 }
 
 #reviews.section {

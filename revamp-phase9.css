@@ -1,0 +1,81 @@
+/* Phase 9 — mobile menu, section dividers, project page shell */
+
+/* ── Mobile hamburger — full screen, centred ── */
+@media (max-width: 768px) {
+  body.nav-open {
+    overflow: hidden;
+  }
+
+  .nav-links {
+    padding: clamp(96px, 18vh, 128px) var(--container-x) clamp(48px, 10vh, 72px) !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    gap: clamp(12px, 3vh, 20px) !important;
+  }
+
+  .nav-links li {
+    width: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .nav-links a {
+    text-align: center !important;
+    width: auto;
+    padding: 10px 0 !important;
+  }
+
+  .nav-links a::after {
+    left: 50% !important;
+    transform: translateX(-50%);
+  }
+
+  .nav-links a:hover::after,
+  .nav-links a:active::after,
+  .nav-links a:focus::after {
+    width: 100%;
+  }
+
+  .nav-links a.cta {
+    margin-top: clamp(16px, 4vh, 28px) !important;
+    text-align: center !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ── Desktop — unify section backgrounds + thin dividers ── */
+@media (min-width: 901px) {
+  #work.section,
+  .dark-mode #work.section,
+  #about.section,
+  .dark-mode #about.section,
+  #projects-webview.section,
+  .dark-mode #projects-webview.section,
+  #projects.projects.section,
+  #projects-mobile.projects-mobile.section {
+    background: var(--bg) !important;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  #work-title.section-title-block-wrap,
+  #projects-title.section-title-block-wrap,
+  #process-title.section-title-block-wrap,
+  #reviews-title.section-title-block-wrap,
+  #contact-title.section-title-block-wrap,
+  #services-title.section-title-block-wrap,
+  #specialities-title.section-title-block-wrap,
+  #clients.section,
+  #who-we-work-with.markets-section-wrap.section,
+  #services.deliver-section,
+  #services-gallery.section,
+  #process.section,
+  #reviews.section,
+  #contact.section {
+    background: var(--bg) !important;
+    border-top: 1px solid var(--border);
+  }
+}
