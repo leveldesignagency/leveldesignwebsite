@@ -1715,6 +1715,13 @@
         </div>
     </div>
 
+    <script>
+      window.__LEVEL_revealQueue = window.__LEVEL_revealQueue || [];
+      window.LEVEL_observeRevealTargets = function (elements) {
+        if (!elements || !elements.length) return;
+        window.__LEVEL_revealQueue.push(Array.from(elements));
+      };
+    </script>
     <script src="cookie-banner.js" defer></script>
     <script src="hero-intent.js" defer></script>
     <script src="text-reveal.js" defer></script>

@@ -281,13 +281,16 @@
         ? activeMarketId
         : INTENT_ALIASES[activeMarketId] || activeMarketId;
 
-    const showMarket = (id) => {
+    const showMarket = (id, options) => {
+      const opts = options || {};
       const market = MARKETS.find((m) => m.id === id) || MARKETS[0];
       strip.querySelectorAll('.market-chip').forEach((chip) => {
         const on = chip.dataset.market === market.id;
         chip.classList.toggle('is-active', on);
         chip.setAttribute('aria-pressed', on ? 'true' : 'false');
-        if (on && window.matchMedia('(max-width: 900px)').matches) {
+        // Only centre the chip on user tap - never on first load (scrollIntoView
+        // pulls the whole page down to Markets on mobile).
+        if (on && opts.scrollChip && window.matchMedia('(max-width: 900px)').matches) {
           chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }
       });
@@ -301,7 +304,7 @@
         detailEl.classList.remove('is-switching');
       };
 
-      if (window.matchMedia('(max-width: 900px)').matches) {
+      if (opts.scrollChip && window.matchMedia('(max-width: 900px)').matches) {
         detailEl.classList.add('is-switching');
         window.setTimeout(updateDetail, 140);
       } else {
@@ -320,7 +323,7 @@
     strip.addEventListener('click', (e) => {
       const chip = e.target.closest('.market-chip');
       if (!chip) return;
-      showMarket(chip.dataset.market);
+      showMarket(chip.dataset.market, { scrollChip: true });
       const url = new URL(window.location.href);
       url.searchParams.set('market', chip.dataset.market);
       window.history.replaceState({}, '', url);

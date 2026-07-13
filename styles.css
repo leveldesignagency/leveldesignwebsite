@@ -5235,7 +5235,8 @@ body:not(.dark-mode) .footer-social-link {
 #contact .contact-form > .btn,
 #contact .contact-info h3,
 #contact .contact-info > p,
-#contact .contact-methods {
+#contact .contact-methods,
+.project-curated-card {
   transition-delay: calc(var(--reveal-i, 0) * 55ms);
 }
 

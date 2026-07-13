@@ -101,6 +101,10 @@
     });
 
     container.appendChild(grid);
+
+    if (typeof window.LEVEL_observeRevealTargets === 'function') {
+      window.LEVEL_observeRevealTargets(grid.querySelectorAll('.project-curated-card'));
+    }
   }
 
   function initProjectsSection() {

@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
 // Entrance animations - section fades + per-item scroll reveals with stagger
 const REVEAL_ITEM_SELECTORS = [
   '#markets-strip .market-chip',
-  '#markets-strip',
   '#work .work-card',
   '#process .steps > li',
   '#services.deliver-section .deliver-block',
@@ -39,11 +38,13 @@ const REVEAL_ITEM_SELECTORS = [
   '#contact .contact-info > p',
   '#contact .contact-methods',
   '#services-gallery .service-slide',
+  '.project-curated-card',
   '[data-reveal]',
 ].join(', ');
 
 let sectionRevealIo = null;
 let itemRevealIo = null;
+const pendingRevealTargets = [];
 
 function prefersReducedMotion() {
   return (
@@ -65,6 +66,45 @@ function assignRevealIndex(elements) {
   });
 }
 
+function isInRevealRange(el) {
+  const rect = el.getBoundingClientRect();
+  const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+  // Trigger a little early so mobile never leaves items invisible below the fold
+  return rect.top < vh * 0.92 && rect.bottom > vh * 0.04;
+}
+
+function revealIfVisible(el) {
+  if (!el || el.classList.contains('in')) return;
+  if (isInRevealRange(el)) {
+    revealElement(el);
+    if (itemRevealIo) itemRevealIo.unobserve(el);
+    if (sectionRevealIo) sectionRevealIo.unobserve(el);
+  }
+}
+
+function flushVisibleReveals() {
+  document.querySelectorAll('[data-animate]').forEach(revealIfVisible);
+  document.querySelectorAll(REVEAL_ITEM_SELECTORS).forEach(revealIfVisible);
+}
+
+function getItemRevealIo() {
+  if (itemRevealIo || prefersReducedMotion()) return itemRevealIo;
+
+  itemRevealIo = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        revealElement(entry.target);
+        itemRevealIo.unobserve(entry.target);
+      }
+    },
+    // Pixel margins are more reliable than % on mobile Safari
+    { threshold: 0.05, rootMargin: '0px 0px -32px 0px' }
+  );
+
+  return itemRevealIo;
+}
+
 function initSectionRevealAnimations() {
   const sections = document.querySelectorAll('[data-animate]');
   if (!sections.length) return;
@@ -77,10 +117,13 @@ function initSectionRevealAnimations() {
   sectionRevealIo = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
-        if (entry.isIntersecting) revealElement(entry.target);
+        if (entry.isIntersecting) {
+          revealElement(entry.target);
+          sectionRevealIo.unobserve(entry.target);
+        }
       }
     },
-    { threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
+    { threshold: 0.06, rootMargin: '0px 0px -24px 0px' }
   );
 
   sections.forEach((el) => sectionRevealIo.observe(el));
@@ -89,31 +132,24 @@ function initSectionRevealAnimations() {
 /** Scroll-linked reveals: each element gets .in when it enters the viewport. */
 function initScrollRevealItems() {
   const nodes = document.querySelectorAll(REVEAL_ITEM_SELECTORS);
-  if (!nodes.length) return itemRevealIo;
+  if (!nodes.length && !pendingRevealTargets.length) return itemRevealIo;
 
-  assignRevealIndex(Array.from(nodes));
+  const list = Array.from(nodes);
+  while (pendingRevealTargets.length) {
+    list.push(...pendingRevealTargets.shift());
+  }
+
+  assignRevealIndex(list);
 
   if (prefersReducedMotion()) {
-    nodes.forEach(revealElement);
+    list.forEach(revealElement);
     return itemRevealIo;
   }
 
-  if (!itemRevealIo) {
-    itemRevealIo = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            revealElement(entry.target);
-            itemRevealIo.unobserve(entry.target);
-          }
-        }
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -8% 0px' }
-    );
-  }
-
-  nodes.forEach((el) => {
-    if (!el.classList.contains('in')) itemRevealIo.observe(el);
+  const io = getItemRevealIo();
+  list.forEach((el) => {
+    if (!el || el.classList.contains('in')) return;
+    io.observe(el);
   });
 
   return itemRevealIo;
@@ -121,28 +157,70 @@ function initScrollRevealItems() {
 
 window.LEVEL_observeRevealTargets = function (elements) {
   if (!elements || !elements.length) return;
-  const list = Array.from(elements);
+  const list = Array.from(elements).filter(Boolean);
+  if (!list.length) return;
+
   assignRevealIndex(list);
+
   if (prefersReducedMotion()) {
     list.forEach(revealElement);
     return;
   }
-  if (!itemRevealIo) initScrollRevealItems();
+
+  const io = getItemRevealIo();
+  if (!io) {
+    pendingRevealTargets.push(list);
+    return;
+  }
+
   list.forEach((el) => {
-    if (!el.classList.contains('in')) itemRevealIo.observe(el);
+    if (!el.classList.contains('in')) io.observe(el);
   });
+
+  window.requestAnimationFrame(() => list.forEach(revealIfVisible));
 };
+
+function drainRevealQueue() {
+  const queued = window.__LEVEL_revealQueue || [];
+  while (queued.length) {
+    window.LEVEL_observeRevealTargets(queued.shift());
+  }
+}
 
 function revealAboveFold() {
   revealElement(document.getElementById('hero-single'));
   revealElement(document.querySelector('.site-header'));
   revealElement(document.getElementById('clients'));
+  flushVisibleReveals();
 }
 
 function initEntranceAnimations() {
+  drainRevealQueue();
   initSectionRevealAnimations();
   initScrollRevealItems();
   revealAboveFold();
+
+  // Mobile Safari / late layout: flush again after paint + load
+  window.requestAnimationFrame(flushVisibleReveals);
+  window.setTimeout(flushVisibleReveals, 120);
+  window.setTimeout(flushVisibleReveals, 400);
+  window.addEventListener('load', flushVisibleReveals, { once: true });
+  window.addEventListener('pageshow', flushVisibleReveals);
+
+  // Safety net: if IntersectionObserver misses an item, catch it on scroll
+  let scrollFlushScheduled = false;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (scrollFlushScheduled || prefersReducedMotion()) return;
+      scrollFlushScheduled = true;
+      window.requestAnimationFrame(() => {
+        scrollFlushScheduled = false;
+        flushVisibleReveals();
+      });
+    },
+    { passive: true }
+  );
 }
 
 document.addEventListener('level:hero-intent', revealAboveFold);

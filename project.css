@@ -671,6 +671,23 @@ body:not(.dark-mode) .review-tile {
   border-radius: var(--ref-radius-lg);
   background: var(--bg-surface);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-curated-card.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-curated-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 .project-curated-card--wide {
