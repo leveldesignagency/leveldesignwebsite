@@ -6,14 +6,19 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 PORT = 8080
 
+# Map extensionless paths to real HTML files (mirrors Vercel cleanUrls)
 REWRITES = (
-    (re.compile(r"^/work/([^/.]+)/?$"), r"/projects/\1.html"),
-    (re.compile(r"^/journal/([^/.]+)/?$"), r"/articles/\1.html"),
+    (re.compile(r"^/work/([^/.]+)/?$"), r"/work/\1.html"),
+    (re.compile(r"^/journal/([^/.]+)/?$"), r"/journal/\1.html"),
     (re.compile(r"^/services/([^/.]+)/?$"), r"/services/\1.html"),
-    (re.compile(r"^/privacy/?$"), r"/legal/privacy.html"),
-    (re.compile(r"^/terms/?$"), r"/legal/terms.html"),
-    (re.compile(r"^/modern-slavery/?$"), r"/legal/modern-slavery.html"),
+    (re.compile(r"^/privacy/?$"), r"/privacy.html"),
+    (re.compile(r"^/terms/?$"), r"/terms.html"),
+    (re.compile(r"^/modern-slavery/?$"), r"/modern-slavery.html"),
     (re.compile(r"^/favicon\.ico$"), r"/favicon.png"),
+    # Legacy folders → clean URLs
+    (re.compile(r"^/projects/([^/.]+)/?$"), r"/work/\1.html"),
+    (re.compile(r"^/articles/([^/.]+)/?$"), r"/journal/\1.html"),
+    (re.compile(r"^/legal/(privacy|terms|modern-slavery)/?$"), r"/\1.html"),
 )
 
 

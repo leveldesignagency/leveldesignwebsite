@@ -16,15 +16,11 @@
     { "source": "/legal/terms", "destination": "/terms", "permanent": true },
     { "source": "/legal/modern-slavery.html", "destination": "/modern-slavery", "permanent": true },
     { "source": "/legal/modern-slavery", "destination": "/modern-slavery", "permanent": true },
-    { "source": "/services/:slug.html", "destination": "/services/:slug", "permanent": true }
+    { "source": "/services/:slug.html", "destination": "/services/:slug", "permanent": true },
+    { "source": "/work/:slug.html", "destination": "/work/:slug", "permanent": true },
+    { "source": "/journal/:slug.html", "destination": "/journal/:slug", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/work/:slug", "destination": "/projects/:slug.html" },
-    { "source": "/journal/:slug", "destination": "/articles/:slug.html" },
-    { "source": "/services/:slug", "destination": "/services/:slug.html" },
-    { "source": "/privacy", "destination": "/legal/privacy.html" },
-    { "source": "/terms", "destination": "/legal/terms.html" },
-    { "source": "/modern-slavery", "destination": "/legal/modern-slavery.html" },
     { "source": "/favicon.ico", "destination": "/favicon.png" }
   ],
   "headers": [
