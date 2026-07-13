@@ -1,11 +1,27 @@
-// Nav toggle
+// Nav toggle - full-screen menu + hard scroll lock
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.getElementById('nav-links');
+let navScrollY = 0;
+function setNavOpen(isOpen) {
+  if (!navToggle || !navLinks) return;
+  navLinks.classList.toggle('open', isOpen);
+  navToggle.setAttribute('aria-expanded', String(isOpen));
+  document.documentElement.classList.toggle('nav-open', isOpen);
+  document.body.classList.toggle('nav-open', isOpen);
+  if (isOpen) {
+    navScrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.top = `-${navScrollY}px`;
+  } else {
+    document.body.style.top = '';
+    window.scrollTo(0, navScrollY);
+  }
+}
 if (navToggle && navLinks) {
   navToggle.addEventListener('click', () => {
-    const isOpen = navLinks.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', String(isOpen));
-    document.body.classList.toggle('nav-open', isOpen);
+    setNavOpen(!navLinks.classList.contains('open'));
+  });
+  navLinks.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setNavOpen(false));
   });
 }
 
@@ -254,9 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const navLinks = document.getElementById('nav-links');
       const navToggle = document.querySelector('.nav-toggle');
       if (navLinks && navLinks.classList.contains('open')) {
-        navLinks.classList.remove('open');
-        if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
-        document.body.classList.remove('nav-open');
+        setNavOpen(false);
       }
     });
   });

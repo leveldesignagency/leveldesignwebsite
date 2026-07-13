@@ -7424,12 +7424,7 @@ body:not(.dark-mode) .footer-social-link {
     height: 36px;
   }
   
-  .nav-links {
-    right: 12px;
-    top: 64px;
-    padding: 16px;
-    min-width: 180px;
-  }
+  /* Keep mobile menu full-viewport - do not shrink into a floating panel */
   
   /* Hero */
   .hero-slide {

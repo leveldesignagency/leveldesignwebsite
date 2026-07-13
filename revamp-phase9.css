@@ -7,33 +7,117 @@
 }
 
 @media (max-width: 768px) {
-  body.nav-open {
-    overflow: hidden;
+  :root {
+    --header-h: 56px;
   }
 
-  .nav-links {
-    padding: clamp(96px, 18vh, 128px) var(--container-x) clamp(48px, 10vh, 72px) !important;
+  /* Beat phase6 height:auto + vertical padding that made a huge header gap */
+  .site-header .header-inner,
+  .header-inner {
+    height: 56px !important;
+    min-height: 56px !important;
+    max-height: 56px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
     align-items: center !important;
+  }
+
+  .site-header .logo-img,
+  .logo-img {
+    height: 32px !important;
+  }
+
+  /* Keep logo + toggle above the fullscreen overlay */
+  body.nav-open .logo {
+    z-index: 1003 !important;
+  }
+
+  body.nav-open .nav-toggle {
+    z-index: 1003 !important;
+  }
+
+  /* Hard scroll lock while menu is open (beats overflow-y: auto !important elsewhere) */
+  html.nav-open,
+  body.nav-open {
+    overflow: hidden !important;
+    touch-action: none !important;
+    overscroll-behavior: none !important;
+  }
+
+  body.nav-open {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  body.nav-open .site-header {
+    z-index: 1002 !important;
+  }
+
+  /* True full-screen overlay menu */
+  .nav-links,
+  .nav-links.open,
+  .project-header .nav-links,
+  .project-header .nav-links.open {
+    position: fixed !important;
+    inset: 0 !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    height: 100dvh !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: clamp(88px, 16vh, 120px) var(--container-x) clamp(40px, 8vh, 64px) !important;
+    display: none !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
     justify-content: center !important;
-    text-align: center !important;
-    gap: clamp(12px, 3vh, 20px) !important;
+    gap: clamp(8px, 2vh, 16px) !important;
+    background: var(--bg) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    z-index: 1000 !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+  }
+
+  .nav-links.open,
+  .project-header .nav-links.open {
+    display: flex !important;
   }
 
   .nav-links li {
     width: auto;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
-  .nav-links a {
-    text-align: center !important;
-    width: auto;
-    padding: 10px 0 !important;
+  .nav-links a,
+  .nav a:not(.cta),
+  .nav-links a:not(.cta) {
+    font-family: "Bebas Neue", Impact, system-ui, sans-serif !important;
+    font-size: clamp(2.75rem, 12vw, 4.5rem) !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.02em !important;
+    text-transform: none !important;
+    line-height: 1.05 !important;
+    text-align: left !important;
+    width: auto !important;
+    padding: 6px 0 !important;
+    opacity: 1 !important;
   }
 
   .nav-links a::after {
-    left: 50% !important;
-    transform: translateX(-50%);
+    left: 0 !important;
+    transform: none !important;
   }
 
   .nav-links a:hover::after,
@@ -42,12 +126,19 @@
     width: 100%;
   }
 
-  .nav-links a.cta {
-    margin-top: clamp(16px, 4vh, 28px) !important;
+  .nav-links a.cta,
+  .nav a.cta {
+    margin-top: clamp(16px, 3vh, 28px) !important;
     text-align: center !important;
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
+    font-family: Inter, system-ui, sans-serif !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    padding: 14px 28px !important;
   }
 }
 
@@ -122,6 +213,5 @@
   #clients .client-logo.client-logo-feature img {
     height: 72px !important;
     max-height: 72px !important;
-    max-width: min(180px, 42vw) !important;
   }
 }
