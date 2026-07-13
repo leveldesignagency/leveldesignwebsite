@@ -1,4 +1,4 @@
-/* Phase 5 — Noco-style page margins (generous horizontal inset) */
+/* Phase 5 - Noco-style page margins (generous horizontal inset) */
 
 :root {
   --container-x: clamp(28px, 8vw, 128px);
@@ -20,7 +20,7 @@
   }
 }
 
-/* Let horizontal padding define margins — no narrow centred max-width rail */
+/* Let horizontal padding define margins - no narrow centred max-width rail */
 .header-inner,
 .hero-shell,
 .section > .container,
@@ -37,7 +37,7 @@
   width: 100% !important;
 }
 
-/* Projects / webview — drop legacy 48px gutters */
+/* Projects / webview - drop legacy 48px gutters */
 .projects-tabs-wrapper {
   padding-left: var(--container-x) !important;
   padding-right: var(--container-x) !important;
@@ -86,7 +86,7 @@
   width: 100% !important;
 }
 
-/* Markets strip — align with page margins */
+/* Markets strip - align with page margins */
 .markets-compact {
   width: 100% !important;
   margin-left: 0 !important;

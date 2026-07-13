@@ -61,6 +61,9 @@
       type: 'Content & channels',
       image: wildImage('Social Media Management 1.png'),
       span: 'feature',
+      slug: 'social-media-management',
+      imagePosition: '50% 66%',
+      imageScale: 1.1,
     },
   ];
 
@@ -76,9 +79,12 @@
 
       const image = document.createElement('img');
       image.src = project.image;
-      image.alt = `${project.title} — ${project.type}`;
+      image.alt = `${project.title} - ${project.type}`;
       image.loading = 'lazy';
       image.decoding = 'async';
+      if (project.slug) card.dataset.project = project.slug;
+      if (project.imagePosition) image.style.objectPosition = project.imagePosition;
+      if (project.imageScale) image.style.setProperty('--img-scale', String(project.imageScale));
 
       const meta = document.createElement('div');
       meta.className = 'project-curated-meta';

@@ -1,6 +1,6 @@
-/* Phase 7 — mobile spacing, scroll reveals, contact polish */
+/* Phase 7 - mobile spacing, scroll reveals, contact polish */
 
-/* ── Hero — restore side margins; equal CTAs side by side ── */
+/* ── Hero - restore side margins; equal CTAs side by side ── */
 @media (max-width: 900px) {
   :root {
     --container-x: clamp(28px, 7vw, 44px);
@@ -36,7 +36,7 @@
     white-space: nowrap;
   }
 
-  /* Selected work — taller media, inherits hero shell gutters */
+  /* Selected work - taller media, inherits hero shell gutters */
   .hero-selected-work {
     width: 100% !important;
     margin-top: clamp(20px, 4vw, 32px) !important;
@@ -52,8 +52,7 @@
   }
 }
 
-/* Hero + selected work — fade up on load */
-.hero-selected-work,
+/* Hero + selected work - secondary CTA fade only; spotlight shows immediately */
 .hero-cta-secondary {
   opacity: 0;
   transform: translateY(16px);
@@ -61,10 +60,14 @@
     transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.hero-selected-work {
+  opacity: 1;
+  transform: none;
+}
+
 .hero.hero-single.in .hero-selected-work {
   opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.34s;
+  transform: none;
 }
 
 .hero.hero-single.in .hero-cta-secondary {
@@ -73,7 +76,7 @@
   transition-delay: 0.52s;
 }
 
-/* ── Client logos — more vertical breathing room ── */
+/* ── Client logos - more vertical breathing room ── */
 @media (max-width: 900px) {
   #clients.clients.section {
     padding: clamp(40px, 8vw, 64px) 0 !important;
@@ -89,7 +92,7 @@
   }
 }
 
-/* ── Markets — mobile: horizontal pills + detail card below ── */
+/* ── Markets - mobile: horizontal pills + detail card below ── */
 @media (max-width: 900px) {
   #who-we-work-with.markets-section-wrap.section {
     padding: clamp(48px, 8vw, 72px) 0 !important;
@@ -200,7 +203,7 @@
   }
 }
 
-/* Market chips — scroll fade-up */
+/* Market chips - scroll fade-up */
 #markets-strip .market-chip {
   opacity: 0;
   transform: translateY(18px);
@@ -215,7 +218,7 @@
   transform: translateY(0);
 }
 
-/* ── Where we go deep — scroll reveals ── */
+/* ── Where we go deep - scroll reveals ── */
 #services-gallery[data-animate] {
   opacity: 1 !important;
   transform: none !important;
@@ -233,7 +236,7 @@
   transform: translateY(0);
 }
 
-/* ── Specialities → Work that ships — more separation ── */
+/* ── Specialities → Work that ships - more separation ── */
 @media (max-width: 900px) {
   #services-gallery.section {
     padding-bottom: clamp(48px, 9vw, 80px) !important;
@@ -249,7 +252,7 @@
   }
 }
 
-/* ── Work cards — less outer padding, readable inner text ── */
+/* ── Work cards - less outer padding, readable inner text ── */
 @media (max-width: 900px) {
   #work .work-card {
     padding: 10px !important;
@@ -267,7 +270,7 @@
   }
 }
 
-/* ── In the wild — left-aligned copy ── */
+/* ── In the wild - left-aligned copy ── */
 @media (max-width: 900px) {
   #projects-title.section-title-block-wrap,
   #projects-title.projects-title-section {
@@ -307,7 +310,7 @@
   }
 }
 
-/* ── Website tabs — mobile section title (matches other section blocks) ── */
+/* ── Website tabs - mobile section title (matches other section blocks) ── */
 .projects-webview-intro.section-title-block {
   padding-top: clamp(40px, 7vw, 56px) !important;
   padding-bottom: clamp(20px, 4vw, 28px) !important;
@@ -326,7 +329,7 @@
   }
 }
 
-/* ── How we work — larger step numbers, left aligned on mobile ── */
+/* ── How we work - larger step numbers, left aligned on mobile ── */
 @media (max-width: 900px) {
   #process.section .steps li,
   #process.section .steps li h3,
@@ -358,7 +361,7 @@
   }
 }
 
-/* ── Contact form — flat, no glow ── */
+/* ── Contact form - flat, no glow ── */
 .contact-form,
 .contact-form:hover,
 .contact-form:focus-within {
@@ -371,7 +374,7 @@ body:not(.dark-mode) .contact-form {
   box-shadow: none !important;
 }
 
-/* Email underline — enters from left, exits to the right */
+/* Email underline - enters from left, exits to the right */
 .contact-method span {
   background-position: right bottom !important;
   background-size: 0% 1px !important;
@@ -444,7 +447,7 @@ body:not(.dark-mode) .contact-form {
   }
 }
 
-/* Section title + gallery — consistent side margins on mobile */
+/* Section title + gallery - consistent side margins on mobile */
 @media (max-width: 900px) {
   .section-title-block-wrap .section-title-block,
   .section-title-block-wrap .container.section-title-block {
@@ -456,7 +459,7 @@ body:not(.dark-mode) .contact-form {
     padding-bottom: clamp(24px, 5vw, 36px) !important;
   }
 
-  /* What we deliver — pull first card closer to title on mobile */
+  /* What we deliver - pull first card closer to title on mobile */
   #services-title .section-title-block,
   #services-title .container.section-title-block {
     padding-bottom: 10px !important;

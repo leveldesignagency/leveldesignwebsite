@@ -1,6 +1,6 @@
 /**
  * First-visit cookie consent banner.
- * Stores preference in localStorage — no third-party cookies set by this script.
+ * Stores preference in localStorage - no third-party cookies set by this script.
  */
 (function () {
   'use strict';

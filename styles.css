@@ -1,4 +1,4 @@
-/* Fonts: Bebas Neue (display) + Inter (UI) — dark grey palette only */
+/* Fonts: Bebas Neue (display) + Inter (UI) - dark grey palette only */
 :root {
   --bg: #0a0a0a;
   --bg-surface: #141414;
@@ -32,7 +32,7 @@
 }
 
 .dark-mode {
-  /* Alias — site is dark-only; kept for legacy selectors */
+  /* Alias - site is dark-only; kept for legacy selectors */
 }
 
 
@@ -81,7 +81,7 @@ html, body {
   }
 }
 
-/* Default system cursor — custom crosshair off for cleaner Significa feel */
+/* Default system cursor - custom crosshair off for cleaner Significa feel */
 .custom-cursor {
   display: none !important;
 }
@@ -667,7 +667,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   transform: scaleX(1);
 }
 
-/* View work — flat, red border on hover */
+/* View work - flat, red border on hover */
 .btn.btn-outline-run {
   background: transparent;
   color: var(--text);
@@ -728,7 +728,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   margin: 0;
 }
 
-/* Hero single — compact Significa-style, work previews on the right */
+/* Hero single - compact Significa-style, work previews on the right */
 .hero.hero-single {
   display: flex;
   align-items: stretch;
@@ -1604,8 +1604,8 @@ body:not(.dark-mode) .market-chip {
 }
 
 .market-chip:hover {
-  border-color: var(--brand);
-  background: rgba(255, 45, 45, 0.06);
+  border-color: rgba(255, 45, 45, 0.42);
+  background: transparent;
 }
 
 .market-chip.is-active {
@@ -2431,7 +2431,7 @@ body:not(.dark-mode) .capability-list li span:hover {
   background: var(--bg);
 }
 
-/* Tabs — horizontal padding matches page margins */
+/* Tabs - horizontal padding matches page margins */
 .projects-tabs-wrapper {
   width: 100%;
   padding: 0 var(--container-x);
@@ -2828,8 +2828,9 @@ body:not(.dark-mode) .project-panel-inner > .webview-wrapper {
 
 #about.section {
   background: var(--bg);
-  height: 150vh; /* Even shorter for faster exit */
+  height: 240vh; /* Enough travel so reviews don't start before the word carousel finishes */
   position: relative;
+  scroll-margin-top: 0;
 }
 
 /* Dark mode - about section matches page grey */
@@ -2839,8 +2840,8 @@ body:not(.dark-mode) .project-panel-inner > .webview-wrapper {
 
 .about-content {
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
   display: flex;
   align-items: center;
   padding: 0 8rem;
@@ -3775,12 +3776,12 @@ section#services .container .grid.services-grid {
   margin: 0 0 4px;
 }
 
-/* Red line under card titles — removed */
+/* Red line under card titles - removed */
 .work-card .work-meta span::after {
   display: none;
 }
 
-/* Work card meta — name + type + description */
+/* Work card meta - name + type + description */
 .work-card .work-meta {
   padding: 20px 4px 6px;
   border-top: 1px solid var(--border);
@@ -5589,13 +5590,13 @@ body:not(.dark-mode) .footer-social-link {
     max-width: 100%;
   }
   
-  /* Section rhythm — avoid blanket centering (revamp uses left rail) */
+  /* Section rhythm - avoid blanket centering (revamp uses left rail) */
   .section {
     padding-top: 48px;
     padding-bottom: 48px;
   }
   
-  /* Mobile hero — left-aligned, compact, showcase below copy */
+  /* Mobile hero - left-aligned, compact, showcase below copy */
   .hero.hero-single .hero-inner {
     display: flex !important;
     flex-direction: column !important;
@@ -6613,7 +6614,7 @@ body:not(.dark-mode) .footer-social-link {
     width: auto !important;
   }
   
-  /* Hide specialities title on mobile — overridden by revamp-phase7 / project.css */
+  /* Hide specialities title on mobile - overridden by revamp-phase7 / project.css */
   /* #specialities-title.specialities-title-section {
     display: none !important;
   } */
@@ -7643,7 +7644,7 @@ body:not(.dark-mode) .footer-social-link {
   }
 }
 
-/* MOBILE ONLY: ONE fixed title size - 44px. Override old 56–90px h2 rules. Hero excluded. */
+/* MOBILE ONLY: ONE fixed title size - 44px. Override old 56-90px h2 rules. Hero excluded. */
 @media (max-width: 768px) {
   .section-title-block-wrap .section-title-heading,
   .section-title-block-wrap h2.section-title-heading,
@@ -7676,7 +7677,7 @@ body:not(.dark-mode) .footer-social-link {
   }
 }
 
-/* DESKTOP: restrained display type — unified in revamp tokens */
+/* DESKTOP: restrained display type - unified in revamp tokens */
 @media (min-width: 769px) {
   .section-title-block-wrap .section-title-heading,
   .section-title-block-wrap h2.section-title-heading,
@@ -7705,7 +7706,7 @@ body:not(.dark-mode) .footer-social-link {
 }
 
 /* ==========================================================================
-   LEVEL Revamp — Phase 2 (Noco × Significa) — visible overrides
+   LEVEL Revamp - Phase 2 (Noco × Significa) - visible overrides
    ========================================================================== */
 
 .site-header {
@@ -7860,10 +7861,10 @@ body:not(.dark-mode) .footer-social-link {
 }
 
 /* ==========================================================================
-   Revamp — preserved sections
+   Revamp - preserved sections
    ========================================================================== */
 
-/* Where we go deep: full-bleed carousel — edge-to-edge, square corners */
+/* Where we go deep: full-bleed carousel - edge-to-edge, square corners */
 #services-gallery.section {
   width: 100%;
   max-width: none;
@@ -7891,7 +7892,7 @@ body:not(.dark-mode) .footer-social-link {
   min-width: 100vw !important;
 }
 
-/* About: sticky scroll-lock word carousel (LEVEL → Storytellers) — keep JS + layout */
+/* About: sticky scroll-lock word carousel (LEVEL → Storytellers) - keep JS + layout */
 #about.section .about-content,
 #about.section .word-container,
 #about.section .description-container,

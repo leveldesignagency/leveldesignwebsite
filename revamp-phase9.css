@@ -1,6 +1,6 @@
-/* Phase 9 — mobile menu, section dividers, project page shell */
+/* Phase 9 - mobile menu, section dividers, project page shell */
 
-/* Markets chips — square corners everywhere */
+/* Markets chips - square corners everywhere */
 .market-chip,
 #markets-strip .market-chip {
   border-radius: 0 !important;
@@ -51,7 +51,7 @@
   }
 }
 
-/* ── Desktop — unify section backgrounds + thin dividers ── */
+/* ── Desktop - unify section backgrounds + thin dividers ── */
 @media (min-width: 901px) {
   #work.section,
   .dark-mode #work.section,
@@ -82,5 +82,46 @@
   #contact.section {
     background: var(--bg) !important;
     border-top: 1px solid var(--border);
+  }
+}
+
+/* Featured client logos - square SVG artboards; size so optical weight matches others
+   without transform (transform scale broke marquee spacing). */
+#clients .client-logo.client-logo-feature {
+  padding: 0 12px !important;
+}
+
+#clients .client-logo.client-logo-feature img {
+  height: 96px !important;
+  max-height: 96px !important;
+  max-width: min(220px, 36vw) !important;
+  transform: none !important;
+}
+
+#clients .client-logo.client-logo-feature:hover img {
+  transform: none !important;
+}
+
+@media (max-width: 768px) {
+  #clients .marquee-row {
+    height: 96px !important;
+  }
+
+  #clients .client-logo.client-logo-feature img {
+    height: 80px !important;
+    max-height: 80px !important;
+    max-width: min(200px, 40vw) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #clients .marquee-row {
+    height: 88px !important;
+  }
+
+  #clients .client-logo.client-logo-feature img {
+    height: 72px !important;
+    max-height: 72px !important;
+    max-width: min(180px, 42vw) !important;
   }
 }

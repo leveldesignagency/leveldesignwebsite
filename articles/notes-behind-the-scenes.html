@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Notes from behind the scenes — LEVEL Design Agency</title>
+    <title>Notes from behind the scenes - LEVEL Design Agency</title>
     <meta name="description" content="Studio culture, hospitality work, and what it takes to design across sectors." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,19 +15,27 @@
     <link rel="stylesheet" href="../revamp-phase5.css" />
     <link rel="stylesheet" href="../revamp-phase6.css" />
     <link rel="stylesheet" href="../project.css" />
+    <link rel="stylesheet" href="../revamp-phase9.css" />
+
     <link rel="icon" type="image/png" href="../favicon.png">
 </head>
 <body id="top" class="article-page detail-page">
     <header class="site-header project-header">
         <div class="header-inner">
-            <a href="/" class="logo" aria-label="LEVEL — home">
+            <a href="/" class="logo" aria-label="LEVEL - home">
                 <img src="../LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" class="logo-img" />
             </a>
             <nav class="nav" aria-label="Primary">
-                <ul class="nav-links">
+                <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+                <ul id="nav-links" class="nav-links">
                     <li><a href="/#services-title">Services</a></li>
                     <li><a href="/#work-title">Work</a></li>
-                    <li><a href="/#articles-title">Journal</a></li>
+                    <li><a href="/#process-title">Process</a></li>
+                    <li class="nav-about-link"><a href="/#about">About</a></li>
                     <li><a href="/#contact-title" class="cta">Start a project</a></li>
                 </ul>
             </nav>
@@ -39,7 +47,7 @@
             <div class="article-hero-inner">
                 <p class="article-hero-tag">Culture</p>
                 <h1 class="article-hero-title">Notes from behind the scenes</h1>
-                <p class="article-hero-lead">From hostel posters to fintech platforms — range only works when the thinking stays consistent.</p>
+                <p class="article-hero-lead">From hostel posters to fintech platforms - range only works when the thinking stays consistent.</p>
                 <p class="article-hero-meta">4 min read · Journal</p>
             </div>
         </div>
@@ -47,17 +55,17 @@
         <div class="article-wrap">
             <a href="/#articles-title" class="detail-back">← Back to articles</a>
             <article class="article-content">
-                <p>From the outside, a studio that works across hospitality, healthcare, construction, and SaaS can look like a scattergun. From the inside, it feels more like translation — learning the language of a sector quickly enough to make something that belongs there.</p>
+                <p>From the outside, a studio that works across hospitality, healthcare, construction, and SaaS can look like a scattergun. From the inside, it feels more like translation - learning the language of a sector quickly enough to make something that belongs there.</p>
 
                 <h2>In the wild is not a side quest</h2>
-                <p>Our <a href="/#projects-title">In the wild</a> gallery is full of print, events, and campaign work — beer tastings, festival posters, pop-up banners, brand collateral. That is not leftover capacity between website builds. It keeps the studio honest about craft. When you design a roll-up banner, you learn hierarchy under pressure. When you art-direct a poster, you learn how far a type choice can carry emotion before illustration takes over.</p>
+                <p>Our <a href="/#projects-title">In the wild</a> gallery is full of print, events, and campaign work - beer tastings, festival posters, pop-up banners, brand collateral. That is not leftover capacity between website builds. It keeps the studio honest about craft. When you design a roll-up banner, you learn hierarchy under pressure. When you art-direct a poster, you learn how far a type choice can carry emotion before illustration takes over.</p>
 
                 <p>Those lessons flow back into product work. A dashboard that feels flat often needs the same compositional nerve as a good poster. A landing page that fails to convert often has weaker hierarchy than a three-second event promo.</p>
 
                 <h2>Range without chaos</h2>
-                <p>We do not pretend to be sector specialists in everything. We are specialists in process, clarity, and build quality — then we go deep on the context that matters for each client. Wombats hostel campaigns and Paramount fund brochures do not share a visual style. They share a standard: understand the audience, respect the medium, deliver on time.</p>
+                <p>We do not pretend to be sector specialists in everything. We are specialists in process, clarity, and build quality - then we go deep on the context that matters for each client. Wombats hostel campaigns and Paramount fund brochures do not share a visual style. They share a standard: understand the audience, respect the medium, deliver on time.</p>
 
-                <blockquote class="article-pullquote">Culture inside the studio is the sum of what you refuse to compromise on — regardless of sector.</blockquote>
+                <blockquote class="article-pullquote">Culture inside the studio is the sum of what you refuse to compromise on - regardless of sector.</blockquote>
 
                 <h2>What stays the same</h2>
                 <p>Direct communication. No performative busywork. Design decisions tied to outcomes. Respect for the people who will maintain the work after we leave. And enough curiosity to enjoy the jump from Chrome extension UI to brochure mockups in the same week.</p>
@@ -77,5 +85,6 @@
             </article>
         </div>
     </main>
+    <script src="../script.js" defer></script>
 </body>
 </html>

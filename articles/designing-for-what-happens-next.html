@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Designing for what happens next — LEVEL Design Agency</title>
+    <title>Designing for what happens next - LEVEL Design Agency</title>
     <meta name="description" content="Future-proofing brands, evolving products, and thinking past launch day." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,19 +15,27 @@
     <link rel="stylesheet" href="../revamp-phase5.css" />
     <link rel="stylesheet" href="../revamp-phase6.css" />
     <link rel="stylesheet" href="../project.css" />
+    <link rel="stylesheet" href="../revamp-phase9.css" />
+
     <link rel="icon" type="image/png" href="../favicon.png">
 </head>
 <body id="top" class="article-page detail-page">
     <header class="site-header project-header">
         <div class="header-inner">
-            <a href="/" class="logo" aria-label="LEVEL — home">
+            <a href="/" class="logo" aria-label="LEVEL - home">
                 <img src="../LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" class="logo-img" />
             </a>
             <nav class="nav" aria-label="Primary">
-                <ul class="nav-links">
+                <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+                <ul id="nav-links" class="nav-links">
                     <li><a href="/#services-title">Services</a></li>
                     <li><a href="/#work-title">Work</a></li>
-                    <li><a href="/#articles-title">Journal</a></li>
+                    <li><a href="/#process-title">Process</a></li>
+                    <li class="nav-about-link"><a href="/#about">About</a></li>
                     <li><a href="/#contact-title" class="cta">Start a project</a></li>
                 </ul>
             </nav>
@@ -47,17 +55,17 @@
         <div class="article-wrap">
             <a href="/#articles-title" class="detail-back">← Back to articles</a>
             <article class="article-content">
-                <p>Launch day is the most photographed moment and often the least representative one. The real test is month three — when marketing needs a new landing page, product adds a feature, staff turnover means someone new is updating the CMS, and AI search starts summarising your service pages for prospects you will never see click through.</p>
+                <p>Launch day is the most photographed moment and often the least representative one. The real test is month three - when marketing needs a new landing page, product adds a feature, staff turnover means someone new is updating the CMS, and AI search starts summarising your service pages for prospects you will never see click through.</p>
 
                 <h2>Future-proof is not frozen</h2>
                 <p>Clients sometimes hear "future-proof" and think immutable brand bible, signed in stone. We mean the opposite: enough underlying logic that the work can change without unraveling. Flexible grids. Modular layouts. Voice and visual rules that describe intent, not just measurements.</p>
 
-                <p>Brands that last — whether a hospitality campaign or a B2B platform — share adaptability. They know what is sacred and what is situational.</p>
+                <p>Brands that last - whether a hospitality campaign or a B2B platform - share adaptability. They know what is sacred and what is situational.</p>
 
                 <h2>Products are never finished</h2>
                 <p><a href="/work/ontimely">OnTimely</a> was designed as a living product: new event types, homepage layouts, admin permissions, comms channels. That roadmap influenced architecture from the start. If you design only for v1, v2 becomes a rebuild tax.</p>
 
-                <p>The same applies to websites that are not "products" in the SaaS sense but still need to grow — new sectors, case studies, hires, acquisitions. <a href="/work/richtons">Richtons</a> needed a structure that could absorb project proof and service expansion without a redesign every year.</p>
+                <p>The same applies to websites that are not "products" in the SaaS sense but still need to grow - new sectors, case studies, hires, acquisitions. <a href="/work/richtons">Richtons</a> needed a structure that could absorb project proof and service expansion without a redesign every year.</p>
 
                 <blockquote class="article-pullquote">Designing for what happens next means leaving the next team a head start, not a headache.</blockquote>
 
@@ -67,7 +75,7 @@
                 <p>We talk about this openly with clients. The worst time to decide your AI posture is after the tool is already live in production.</p>
 
                 <h2>Practical habits</h2>
-                <p>Document why, not just what. Build editable patterns, not brittle one-offs. Keep performance and accessibility in the maintenance conversation. Schedule a post-launch review before anyone forgets the launch context. And treat evolution as success — if nothing ever changes, the work probably was not important enough.</p>
+                <p>Document why, not just what. Build editable patterns, not brittle one-offs. Keep performance and accessibility in the maintenance conversation. Schedule a post-launch review before anyone forgets the launch context. And treat evolution as success - if nothing ever changes, the work probably was not important enough.</p>
 
                 <div class="article-related" aria-label="Related">
                     <a href="/work/ontimely">OnTimely</a>
@@ -82,5 +90,6 @@
             </article>
         </div>
     </main>
+    <script src="../script.js" defer></script>
 </body>
 </html>

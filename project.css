@@ -130,7 +130,7 @@
   }
 }
 
-/* Hero selected work — card + bottom tabs */
+/* Hero selected work - card + bottom tabs */
 .hero-selected-work {
   width: 100%;
   margin: clamp(28px, 4vw, 52px) auto 0;
@@ -162,7 +162,16 @@
 }
 
 .hero-spotlight-panel.is-switching {
-  opacity: 0.92;
+  opacity: 1;
+}
+
+.hero-spotlight-panel.is-switching .hero-spotlight-media img {
+  opacity: 0.72;
+  transition: opacity 0.2s ease;
+}
+
+.hero-spotlight-media img {
+  transition: opacity 0.25s ease;
 }
 
 .hero-spotlight-copy {
@@ -210,7 +219,7 @@
   display: block;
 }
 
-/* OnTimely promo — wide asset, keep phones in frame */
+/* OnTimely promo - wide asset, keep phones in frame */
 .hero-spotlight-panel[data-active-project="ontimely"] .hero-spotlight-media img {
   inset: 0;
   width: 100%;
@@ -316,7 +325,7 @@
   }
 }
 
-/* Section title blocks — left aligned, override legacy centered .container */
+/* Section title blocks - left aligned, override legacy centered .container */
 .section-title-block-wrap .container.section-title-block,
 .section-title-block-wrap .section-title-block {
   width: 100% !important;
@@ -334,7 +343,7 @@
   text-align: left !important;
 }
 
-/* Work title — centered */
+/* Work title - centered */
 #work-title.work-title-section,
 #work-title.section-title-block-wrap {
   text-align: center !important;
@@ -357,7 +366,7 @@
   margin-right: auto !important;
 }
 
-/* Work title h2 — beat revamp-phase6 left-align specificity */
+/* Work title h2 - beat revamp-phase6 left-align specificity */
 #work-title.section-title-block-wrap h2.section-title-heading,
 #work-title.work-title-section h2.section-title-heading,
 #work-title.work-title-section h2 {
@@ -369,7 +378,7 @@
   text-align: center !important;
 }
 
-/* Hero headline — tight two-line stack, always in frame */
+/* Hero headline - tight two-line stack, always in frame */
 .hero.hero-single .hero-headline-single.headline {
   display: block !important;
   max-width: 22ch !important;
@@ -385,7 +394,7 @@
   margin-top: 0.08em;
 }
 
-/* Projects title — left aligned */
+/* Projects title - left aligned */
 #projects-title.projects-title-section,
 #projects-title.section-title-block-wrap {
   display: block !important;
@@ -416,7 +425,7 @@
   margin-right: 0 !important;
 }
 
-/* Articles title — left aligned, full width like homepage sections */
+/* Articles title - left aligned, full width like homepage sections */
 #articles-title.section-title-block-wrap {
   display: block !important;
   text-align: left !important;
@@ -430,7 +439,7 @@
   text-align: left !important;
 }
 
-/* Projects webview — tabs + preview layout */
+/* Projects webview - tabs + preview layout */
 .projects-tabs .tab-button {
   padding-top: 20px !important;
   padding-bottom: 20px !important;
@@ -441,7 +450,7 @@
   padding-right: var(--container-x) !important;
 }
 
-/* Single gutter layer — align copy with tab row (no double padding) */
+/* Single gutter layer - align copy with tab row (no double padding) */
 #projects-webview .tab-panel.active {
   padding-left: 0 !important;
   padding-right: 0 !important;
@@ -493,7 +502,7 @@
   }
 }
 
-/* ── Section backgrounds — one base, surface for cards only ── */
+/* ── Section backgrounds - one base, surface for cards only ── */
 #process.section,
 #process-title.section-title-block-wrap,
 #reviews.section,
@@ -502,7 +511,7 @@
   background: var(--bg) !important;
 }
 
-/* ── How we work — site-aligned cards + blur siblings on hover ── */
+/* ── How we work - site-aligned cards + blur siblings on hover ── */
 #process .steps {
   gap: 14px;
 }
@@ -572,7 +581,7 @@
   margin-bottom: 12px;
 }
 
-/* ── Reviews — flat panels, no gradient wash ── */
+/* ── Reviews - flat panels, no gradient wash ── */
 .reviews-summary {
   background: var(--bg-surface) !important;
   border: 1px solid var(--border) !important;
@@ -620,7 +629,7 @@ body:not(.dark-mode) .review-tile {
   }
 }
 
-/* In the wild — curated proof grid, replacing the oversized marquee */
+/* In the wild - curated proof grid, replacing the oversized marquee */
 #projects.projects.section,
 #projects-mobile.projects-mobile.section {
   min-height: 0 !important;
@@ -690,11 +699,17 @@ body:not(.dark-mode) .review-tile {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  transform: scale(var(--img-scale, 1));
+  transform-origin: center;
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.project-curated-card[data-project="social-media-management"] img {
+  transform-origin: 50% 66%;
+}
+
 .project-curated-card:hover img {
-  transform: scale(1.035);
+  transform: scale(calc(var(--img-scale, 1) * 1.035));
 }
 
 .project-curated-meta {
@@ -774,7 +789,7 @@ body:not(.dark-mode) .review-tile {
   }
 }
 
-/* Articles — saved two-tier editorial layout */
+/* Articles - saved two-tier editorial layout */
 #articles.articles-section {
   min-height: 0;
   height: auto;
@@ -928,10 +943,11 @@ a.article-card:hover {
 }
 
 /* ==========================================================================
-   Detail pages — projects & services
+   Detail pages - projects & services
    ========================================================================== */
 
-.detail-page .project-header {
+.detail-page .project-header,
+.service-page .project-header {
   position: sticky;
   top: 0;
   z-index: 200;
@@ -941,7 +957,7 @@ a.article-card:hover {
   padding-top: var(--header-h);
 }
 
-/* Image-only hero — inset to match homepage content margins */
+/* Image-only hero - inset to match homepage content margins */
 .detail-hero {
   width: 100%;
   box-sizing: border-box;
@@ -963,6 +979,20 @@ a.article-card:hover {
   border: 1px solid var(--border);
 }
 
+/* Pocdocs hero — phone sits lower in the artwork; raise it in the crop */
+.detail-page--pocdocs .detail-hero img {
+  object-position: center 42%;
+}
+
+/* KLEEN hero — raise artwork in the crop */
+.detail-page--kleen .detail-hero img {
+  object-position: center 38%;
+}
+
+.detail-page .detail-wrap {
+  padding-top: clamp(24px, 3vw, 36px);
+}
+
 .detail-wrap {
   width: 100%;
   max-width: none;
@@ -976,6 +1006,15 @@ a.article-card:hover {
   margin-bottom: clamp(28px, 4vw, 40px);
   text-decoration: none;
   line-height: 0;
+  color: inherit;
+}
+
+a.detail-back,
+a.detail-back:link,
+a.detail-back:visited,
+a.detail-back:active {
+  color: inherit;
+  text-decoration: none;
 }
 
 .detail-back-box {
@@ -1076,7 +1115,7 @@ a.article-card:hover {
   border-bottom: 1px solid var(--border);
 }
 
-/* Dedicated pages — no grey band backgrounds */
+/* Dedicated pages - no grey band backgrounds */
 .detail-page .detail-band,
 .detail-page .detail-band--surface {
   background: var(--bg);
@@ -1294,6 +1333,204 @@ a.article-card:hover {
   }
 }
 
+/* ==========================================================================
+   Service pages - editorial layout (not case-study bands)
+   ========================================================================== */
+
+.service-main {
+  padding-top: var(--header-h);
+  background: var(--bg);
+}
+
+.service-shell {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: clamp(12px, 2vw, 20px) var(--container-x) clamp(72px, 10vw, 120px);
+}
+
+.service-header {
+  max-width: 720px;
+  margin-bottom: clamp(32px, 5vw, 48px);
+}
+
+.service-kicker {
+  margin: 0 0 12px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+.service-title {
+  margin: 0 0 16px;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+
+.service-lead {
+  margin: 0 0 24px;
+  max-width: 48ch;
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  line-height: 1.6;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.service-tags li {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  border-radius: 0;
+}
+
+.service-visual {
+  margin: 0 0 clamp(40px, 6vw, 64px);
+  border: 1px solid var(--border);
+  line-height: 0;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.service-visual img {
+  display: block;
+  width: 100%;
+  height: clamp(220px, 42vw, 480px);
+  object-fit: cover;
+  object-position: center;
+}
+
+.service-page--ai .service-visual img {
+  object-position: center 38%;
+}
+
+.service-pillars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 4vw, 40px);
+  margin-bottom: clamp(48px, 8vw, 72px);
+  padding-bottom: clamp(48px, 8vw, 72px);
+  border-bottom: 1px solid var(--border);
+}
+
+.service-pillar-title {
+  margin: 0 0 12px;
+  padding-top: 16px;
+  border-top: 2px solid var(--brand);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(1.2rem, 2vw, 1.45rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.service-pillar-text {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 42ch;
+}
+
+.service-includes {
+  margin-bottom: clamp(48px, 8vw, 72px);
+}
+
+.service-section-title {
+  margin: 0 0 clamp(24px, 4vw, 32px);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.service-includes-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.service-includes-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(16px, 3vw, 28px);
+  align-items: start;
+  padding: clamp(20px, 3vw, 28px) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.service-includes-num {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--brand);
+  padding-top: 4px;
+}
+
+.service-includes-list h3 {
+  margin: 0 0 8px;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.service-includes-list p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+.service-outro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  padding-top: clamp(32px, 5vw, 48px);
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 900px) {
+  .service-pillars {
+    grid-template-columns: 1fr;
+  }
+
+  .service-outro {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .service-outro .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 /* OnTimely dedicated page */
 .detail-page--ontimely .detail-main {
   padding-top: 0;
@@ -1320,7 +1557,7 @@ a.article-card:hover {
   border-bottom: none;
 }
 
-/* Challenge — split with contained rounded image */
+/* Challenge - split with contained rounded image */
 .detail-page--ontimely .ontimely-split {
   display: grid;
   grid-template-columns: minmax(0, 0.46fr) minmax(0, 0.54fr);
@@ -1391,7 +1628,7 @@ a.article-card:hover {
   max-width: 42ch;
 }
 
-/* What we built — bridge between story and features */
+/* What we built - bridge between story and features */
 .detail-page--ontimely .ontimely-statement {
   padding: clamp(16px, 4vh, 32px) 0;
   margin: 0;
@@ -1420,7 +1657,7 @@ a.article-card:hover {
   max-width: 52ch;
 }
 
-/* Feature rows — one rhythm, alternating sides */
+/* Feature rows - one rhythm, alternating sides */
 .detail-page--ontimely .ontimely-feature {
   padding: 0;
   margin: 0;
@@ -1517,7 +1754,7 @@ a.article-card:hover {
   max-width: min(100%, 520px);
 }
 
-/* Homepage builder — fill + overlapping phone */
+/* Homepage builder - fill + overlapping phone */
 .detail-page--ontimely .ontimely-feature--builder {
   padding: clamp(36px, 6vh, 64px) 0;
 }
@@ -1609,7 +1846,7 @@ a.article-card:hover {
   max-width: none;
 }
 
-/* Create event — larger, pushed right */
+/* Create event - larger, pushed right */
 .detail-page--ontimely .ontimely-feature--create .ontimely-visual {
   justify-content: flex-end;
   align-items: center;
@@ -1626,7 +1863,7 @@ a.article-card:hover {
   transform: rotateY(8deg) rotateX(-2deg) scale(1.03);
 }
 
-/* Integrated chat — large left-anchored image with soft mask */
+/* Integrated chat - large left-anchored image with soft mask */
 .detail-page--ontimely .ontimely-feature--chat .ontimely-row {
   grid-template-columns: minmax(0, 0.6fr) minmax(0, 0.4fr);
   max-width: min(100%, 1180px);
@@ -2009,7 +2246,7 @@ a.article-card:hover {
 }
 
 /* ==========================================================================
-   Mobile layout fixes — overrides legacy styles.css conflicts
+   Mobile layout fixes - overrides legacy styles.css conflicts
    ========================================================================== */
 
 @media (max-width: 900px) {
@@ -2036,7 +2273,7 @@ a.article-card:hover {
     overflow: visible !important;
   }
 
-  /* Services gallery — vertical stack instead of hidden */
+  /* Services gallery - vertical stack instead of hidden */
   #services-gallery.section {
     display: block !important;
     visibility: visible !important;
@@ -2099,7 +2336,7 @@ a.article-card:hover {
     object-fit: cover;
   }
 
-  /* Projects mobile — curated grid, not legacy marquee */
+  /* Projects mobile - curated grid, not legacy marquee */
   #projects-mobile.projects-mobile.section {
     display: block !important;
     height: auto !important;
@@ -2133,7 +2370,7 @@ a.article-card:hover {
     display: none !important;
   }
 
-  /* Work + process — full width, left aligned */
+  /* Work + process - full width, left aligned */
   #work.section .work-grid,
   #process.section .steps {
     width: 100% !important;
@@ -2151,7 +2388,7 @@ a.article-card:hover {
     text-align: left !important;
   }
 
-  /* Section alignment — match homepage left rail */
+  /* Section alignment - match homepage left rail */
   .section-title-block-wrap .section-title-block,
   .section-title-block-wrap .container.section-title-block {
     text-align: left !important;

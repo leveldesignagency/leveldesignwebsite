@@ -1,4 +1,4 @@
-/* Phase 8 — footer redesign + cookie banner + legal pages */
+/* Phase 8 - footer redesign + cookie banner + legal pages */
 
 /* ── Footer shell ── */
 .site-footer {
@@ -25,7 +25,7 @@
   align-items: stretch !important;
 }
 
-/* Logo — bottom right, no wrapper */
+/* Logo - bottom right, no wrapper */
 .footer-logo-stage,
 .footer-logo-box,
 .footer-brand-row {
@@ -57,7 +57,7 @@ body:not(.dark-mode) .site-footer .footer-logo-link .footer-logo {
   filter: brightness(0);
 }
 
-/* Main row — nav + social on one line, flush to page margins */
+/* Main row - nav + social on one line, flush to page margins */
 .site-footer .footer-main-row {
   display: flex;
   align-items: center;
@@ -90,7 +90,7 @@ body:not(.dark-mode) .site-footer .footer-logo-link .footer-logo {
   margin-left: 0;
 }
 
-/* Match header nav hover — underline grows from centre */
+/* Match header nav hover - underline grows from centre */
 .footer-nav-link {
   color: var(--text);
   text-decoration: none;
@@ -146,7 +146,7 @@ body:not(.dark-mode) .site-footer .footer-logo-link .footer-logo {
   fill: currentColor;
 }
 
-/* Legal links — full-width rule, same left edge as logo + nav */
+/* Legal links - full-width rule, same left edge as logo + nav */
 .site-footer .footer-legal-row {
   width: 100%;
   max-width: none;
@@ -228,7 +228,7 @@ body:not(.dark-mode) .site-footer .footer-logo-link .footer-logo {
   display: none !important;
 }
 
-/* Scroll animations — new structure */
+/* Scroll animations - new structure */
 .site-footer[data-animate] .footer-main-row,
 .site-footer[data-animate] .footer-legal-row,
 .site-footer[data-animate] .footer-bottom {
@@ -255,7 +255,7 @@ body:not(.dark-mode) .site-footer .footer-logo-link .footer-logo {
   transition-delay: 0.28s;
 }
 
-/* Override legacy footer centering from styles.css — desktop only */
+/* Override legacy footer centering from styles.css - desktop only */
 @media (min-width: 901px) {
   .site-footer .footer-nav {
     justify-content: flex-start !important;
@@ -269,7 +269,7 @@ body:not(.dark-mode) .site-footer .footer-logo-link .footer-logo {
   }
 }
 
-/* Mobile — centred stack */
+/* Mobile - centred stack */
 @media (max-width: 900px) {
   .site-footer .footer-inner {
     display: flex !important;

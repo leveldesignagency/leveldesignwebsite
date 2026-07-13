@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// Entrance animations — section fades + per-item scroll reveals with stagger
+// Entrance animations - section fades + per-item scroll reveals with stagger
 const REVEAL_ITEM_SELECTORS = [
   '#markets-strip .market-chip',
   '#markets-strip',
@@ -162,7 +162,16 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
       const targetRect = target.getBoundingClientRect();
-      const scrollPosition = Math.max(0, targetRect.top + currentScroll);
+      const headerEl = document.querySelector('.site-header');
+      const headerOffset = headerEl ? headerEl.offsetHeight : 0;
+      // About is a sticky scroll-lock section - land so it pins under the header
+      // (not early, while Process is still framing the viewport)
+      let scrollPosition;
+      if (id === 'about') {
+        scrollPosition = Math.max(0, target.offsetTop);
+      } else {
+        scrollPosition = Math.max(0, targetRect.top + currentScroll - headerOffset);
+      }
       window.scrollTo(0, scrollPosition);
       const navLinks = document.getElementById('nav-links');
       const navToggle = document.querySelector('.nav-toggle');
@@ -334,8 +343,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Check if we should lock scrolling - works for both wheel and programmatic scrolling
   function shouldLockScroll() {
     const rect = aboutSection.getBoundingClientRect();
-    // Lock when section top reaches or passes viewport top AND section is still visible
-    return rect.top <= 0 && rect.bottom > window.innerHeight;
+    const headerH =
+      parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 72;
+    // Lock once sticky "We are" panel has pinned under the header, until section exits
+    return rect.top <= headerH && rect.bottom > window.innerHeight;
   }
   
   function handleWheel(e) {
@@ -543,7 +554,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (iframe && !iframe.src) {
       const url = iframe.getAttribute('data-src');
       
-      // Sites that block iframe embedding — use static preview image instead
+      // Sites that block iframe embedding - use static preview image instead
       const blockedSites = [];
       
       // Check if this site is known to block iframes
@@ -841,7 +852,7 @@ async function executeRecaptcha() {
 }
 
 // ============================================
-// CONTACT FORM — lazy-load EmailJS + reCAPTCHA
+// CONTACT FORM - lazy-load EmailJS + reCAPTCHA
 // ============================================
 
 function loadExternalScript(src) {

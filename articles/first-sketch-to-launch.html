@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>From first sketch to launch — LEVEL Design Agency</title>
+    <title>From first sketch to launch - LEVEL Design Agency</title>
     <meta name="description" content="How we move from early sketches to shipped work on projects like KLEEN and OnTimely." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,19 +15,27 @@
     <link rel="stylesheet" href="../revamp-phase5.css" />
     <link rel="stylesheet" href="../revamp-phase6.css" />
     <link rel="stylesheet" href="../project.css" />
+    <link rel="stylesheet" href="../revamp-phase9.css" />
+
     <link rel="icon" type="image/png" href="../favicon.png">
 </head>
 <body id="top" class="article-page detail-page">
     <header class="site-header project-header">
         <div class="header-inner">
-            <a href="/" class="logo" aria-label="LEVEL — home">
+            <a href="/" class="logo" aria-label="LEVEL - home">
                 <img src="../LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" class="logo-img" />
             </a>
             <nav class="nav" aria-label="Primary">
-                <ul class="nav-links">
+                <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+                <ul id="nav-links" class="nav-links">
                     <li><a href="/#services-title">Services</a></li>
                     <li><a href="/#work-title">Work</a></li>
-                    <li><a href="/#articles-title">Journal</a></li>
+                    <li><a href="/#process-title">Process</a></li>
+                    <li class="nav-about-link"><a href="/#about">About</a></li>
                     <li><a href="/#contact-title" class="cta">Start a project</a></li>
                 </ul>
             </nav>
@@ -39,7 +47,7 @@
             <div class="article-hero-inner">
                 <p class="article-hero-tag">Process</p>
                 <h1 class="article-hero-title">From first sketch to launch</h1>
-                <p class="article-hero-lead">The gap between a promising idea and something people actually use is mostly process — not talent.</p>
+                <p class="article-hero-lead">The gap between a promising idea and something people actually use is mostly process - not talent.</p>
                 <p class="article-hero-meta">7 min read · Journal</p>
             </div>
         </div>
@@ -50,7 +58,7 @@
                 <p>Every project starts messier than the case study suggests. Loose sketches. Half-formed hypotheses. A client who knows what feels wrong about the current experience but cannot yet name what right looks like. Our job is to make that fuzzy front end productive instead of expensive.</p>
 
                 <h2>Discovery that earns the next step</h2>
-                <p>On <a href="/work/kleen">KLEEN</a>, the early work was not visual at all. Who books a cleaner? What makes someone trust a platform with access to their home or workplace? Where does the current journey leak? We map those questions with the people who own the outcome — not as theatre, but to set constraints that later design can actually solve.</p>
+                <p>On <a href="/work/kleen">KLEEN</a>, the early work was not visual at all. Who books a cleaner? What makes someone trust a platform with access to their home or workplace? Where does the current journey leak? We map those questions with the people who own the outcome - not as theatre, but to set constraints that later design can actually solve.</p>
 
                 <p>Clarity here saves weeks later. If the success metric is qualified bookings, we design toward that. If it is operational efficiency for organisers, as on <a href="/work/ontimely">OnTimely</a>, the interface priorities shift completely.</p>
 
@@ -60,10 +68,10 @@
                 <blockquote class="article-pullquote">A launch is not the end of design. It is the first time the design meets reality at scale.</blockquote>
 
                 <h2>Build with handover in mind</h2>
-                <p>Development is not a black box at the end of a Figma file. We build performant, maintainable work — sites and apps that non-technical teams can live with after launch. That means sensible component structure, accessible patterns, and documentation where it reduces future friction.</p>
+                <p>Development is not a black box at the end of a Figma file. We build performant, maintainable work - sites and apps that non-technical teams can live with after launch. That means sensible component structure, accessible patterns, and documentation where it reduces future friction.</p>
 
                 <h2>Launch is a phase, not a punctuation mark</h2>
-                <p>Testing, accessibility review, analytics baselines, and a controlled go-live matter. So does the fortnight after — when real users do things no prototype predicted. We plan for that beat. Adjust. Support. Train if needed.</p>
+                <p>Testing, accessibility review, analytics baselines, and a controlled go-live matter. So does the fortnight after - when real users do things no prototype predicted. We plan for that beat. Adjust. Support. Train if needed.</p>
 
                 <p>The sketch was never the product. The shipped experience is. Everything in between is how you get there without losing the idea that made it worth building.</p>
 
@@ -81,5 +89,6 @@
             </article>
         </div>
     </main>
+    <script src="../script.js" defer></script>
 </body>
 </html>

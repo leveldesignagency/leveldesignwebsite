@@ -1,4 +1,4 @@
-/* Phase 6 — section title blocks: larger type, no dark bands */
+/* Phase 6 - section title blocks: larger type, no dark bands */
 
 :root {
   --type-section: clamp(2.25rem, 4.5vw, 3.5rem);
@@ -175,7 +175,7 @@
   }
 }
 
-/* Section title blocks — left aligned with page content */
+/* Section title blocks - left aligned with page content */
 #services-title.services-title-section,
 #services-title.section-title-block-wrap,
 #specialities-title.specialities-title-section,
@@ -220,7 +220,7 @@
   text-align: left !important;
 }
 
-/* ITD logo — same muted default / bright hover as other client logos */
+/* ITD logo - same muted default / bright hover as other client logos */
 #clients .client-logo-color {
   opacity: 0.42 !important;
   transition: opacity 0.35s ease, transform 0.35s ease !important;
@@ -234,7 +234,7 @@
   filter: none !important;
 }
 
-/* Client logos — uniform scale (wide marks like Najib set the reference height) */
+/* Client logos - uniform scale (wide marks like Najib set the reference height) */
 #clients .marquee-row {
   height: 80px !important;
   margin: 8px 0 !important;
@@ -315,7 +315,7 @@
   }
 }
 
-/* Markets tabs — align with section margins (no extra bleed/padding) */
+/* Markets tabs - align with section margins (no extra bleed/padding) */
 #who-we-work-with .markets-compact {
   width: 100% !important;
   max-width: 100% !important;
@@ -347,7 +347,7 @@
   margin-top: 4px;
 }
 
-/* Header — tighter side margins, more top breathing room */
+/* Header - tighter side margins, more top breathing room */
 .site-header .header-inner {
   padding-top: 18px !important;
   padding-bottom: 14px !important;

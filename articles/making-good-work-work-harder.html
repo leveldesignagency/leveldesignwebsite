@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Making good work work harder — LEVEL Design Agency</title>
-    <meta name="description" content="Conversion, SEO, and AI search optimisation — getting more from work that already looks the part." />
+    <title>Making good work work harder - LEVEL Design Agency</title>
+    <meta name="description" content="Conversion, SEO, and AI search optimisation - getting more from work that already looks the part." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -15,19 +15,27 @@
     <link rel="stylesheet" href="../revamp-phase5.css" />
     <link rel="stylesheet" href="../revamp-phase6.css" />
     <link rel="stylesheet" href="../project.css" />
+    <link rel="stylesheet" href="../revamp-phase9.css" />
+
     <link rel="icon" type="image/png" href="../favicon.png">
 </head>
 <body id="top" class="article-page detail-page">
     <header class="site-header project-header">
         <div class="header-inner">
-            <a href="/" class="logo" aria-label="LEVEL — home">
+            <a href="/" class="logo" aria-label="LEVEL - home">
                 <img src="../LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" class="logo-img" />
             </a>
             <nav class="nav" aria-label="Primary">
-                <ul class="nav-links">
+                <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+                <ul id="nav-links" class="nav-links">
                     <li><a href="/#services-title">Services</a></li>
                     <li><a href="/#work-title">Work</a></li>
-                    <li><a href="/#articles-title">Journal</a></li>
+                    <li><a href="/#process-title">Process</a></li>
+                    <li class="nav-about-link"><a href="/#about">About</a></li>
                     <li><a href="/#contact-title" class="cta">Start a project</a></li>
                 </ul>
             </nav>
@@ -47,21 +55,21 @@
         <div class="article-wrap">
             <a href="/#articles-title" class="detail-back">← Back to articles</a>
             <article class="article-content">
-                <p>There is a version of agency life that stops at launch — hand over the files, take the screenshot, move on. We are not interested in that version. If a site or product does not help a business grow, the design only solved half the brief.</p>
+                <p>There is a version of agency life that stops at launch - hand over the files, take the screenshot, move on. We are not interested in that version. If a site or product does not help a business grow, the design only solved half the brief.</p>
 
                 <h2>Traffic is not the scoreboard</h2>
-                <p>Vanity metrics flatter everyone and help no one. For construction firms, healthcare practices, and B2B services, the point is qualified enquiries — people who actually match capability and budget. That shifts what you optimise: service page structure, proof points, form friction, speed on mobile, language that sounds like the client not the agency.</p>
+                <p>Vanity metrics flatter everyone and help no one. For construction firms, healthcare practices, and B2B services, the point is qualified enquiries - people who actually match capability and budget. That shifts what you optimise: service page structure, proof points, form friction, speed on mobile, language that sounds like the client not the agency.</p>
 
                 <h2>SEO and AI search are structure problems</h2>
-                <p>Search — traditional and AI-mediated — rewards clarity, semantic structure, and pages that answer real questions. That is not a post-launch bolt-on. It influences information architecture from the start. Headings that mean something. Internal linking that reflects how buyers think. Content that can be quoted accurately by models without losing nuance.</p>
+                <p>Search - traditional and AI-mediated - rewards clarity, semantic structure, and pages that answer real questions. That is not a post-launch bolt-on. It influences information architecture from the start. Headings that mean something. Internal linking that reflects how buyers think. Content that can be quoted accurately by models without losing nuance.</p>
 
                 <blockquote class="article-pullquote">The best growth work does not feel like marketing. It feels like the product finally explaining itself properly.</blockquote>
 
                 <h2>Conversion is continuity</h2>
-                <p>A strong homepage means little if the contact flow feels like a different company. Typography, tone, and interaction patterns should carry through. On professional services sites — surveying, surgery, consulting — trust accumulates in the details. Broken continuity breaks trust.</p>
+                <p>A strong homepage means little if the contact flow feels like a different company. Typography, tone, and interaction patterns should carry through. On professional services sites - surveying, surgery, consulting - trust accumulates in the details. Broken continuity breaks trust.</p>
 
                 <h2>What we measure</h2>
-                <p>Enquiry quality. Form completion. Time to key actions. Search visibility for terms that matter commercially. Not everything is a dashboard — sometimes the right metric is a sales team saying leads are better informed before the first call.</p>
+                <p>Enquiry quality. Form completion. Time to key actions. Search visibility for terms that matter commercially. Not everything is a dashboard - sometimes the right metric is a sales team saying leads are better informed before the first call.</p>
 
                 <p>Good work should work harder. Design and growth are not separate acts. They are the same story told at different scales.</p>
 
@@ -78,5 +86,6 @@
             </article>
         </div>
     </main>
+    <script src="../script.js" defer></script>
 </body>
 </html>

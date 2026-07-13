@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Good systems create room for ideas — LEVEL Design Agency</title>
+    <title>Good systems create room for ideas - LEVEL Design Agency</title>
     <meta name="description" content="Bauhaus, design systems, and why structure helps creative teams move faster." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,19 +15,27 @@
     <link rel="stylesheet" href="../revamp-phase5.css" />
     <link rel="stylesheet" href="../revamp-phase6.css" />
     <link rel="stylesheet" href="../project.css" />
+    <link rel="stylesheet" href="../revamp-phase9.css" />
+
     <link rel="icon" type="image/png" href="../favicon.png">
 </head>
 <body id="top" class="article-page detail-page">
     <header class="site-header project-header">
         <div class="header-inner">
-            <a href="/" class="logo" aria-label="LEVEL — home">
+            <a href="/" class="logo" aria-label="LEVEL - home">
                 <img src="../LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" class="logo-img" />
             </a>
             <nav class="nav" aria-label="Primary">
-                <ul class="nav-links">
+                <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+                <ul id="nav-links" class="nav-links">
                     <li><a href="/#services-title">Services</a></li>
                     <li><a href="/#work-title">Work</a></li>
-                    <li><a href="/#articles-title">Journal</a></li>
+                    <li><a href="/#process-title">Process</a></li>
+                    <li class="nav-about-link"><a href="/#about">About</a></li>
                     <li><a href="/#contact-title" class="cta">Start a project</a></li>
                 </ul>
             </nav>
@@ -47,12 +55,12 @@
         <div class="article-wrap">
             <a href="/#articles-title" class="detail-back">← Back to articles</a>
             <article class="article-content">
-                <p>Design systems have a reputation problem. Say the phrase and some people picture bureaucracy — component libraries that turn every product into the same grey rectangle. That is not a system. That is a cage built by people who confused consistency with conformity.</p>
+                <p>Design systems have a reputation problem. Say the phrase and some people picture bureaucracy - component libraries that turn every product into the same grey rectangle. That is not a system. That is a cage built by people who confused consistency with conformity.</p>
 
                 <h2>Bauhaus had it right</h2>
                 <p>The Bauhaus project was radical not because it ignored rules but because it unified them. Form following function. Craft meeting industry. A shared vocabulary across disciplines so ideas could travel faster. The goal was not repetition. It was liberation from reinventing the basics on every object, poster, and building.</p>
 
-                <p>Digital product work needs the same discipline. Tokens for colour and type. Spacing scales that survive responsive breakpoints. Components for buttons, cards, and forms that behave predictably. Then — crucially — room to break the pattern when the story demands it.</p>
+                <p>Digital product work needs the same discipline. Tokens for colour and type. Spacing scales that survive responsive breakpoints. Components for buttons, cards, and forms that behave predictably. Then - crucially - room to break the pattern when the story demands it.</p>
 
                 <h2>Systems in practice</h2>
                 <p>On larger builds like <a href="/work/ontimely">OnTimely</a> or <a href="/work/ai-systems">AI systems</a> work, a lightweight system pays off immediately. Designers spend time on flows and states, not debating corner radii for the fourth time. Developers ship faster because the building blocks agree. Clients get a product that can grow without visual drift every sprint.</p>
@@ -60,7 +68,7 @@
                 <blockquote class="article-pullquote">Structure is not the opposite of creativity. It is what stops creativity leaking into admin.</blockquote>
 
                 <h2>When to break the grid</h2>
-                <p>Campaign work — posters, event creative, social — often needs to bend or break the system. That is healthy. Memphis designers broke modernist grids on purpose. The key is knowing what you are breaking and why. A system should document not only the defaults but the principles underneath them, so exceptions still feel related.</p>
+                <p>Campaign work - posters, event creative, social - often needs to bend or break the system. That is healthy. Memphis designers broke modernist grids on purpose. The key is knowing what you are breaking and why. A system should document not only the defaults but the principles underneath them, so exceptions still feel related.</p>
 
                 <h2>How we keep systems alive</h2>
                 <p>Start small. Document decisions as you make them, not six months later. Tie components to use cases, not abstract atoms. Review when real content stress-tests the rules. And treat the system as a studio tool, not a client deliverable to inflate the invoice.</p>
@@ -80,5 +88,6 @@
             </article>
         </div>
     </main>
+    <script src="../script.js" defer></script>
 </body>
 </html>

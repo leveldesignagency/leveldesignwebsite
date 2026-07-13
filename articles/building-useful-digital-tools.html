@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Building useful digital tools — LEVEL Design Agency</title>
+    <title>Building useful digital tools - LEVEL Design Agency</title>
     <meta name="description" content="On Nimbus, Pocdocs, and designing software that earns a place in someone's day." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,19 +15,27 @@
     <link rel="stylesheet" href="../revamp-phase5.css" />
     <link rel="stylesheet" href="../revamp-phase6.css" />
     <link rel="stylesheet" href="../project.css" />
+    <link rel="stylesheet" href="../revamp-phase9.css" />
+
     <link rel="icon" type="image/png" href="../favicon.png">
 </head>
 <body id="top" class="article-page detail-page">
     <header class="site-header project-header">
         <div class="header-inner">
-            <a href="/" class="logo" aria-label="LEVEL — home">
+            <a href="/" class="logo" aria-label="LEVEL - home">
                 <img src="../LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" class="logo-img" />
             </a>
             <nav class="nav" aria-label="Primary">
-                <ul class="nav-links">
+                <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+                <ul id="nav-links" class="nav-links">
                     <li><a href="/#services-title">Services</a></li>
                     <li><a href="/#work-title">Work</a></li>
-                    <li><a href="/#articles-title">Journal</a></li>
+                    <li><a href="/#process-title">Process</a></li>
+                    <li class="nav-about-link"><a href="/#about">About</a></li>
                     <li><a href="/#contact-title" class="cta">Start a project</a></li>
                 </ul>
             </nav>
@@ -50,14 +58,14 @@
                 <p>The best digital tools disappear into the workflow they support. You do not admire a well-designed extension on the tenth use. You simply get the answer and move on. That bar sounds low until you try to clear it consistently across browsers, screen sizes, and users who never read onboarding.</p>
 
                 <h2>Start with friction, not features</h2>
-                <p><a href="/work/nimbus">Nimbus</a> began with a simple observation: reading online still means leaving the page. Dictionary tabs. Translation tools. Search rabbit holes. We designed around the highlight — definitions, AI explanations, pronunciation, translation — in a panel that respects the page underneath. The product is useful because it removes steps, not because it announces intelligence.</p>
+                <p><a href="/work/nimbus">Nimbus</a> began with a simple observation: reading online still means leaving the page. Dictionary tabs. Translation tools. Search rabbit holes. We designed around the highlight - definitions, AI explanations, pronunciation, translation - in a panel that respects the page underneath. The product is useful because it removes steps, not because it announces intelligence.</p>
 
                 <p>That constraint shaped everything. Compact UI. High contrast without shouting. Interactions that feel native to the browser rather than bolted on. Tools win when they respect context.</p>
 
                 <h2>Platforms need a point of view</h2>
-                <p><a href="/work/pocdocs">Pocdocs</a> sits at the opposite scale — a health platform where dense PDFs needed to become mobile-friendly reading experiences. Here the job was not speed alone but comprehension. Layout, type, and progressive disclosure had to make clinical content approachable without dumbing it down.</p>
+                <p><a href="/work/pocdocs">Pocdocs</a> sits at the opposite scale - a health platform where dense PDFs needed to become mobile-friendly reading experiences. Here the job was not speed alone but comprehension. Layout, type, and progressive disclosure had to make clinical content approachable without dumbing it down.</p>
 
-                <blockquote class="article-pullquote">Useful software answers a question the user already has — before they have to go looking elsewhere.</blockquote>
+                <blockquote class="article-pullquote">Useful software answers a question the user already has - before they have to go looking elsewhere.</blockquote>
 
                 <h2>Where AI actually helps</h2>
                 <p>We are skeptical of AI as decoration. Less skeptical of AI as infrastructure. In-browser explanation in Nimbus. Document conversion and layout intelligence in Pocdocs. Internal tooling on client portals. The pattern is the same: AI should reduce cognitive load at the moment of need, not add a chat box because it is fashionable.</p>
@@ -83,5 +91,6 @@
             </article>
         </div>
     </main>
+    <script src="../script.js" defer></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 /**
- * LEVEL — Significa × Noco alignment layer (dark grey only)
+ * LEVEL - Significa × Noco alignment layer (dark grey only)
  */
 
 :root {
@@ -31,7 +31,7 @@
 }
 
 .dark-mode {
-  /* legacy alias — palette lives in :root */
+  /* legacy alias - palette lives in :root */
 }
 
 body {
@@ -516,9 +516,9 @@ h3,
 }
 
 .market-chip:hover {
-  border-color: var(--brand) !important;
-  background: rgba(255, 45, 45, 0.08) !important;
-  transform: translateY(-2px) !important;
+  border-color: rgba(255, 45, 45, 0.42) !important;
+  background: transparent !important;
+  transform: none !important;
 }
 
 .market-chip.is-active {
@@ -594,7 +594,7 @@ h3,
   border-radius: var(--ref-radius-lg) !important;
 }
 
-/* ── What we deliver — Significa split rows ── */
+/* ── What we deliver - Significa split rows ── */
 #services-title.section-title-block-wrap {
   border-top: none !important;
   border-bottom: none !important;

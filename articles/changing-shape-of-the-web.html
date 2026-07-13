@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>The changing shape of the web — LEVEL Design Agency</title>
+    <title>The changing shape of the web - LEVEL Design Agency</title>
     <meta name="description" content="AI, interfaces, and designing digital experiences that still feel human." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,19 +15,27 @@
     <link rel="stylesheet" href="../revamp-phase5.css" />
     <link rel="stylesheet" href="../revamp-phase6.css" />
     <link rel="stylesheet" href="../project.css" />
+    <link rel="stylesheet" href="../revamp-phase9.css" />
+
     <link rel="icon" type="image/png" href="../favicon.png">
 </head>
 <body id="top" class="article-page detail-page">
     <header class="site-header project-header">
         <div class="header-inner">
-            <a href="/" class="logo" aria-label="LEVEL — home">
+            <a href="/" class="logo" aria-label="LEVEL - home">
                 <img src="../LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" class="logo-img" />
             </a>
             <nav class="nav" aria-label="Primary">
-                <ul class="nav-links">
+                <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+                <ul id="nav-links" class="nav-links">
                     <li><a href="/#services-title">Services</a></li>
                     <li><a href="/#work-title">Work</a></li>
-                    <li><a href="/#articles-title">Journal</a></li>
+                    <li><a href="/#process-title">Process</a></li>
+                    <li class="nav-about-link"><a href="/#about">About</a></li>
                     <li><a href="/#contact-title" class="cta">Start a project</a></li>
                 </ul>
             </nav>
@@ -39,7 +47,7 @@
             <div class="article-hero-inner">
                 <p class="article-hero-tag">Featured story</p>
                 <h1 class="article-hero-title">The changing shape of the web</h1>
-                <p class="article-hero-lead">A few thoughts on designing digital experiences that still feel human — while everything underneath keeps shifting.</p>
+                <p class="article-hero-lead">A few thoughts on designing digital experiences that still feel human - while everything underneath keeps shifting.</p>
                 <p class="article-hero-meta">8 min read · Journal</p>
             </div>
         </div>
@@ -50,19 +58,19 @@
                 <p>The web has been declared dead, reborn, and dead again more times than any of us can count. What is actually happening is less dramatic and more interesting: the surface is fragmenting while the need for trust, clarity, and craft intensifies.</p>
 
                 <h2>From pages to answers</h2>
-                <p>People still visit websites. They also ask models to summarise them. They expect interfaces to adapt, load instantly, and work on a phone in poor signal. AI has not replaced the web — it has added a layer of mediation. Your content can be read by humans and parsed by systems at the same time. Design has to account for both.</p>
+                <p>People still visit websites. They also ask models to summarise them. They expect interfaces to adapt, load instantly, and work on a phone in poor signal. AI has not replaced the web - it has added a layer of mediation. Your content can be read by humans and parsed by systems at the same time. Design has to account for both.</p>
 
                 <p>That changes what "good" looks like. Semantic structure matters. Plain language matters. Pages that can stand alone as coherent answers matter. A beautiful layout that models misread is not beautiful in practice.</p>
 
                 <h2>Human does not mean nostalgic</h2>
                 <p>Human-feeling experiences are not skeuomorphic throwbacks or hand-drawn novelty for its own sake. They are experiences that respect attention, reduce anxiety, and leave people feeling oriented rather than processed.</p>
 
-                <p>On <a href="/work/ontimely">OnTimely</a>, human meant making complex event operations feel calm — clear states, forgiving flows, language that sounds like a competent colleague. On <a href="/work/nimbus">Nimbus</a>, human meant learning tools that stay out of the way until you need them. The pattern is empathy expressed as interaction design.</p>
+                <p>On <a href="/work/ontimely">OnTimely</a>, human meant making complex event operations feel calm - clear states, forgiving flows, language that sounds like a competent colleague. On <a href="/work/nimbus">Nimbus</a>, human meant learning tools that stay out of the way until you need them. The pattern is empathy expressed as interaction design.</p>
 
                 <blockquote class="article-pullquote">The next web will not be won by who adds the most AI. It will be won by who uses it with the most judgment.</blockquote>
 
                 <h2>Movements as anchors, not cages</h2>
-                <p>Brutalism in web design had a moment — raw structure, exposed grids, anti-corporate honesty. Swiss modernism still informs how we think about typographic order. Neither is a template to paste. They are reminders that every era reacts to what came before, and the best work steals principles while ignoring fashion.</p>
+                <p>Brutalism in web design had a moment - raw structure, exposed grids, anti-corporate honesty. Swiss modernism still informs how we think about typographic order. Neither is a template to paste. They are reminders that every era reacts to what came before, and the best work steals principles while ignoring fashion.</p>
 
                 <h2>What we are building toward</h2>
                 <p>Fast, accessible sites with modern stacks. AI-assisted workflows where they reduce friction. Interfaces that convert without bullying. Brands that feel consistent whether you meet them on a poster, a portal, or a chat summary.</p>
@@ -82,5 +90,6 @@
             </article>
         </div>
     </main>
+    <script src="../script.js" defer></script>
 </body>
 </html>

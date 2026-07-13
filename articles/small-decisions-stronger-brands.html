@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Small decisions, stronger brands — LEVEL Design Agency</title>
+    <title>Small decisions, stronger brands - LEVEL Design Agency</title>
     <meta name="description" content="Typography, colour, and the quiet choices that make brands like OnTimely feel inevitable." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,19 +15,27 @@
     <link rel="stylesheet" href="../revamp-phase5.css" />
     <link rel="stylesheet" href="../revamp-phase6.css" />
     <link rel="stylesheet" href="../project.css" />
+    <link rel="stylesheet" href="../revamp-phase9.css" />
+
     <link rel="icon" type="image/png" href="../favicon.png">
 </head>
 <body id="top" class="article-page detail-page">
     <header class="site-header project-header">
         <div class="header-inner">
-            <a href="/" class="logo" aria-label="LEVEL — home">
+            <a href="/" class="logo" aria-label="LEVEL - home">
                 <img src="../LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" class="logo-img" />
             </a>
             <nav class="nav" aria-label="Primary">
-                <ul class="nav-links">
+                <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+                <ul id="nav-links" class="nav-links">
                     <li><a href="/#services-title">Services</a></li>
                     <li><a href="/#work-title">Work</a></li>
-                    <li><a href="/#articles-title">Journal</a></li>
+                    <li><a href="/#process-title">Process</a></li>
+                    <li class="nav-about-link"><a href="/#about">About</a></li>
                     <li><a href="/#contact-title" class="cta">Start a project</a></li>
                 </ul>
             </nav>
@@ -47,15 +55,15 @@
         <div class="article-wrap">
             <a href="/#articles-title" class="detail-back">← Back to articles</a>
             <article class="article-content">
-                <p>Brands feel inevitable when every touchpoint agrees with every other touchpoint. Not because they are loud — because they are coherent. The work that looks effortless usually involved a lot of small, slightly unglamorous decisions early on.</p>
+                <p>Brands feel inevitable when every touchpoint agrees with every other touchpoint. Not because they are loud - because they are coherent. The work that looks effortless usually involved a lot of small, slightly unglamorous decisions early on.</p>
 
                 <h2>OnTimely: product and brand as one thing</h2>
                 <p>On <a href="/work/ontimely">OnTimely</a>, we were not handing off a logo to a separate product team. Event organisers would live inside the interface. Guests would see the mobile experience. Marketing would reuse the same visual language. That forced discipline: colour ratios that work on dark UI and light marketing, type that scales from notification to homepage, photography direction that feels premium without corporate stiffness.</p>
 
-                <p>One rounded corner language. One approach to spacing. One tone of voice — confident, direct, warm. Remove any of those threads and the product starts to feel assembled rather than designed.</p>
+                <p>One rounded corner language. One approach to spacing. One tone of voice - confident, direct, warm. Remove any of those threads and the product starts to feel assembled rather than designed.</p>
 
                 <h2>Borrowing from movements, not copying them</h2>
-                <p>We pull from design history selectively. Bauhaus clarity for structure. Memphis energy for campaign moments — posters, festival work, hospitality promotions in our <a href="/#projects-title">In the wild</a> output. Swiss restraint for anything that needs to last longer than a season.</p>
+                <p>We pull from design history selectively. Bauhaus clarity for structure. Memphis energy for campaign moments - posters, festival work, hospitality promotions in our <a href="/#projects-title">In the wild</a> output. Swiss restraint for anything that needs to last longer than a season.</p>
 
                 <p>The mistake is treating a movement as a costume. The value is understanding why it worked. Bauhaus united art and industry. Memphis reacted against cold modernism. Swiss design made information legible at speed. Good brand strategy asks which problem you are actually solving before you pick the reference.</p>
 
@@ -64,7 +72,7 @@
                 <h2>Decisions that compound</h2>
                 <p>Which typeface carries your numbers well? How does your palette behave on screen versus print? What does a misaligned social tile say about your attention to detail? These are not cosmetic questions. They are trust questions.</p>
 
-                <p>Strong brands make the next decision easier. Weak brands reopen the same debates on every asset. That is why we document the small calls — grid, motion, image treatment, voice — not just the hero mark.</p>
+                <p>Strong brands make the next decision easier. Weak brands reopen the same debates on every asset. That is why we document the small calls - grid, motion, image treatment, voice - not just the hero mark.</p>
 
                 <div class="article-related" aria-label="Related">
                     <a href="/work/ontimely">OnTimely</a>
@@ -79,5 +87,6 @@
             </article>
         </div>
     </main>
+    <script src="../script.js" defer></script>
 </body>
 </html>

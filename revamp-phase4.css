@@ -1,4 +1,4 @@
-/* Phase 4 — header, spotlight, logos, markets, work, reviews, projects, text reveal */
+/* Phase 4 - header, spotlight, logos, markets, work, reviews, projects, text reveal */
 
 /* ── Header & logo ── */
 .logo-img {
@@ -9,7 +9,7 @@
   align-items: center !important;
 }
 
-/* Hero spotlight — inset handled by .hero-selected-work */
+/* Hero spotlight - inset handled by .hero-selected-work */
 .hero-spotlight {
   padding-left: 0 !important;
   padding-right: 0 !important;
@@ -31,7 +31,7 @@
   opacity: 1;
 }
 
-/* ── Client logos — match page background, not pure black ── */
+/* ── Client logos - match page background, not pure black ── */
 #clients.clients.section,
 #clients.section,
 #clients .container,
@@ -49,7 +49,7 @@
   background: linear-gradient(to left, var(--bg), transparent) !important;
 }
 
-/* ── Client logos — grey default, white on hover, slightly larger ── */
+/* ── Client logos - grey default, white on hover, slightly larger ── */
 #clients .marquee-row {
   height: 200px !important;
 }
@@ -105,7 +105,7 @@
   opacity: 1;
 }
 
-/* ── Markets — larger title, full-bleed tab strip ── */
+/* ── Markets - larger title, full-bleed tab strip ── */
 .audience-title--compact,
 #markets-heading {
   font-size: clamp(1.85rem, 3.2vw, 2.5rem) !important;
@@ -142,7 +142,7 @@
   box-sizing: border-box;
 }
 
-/* ── Work that ships — wider cards ── */
+/* ── Work that ships - wider cards ── */
 #work .container {
   max-width: none !important;
   padding-left: var(--container-x) !important;
@@ -159,7 +159,7 @@
   padding: 8px !important;
 }
 
-/* ── Reviews — wider layout, matched gradients, no corner lines ── */
+/* ── Reviews - wider layout, matched gradients, no corner lines ── */
 #reviews .container {
   max-width: none !important;
   width: min(1680px, calc(100% - 2 * var(--container-x)));
@@ -188,7 +188,7 @@
     linear-gradient(180deg, transparent 62%, rgba(255, 45, 45, 0.06)) !important;
 }
 
-/* ── In the wild — full-width tabs, flat buttons ── */
+/* ── In the wild - full-width tabs, flat buttons ── */
 .projects-tabs-wrapper {
   width: 100%;
   max-width: 100%;

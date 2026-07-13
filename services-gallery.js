@@ -1,5 +1,5 @@
 /**
- * "Where we go deep" — full-bleed services image carousel.
+ * "Where we go deep" - full-bleed services image carousel.
  */
 (function () {
   'use strict';
@@ -39,8 +39,8 @@
         .replace(/\.[^/.]+$/, '')
         .replace(/[-_]/g, ' ');
       const altText = filename
-        ? `${filename} — LEVEL Design Agency`
-        : `Service ${index + 1} — LEVEL Design Agency`;
+        ? `${filename} - LEVEL Design Agency`
+        : `Service ${index + 1} - LEVEL Design Agency`;
 
       const img = document.createElement('img');
       img.src = imagePath;
