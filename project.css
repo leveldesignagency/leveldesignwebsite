@@ -1644,13 +1644,13 @@ a.detail-back:active {
 .detail-page--ontimely .ontimely-statement {
   padding: clamp(16px, 4vh, 32px) 0;
   margin: 0;
-  text-align: center;
+  text-align: left;
   background: var(--bg);
   border: none;
 }
 
 .detail-page--ontimely .ontimely-statement__title {
-  margin: 0 auto 20px;
+  margin: 0 0 20px;
   font-family: Inter, system-ui, sans-serif;
   font-size: clamp(2rem, 4.5vw, 3.25rem);
   font-weight: 700;
@@ -1661,7 +1661,7 @@ a.detail-back:active {
 }
 
 .detail-page--ontimely .ontimely-statement__lead {
-  margin: 0 auto;
+  margin: 0;
   font-size: clamp(1.1rem, 2vw, 1.45rem);
   font-weight: 500;
   line-height: 1.55;
@@ -1995,8 +1995,14 @@ a.detail-back:active {
     gap: 24px;
   }
 
+  /* Mobile: image always above its paragraph for every feature row */
+  .detail-page--ontimely .ontimely-visual,
   .detail-page--ontimely .ontimely-feature--flip .ontimely-visual {
     order: -1;
+  }
+
+  .detail-page--ontimely .ontimely-copy {
+    order: 0;
   }
 
   .detail-page--ontimely .ontimely-visual {
