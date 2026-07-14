@@ -43,10 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Entrance animations - per-item / section move-up on scroll
 const REVEAL_ITEM_SELECTORS = [
   '#markets-strip .market-chip',
-  '#work .work-card',
   '#process .steps > li',
-  '#services.deliver-section .deliver-row',
-  '#services.deliver-section .deliver-block',
   '#statistics-mobile .stat-item',
   '#contact .form-group',
   '#contact .contact-form > .btn',
@@ -91,13 +88,20 @@ function revealElement(el) {
 }
 
 function assignRevealIndex(elements) {
-  elements.forEach((el, index) => {
+  const groupCounts = Object.create(null);
+  elements.forEach((el) => {
     el.classList.add('js-reveal');
-    // Deliver rows move independently - no cascade stagger
-    const noStagger = el.matches(
-      '#services.deliver-section .deliver-row, #services.deliver-section .deliver-block'
-    );
-    el.style.setProperty('--reveal-i', noStagger ? '0' : String(index % 8));
+    let group = 'solo';
+    if (el.matches('#markets-strip .market-chip')) group = 'markets';
+    else if (el.matches('#work .work-card')) group = 'work';
+    else if (el.matches('#process .steps > li')) group = 'process';
+    else if (el.matches('#services-gallery .service-slide')) group = 'gallery';
+    else if (el.matches('#articles .article-card')) group = 'articles';
+    else if (el.matches('.project-curated-card')) group = 'curated';
+
+    const i = groupCounts[group] || 0;
+    groupCounts[group] = i + 1;
+    el.style.setProperty('--reveal-i', String(i));
   });
 }
 
@@ -138,6 +142,38 @@ function getItemRevealIo() {
   );
 
   return itemRevealIo;
+}
+
+/** Work that ships - float each card up only when it is clearly in view */
+let workCardRevealIo = null;
+function initWorkCardReveals() {
+  const cards = document.querySelectorAll('#work .work-card');
+  if (!cards.length) return;
+
+  cards.forEach((el, i) => {
+    el.classList.add('js-reveal');
+    el.style.setProperty('--reveal-i', String(i));
+  });
+
+  if (prefersReducedMotion()) {
+    cards.forEach(revealElement);
+    return;
+  }
+
+  workCardRevealIo = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        revealElement(entry.target);
+        workCardRevealIo.unobserve(entry.target);
+      }
+    },
+    { threshold: [0.2, 0.35], rootMargin: '0px 0px -18% 0px' }
+  );
+
+  cards.forEach((el) => {
+    if (!el.classList.contains('in')) workCardRevealIo.observe(el);
+  });
 }
 
 function initSectionRevealAnimations() {
@@ -238,6 +274,7 @@ function initEntranceAnimations() {
   drainRevealQueue();
   initSectionRevealAnimations();
   initScrollRevealItems();
+  initWorkCardReveals();
 
   // After layout settles, unlock anything already in view
   window.requestAnimationFrame(() => {

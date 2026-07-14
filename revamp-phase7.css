@@ -73,7 +73,7 @@
 .hero.hero-single.in .hero-cta-secondary {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.52s;
+  transition-delay: 0.58s;
 }
 
 /* ── Client logos - more vertical breathing room ── */
@@ -202,14 +202,16 @@
   }
 }
 
-/* Market chips - scroll fade-up */
+/* Market chips - scroll fade-up, one by one */
 #markets-strip .market-chip {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+  transform: translateY(28px);
+  transition:
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.25s ease,
     background 0.25s ease;
+  transition-delay: calc(var(--reveal-i, 0) * 140ms);
 }
 
 #markets-strip .market-chip.in {

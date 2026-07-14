@@ -580,15 +580,11 @@
   margin-bottom: 12px;
 }
 
-/* ── Reviews - flat panels, no gradient wash ── */
+/* ── Reviews - keep feather mask next to the summary card ── */
 .reviews-summary {
   background: var(--bg-surface) !important;
   border: 1px solid var(--border) !important;
   border-radius: var(--ref-radius-md, 14px);
-}
-
-.reviews-summary::before {
-  display: none !important;
 }
 
 .reviews-summary-kicker {
@@ -615,9 +611,38 @@ body:not(.dark-mode) .review-tile {
   background: var(--bg-surface) !important;
 }
 
+/* Soft feather where the scrolling reviews meet the summary card */
 .reviews-marquee {
-  -webkit-mask-image: none !important;
-  mask-image: none !important;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 10%,
+    #000 90%,
+    transparent 100%
+  ) !important;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 10%,
+    #000 90%,
+    transparent 100%
+  ) !important;
+}
+
+.reviews-marquee-stage {
+  position: relative;
+}
+
+.reviews-marquee-stage::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(to right, var(--bg), transparent);
 }
 
 @media (max-width: 768px) {
@@ -2478,14 +2503,10 @@ a.detail-back:active {
 }
 
 /* ==========================================================================
-   Scroll reveals - short move-up into place (~1cm), no sticky delay/stagger chaos
+   Scroll reveals - ~1cm move-up; markets / work / process slow + staggered
    ========================================================================== */
 .js-reveal:not(.in),
 #markets-strip .market-chip.js-reveal:not(.in),
-#work .work-card.js-reveal:not(.in),
-#process .steps > li.js-reveal:not(.in),
-#services.deliver-section .deliver-row.js-reveal:not(.in),
-#services.deliver-section .deliver-block.js-reveal:not(.in),
 #services-gallery .service-slide.js-reveal:not(.in),
 #statistics-mobile .stat-item.js-reveal:not(.in),
 #articles .article-card.js-reveal:not(.in),
@@ -2502,11 +2523,6 @@ a.detail-back:active {
 }
 
 .js-reveal.in,
-#markets-strip .market-chip.js-reveal.in,
-#work .work-card.js-reveal.in,
-#process .steps > li.js-reveal.in,
-#services.deliver-section .deliver-row.js-reveal.in,
-#services.deliver-section .deliver-block.js-reveal.in,
 #services-gallery .service-slide.js-reveal.in,
 #statistics-mobile .stat-item.js-reveal.in,
 #articles .article-card.js-reveal.in,
@@ -2520,14 +2536,78 @@ a.detail-back:active {
   opacity: 1 !important;
   transform: translate3d(0, 0, 0) !important;
   transition:
-    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transition-delay: calc(var(--reveal-i, 0) * 70ms) !important;
+}
+
+/* High-value sectors - clearly one-by-one */
+#markets-strip .market-chip.js-reveal.in {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) !important;
+  transition:
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.25s ease,
+    background 0.25s ease !important;
+  transition-delay: calc(var(--reveal-i, 0) * 140ms) !important;
+}
+
+/* Selected work (Work that ships) - visible move-up only, slow */
+#work .work-card.js-reveal:not(.in) {
+  opacity: 1 !important;
+  transform: translate3d(0, 1cm, 0) !important;
+  filter: none !important;
+  transition:
+    transform 1.25s cubic-bezier(0.22, 1, 0.36, 1) !important;
   transition-delay: 0s !important;
 }
 
-/* Deliver rows - no stagger; each row moves up cleanly on its own */
-#services.deliver-section .deliver-row.js-reveal.in {
+#work .work-card.js-reveal.in {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) !important;
+  transition:
+    transform 1.25s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transition-delay: calc(var(--reveal-i, 0) * 120ms) !important;
+}
+
+#work .work-card.js-reveal.in:hover {
+  transform: translate3d(0, -4px, 0) !important;
+  transition: transform 0.35s ease !important;
   transition-delay: 0s !important;
+}
+
+/* How we work - same slow float-up */
+#process .steps > li.js-reveal:not(.in) {
+  opacity: 1 !important;
+  transform: translate3d(0, 1cm, 0) !important;
+  filter: none !important;
+  transition:
+    transform 1.25s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transition-delay: 0s !important;
+}
+
+#process .steps > li.js-reveal.in {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) !important;
+  transition:
+    transform 1.25s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transition-delay: calc(var(--reveal-i, 0) * 120ms) !important;
+}
+
+/* What we deliver - no scroll motion */
+#services.deliver-section .deliver-row,
+#services.deliver-section .deliver-block,
+#services.deliver-section .deliver-row.js-reveal,
+#services.deliver-section .deliver-block.js-reveal,
+#services.deliver-section .deliver-row.js-reveal:not(.in),
+#services.deliver-section .deliver-block.js-reveal:not(.in),
+#services.deliver-section .deliver-row.js-reveal.in,
+#services.deliver-section .deliver-block.js-reveal.in {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+  filter: none !important;
 }
 
 /* Section title children still stagger slightly off the wrap .in */

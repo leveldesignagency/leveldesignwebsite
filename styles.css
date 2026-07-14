@@ -981,7 +981,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 .hero.hero-single.in .hero-cta-single {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.66s;
+  transition-delay: 0.4s;
 }
 .hero.hero-single.in .hero-social {
   opacity: 1;
@@ -5225,11 +5225,7 @@ body:not(.dark-mode) .footer-social-link {
   transition-delay: calc(var(--reveal-i, 0) * 55ms);
 }
 
-/* Reuse the same stagger mechanic for these existing per-item reveals */
-#markets-strip .market-chip,
-#services.deliver-section .deliver-block,
-#work .work-card,
-#process .steps > li,
+/* Stagger delays (overridden per-section where needed) */
 #statistics-mobile .stat-item,
 #contact .form-group,
 #contact .contact-form > .btn,
@@ -5240,46 +5236,23 @@ body:not(.dark-mode) .footer-social-link {
   transition-delay: calc(var(--reveal-i, 0) * 55ms);
 }
 
-/* Subtle variety: alternate side drift for cards (keeps it premium, not gimmicky) */
 #work .work-card,
-#services.deliver-section .deliver-block,
-#services.deliver-section .deliver-row,
 #process .steps > li {
   will-change: transform, opacity;
-}
-#work .work-card:not(.in),
-#services.deliver-section .deliver-block:not(.in),
-#services.deliver-section .deliver-row:not(.in),
-#process .steps > li:not(.in) {
-  transform: translateY(22px) translateX(calc((var(--reveal-i, 0) % 2) * 6px - 3px));
 }
 
 /* Hero single uses inner stagger - section itself stays visible */
 .hero.hero-single[data-animate] { opacity: 1; transform: none; }
 .hero.hero-single[data-animate].in { opacity: 1; transform: none; }
 
-/* What we deliver - staggered fade-in (no blur; readable motion) */
+/* What we deliver - no scroll motion (static) */
 #services.deliver-section[data-animate],
 #services.deliver-section[data-animate].in { opacity: 1; transform: none; }
 #services.deliver-section .deliver-block,
 #services.deliver-section .deliver-row {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-}
-#services.deliver-section .deliver-block.in,
-#services.deliver-section .deliver-row.in {
   opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #services.deliver-section .deliver-block,
-  #services.deliver-section .deliver-row {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
+  transform: none;
+  transition: none;
 }
 
 /* Hide last four deliver blocks for now (Photography, Videography, Social Media, Packaging) - all viewports */
@@ -5362,12 +5335,14 @@ body:not(.dark-mode) .footer-social-link {
 .audience-section[data-animate].in .audience-lead { opacity: 1; transform: translateY(0); transition-delay: 0.16s; }
 .audience-section[data-animate].in .market-detail { opacity: 1; transform: translateY(0); transition-delay: 0.22s; }
 
-/* Work - each card gets .in when scrolled into view */
+/* Work that ships - each card sits 1cm low, then floats up on scroll (no fade) */
 #work[data-animate] { opacity: 1 !important; transform: none !important; }
 #work .work-card {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1), transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  opacity: 1;
+  transform: translateY(1cm);
+  transition: transform 1.25s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--reveal-i, 0) * 120ms);
+  will-change: transform;
 }
 #work .work-card.in {
   opacity: 1;
@@ -5378,12 +5353,14 @@ body:not(.dark-mode) .footer-social-link {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* Process - each step gets .in on scroll */
+/* Process - same move-up (no fade) */
 #process[data-animate] { opacity: 1 !important; transform: none !important; }
 #process .steps > li {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 1;
+  transform: translateY(1cm);
+  transition: transform 1.25s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--reveal-i, 0) * 120ms);
+  will-change: transform;
 }
 #process .steps > li.in {
   opacity: 1;
