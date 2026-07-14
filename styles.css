@@ -2828,7 +2828,7 @@ body:not(.dark-mode) .project-panel-inner > .webview-wrapper {
 
 #about.section {
   background: var(--bg);
-  height: 240vh; /* Enough travel so reviews don't start before the word carousel finishes */
+  height: 150vh; /* Word carousel travel without a long empty run-out */
   position: relative;
   scroll-margin-top: 0;
 }

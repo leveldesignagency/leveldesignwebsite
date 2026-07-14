@@ -2478,8 +2478,7 @@ a.detail-back:active {
 }
 
 /* ==========================================================================
-   Scroll reveals - force move-up (loaded last so later CSS cannot kill them)
-   Specificity beats ID/mobile overrides like #markets-strip .market-chip
+   Scroll reveals - short move-up into place (~1cm), no sticky delay/stagger chaos
    ========================================================================== */
 .js-reveal:not(.in),
 #markets-strip .market-chip.js-reveal:not(.in),
@@ -2498,9 +2497,8 @@ a.detail-back:active {
 #contact .contact-methods.js-reveal:not(.in),
 [data-reveal].js-reveal:not(.in) {
   opacity: 0 !important;
-  transform: translate3d(0, 36px, 0) !important;
+  transform: translate3d(0, 28px, 0) !important; /* ~1cm */
   filter: none !important;
-  will-change: opacity, transform;
 }
 
 .js-reveal.in,
@@ -2522,13 +2520,17 @@ a.detail-back:active {
   opacity: 1 !important;
   transform: translate3d(0, 0, 0) !important;
   transition:
-    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) !important;
-  transition-delay: calc(var(--reveal-i, 0) * 60ms) !important;
-  will-change: auto;
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transition-delay: 0s !important;
 }
 
-/* Section title children still stagger off the wrap .in */
+/* Deliver rows - no stagger; each row moves up cleanly on its own */
+#services.deliver-section .deliver-row.js-reveal.in {
+  transition-delay: 0s !important;
+}
+
+/* Section title children still stagger slightly off the wrap .in */
 .section-title-block-wrap.js-reveal:not(.in) .section-title-kicker,
 .section-title-block-wrap.js-reveal:not(.in) .section-title-heading,
 .section-title-block-wrap.js-reveal:not(.in) .section-title-lead,
@@ -2537,7 +2539,7 @@ a.detail-back:active {
 .audience-section.js-reveal:not(.in) .audience-lead,
 .audience-section.js-reveal:not(.in) .market-detail {
   opacity: 0 !important;
-  transform: translate3d(0, 24px, 0) !important;
+  transform: translate3d(0, 20px, 0) !important;
 }
 
 .section-title-block-wrap.js-reveal.in .section-title-kicker,
@@ -2550,8 +2552,8 @@ a.detail-back:active {
   opacity: 1 !important;
   transform: none !important;
   transition:
-    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 .section-title-block-wrap.js-reveal.in .section-title-kicker,
@@ -2561,19 +2563,19 @@ a.detail-back:active {
 
 .section-title-block-wrap.js-reveal.in .section-title-heading,
 .audience-section.js-reveal.in .audience-title {
-  transition-delay: 0.1s !important;
+  transition-delay: 0.08s !important;
 }
 
 .section-title-block-wrap.js-reveal.in .section-title-lead,
 .audience-section.js-reveal.in .audience-lead {
-  transition-delay: 0.2s !important;
+  transition-delay: 0.14s !important;
 }
 
 .audience-section.js-reveal.in .market-detail {
-  transition-delay: 0.28s !important;
+  transition-delay: 0.18s !important;
 }
 
-/* Keep wrappers themselves visible; children animate */
+/* Keep wrappers themselves visible; children / items animate */
 .section-title-block-wrap.js-reveal,
 .audience-section.js-reveal,
 #work.js-reveal,
@@ -2588,6 +2590,29 @@ a.detail-back:active {
 .hero.hero-single.js-reveal {
   opacity: 1 !important;
   transform: none !important;
+}
+
+/* In the wild - breathing room under the title */
+#projects-title.section-title-block-wrap,
+#projects-title.projects-title-section {
+  margin-bottom: 0 !important;
+}
+
+#projects-title .section-title-block,
+#projects-title .container.section-title-block {
+  padding-bottom: clamp(28px, 4vw, 44px) !important;
+}
+
+#projects.projects.section,
+#projects-mobile.projects-mobile.section {
+  padding-top: clamp(12px, 2vw, 24px) !important;
+}
+
+/* About - cut leftover empty scroll after the word carousel */
+#about.section {
+  height: 150vh !important;
+  min-height: 150vh !important;
+  background: var(--bg) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

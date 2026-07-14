@@ -458,6 +458,16 @@ body:not(.dark-mode) .contact-form {
     padding-bottom: clamp(24px, 5vw, 36px) !important;
   }
 
+  /* In the wild - space under title before cards */
+  #projects-title .section-title-block,
+  #projects-title .container.section-title-block {
+    padding-bottom: clamp(32px, 6vw, 48px) !important;
+  }
+
+  #projects-mobile.projects-mobile.section {
+    padding-top: 8px !important;
+  }
+
   /* What we deliver - pull first card closer to title on mobile */
   #services-title .section-title-block,
   #services-title .container.section-title-block {

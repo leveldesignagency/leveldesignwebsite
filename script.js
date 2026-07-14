@@ -93,9 +93,11 @@ function revealElement(el) {
 function assignRevealIndex(elements) {
   elements.forEach((el, index) => {
     el.classList.add('js-reveal');
-    if (!el.style.getPropertyValue('--reveal-i')) {
-      el.style.setProperty('--reveal-i', String(index % 12));
-    }
+    // Deliver rows move independently - no cascade stagger
+    const noStagger = el.matches(
+      '#services.deliver-section .deliver-row, #services.deliver-section .deliver-block'
+    );
+    el.style.setProperty('--reveal-i', noStagger ? '0' : String(index % 8));
   });
 }
 
