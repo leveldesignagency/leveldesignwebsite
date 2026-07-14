@@ -523,15 +523,14 @@
   border: 1px solid var(--border);
   border-radius: var(--ref-radius-md, 14px);
   box-shadow: none !important;
-  opacity: 1 !important;
-  transform: none;
+  overflow: hidden;
+  /* scroll reveal owns opacity/transform until .in - do not force visible here */
   transition:
     filter 0.35s ease,
-    opacity 0.35s ease,
-    transform 0.35s ease,
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.35s ease,
     background 0.35s ease;
-  overflow: hidden;
 }
 
 #process .steps li::before,
@@ -539,7 +538,7 @@
   display: none !important;
 }
 
-#process .steps li:hover {
+#process .steps li.in:hover {
   transform: translateY(-2px);
   border-color: rgba(255, 45, 45, 0.28);
   box-shadow: none !important;
@@ -547,9 +546,9 @@
   opacity: 1 !important;
 }
 
-#process .steps:has(li:hover) li:not(:hover) {
+#process .steps:has(li:hover) li.in:not(:hover) {
   filter: blur(3px);
-  opacity: 0.38;
+  opacity: 0.38 !important;
   transform: scale(0.985);
 }
 
@@ -622,7 +621,7 @@ body:not(.dark-mode) .review-tile {
 }
 
 @media (max-width: 768px) {
-  #process .steps:has(li:hover) li:not(:hover) {
+  #process .steps:has(li:hover) li.in:not(:hover) {
     filter: none;
     opacity: 1 !important;
     transform: none;
@@ -952,7 +951,7 @@ a.article-card:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #process .steps:has(li:hover) li:not(:hover) {
+  #process .steps:has(li:hover) li.in:not(:hover) {
     filter: none;
     opacity: 1 !important;
     transform: none;
@@ -2477,4 +2476,136 @@ a.detail-back:active {
     display: block !important;
   }
 }
+
+/* ==========================================================================
+   Scroll reveals - force move-up (loaded last so later CSS cannot kill them)
+   Specificity beats ID/mobile overrides like #markets-strip .market-chip
+   ========================================================================== */
+.js-reveal:not(.in),
+#markets-strip .market-chip.js-reveal:not(.in),
+#work .work-card.js-reveal:not(.in),
+#process .steps > li.js-reveal:not(.in),
+#services.deliver-section .deliver-row.js-reveal:not(.in),
+#services.deliver-section .deliver-block.js-reveal:not(.in),
+#services-gallery .service-slide.js-reveal:not(.in),
+#statistics-mobile .stat-item.js-reveal:not(.in),
+#articles .article-card.js-reveal:not(.in),
+.project-curated-card.js-reveal:not(.in),
+#contact .form-group.js-reveal:not(.in),
+#contact .contact-form > .btn.js-reveal:not(.in),
+#contact .contact-info h3.js-reveal:not(.in),
+#contact .contact-info > p.js-reveal:not(.in),
+#contact .contact-methods.js-reveal:not(.in),
+[data-reveal].js-reveal:not(.in) {
+  opacity: 0 !important;
+  transform: translate3d(0, 36px, 0) !important;
+  filter: none !important;
+  will-change: opacity, transform;
+}
+
+.js-reveal.in,
+#markets-strip .market-chip.js-reveal.in,
+#work .work-card.js-reveal.in,
+#process .steps > li.js-reveal.in,
+#services.deliver-section .deliver-row.js-reveal.in,
+#services.deliver-section .deliver-block.js-reveal.in,
+#services-gallery .service-slide.js-reveal.in,
+#statistics-mobile .stat-item.js-reveal.in,
+#articles .article-card.js-reveal.in,
+.project-curated-card.js-reveal.in,
+#contact .form-group.js-reveal.in,
+#contact .contact-form > .btn.js-reveal.in,
+#contact .contact-info h3.js-reveal.in,
+#contact .contact-info > p.js-reveal.in,
+#contact .contact-methods.js-reveal.in,
+[data-reveal].js-reveal.in {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) !important;
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transition-delay: calc(var(--reveal-i, 0) * 60ms) !important;
+  will-change: auto;
+}
+
+/* Section title children still stagger off the wrap .in */
+.section-title-block-wrap.js-reveal:not(.in) .section-title-kicker,
+.section-title-block-wrap.js-reveal:not(.in) .section-title-heading,
+.section-title-block-wrap.js-reveal:not(.in) .section-title-lead,
+.audience-section.js-reveal:not(.in) .audience-kicker,
+.audience-section.js-reveal:not(.in) .audience-title,
+.audience-section.js-reveal:not(.in) .audience-lead,
+.audience-section.js-reveal:not(.in) .market-detail {
+  opacity: 0 !important;
+  transform: translate3d(0, 24px, 0) !important;
+}
+
+.section-title-block-wrap.js-reveal.in .section-title-kicker,
+.section-title-block-wrap.js-reveal.in .section-title-heading,
+.section-title-block-wrap.js-reveal.in .section-title-lead,
+.audience-section.js-reveal.in .audience-kicker,
+.audience-section.js-reveal.in .audience-title,
+.audience-section.js-reveal.in .audience-lead,
+.audience-section.js-reveal.in .market-detail {
+  opacity: 1 !important;
+  transform: none !important;
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.section-title-block-wrap.js-reveal.in .section-title-kicker,
+.audience-section.js-reveal.in .audience-kicker {
+  transition-delay: 0s !important;
+}
+
+.section-title-block-wrap.js-reveal.in .section-title-heading,
+.audience-section.js-reveal.in .audience-title {
+  transition-delay: 0.1s !important;
+}
+
+.section-title-block-wrap.js-reveal.in .section-title-lead,
+.audience-section.js-reveal.in .audience-lead {
+  transition-delay: 0.2s !important;
+}
+
+.audience-section.js-reveal.in .market-detail {
+  transition-delay: 0.28s !important;
+}
+
+/* Keep wrappers themselves visible; children animate */
+.section-title-block-wrap.js-reveal,
+.audience-section.js-reveal,
+#work.js-reveal,
+#process.js-reveal,
+#services.deliver-section.js-reveal,
+#services-gallery.js-reveal,
+#reviews.js-reveal,
+#contact.js-reveal,
+#projects-webview.js-reveal,
+#clients.js-reveal,
+.site-footer.js-reveal,
+.hero.hero-single.js-reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal,
+  .js-reveal:not(.in),
+  .js-reveal.in,
+  .section-title-block-wrap.js-reveal:not(.in) .section-title-kicker,
+  .section-title-block-wrap.js-reveal:not(.in) .section-title-heading,
+  .section-title-block-wrap.js-reveal:not(.in) .section-title-lead,
+  .audience-section.js-reveal:not(.in) .audience-kicker,
+  .audience-section.js-reveal:not(.in) .audience-title,
+  .audience-section.js-reveal:not(.in) .audience-lead,
+  .audience-section.js-reveal:not(.in) .market-detail {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    filter: none !important;
+  }
+}
+
 

@@ -40,13 +40,13 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// Entrance animations - section fades + per-item scroll reveals with stagger
+// Entrance animations - per-item / section move-up on scroll
 const REVEAL_ITEM_SELECTORS = [
   '#markets-strip .market-chip',
   '#work .work-card',
   '#process .steps > li',
-  '#services.deliver-section .deliver-block',
   '#services.deliver-section .deliver-row',
+  '#services.deliver-section .deliver-block',
   '#statistics-mobile .stat-item',
   '#contact .form-group',
   '#contact .contact-form > .btn',
@@ -55,12 +55,16 @@ const REVEAL_ITEM_SELECTORS = [
   '#contact .contact-methods',
   '#services-gallery .service-slide',
   '.project-curated-card',
+  '#articles .article-card',
   '[data-reveal]',
 ].join(', ');
+
+const REVEAL_SECTION_SELECTORS = '[data-animate]';
 
 let sectionRevealIo = null;
 let itemRevealIo = null;
 const pendingRevealTargets = [];
+const revealPendingPaint = new WeakSet();
 
 function prefersReducedMotion() {
   return (
@@ -70,14 +74,27 @@ function prefersReducedMotion() {
 }
 
 function revealElement(el) {
-  if (!el || el.classList.contains('in')) return;
-  el.classList.add('in');
+  if (!el || el.classList.contains('in') || revealPendingPaint.has(el)) return;
+
+  // Force the hidden frame to paint before unlocking transition -> .in
+  el.classList.add('js-reveal');
+  revealPendingPaint.add(el);
+  // flush layout
+  void el.offsetWidth;
+
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      el.classList.add('in');
+      revealPendingPaint.delete(el);
+    });
+  });
 }
 
 function assignRevealIndex(elements) {
   elements.forEach((el, index) => {
+    el.classList.add('js-reveal');
     if (!el.style.getPropertyValue('--reveal-i')) {
-      el.style.setProperty('--reveal-i', String(index % 16));
+      el.style.setProperty('--reveal-i', String(index % 12));
     }
   });
 }
@@ -85,12 +102,13 @@ function assignRevealIndex(elements) {
 function isInRevealRange(el) {
   const rect = el.getBoundingClientRect();
   const vh = window.innerHeight || document.documentElement.clientHeight || 0;
-  // Trigger a little early so mobile never leaves items invisible below the fold
-  return rect.top < vh * 0.92 && rect.bottom > vh * 0.04;
+  if (rect.height === 0 && rect.width === 0) return false;
+  // Enter when the top third of the item crosses into the lower ~80% of the viewport
+  return rect.top < vh * 0.82 && rect.bottom > vh * 0.08;
 }
 
 function revealIfVisible(el) {
-  if (!el || el.classList.contains('in')) return;
+  if (!el || el.classList.contains('in') || revealPendingPaint.has(el)) return;
   if (isInRevealRange(el)) {
     revealElement(el);
     if (itemRevealIo) itemRevealIo.unobserve(el);
@@ -99,7 +117,7 @@ function revealIfVisible(el) {
 }
 
 function flushVisibleReveals() {
-  document.querySelectorAll('[data-animate]').forEach(revealIfVisible);
+  document.querySelectorAll(REVEAL_SECTION_SELECTORS).forEach(revealIfVisible);
   document.querySelectorAll(REVEAL_ITEM_SELECTORS).forEach(revealIfVisible);
 }
 
@@ -114,16 +132,17 @@ function getItemRevealIo() {
         itemRevealIo.unobserve(entry.target);
       }
     },
-    // Pixel margins are more reliable than % on mobile Safari
-    { threshold: 0.05, rootMargin: '0px 0px -32px 0px' }
+    { threshold: [0, 0.12, 0.25], rootMargin: '0px 0px -12% 0px' }
   );
 
   return itemRevealIo;
 }
 
 function initSectionRevealAnimations() {
-  const sections = document.querySelectorAll('[data-animate]');
+  const sections = document.querySelectorAll(REVEAL_SECTION_SELECTORS);
   if (!sections.length) return;
+
+  assignRevealIndex(sections);
 
   if (prefersReducedMotion()) {
     sections.forEach(revealElement);
@@ -133,13 +152,12 @@ function initSectionRevealAnimations() {
   sectionRevealIo = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
-        if (entry.isIntersecting) {
-          revealElement(entry.target);
-          sectionRevealIo.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) continue;
+        revealElement(entry.target);
+        sectionRevealIo.unobserve(entry.target);
       }
     },
-    { threshold: 0.06, rootMargin: '0px 0px -24px 0px' }
+    { threshold: [0, 0.1, 0.2], rootMargin: '0px 0px -10% 0px' }
   );
 
   sections.forEach((el) => sectionRevealIo.observe(el));
@@ -204,9 +222,13 @@ function drainRevealQueue() {
 }
 
 function revealAboveFold() {
-  revealElement(document.getElementById('hero-single'));
-  revealElement(document.querySelector('.site-header'));
-  revealElement(document.getElementById('clients'));
+  // Only true above-fold chrome - never batch-reveal the whole page
+  const hero = document.getElementById('hero-single');
+  const header = document.querySelector('.site-header');
+  if (hero) {
+    hero.classList.add('js-reveal', 'in');
+  }
+  if (header) header.classList.add('in');
   flushVisibleReveals();
 }
 
@@ -214,29 +236,31 @@ function initEntranceAnimations() {
   drainRevealQueue();
   initSectionRevealAnimations();
   initScrollRevealItems();
-  revealAboveFold();
 
-  // Mobile Safari / late layout: flush again after paint + load
-  window.requestAnimationFrame(flushVisibleReveals);
-  window.setTimeout(flushVisibleReveals, 120);
-  window.setTimeout(flushVisibleReveals, 400);
+  // After layout settles, unlock anything already in view
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      revealAboveFold();
+      flushVisibleReveals();
+    });
+  });
+
+  window.setTimeout(flushVisibleReveals, 180);
+  window.setTimeout(flushVisibleReveals, 500);
   window.addEventListener('load', flushVisibleReveals, { once: true });
   window.addEventListener('pageshow', flushVisibleReveals);
 
-  // Safety net: if IntersectionObserver misses an item, catch it on scroll
   let scrollFlushScheduled = false;
-  window.addEventListener(
-    'scroll',
-    () => {
-      if (scrollFlushScheduled || prefersReducedMotion()) return;
-      scrollFlushScheduled = true;
-      window.requestAnimationFrame(() => {
-        scrollFlushScheduled = false;
-        flushVisibleReveals();
-      });
-    },
-    { passive: true }
-  );
+  const onScrollOrResize = () => {
+    if (scrollFlushScheduled || prefersReducedMotion()) return;
+    scrollFlushScheduled = true;
+    window.requestAnimationFrame(() => {
+      scrollFlushScheduled = false;
+      flushVisibleReveals();
+    });
+  };
+  window.addEventListener('scroll', onScrollOrResize, { passive: true });
+  window.addEventListener('resize', onScrollOrResize, { passive: true });
 }
 
 document.addEventListener('level:hero-intent', revealAboveFold);

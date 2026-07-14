@@ -151,7 +151,6 @@
     scroll-snap-align: start;
     white-space: nowrap;
     text-align: left !important;
-    transform: none !important;
   }
 
   #markets-strip .market-chip .market-chip-short {
