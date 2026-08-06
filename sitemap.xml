@@ -6,24 +6,59 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.leveldesignagency.com/work/ontimely</loc>
+    <loc>https://www.leveldesignagency.com/locations</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.leveldesignagency.com/work/kleen</loc>
+    <loc>https://www.leveldesignagency.com/locations/mayfair</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.leveldesignagency.com/work/pocdocs</loc>
+    <loc>https://www.leveldesignagency.com/locations/knightsbridge</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.leveldesignagency.com/work/nimbus</loc>
+    <loc>https://www.leveldesignagency.com/locations/chelsea</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.leveldesignagency.com/locations/belgravia</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.leveldesignagency.com/locations/kensington</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.leveldesignagency.com/locations/notting-hill</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.leveldesignagency.com/locations/richmond</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.leveldesignagency.com/locations/hampstead</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.leveldesignagency.com/locations/surrey</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.leveldesignagency.com/locations/ascot</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.leveldesignagency.com/services/web-design</loc>

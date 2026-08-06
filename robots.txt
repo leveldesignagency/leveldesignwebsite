@@ -1,6 +1,9 @@
 User-agent: *
 Allow: /
 
+# Case study pages hidden for now - selected work links to live sites
+Disallow: /work/
+
 # Allow ChatGPT and other AI crawlers
 User-agent: GPTBot
 Allow: /

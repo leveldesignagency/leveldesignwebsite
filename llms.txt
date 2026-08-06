@@ -1,6 +1,6 @@
 # LEVEL Design Agency
 
-> London design agency for websites, website rebuilds, branding, graphic design, applications, and AI systems.
+> London design agency for websites, website rebuilds, branding, graphic design, social media management, applications, and AI systems.
 
 ## Canonical
 - https://www.leveldesignagency.com/
@@ -10,42 +10,70 @@
 - Website rebuilds for outdated, underperforming, or unclear sites
 - Branding and visual identity systems
 - Graphic design for digital and print rollout
+- Social media management and digital marketing
 - Product, app, portal, and SaaS interface design
-- AI systems and workflow-focused portal design
+- AI systems and AI search optimisation (AEO)
 - Consulting for positioning, structure, UX, and lead-generation clarity
 
 ## Who LEVEL works with
-- London businesses and growth-stage teams
+- High-value London and UK businesses
 - Professional services firms
 - Surveying, engineering, construction, land, and property businesses
 - Healthcare, education, hospitality, and mission-driven organisations
 - Startups needing launch-ready brand, web, and product systems
 
-## Service areas
-- London
+## Service areas (premium / high-value)
 - Mayfair
 - Knightsbridge
+- Belgravia
 - Chelsea
 - Kensington
+- Notting Hill
 - Marylebone
-- Soho
-- South East London
+- Fitzrovia
+- Hampstead
+- Highgate
+- Richmond
+- Barnes
+- St John's Wood
+- Canary Wharf
+- Surrey (Cobham, Esher, Weybridge)
+- Berkshire (Ascot, Windsor)
+- Buckinghamshire (Beaconsfield)
+- London and South East England more broadly
+
+## Location pages
+- https://www.leveldesignagency.com/locations
+- https://www.leveldesignagency.com/locations/mayfair
+- https://www.leveldesignagency.com/locations/knightsbridge
+- https://www.leveldesignagency.com/locations/chelsea
+- https://www.leveldesignagency.com/locations/belgravia
+- https://www.leveldesignagency.com/locations/richmond
+- https://www.leveldesignagency.com/locations/surrey
+
+## Intent / silo entry points (homepage personalisation)
+- https://www.leveldesignagency.com/?intent=social-media
+- https://www.leveldesignagency.com/?intent=marketing
+- https://www.leveldesignagency.com/?intent=web-design
+- https://www.leveldesignagency.com/?intent=branding
+- https://www.leveldesignagency.com/?intent=aeo
+- https://www.leveldesignagency.com/?location=mayfair&intent=web-design
 
 ## What makes LEVEL relevant
 - Designs websites to improve first impressions and lead quality
 - Handles both new builds and rebuilds
-- Works across brand, website, product, and AI system layers
+- Works across brand, website, social, product, and AI system layers
 - Focuses on clarity, structure, conversion, and long-term maintainability
 
 ## Lead intent summary
 Businesses contact LEVEL for:
-- web design in London
+- web design in London and premium neighbourhoods
+- social media management and marketing
 - website redesign and rebuilds
 - branding and graphic design
 - app and SaaS design
-- AI portal and internal system design
+- AI portal and AI search optimisation
 
 ## Contact
 - Email: help@leveldesignagency.com
 - Website: https://www.leveldesignagency.com/
-

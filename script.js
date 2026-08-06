@@ -150,7 +150,13 @@ function initWorkCardReveals() {
   const cards = document.querySelectorAll('#work .work-card');
   if (!cards.length) return;
 
+  if (workCardRevealIo) {
+    workCardRevealIo.disconnect();
+    workCardRevealIo = null;
+  }
+
   cards.forEach((el, i) => {
+    el.classList.remove('in');
     el.classList.add('js-reveal');
     el.style.setProperty('--reveal-i', String(i));
   });
@@ -175,6 +181,11 @@ function initWorkCardReveals() {
     if (!el.classList.contains('in')) workCardRevealIo.observe(el);
   });
 }
+
+window.initWorkCardReveals = initWorkCardReveals;
+document.addEventListener('level:hero-intent', () => {
+  window.requestAnimationFrame(() => initWorkCardReveals());
+});
 
 function initSectionRevealAnimations() {
   const sections = document.querySelectorAll(REVEAL_SECTION_SELECTORS);

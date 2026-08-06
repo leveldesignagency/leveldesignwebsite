@@ -1,9 +1,184 @@
 /**
- * Hero variants & market intent: URL params, referrer keywords, and in-page chips.
- * Campaign links: ?intent=aeo | web-design | ai-support | construction | golf | fintech | trades
+ * Intent / location silos: personalise hero + selected work from URL, UTM, or referrer.
+ * Campaign examples:
+ *   ?intent=social-media | marketing | web-design | aeo | branding
+ *   ?location=mayfair | knightsbridge | chelsea | belgravia | richmond | surrey
+ *   ?utm_campaign=social-media-mayfair
  */
 (function () {
   'use strict';
+
+  const PROJECT_CATALOG = {
+    ontimely: {
+      id: 'ontimely',
+      title: 'OnTimely.',
+      name: 'OnTimely',
+      type: 'Event management',
+      desc: 'Event management platform and mobile app.',
+      workDesc: 'Front-to-back design of a complete event management platform and mobile app.',
+      image: 'public/hero-spotlight/ontimely.jpg',
+      thumb: 'public/hero-thumbs/ontimely.jpg',
+      imageAlt: 'OnTimely event management platform',
+      url: 'https://www.ontimely.co.uk',
+      media: { type: 'video', src: 'public/OnTimelyLoadingScreen.mp4' },
+    },
+    kleen: {
+      id: 'kleen',
+      title: 'KLEEN.',
+      name: 'KLEEN',
+      type: 'Web app service',
+      desc: 'Web app connecting clients with specialist cleaners.',
+      workDesc: 'Platform connecting domestic and commercial clients with specialist cleaners - end-to-end design and build.',
+      image: 'public/hero-spotlight/kleen.jpg?v=3',
+      thumb: 'public/hero-thumbs/kleen.jpg?v=3',
+      imageAlt: 'KLEEN cleaning platform',
+      url: 'https://kleenapp.co.uk',
+      media: { type: 'image', src: 'public/Kleen Promo.png' },
+    },
+    pocdocs: {
+      id: 'pocdocs',
+      title: 'Pocdocs.',
+      name: 'Pocdocs',
+      type: 'Web platform',
+      desc: 'Mobile-first PDF transformation for documents on any device.',
+      workDesc: 'Mobile-first document platform - clear product story and conversion-led UX.',
+      image: 'public/hero-spotlight/pocdocs.jpg',
+      thumb: 'public/hero-thumbs/pocdocs.jpg',
+      imageAlt: 'Pocdocs mobile-first PDF platform',
+      url: 'https://www.leveldesignagency.com/#work-title',
+      media: { type: 'image', src: 'public/hero-spotlight/pocdocs.jpg' },
+    },
+    nimbus: {
+      id: 'nimbus',
+      title: 'Nimbus.',
+      name: 'Nimbus',
+      type: 'Chrome extension',
+      desc: 'In-browser learning with AI explanations, definitions, and translation.',
+      workDesc: 'In-browser learning: highlight any text for definitions, AI explanations, translation, and pronunciation.',
+      image: 'public/hero-spotlight/nimbus.jpg',
+      thumb: 'public/hero-thumbs/nimbus.jpg',
+      imageAlt: 'Nimbus Chrome extension',
+      url: 'https://chromewebstore.google.com/detail/abmihilkdbamlelkmpfegjfimcjpcihh?utm_source=item-share-cb',
+      media: { type: 'video', src: 'public/Nimbus Pre.mp4' },
+    },
+  };
+
+  /** Per-intent work order + optional copy overrides for selected work */
+  const WORK_SILOS = {
+    default: {
+      projects: ['ontimely', 'kleen', 'pocdocs', 'nimbus'],
+      workLead: 'From brand to product to platform.',
+      workHeading: 'Work that ships.',
+      spotlightKicker: 'Selected work',
+    },
+    'social-media': {
+      projects: ['kleen', 'ontimely', 'nimbus', 'pocdocs'],
+      workLead: 'Brand systems, content-ready design, and channels that actually convert.',
+      workHeading: 'Work built for attention.',
+      spotlightKicker: 'Selected marketing work',
+      overrides: {
+        kleen: {
+          type: 'Brand & acquisition',
+          desc: 'Marketplace brand and web presence built to win trust and bookings.',
+          workDesc: 'Brand-led product design and acquisition paths for a service marketplace.',
+        },
+        ontimely: {
+          type: 'Events & content',
+          desc: 'Event platform with marketing-ready visuals and clear conversion paths.',
+          workDesc: 'Event product design with campaign-ready surfaces and booking clarity.',
+        },
+      },
+    },
+    marketing: {
+      projects: ['kleen', 'ontimely', 'pocdocs', 'nimbus'],
+      workLead: 'Sites and systems that turn spend into qualified enquiries.',
+      workHeading: 'Work that converts.',
+      spotlightKicker: 'Selected growth work',
+      overrides: {
+        kleen: {
+          type: 'Growth product',
+          desc: 'Service marketplace designed around acquisition, trust, and repeat booking.',
+        },
+      },
+    },
+    branding: {
+      projects: ['kleen', 'ontimely', 'pocdocs', 'nimbus'],
+      workLead: 'Identity systems that hold up across product, web, and campaigns.',
+      workHeading: 'Brand that ships.',
+      spotlightKicker: 'Selected brand work',
+    },
+    aeo: {
+      projects: ['nimbus', 'pocdocs', 'ontimely', 'kleen'],
+      workLead: 'Structured for search, AI answers, and real enquiries.',
+      workHeading: 'Discoverable work.',
+      spotlightKicker: 'Selected AI-search work',
+    },
+    'web-design': {
+      projects: ['ontimely', 'kleen', 'pocdocs', 'nimbus'],
+      workLead: 'Premium sites and products built to look expensive and convert.',
+      workHeading: 'Web that ships.',
+      spotlightKicker: 'Selected web work',
+    },
+    'ai-support': {
+      projects: ['nimbus', 'pocdocs', 'ontimely', 'kleen'],
+      workLead: 'AI products and portals that support the team, not replace judgement.',
+      workHeading: 'AI work that ships.',
+      spotlightKicker: 'Selected AI work',
+    },
+    construction: {
+      projects: ['kleen', 'ontimely', 'pocdocs', 'nimbus'],
+      workLead: 'Proof-led sites for firms that win on trust and capability.',
+      workHeading: 'Work that wins jobs.',
+      spotlightKicker: 'Selected trade work',
+    },
+    trades: {
+      projects: ['kleen', 'ontimely', 'nimbus', 'pocdocs'],
+      workLead: 'Enquiry-first design for firms that live on the phone.',
+      workHeading: 'Work that books jobs.',
+      spotlightKicker: 'Selected trades work',
+    },
+    golf: {
+      projects: ['ontimely', 'kleen', 'pocdocs', 'nimbus'],
+      workLead: 'Membership, events, and leisure experiences with premium weight.',
+      workHeading: 'Work for premium venues.',
+      spotlightKicker: 'Selected leisure work',
+    },
+    fintech: {
+      projects: ['pocdocs', 'nimbus', 'ontimely', 'kleen'],
+      workLead: 'Clarity and credibility for complex, high-trust products.',
+      workHeading: 'Work that builds trust.',
+      spotlightKicker: 'Selected fintech work',
+    },
+    property: {
+      projects: ['ontimely', 'kleen', 'pocdocs', 'nimbus'],
+      workLead: 'Premium positioning for developments, land, and property brands.',
+      workHeading: 'Work for high-value deals.',
+      spotlightKicker: 'Selected property work',
+    },
+  };
+
+  const LOCATIONS = {
+    mayfair: { name: 'Mayfair', region: 'Central London' },
+    knightsbridge: { name: 'Knightsbridge', region: 'Central London' },
+    belgravia: { name: 'Belgravia', region: 'Central London' },
+    chelsea: { name: 'Chelsea', region: 'West London' },
+    kensington: { name: 'Kensington', region: 'West London' },
+    'notting-hill': { name: 'Notting Hill', region: 'West London' },
+    marylebone: { name: 'Marylebone', region: 'Central London' },
+    fitzrovia: { name: 'Fitzrovia', region: 'Central London' },
+    hampstead: { name: 'Hampstead', region: 'North London' },
+    highgate: { name: 'Highgate', region: 'North London' },
+    richmond: { name: 'Richmond', region: 'South West London' },
+    barnes: { name: 'Barnes', region: 'South West London' },
+    'st-johns-wood': { name: "St John's Wood", region: 'North West London' },
+    'canary-wharf': { name: 'Canary Wharf', region: 'East London' },
+    surrey: { name: 'Surrey', region: 'South East England' },
+    cobham: { name: 'Cobham', region: 'Surrey' },
+    esher: { name: 'Esher', region: 'Surrey' },
+    ascot: { name: 'Ascot', region: 'Berkshire' },
+    windsor: { name: 'Windsor', region: 'Berkshire' },
+    beaconsfield: { name: 'Beaconsfield', region: 'Buckinghamshire' },
+  };
 
   const HERO_VARIANTS = {
     default: {
@@ -16,6 +191,36 @@
       metaTitle: 'Web Design, AI Search Optimisation & AI Support | LEVEL Design Agency',
       metaDescription:
         'Win high-value clients with web design, AI search optimisation (AEO), and AI support. Construction, trades, fintech, golf, and growth-minded brands. London & UK.',
+    },
+    'social-media': {
+      kicker: 'Social media · content · brand',
+      headline: 'Social that looks<br>expensive and converts.',
+      subhead:
+        'Social media management, content systems, and brand-led creative for businesses that sell high-ticket services - not engagement theatre.',
+      cta: 'Talk social & marketing',
+      metaTitle: 'Social Media Management & Marketing | LEVEL Design Agency',
+      metaDescription:
+        'Social media management, content, and marketing for premium London and UK brands. Strategy, creative, and conversion - LEVEL Design Agency.',
+    },
+    marketing: {
+      kicker: 'Marketing · growth · conversion',
+      headline: 'Marketing that fills<br>the pipeline, not the feed.',
+      subhead:
+        'Positioning, campaigns, and digital presence for high-value businesses that need qualified enquiries - web, content, and social working as one system.',
+      cta: 'Plan growth with LEVEL',
+      metaTitle: 'Digital Marketing for High-Value Brands | LEVEL Design Agency',
+      metaDescription:
+        'Digital marketing, social, and conversion-focused web for premium UK businesses. LEVEL Design Agency, London.',
+    },
+    branding: {
+      kicker: 'Brand identity · visual systems',
+      headline: 'A brand that holds<br>across every touchpoint.',
+      subhead:
+        'Identity, tone, and rollout systems for businesses that have outgrown a logo file and need coherence from website to social to product.',
+      cta: 'Start a brand project',
+      metaTitle: 'Brand Identity & Visual Systems | LEVEL Design Agency',
+      metaDescription:
+        'Brand identity and visual systems for premium UK businesses. Coherent across web, product, and marketing. LEVEL Design Agency, London.',
     },
     aeo: {
       kicker: 'AI search optimisation · AEO',
@@ -186,10 +391,36 @@
     property: 'property',
     land: 'property',
     development: 'property',
+    social: 'social-media',
+    'social-media': 'social-media',
+    'social-media-management': 'social-media',
+    'social-media-manager': 'social-media',
+    smm: 'social-media',
+    instagram: 'social-media',
+    content: 'social-media',
+    marketing: 'marketing',
+    'digital-marketing': 'marketing',
+    growth: 'marketing',
+    brand: 'branding',
+    branding: 'branding',
+    identity: 'branding',
   };
 
   const KEYWORD_RULES = [
-    { intent: 'aeo', patterns: /\b(aeo|geo\b|generative engine|ai search|ai overview|chatgpt|perplexity|ai seo|answer engine)\b/i },
+    {
+      intent: 'social-media',
+      patterns:
+        /\b(social media manager|social media management|social media marketing|smm\b|instagram management|content creator|social media agency)\b/i,
+    },
+    {
+      intent: 'marketing',
+      patterns: /\b(digital marketing|marketing agency|growth marketing|performance marketing|lead generation)\b/i,
+    },
+    { intent: 'branding', patterns: /\b(brand identity|branding agency|rebrand|visual identity|brand design)\b/i },
+    {
+      intent: 'aeo',
+      patterns: /\b(aeo|geo\b|generative engine|ai search|ai overview|chatgpt|perplexity|ai seo|answer engine)\b/i,
+    },
     { intent: 'ai-support', patterns: /\b(ai support|ai assistant|ai automation|ai portal|ai system|llm integration)\b/i },
     { intent: 'web-design', patterns: /\b(web design|website design|website rebuild|new website|redesign)\b/i },
     { intent: 'construction', patterns: /\b(construction|builder|building firm|contractor|civil engineering|surveyor)\b/i },
@@ -205,11 +436,41 @@
     return INTENT_ALIASES[key] || (HERO_VARIANTS[key] ? key : null);
   }
 
+  function normalizeLocation(raw) {
+    if (!raw) return null;
+    const key = String(raw)
+      .toLowerCase()
+      .trim()
+      .replace(/['']/g, '')
+      .replace(/\s+/g, '-');
+    if (LOCATIONS[key]) return key;
+    const alias = {
+      'st-johns-wood': 'st-johns-wood',
+      stjohnswood: 'st-johns-wood',
+      'nottinghill': 'notting-hill',
+      canarywharf: 'canary-wharf',
+    };
+    return alias[key] || null;
+  }
+
+  function detectLocation(haystack) {
+    const lower = haystack.toLowerCase();
+    const ordered = Object.keys(LOCATIONS).sort((a, b) => b.length - a.length);
+    for (const id of ordered) {
+      const loc = LOCATIONS[id];
+      const re = new RegExp('\\b' + loc.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+      if (re.test(lower) || lower.includes(id.replace(/-/g, ' '))) return id;
+    }
+    return null;
+  }
+
   function resolveIntent() {
     const params = new URLSearchParams(window.location.search);
     const explicit =
-      params.get('intent') || params.get('market') || params.get('service') || params.get('utm_campaign');
+      params.get('intent') || params.get('service') || params.get('utm_campaign') || params.get('market');
     let intent = normalizeIntent(explicit);
+    if (intent && HERO_VARIANTS[intent]) return intent;
+    // market chips use market ids that may not be hero intents
     if (intent) return intent;
 
     const haystack = [
@@ -224,6 +485,61 @@
     }
 
     return 'default';
+  }
+
+  function resolveLocation() {
+    const params = new URLSearchParams(window.location.search);
+    const explicit = normalizeLocation(params.get('location') || params.get('area') || params.get('city'));
+    if (explicit) return explicit;
+
+    const haystack = [
+      window.location.href,
+      params.get('utm_term') || '',
+      params.get('utm_campaign') || '',
+      params.get('q') || '',
+      document.referrer || '',
+    ].join(' ');
+
+    return detectLocation(haystack);
+  }
+
+  function buildLocationVariant(baseIntent, locationId) {
+    const loc = LOCATIONS[locationId];
+    const base = HERO_VARIANTS[baseIntent] || HERO_VARIANTS.default;
+    if (!loc) return base;
+
+    const serviceLabel =
+      baseIntent === 'social-media'
+        ? 'Social media management'
+        : baseIntent === 'marketing'
+          ? 'Digital marketing'
+          : baseIntent === 'branding'
+            ? 'Brand design'
+            : baseIntent === 'aeo'
+              ? 'AI search optimisation'
+              : 'Premium web design';
+
+    return {
+      ...base,
+      kicker: `${serviceLabel} · ${loc.name}`,
+      headline: `${serviceLabel}<br>for ${loc.name}.`,
+      subhead: `${base.subhead.replace(/\.$/, '')} Serving ${loc.name}, ${loc.region}, and surrounding high-value areas.`,
+      metaTitle: `${serviceLabel} in ${loc.name} | LEVEL Design Agency`,
+      metaDescription: `${serviceLabel} for businesses in ${loc.name} and ${loc.region}. Premium web, brand, and marketing from LEVEL Design Agency, London.`,
+    };
+  }
+
+  function getWorkSilo(intentKey) {
+    return WORK_SILOS[intentKey] || WORK_SILOS.default;
+  }
+
+  function getProjectsForIntent(intentKey) {
+    const silo = getWorkSilo(intentKey);
+    return silo.projects.map((id) => {
+      const base = PROJECT_CATALOG[id];
+      const over = (silo.overrides && silo.overrides[id]) || {};
+      return { ...base, ...over, id };
+    });
   }
 
   function setMeta(variant) {
@@ -244,7 +560,7 @@
     setNamed('meta[name="twitter:description"]', 'content', desc);
   }
 
-  function applyHero(variant, intentKey) {
+  function applyHero(variant, intentKey, locationId) {
     const hero = document.getElementById('hero-single');
     if (!hero) return;
 
@@ -253,22 +569,66 @@
     const subhead = hero.querySelector('.hero-subhead');
     const cta = hero.querySelector('.hero-cta-single');
 
-    if (kicker) kicker.textContent = variant.kicker;
+    if (kicker) {
+      kicker.hidden = false;
+      kicker.textContent = variant.kicker;
+    }
     if (headline) headline.innerHTML = variant.headline;
     if (subhead) subhead.textContent = variant.subhead;
     if (cta) {
       cta.textContent = variant.cta;
-      const contact = document.getElementById('contact-title');
-      if (contact) {
-        const note = encodeURIComponent(`Interest: ${intentKey} - ${variant.kicker}`);
-        cta.href = `#contact-title`;
-        cta.dataset.intentNote = note;
-      }
+      cta.href = '#contact-title';
+      const note = encodeURIComponent(
+        `Interest: ${intentKey}${locationId ? ' / ' + locationId : ''} - ${variant.kicker}`
+      );
+      cta.dataset.intentNote = note;
     }
 
     hero.dataset.heroIntent = intentKey;
+    if (locationId) hero.dataset.heroLocation = locationId;
+    else delete hero.dataset.heroLocation;
     hero.classList.add('hero-ready');
     document.documentElement.setAttribute('data-hero-intent', intentKey);
+    if (locationId) document.documentElement.setAttribute('data-hero-location', locationId);
+    else document.documentElement.removeAttribute('data-hero-location');
+  }
+
+  function applyWorkSection(intentKey) {
+    const silo = getWorkSilo(intentKey);
+    const projects = getProjectsForIntent(intentKey).slice(0, 3);
+
+    const lead = document.querySelector('#work-title .section-title-lead');
+    const heading = document.querySelector('#work-title .section-title-heading');
+    if (lead) lead.textContent = silo.workLead;
+    if (heading) heading.textContent = silo.workHeading;
+
+    const grid = document.querySelector('#work .work-grid');
+    if (!grid || !projects.length) return;
+
+    grid.innerHTML = projects
+      .map((p) => {
+        const media =
+          p.media.type === 'video'
+            ? `<video autoplay muted loop playsinline><source src="${p.media.src}" type="video/mp4">Your browser does not support the video tag.</video>`
+            : `<img src="${p.media.src}" alt="${p.imageAlt}" />`;
+        return `<a class="work-card" href="${p.url}" target="_blank" rel="noopener noreferrer" aria-label="${p.name} - ${p.type}">
+          <span class="glow"></span>
+          <div class="work-media">${media}</div>
+          <div class="work-meta">
+            <strong class="work-name">${p.name}</strong>
+            <span class="work-type">${p.type}</span>
+            <p class="work-desc">${p.workDesc || p.desc}</p>
+          </div>
+        </a>`;
+      })
+      .join('');
+
+    // Re-bind scroll reveals if available
+    if (typeof window.LEVEL_observeRevealTargets === 'function') {
+      window.LEVEL_observeRevealTargets(grid.querySelectorAll('.work-card'));
+    } else if (typeof window.initWorkCardReveals === 'function') {
+      window.initWorkCardReveals();
+    }
   }
 
   function renderMarkets(activeMarketId) {
@@ -288,8 +648,6 @@
         const on = chip.dataset.market === market.id;
         chip.classList.toggle('is-active', on);
         chip.setAttribute('aria-pressed', on ? 'true' : 'false');
-        // Only centre the chip on user tap - never on first load (scrollIntoView
-        // pulls the whole page down to Markets on mobile).
         if (on && opts.scrollChip && window.matchMedia('(max-width: 900px)').matches) {
           chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }
@@ -329,8 +687,7 @@
       window.history.replaceState({}, '', url);
     });
 
-    const initial =
-      MARKETS.some((m) => m.id === marketId) ? marketId : 'construction';
+    const initial = MARKETS.some((m) => m.id === marketId) ? marketId : 'construction';
     showMarket(initial);
 
     if (typeof window.LEVEL_observeRevealTargets === 'function') {
@@ -340,20 +697,37 @@
 
   function init() {
     const intentKey = resolveIntent();
-    const variant = HERO_VARIANTS[intentKey] || HERO_VARIANTS.default;
+    const locationId = resolveLocation();
+    const baseVariant = HERO_VARIANTS[intentKey] || HERO_VARIANTS.default;
+    const variant = locationId ? buildLocationVariant(intentKey, locationId) : baseVariant;
+    const workIntent = WORK_SILOS[intentKey] ? intentKey : 'default';
 
     setMeta(variant);
-    applyHero(variant, intentKey);
+    applyHero(variant, intentKey, locationId);
+    applyWorkSection(workIntent);
 
     const marketFromIntent =
-      intentKey === 'default' || intentKey === 'aeo' || intentKey === 'web-design' || intentKey === 'ai-support'
+      intentKey === 'default' ||
+      intentKey === 'aeo' ||
+      intentKey === 'web-design' ||
+      intentKey === 'ai-support' ||
+      intentKey === 'social-media' ||
+      intentKey === 'marketing' ||
+      intentKey === 'branding'
         ? 'construction'
         : intentKey;
     renderMarkets(marketFromIntent);
 
-    document.dispatchEvent(
-      new CustomEvent('level:hero-intent', { detail: { intent: intentKey, variant } })
-    );
+    const detail = {
+      intent: intentKey,
+      location: locationId,
+      variant,
+      projects: getProjectsForIntent(workIntent),
+      workSilo: getWorkSilo(workIntent),
+    };
+
+    document.dispatchEvent(new CustomEvent('level:hero-intent', { detail }));
+    window.LEVEL_CURRENT_INTENT = detail;
   }
 
   if (document.readyState === 'loading') {
@@ -362,5 +736,14 @@
     init();
   }
 
-  window.LEVEL_HERO_INTENT = { resolveIntent, HERO_VARIANTS, MARKETS };
+  window.LEVEL_HERO_INTENT = {
+    resolveIntent,
+    resolveLocation,
+    HERO_VARIANTS,
+    MARKETS,
+    LOCATIONS,
+    PROJECT_CATALOG,
+    WORK_SILOS,
+    getProjectsForIntent,
+  };
 })();
