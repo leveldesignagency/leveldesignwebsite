@@ -35,7 +35,7 @@
       image: 'public/hero-spotlight/pocdocs.jpg',
       thumb: 'public/hero-thumbs/pocdocs.jpg',
       imageAlt: 'Pocdocs mobile-first PDF platform',
-      url: 'https://www.leveldesignagency.com/#work-title',
+      url: 'https://www.pocdocs.co.uk/',
       pickLabel: 'Pocdocs',
       pickSub: 'Web platform',
     },

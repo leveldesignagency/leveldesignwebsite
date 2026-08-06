@@ -45,7 +45,7 @@
       image: 'public/hero-spotlight/pocdocs.jpg',
       thumb: 'public/hero-thumbs/pocdocs.jpg',
       imageAlt: 'Pocdocs mobile-first PDF platform',
-      url: 'https://www.leveldesignagency.com/#work-title',
+      url: 'https://www.pocdocs.co.uk/',
       media: { type: 'image', src: 'public/hero-spotlight/pocdocs.jpg' },
     },
     nimbus: {
@@ -65,8 +65,10 @@
 
   /** Per-intent work order + optional copy overrides for selected work */
   const WORK_SILOS = {
+    // Work that ships grid shows first 3; keep OnTimely / KLEEN / Nimbus as the default trio.
+    // Pocdocs stays available in the hero spotlight (4th pick) where relevant.
     default: {
-      projects: ['ontimely', 'kleen', 'pocdocs', 'nimbus'],
+      projects: ['ontimely', 'kleen', 'nimbus', 'pocdocs'],
       workLead: 'From brand to product to platform.',
       workHeading: 'Work that ships.',
       spotlightKicker: 'Selected work',
@@ -90,7 +92,7 @@
       },
     },
     marketing: {
-      projects: ['kleen', 'ontimely', 'pocdocs', 'nimbus'],
+      projects: ['kleen', 'ontimely', 'nimbus', 'pocdocs'],
       workLead: 'Sites and systems that turn spend into qualified enquiries.',
       workHeading: 'Work that converts.',
       spotlightKicker: 'Selected growth work',
@@ -102,31 +104,31 @@
       },
     },
     branding: {
-      projects: ['kleen', 'ontimely', 'pocdocs', 'nimbus'],
+      projects: ['kleen', 'ontimely', 'nimbus', 'pocdocs'],
       workLead: 'Identity systems that hold up across product, web, and campaigns.',
       workHeading: 'Brand that ships.',
       spotlightKicker: 'Selected brand work',
     },
     aeo: {
-      projects: ['nimbus', 'pocdocs', 'ontimely', 'kleen'],
+      projects: ['nimbus', 'ontimely', 'kleen', 'pocdocs'],
       workLead: 'Structured for search, AI answers, and real enquiries.',
       workHeading: 'Discoverable work.',
       spotlightKicker: 'Selected AI-search work',
     },
     'web-design': {
-      projects: ['ontimely', 'kleen', 'pocdocs', 'nimbus'],
+      projects: ['ontimely', 'kleen', 'nimbus', 'pocdocs'],
       workLead: 'Premium sites and products built to look expensive and convert.',
       workHeading: 'Web that ships.',
       spotlightKicker: 'Selected web work',
     },
     'ai-support': {
-      projects: ['nimbus', 'pocdocs', 'ontimely', 'kleen'],
+      projects: ['nimbus', 'ontimely', 'kleen', 'pocdocs'],
       workLead: 'AI products and portals that support the team, not replace judgement.',
       workHeading: 'AI work that ships.',
       spotlightKicker: 'Selected AI work',
     },
     construction: {
-      projects: ['kleen', 'ontimely', 'pocdocs', 'nimbus'],
+      projects: ['kleen', 'ontimely', 'nimbus', 'pocdocs'],
       workLead: 'Proof-led sites for firms that win on trust and capability.',
       workHeading: 'Work that wins jobs.',
       spotlightKicker: 'Selected trade work',
@@ -138,19 +140,19 @@
       spotlightKicker: 'Selected trades work',
     },
     golf: {
-      projects: ['ontimely', 'kleen', 'pocdocs', 'nimbus'],
+      projects: ['ontimely', 'kleen', 'nimbus', 'pocdocs'],
       workLead: 'Membership, events, and leisure experiences with premium weight.',
       workHeading: 'Work for premium venues.',
       spotlightKicker: 'Selected leisure work',
     },
     fintech: {
-      projects: ['pocdocs', 'nimbus', 'ontimely', 'kleen'],
+      projects: ['nimbus', 'ontimely', 'kleen', 'pocdocs'],
       workLead: 'Clarity and credibility for complex, high-trust products.',
       workHeading: 'Work that builds trust.',
       spotlightKicker: 'Selected fintech work',
     },
     property: {
-      projects: ['ontimely', 'kleen', 'pocdocs', 'nimbus'],
+      projects: ['ontimely', 'kleen', 'nimbus', 'pocdocs'],
       workLead: 'Premium positioning for developments, land, and property brands.',
       workHeading: 'Work for high-value deals.',
       spotlightKicker: 'Selected property work',
