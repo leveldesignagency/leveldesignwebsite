@@ -1,6 +1,6 @@
 # LEVEL Design Agency
 
-> London design agency for websites, website rebuilds, branding, graphic design, social media management, applications, and AI systems.
+> Design agency for Dartford, Kent, South East London and London: websites, website rebuilds, branding, graphic design, social media management, applications, and AI systems.
 
 ## Canonical
 - https://www.leveldesignagency.com/
@@ -23,6 +23,8 @@
 - Startups needing launch-ready brand, web, and product systems
 
 ## Service areas (premium / high-value)
+- Dartford, Kent
+- Crayford, Bexley, Bexleyheath, and South East London
 - Mayfair
 - Knightsbridge
 - Belgravia
@@ -44,6 +46,7 @@
 
 ## Location pages
 - https://www.leveldesignagency.com/locations
+- https://www.leveldesignagency.com/locations/dartford
 - https://www.leveldesignagency.com/locations/mayfair
 - https://www.leveldesignagency.com/locations/knightsbridge
 - https://www.leveldesignagency.com/locations/chelsea
@@ -57,7 +60,7 @@
 - https://www.leveldesignagency.com/?intent=web-design
 - https://www.leveldesignagency.com/?intent=branding
 - https://www.leveldesignagency.com/?intent=aeo
-- https://www.leveldesignagency.com/?location=mayfair&intent=web-design
+- https://www.leveldesignagency.com/?location=dartford&intent=web-design
 
 ## What makes LEVEL relevant
 - Designs websites to improve first impressions and lead quality
@@ -67,6 +70,8 @@
 
 ## Lead intent summary
 Businesses contact LEVEL for:
+- web design in Dartford and Kent
+- digital marketing, social media management, and branding in Dartford
 - web design in London and premium neighbourhoods
 - social media management and marketing
 - website redesign and rebuilds

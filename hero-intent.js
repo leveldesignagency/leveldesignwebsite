@@ -160,6 +160,7 @@
   };
 
   const LOCATIONS = {
+    dartford: { name: 'Dartford', region: 'Kent & South East London' },
     mayfair: { name: 'Mayfair', region: 'Central London' },
     knightsbridge: { name: 'Knightsbridge', region: 'Central London' },
     belgravia: { name: 'Belgravia', region: 'Central London' },
@@ -184,15 +185,15 @@
 
   const HERO_VARIANTS = {
     default: {
-      kicker: 'Web design · AI search · AI systems',
+      kicker: 'Web design · marketing · brand',
       headline:
         '<span class="hero-line-bright">Design. Build. Optimise.</span><span class="hero-line-dim">Convert.</span>',
       subhead:
-        'Premium web design and AI search optimisation for teams that need qualified enquiries, not vanity traffic.',
+        'Premium web design and digital marketing for teams that need qualified enquiries, not vanity traffic.',
       cta: 'Start a project',
-      metaTitle: 'Web Design, AI Search Optimisation & AI Support | LEVEL Design Agency',
+      metaTitle: 'Web Design & Marketing Agency | Dartford, Kent & London | LEVEL',
       metaDescription:
-        'Win high-value clients with web design, AI search optimisation (AEO), and AI support. Construction, trades, fintech, golf, and growth-minded brands. London & UK.',
+        'Web design, branding and digital marketing for Dartford, Kent and London businesses. Premium websites and campaigns that win qualified enquiries.',
     },
     'social-media': {
       kicker: 'Social media · content · brand',
@@ -526,8 +527,8 @@
       kicker: `${serviceLabel} · ${loc.name}`,
       headline: `${serviceLabel}<br>for ${loc.name}.`,
       subhead: `${base.subhead.replace(/\.$/, '')} Serving ${loc.name}, ${loc.region}, and surrounding high-value areas.`,
-      metaTitle: `${serviceLabel} in ${loc.name} | LEVEL Design Agency`,
-      metaDescription: `${serviceLabel} for businesses in ${loc.name} and ${loc.region}. Premium web, brand, and marketing from LEVEL Design Agency, London.`,
+      metaTitle: `${serviceLabel} in ${loc.name} | LEVEL`,
+      metaDescription: `${serviceLabel} in ${loc.name} for premium brands. Websites, branding and marketing that win enquiries. LEVEL Design Agency, ${loc.region}.`,
     };
   }
 
