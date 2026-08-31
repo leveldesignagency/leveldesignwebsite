@@ -57,14 +57,12 @@
     const wipeHalf = window.matchMedia('(min-width: 901px)').matches ? 52 : 40;
 
     function hideWipe() {
-      stack.classList.remove('is-wipe-active');
       stack.style.setProperty('--headline-wipe-x', '-999px');
     }
 
     function showWipe(clientX) {
       const rect = stack.getBoundingClientRect();
       if (!rect.width) return;
-      stack.classList.add('is-wipe-active');
       stack.style.setProperty('--headline-wipe-x', `${clientX - rect.left}px`);
       stack.style.setProperty('--headline-wipe-half', `${wipeHalf}px`);
     }

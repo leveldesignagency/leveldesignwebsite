@@ -71,7 +71,7 @@ h3,
   position: sticky !important;
   top: 0 !important;
   z-index: 200 !important;
-  background: #0a0a0a !important;
+  background: var(--bg) !important;
   backdrop-filter: none !important;
   border-bottom: none !important;
   box-shadow: none !important;
@@ -670,41 +670,16 @@ h3,
   overflow: hidden;
   background: var(--bg-subtle);
   isolation: isolate;
-  cursor: crosshair;
 }
 
-.deliver-row-media img {
-  width: 112%;
-  height: 112%;
-  max-width: none;
-  aspect-ratio: auto;
+.deliver-row-media > img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
   object-fit: cover;
   display: block;
   border-radius: var(--ref-radius-lg);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: 0;
-  transform:
-    translate3d(
-      calc(-50% + var(--parallax-x, 0px)),
-      calc(-50% + var(--parallax-y, 0px)),
-      0
-    );
-  transform-origin: center center;
-  will-change: transform;
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.deliver-row-media::before {
-  content: "";
-  display: block;
-  aspect-ratio: 16 / 10;
-  width: 100%;
-}
-
-.deliver-row-media.is-parallax-active img {
-  transition: transform 0.1s linear;
+  position: relative;
+  z-index: 1;
 }
 
 /* AI Systems banner - show more of the artwork */
@@ -712,11 +687,78 @@ h3,
   background: #0b0b0b;
 }
 
-.deliver-row-media--wide img {
-  width: 100%;
-  height: 100%;
+.deliver-row-media--wide > img {
   object-fit: contain;
   object-position: center;
+}
+
+/* Site-wide red plus cursor */
+html.has-site-cursor,
+html.has-site-cursor body,
+html.has-site-cursor a,
+html.has-site-cursor button,
+html.has-site-cursor label {
+  cursor: none !important;
+}
+
+html.has-site-cursor input,
+html.has-site-cursor textarea,
+html.has-site-cursor select {
+  cursor: text !important;
+}
+
+.site-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.14s ease;
+  will-change: transform;
+}
+
+.site-cursor.is-visible {
+  opacity: 1;
+}
+
+.site-cursor__plus {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.site-cursor__plus::before,
+.site-cursor__plus::after {
+  content: "";
+  position: absolute;
+  background: #ff2d2d;
+  border-radius: 2px;
+  box-shadow: 0 0 12px rgba(255, 45, 45, 0.55);
+}
+
+.site-cursor__plus::before {
+  left: 50%;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  margin-left: -1.5px;
+}
+
+.site-cursor__plus::after {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  margin-top: -1.5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-cursor {
+    transition: none !important;
+  }
 }
 
 /* Hide legacy deliver blocks if any remain */
@@ -780,14 +822,8 @@ h3,
     max-width: none;
   }
 
-  .deliver-row-media img {
-    width: 108%;
-    height: 108%;
-  }
-
-  .deliver-row-media--wide img {
-    width: 100%;
-    height: 100%;
+  .deliver-row-media {
+    cursor: auto;
   }
 
   .hero-picks {
