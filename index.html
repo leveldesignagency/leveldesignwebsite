@@ -106,15 +106,15 @@
     <link rel="preload" as="image" href="public/hero-spotlight/ontimely.jpg" fetchpriority="high">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=20260806a" />
-    <link rel="stylesheet" href="revamp.css?v=20260806a" />
+    <link rel="stylesheet" href="revamp.css?v=20260831k" />
     <link rel="stylesheet" href="revamp-phase3.css?v=20260806a" />
     <link rel="stylesheet" href="revamp-phase4.css?v=20260806a" />
     <link rel="stylesheet" href="revamp-phase5.css?v=20260806a" />
     <link rel="stylesheet" href="revamp-phase6.css?v=20260806a" />
-    <link rel="stylesheet" href="revamp-phase7.css?v=20260806a" />
+    <link rel="stylesheet" href="revamp-phase7.css?v=20260831h" />
     <link rel="stylesheet" href="revamp-phase8.css?v=20260806a" />
     <link rel="stylesheet" href="revamp-phase9.css?v=20260806a" />
-    <link rel="stylesheet" href="project.css?v=20260806a" />
+    <link rel="stylesheet" href="project.css?v=20260831l" />
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="alternate icon" href="favicon.png">
     
@@ -685,12 +685,21 @@
 
     <main id="main">
         <section class="hero hero-single" data-animate="fade-up" id="hero-single">
+            <div class="hero-ambient" aria-hidden="true"></div>
             <div class="container hero-inner hero-shell">
                 <div class="hero-content hero-intro">
                     <p class="hero-intent-kicker" hidden>Web design · AI search · AI systems</p>
-                    <h1 class="headline hero-headline-single">
-                        <span class="hero-line-bright">Design. Build. Optimise.</span>
-                        <span class="hero-line-dim">Convert.</span>
+                    <h1 class="headline hero-headline-single" id="hero-headline-mask">
+                        <span class="hero-headline-stack" data-hero-headline-stack>
+                            <span class="hero-headline-white" data-hero-headline-white>
+                                <span class="hero-headline-line">WEBSITES,</span>
+                                <span class="hero-headline-line">BRANDS & MARKETING</span>
+                            </span>
+                            <span class="hero-headline-textured" data-hero-headline-textured aria-hidden="true">
+                                <span class="hero-headline-line">WEBSITES,</span>
+                                <span class="hero-headline-line">BRANDS & MARKETING</span>
+                            </span>
+                        </span>
                     </h1>
                     <p class="hero-subhead">Premium web design and AI search optimisation for teams that need qualified enquiries, not vanity traffic.</p>
                     <div class="hero-actions">
@@ -699,8 +708,73 @@
                     </div>
                 </div>
 
+                <div class="hero-glass-stage" id="hero-glass-stage" aria-label="Selected work previews">
+                    <div class="hero-glass-cards" data-hero-glass-cards>
+                        <a class="hero-glass-card" href="https://www.pocdocs.co.uk/" target="_blank" rel="noopener noreferrer" data-tilt-depth="0.55" data-stack-z="1" style="--card-x: 6%; --card-y: -4%; --card-w: 42%; --card-rz: -10deg;">
+                            <div class="hero-glass-card-frame">
+                                <div class="hero-glass-card-chrome" aria-hidden="true">
+                                    <span class="hero-glass-dot"></span>
+                                    <span class="hero-glass-dot"></span>
+                                    <span class="hero-glass-dot"></span>
+                                </div>
+                                <div class="hero-glass-card-media">
+                                    <img src="public/hero-spotlight/pocdocs.jpg" alt="Pocdocs platform preview" width="800" height="500" loading="eager" decoding="async" />
+                                </div>
+                                <p class="hero-glass-card-label">Pocdocs</p>
+                                <span class="hero-glass-card-shimmer" aria-hidden="true"></span>
+                            </div>
+                        </a>
+                        <a class="hero-glass-card hero-glass-card--lead" href="https://www.ontimely.co.uk" target="_blank" rel="noopener noreferrer" data-tilt-depth="1" data-stack-z="4" style="--card-x: 30%; --card-y: 0%; --card-w: 56%; --card-rz: 4deg;">
+                            <div class="hero-glass-card-frame">
+                                <div class="hero-glass-card-chrome" aria-hidden="true">
+                                    <span class="hero-glass-dot"></span>
+                                    <span class="hero-glass-dot"></span>
+                                    <span class="hero-glass-dot"></span>
+                                </div>
+                                <div class="hero-glass-card-media">
+                                    <img src="public/hero-spotlight/ontimely.jpg" alt="OnTimely platform preview" width="1200" height="675" loading="eager" decoding="async" fetchpriority="high" />
+                                </div>
+                                <p class="hero-glass-card-label">OnTimely</p>
+                                <span class="hero-glass-card-shimmer" aria-hidden="true"></span>
+                            </div>
+                        </a>
+                        <a class="hero-glass-card" href="https://kleenapp.co.uk" target="_blank" rel="noopener noreferrer" data-tilt-depth="0.75" data-stack-z="2" style="--card-x: 2%; --card-y: 26%; --card-w: 44%; --card-rz: -6deg;">
+                            <div class="hero-glass-card-frame">
+                                <div class="hero-glass-card-chrome" aria-hidden="true">
+                                    <span class="hero-glass-dot"></span>
+                                    <span class="hero-glass-dot"></span>
+                                    <span class="hero-glass-dot"></span>
+                                </div>
+                                <div class="hero-glass-card-media">
+                                    <img src="public/kleenbanner.png" alt="KLEEN platform preview" width="800" height="500" loading="lazy" decoding="async" />
+                                </div>
+                                <p class="hero-glass-card-label">KLEEN</p>
+                                <span class="hero-glass-card-shimmer" aria-hidden="true"></span>
+                            </div>
+                        </a>
+                        <a class="hero-glass-card" href="https://chromewebstore.google.com/detail/abmihilkdbamlelkmpfegjfimcjpcihh?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" data-tilt-depth="0.65" data-stack-z="3" style="--card-x: 44%; --card-y: 32%; --card-w: 48%; --card-rz: 8deg;">
+                            <div class="hero-glass-card-frame">
+                                <div class="hero-glass-card-chrome" aria-hidden="true">
+                                    <span class="hero-glass-dot"></span>
+                                    <span class="hero-glass-dot"></span>
+                                    <span class="hero-glass-dot"></span>
+                                </div>
+                                <div class="hero-glass-card-media">
+                                    <img src="public/hero-spotlight/nimbus.jpg" alt="Nimbus extension preview" width="800" height="500" loading="lazy" decoding="async" />
+                                </div>
+                                <p class="hero-glass-card-label">Nimbus</p>
+                                <span class="hero-glass-card-shimmer" aria-hidden="true"></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="selected-work" class="selected-work-section section" data-animate="fade-up" aria-label="Selected work">
+            <div class="container selected-work-shell">
                 <div class="hero-selected-work">
-                    <article class="hero-spotlight" aria-label="Selected work">
+                    <article class="hero-spotlight" aria-label="Featured project">
                         <div class="hero-spotlight-panel" data-active-project="ontimely">
                             <div class="hero-spotlight-copy">
                                 <p class="hero-spotlight-kicker">Selected work</p>
@@ -709,7 +783,7 @@
                                 <a href="https://www.ontimely.co.uk" class="btn primary hero-spotlight-cta" target="_blank" rel="noopener noreferrer">View live →</a>
                             </div>
                             <div class="hero-spotlight-media">
-                                <img src="public/hero-spotlight/ontimely.jpg" alt="OnTimely event management platform" width="1200" height="675" loading="eager" decoding="async" fetchpriority="high" />
+                                <img src="public/hero-spotlight/ontimely.jpg" alt="OnTimely event management platform" width="1200" height="675" loading="lazy" decoding="async" />
                             </div>
                         </div>
                     </article>
@@ -717,7 +791,7 @@
                     <div class="hero-picks" role="tablist" aria-label="Featured work">
                         <button type="button" class="hero-pick is-active" role="tab" aria-selected="true" data-project="ontimely">
                             <span class="hero-pick-thumb">
-                                <img src="public/hero-thumbs/ontimely.jpg" alt="" width="168" height="168" loading="eager" decoding="async" />
+                                <img src="public/hero-thumbs/ontimely.jpg" alt="" width="168" height="168" loading="lazy" decoding="async" />
                             </span>
                             <span class="hero-pick-text">
                                 <strong>OnTimely</strong>
@@ -986,7 +1060,7 @@
                             <p class="deliver-row-headline">Internal tools and customer portals powered by AI that augment your team.</p>
                             <a href="/services/ai-systems-portals" class="btn primary deliver-row-cta">View service →</a>
                         </div>
-                        <div class="deliver-row-media">
+                        <div class="deliver-row-media deliver-row-media--wide">
                             <img src="public/kleenbanner.png" alt="AI systems and portals by LEVEL Design" loading="lazy" />
                         </div>
                     </div>
@@ -1659,9 +1733,12 @@
       };
     </script>
     <script src="cookie-banner.js" defer></script>
-    <script src="hero-intent.js?v=20260815b" defer></script>
+    <script src="hero-headline-mask.js?v=20260831f" defer></script>
+    <script src="hero-intent.js?v=20260831d" defer></script>
     <script src="text-reveal.js" defer></script>
-    <script src="hero-selected-work.js?v=20260815a" defer></script>
+    <script src="hero-glass-cards.js?v=20260831o" defer></script>
+    <script src="hero-selected-work.js?v=20260831h" defer></script>
+    <script src="deliver-media-parallax.js?v=20260831k" defer></script>
     <script src="services-gallery.js" defer></script>
     <script src="projects-gallery.js" defer></script>
     <script src="script.js?v=20260815a" defer></script>

@@ -29,7 +29,7 @@
       type: 'Web app service',
       desc: 'Web app connecting clients with specialist cleaners.',
       workDesc: 'Platform connecting domestic and commercial clients with specialist cleaners - end-to-end design and build.',
-      image: 'public/hero-spotlight/kleen.jpg?v=3',
+      image: 'public/kleenbanner.png',
       thumb: 'public/hero-thumbs/kleen.jpg?v=3',
       imageAlt: 'KLEEN cleaning platform',
       url: 'https://kleenapp.co.uk',
@@ -186,8 +186,7 @@
   const HERO_VARIANTS = {
     default: {
       kicker: 'Web design · marketing · brand',
-      headline:
-        '<span class="hero-line-bright">Design. Build. Optimise.</span><span class="hero-line-dim">Convert.</span>',
+      headline: 'WEBSITES,<br>BRANDS & MARKETING',
       subhead:
         'Premium web design and digital marketing for teams that need qualified enquiries, not vanity traffic.',
       cta: 'Start a project',
@@ -576,7 +575,13 @@
       kicker.hidden = false;
       kicker.textContent = variant.kicker;
     }
-    if (headline) headline.innerHTML = variant.headline;
+    if (headline) {
+      if (typeof window.LEVEL_setHeroHeadline === 'function') {
+        window.LEVEL_setHeroHeadline(headline, variant.headline);
+      } else {
+        headline.innerHTML = variant.headline;
+      }
+    }
     if (subhead) subhead.textContent = variant.subhead;
     if (cta) {
       cta.textContent = variant.cta;

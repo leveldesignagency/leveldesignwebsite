@@ -21,7 +21,7 @@
       id: 'kleen',
       title: 'KLEEN.',
       desc: 'Web app service connecting clients with specialist cleaners.',
-      image: 'public/hero-spotlight/kleen.jpg?v=3',
+      image: 'public/kleenbanner.png',
       thumb: 'public/hero-thumbs/kleen.jpg?v=3',
       imageAlt: 'KLEEN cleaning platform',
       url: 'https://kleenapp.co.uk',
