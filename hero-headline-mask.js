@@ -1,5 +1,5 @@
 /**
- * Hero headline — hard linear wipe reveals textured fill over white base text.
+ * Hero headline — soft spotlight reveal follows the cursor over textured fill.
  */
 (function () {
   'use strict';
@@ -54,30 +54,81 @@
 
     if (prefersReducedMotion()) return;
 
-    const wipeHalf = window.matchMedia('(min-width: 901px)').matches ? 52 : 40;
+    const isDesktop = window.matchMedia('(min-width: 901px)').matches;
+    const radius = isDesktop ? 140 : 100;
 
-    function hideWipe() {
-      stack.style.setProperty('--headline-wipe-x', '-999px');
+    let raf = 0;
+    let targetX = -999;
+    let targetY = -999;
+    let currentX = -999;
+    let currentY = -999;
+    let active = false;
+
+    stack.style.setProperty('--headline-spot-r', `${radius}px`);
+
+    function hideSpot() {
+      active = false;
+      stack.classList.remove('is-spotlight-active');
+      targetX = -999;
+      targetY = -999;
+      currentX = -999;
+      currentY = -999;
+      stack.style.setProperty('--headline-spot-x', '-999px');
+      stack.style.setProperty('--headline-spot-y', '-999px');
+      if (raf) {
+        window.cancelAnimationFrame(raf);
+        raf = 0;
+      }
     }
 
-    function showWipe(clientX) {
+    function tick() {
+      raf = 0;
+      if (!active) return;
+
+      currentX += (targetX - currentX) * 0.22;
+      currentY += (targetY - currentY) * 0.22;
+
+      stack.style.setProperty('--headline-spot-x', `${currentX}px`);
+      stack.style.setProperty('--headline-spot-y', `${currentY}px`);
+
+      const bgX = Math.max(0, Math.min(100, (currentX / Math.max(stack.clientWidth, 1)) * 100));
+      const bgY = Math.max(0, Math.min(100, (currentY / Math.max(stack.clientHeight, 1)) * 100));
+      stack.style.setProperty('--headline-bg-x', `${bgX}%`);
+      stack.style.setProperty('--headline-bg-y', `${bgY}%`);
+
+      if (Math.abs(targetX - currentX) > 0.4 || Math.abs(targetY - currentY) > 0.4) {
+        raf = window.requestAnimationFrame(tick);
+      }
+    }
+
+    function showSpot(clientX, clientY) {
       const rect = stack.getBoundingClientRect();
-      if (!rect.width) return;
-      stack.style.setProperty('--headline-wipe-x', `${clientX - rect.left}px`);
-      stack.style.setProperty('--headline-wipe-half', `${wipeHalf}px`);
+      if (!rect.width || !rect.height) return;
+
+      targetX = clientX - rect.left;
+      targetY = clientY - rect.top;
+
+      if (!active) {
+        active = true;
+        currentX = targetX;
+        currentY = targetY;
+        stack.classList.add('is-spotlight-active');
+      }
+
+      if (!raf) raf = window.requestAnimationFrame(tick);
     }
 
     headline.addEventListener('pointerenter', (event) => {
-      showWipe(event.clientX);
+      showSpot(event.clientX, event.clientY);
     });
 
     headline.addEventListener('pointermove', (event) => {
-      showWipe(event.clientX);
+      showSpot(event.clientX, event.clientY);
     });
 
-    headline.addEventListener('pointerleave', hideWipe);
+    headline.addEventListener('pointerleave', hideSpot);
 
-    hideWipe();
+    hideSpot();
   }
 
   window.LEVEL_setHeroHeadline = setHeroHeadline;

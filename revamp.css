@@ -682,13 +682,13 @@ h3,
   z-index: 1;
 }
 
-/* AI Systems banner - show more of the artwork */
+/* AI Systems banner - fill rounded mask like other deliver cards */
 .deliver-row-media--wide {
   background: #0b0b0b;
 }
 
 .deliver-row-media--wide > img {
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
 }
 

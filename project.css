@@ -390,7 +390,7 @@
   text-align: center !important;
 }
 
-/* Hero headline - tight Bebas stack + cursor linear wipe */
+/* Hero headline - tight Bebas stack + cursor spotlight reveal */
 .hero.hero-single .hero-headline-single.headline {
   display: block !important;
   max-width: 15ch !important;
@@ -402,8 +402,11 @@
   position: relative;
   display: block;
   cursor: default;
-  --headline-wipe-x: -999px;
-  --headline-wipe-half: 52px;
+  --headline-spot-x: -999px;
+  --headline-spot-y: -999px;
+  --headline-spot-r: 140px;
+  --headline-bg-x: 32%;
+  --headline-bg-y: 42%;
 }
 
 .hero-headline-white,
@@ -442,33 +445,41 @@
   z-index: 2;
   color: transparent;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease;
   background-image:
-    linear-gradient(118deg, #ffffff 0%, #ff5a5a 22%, #c41e1e 48%, #ffffff 62%, #ff7a7a 82%, #8f1010 100%),
+    radial-gradient(
+      circle at var(--headline-bg-x) var(--headline-bg-y),
+      #ff6b6b 0%,
+      #ff2d2d 28%,
+      #c41e1e 58%,
+      #8f1010 100%
+    ),
     url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
-  background-size: 240% 240%, 160px 160px;
-  background-position: 32% 42%, center;
+  background-size: 160% 160%, 160px 160px;
+  background-position: var(--headline-bg-x) var(--headline-bg-y), center;
   -webkit-background-clip: text;
   background-clip: text;
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent 0,
-    transparent calc(var(--headline-wipe-x) - var(--headline-wipe-half)),
-    #000 calc(var(--headline-wipe-x) - var(--headline-wipe-half)),
-    #000 calc(var(--headline-wipe-x) + var(--headline-wipe-half)),
-    transparent calc(var(--headline-wipe-x) + var(--headline-wipe-half)),
-    transparent 100%
+  -webkit-mask-image: radial-gradient(
+    circle var(--headline-spot-r) at var(--headline-spot-x) var(--headline-spot-y),
+    #000 0%,
+    #000 38%,
+    rgba(0, 0, 0, 0.55) 62%,
+    transparent 78%
   );
-  mask-image: linear-gradient(
-    90deg,
-    transparent 0,
-    transparent calc(var(--headline-wipe-x) - var(--headline-wipe-half)),
-    #000 calc(var(--headline-wipe-x) - var(--headline-wipe-half)),
-    #000 calc(var(--headline-wipe-x) + var(--headline-wipe-half)),
-    transparent calc(var(--headline-wipe-x) + var(--headline-wipe-half)),
-    transparent 100%
+  mask-image: radial-gradient(
+    circle var(--headline-spot-r) at var(--headline-spot-x) var(--headline-spot-y),
+    #000 0%,
+    #000 38%,
+    rgba(0, 0, 0, 0.55) 62%,
+    transparent 78%
   );
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+}
+
+.hero-headline-stack.is-spotlight-active .hero-headline-textured {
+  opacity: 1;
 }
 
 .hero.hero-single .hero-line-bright,
@@ -597,26 +608,31 @@
   background: var(--bg) !important;
 }
 
-/* ── How we work - site-aligned cards + blur siblings on hover ── */
+/* ── How we work - editorial steps, not soft AI cards ── */
 #process .steps {
-  gap: 14px;
+  gap: 0;
+  background: transparent;
+  border: none;
 }
 
 #process .steps li {
-  padding: clamp(24px, 3vw, 32px);
-  background: var(--bg-surface) !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 18px;
+  padding: clamp(28px, 3.2vw, 40px);
+  background: transparent !important;
   color: var(--text) !important;
-  border: 1px solid var(--border);
-  border-radius: var(--ref-radius-md, 14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0;
+  margin: 0 -1px -1px 0;
   box-shadow: none !important;
   overflow: hidden;
-  /* scroll reveal owns opacity/transform until .in - do not force visible here */
   transition:
+    background 0.28s ease,
     filter 0.35s ease,
     opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.35s ease,
-    background 0.35s ease;
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 #process .steps li::before,
@@ -624,9 +640,17 @@
   display: none !important;
 }
 
+#process .steps li > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
 #process .steps li.in:hover {
-  transform: translateY(-2px);
-  border-color: rgba(255, 45, 45, 0.28);
+  background: transparent !important;
+  transform: none;
   box-shadow: none !important;
   filter: none !important;
   opacity: 1 !important;
@@ -634,17 +658,30 @@
 
 #process .steps:has(li:hover) li.in:not(:hover) {
   filter: blur(3px);
-  opacity: 0.38 !important;
-  transform: scale(0.985);
+  opacity: 1 !important;
+  transform: none;
+}
+
+#process .steps li .step-num {
+  display: block;
+  font-family: "Bebas Neue", Impact, system-ui, sans-serif;
+  font-size: clamp(2.4rem, 4.5vw, 3.4rem);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+  color: var(--brand);
+  margin: 0 0 4px;
 }
 
 #process .steps li h3 {
   font-family: Inter, system-ui, sans-serif !important;
-  font-size: clamp(1rem, 1.35vw, 1.15rem) !important;
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem) !important;
   font-weight: 600 !important;
   color: var(--text) !important;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  margin: 0 !important;
+  max-width: 16ch;
 }
 
 #process .steps li h3::after {
@@ -655,15 +692,22 @@
   color: var(--muted) !important;
   font-size: 0.92rem;
   line-height: 1.55;
+  margin: 0 !important;
+  max-width: 34ch;
 }
 
-#process .steps li .step-num {
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: var(--brand);
-  margin-bottom: 12px;
+#process .steps li.in:hover .step-num {
+  color: #ff4a4a;
+}
+
+@media (max-width: 900px) {
+  #process .steps li {
+    padding: 24px 20px;
+  }
+
+  #process .steps li h3 {
+    max-width: none;
+  }
 }
 
 /* ── Reviews - keep feather mask next to the summary card ── */
@@ -695,6 +739,23 @@
 
 body:not(.dark-mode) .review-tile {
   background: var(--bg-surface) !important;
+}
+
+/* Desktop: left gutter matches site; right stays open for marquee bleed */
+@media (min-width: 901px) {
+  #reviews.section .container {
+    padding-left: var(--container-x) !important;
+    padding-right: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  .reviews-marquee-shell {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
 }
 
 /* Soft feather where the scrolling reviews meet the summary card */
@@ -2821,15 +2882,44 @@ a.detail-back:active {
 }
 
 .hero-ambient {
-  position: absolute;
-  inset: 0;
+  position: absolute !important;
+  inset: 0 !important;
+  width: auto !important;
+  height: auto !important;
   pointer-events: none;
-  z-index: 0;
+  z-index: 0 !important;
   background:
     radial-gradient(ellipse 70% 55% at 78% 42%, rgba(255, 45, 45, 0.22) 0%, transparent 58%),
     radial-gradient(ellipse 45% 40% at 22% 18%, rgba(255, 255, 255, 0.07) 0%, transparent 55%),
     radial-gradient(ellipse 90% 70% at 50% 100%, rgba(255, 45, 45, 0.08) 0%, transparent 50%),
     var(--bg);
+}
+
+.hero-ambient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    url("/public/macro-eye-iris-details.jpg") center 42% / cover no-repeat;
+  opacity: 0.28;
+  mix-blend-mode: soft-light;
+  filter: saturate(0.9) contrast(1.08);
+  transform: scaleX(-1);
+}
+
+/* Simple top + bottom fade into the page background */
+.hero-ambient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    var(--bg) 0%,
+    transparent 38%,
+    transparent 62%,
+    var(--bg) 100%
+  );
 }
 
 .hero.hero-single .container.hero-inner.hero-shell {
@@ -2918,7 +3008,7 @@ a.detail-back:active {
 
 .hero-glass-card-frame {
   position: relative;
-  border-radius: 16px;
+  border-radius: 0;
   padding: 10px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 42%, rgba(255, 45, 45, 0.06) 100%);
@@ -3043,7 +3133,7 @@ a.detail-back:active {
 .hero-glass-card-media {
   position: relative;
   aspect-ratio: 16 / 10;
-  border-radius: 10px;
+  border-radius: 0;
   overflow: hidden;
   background: #111;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -3138,7 +3228,7 @@ a.detail-back:active {
 
   .hero-glass-card-frame {
     padding: 8px;
-    border-radius: 14px;
+    border-radius: 0;
   }
 
   .hero-glass-card-label {
