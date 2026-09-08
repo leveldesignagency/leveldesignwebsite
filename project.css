@@ -355,39 +355,41 @@
   text-align: left !important;
 }
 
-/* Work title - centered */
-#work-title.work-title-section,
-#work-title.section-title-block-wrap {
-  text-align: center !important;
-}
+/* Work title - centered on desktop only */
+@media (min-width: 901px) {
+  #work-title.work-title-section,
+  #work-title.section-title-block-wrap {
+    text-align: center !important;
+  }
 
-#work-title .container.section-title-block,
-#work-title .section-title-block {
-  text-align: center !important;
-}
+  #work-title .container.section-title-block,
+  #work-title .section-title-block {
+    text-align: center !important;
+  }
 
-#work-title .section-title-kicker,
-#work-title .section-title-heading,
-#work-title .section-title-lead,
-#work-title h2.section-title-heading {
-  text-align: center !important;
-}
+  #work-title .section-title-kicker,
+  #work-title .section-title-heading,
+  #work-title .section-title-lead,
+  #work-title h2.section-title-heading {
+    text-align: center !important;
+  }
 
-#work-title .section-title-lead {
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
+  #work-title .section-title-lead {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
 
-/* Work title h2 - beat revamp-phase6 left-align specificity */
-#work-title.section-title-block-wrap h2.section-title-heading,
-#work-title.work-title-section h2.section-title-heading,
-#work-title.work-title-section h2 {
-  text-align: center !important;
-}
+  /* Work title h2 - beat revamp-phase6 left-align specificity */
+  #work-title.section-title-block-wrap h2.section-title-heading,
+  #work-title.work-title-section h2.section-title-heading,
+  #work-title.work-title-section h2 {
+    text-align: center !important;
+  }
 
-#work-title.section-title-block-wrap .section-title-kicker,
-#work-title.section-title-block-wrap .section-title-lead {
-  text-align: center !important;
+  #work-title.section-title-block-wrap .section-title-kicker,
+  #work-title.section-title-block-wrap .section-title-lead {
+    text-align: center !important;
+  }
 }
 
 /* Hero headline - tight Bebas stack + cursor spotlight reveal */
@@ -2453,76 +2455,82 @@ a.detail-back:active {
     opacity: 1 !important;
   }
 
-  /* Restore specialities on mobile */
+  /* Hide specialities + mobile stats — no real cards on small screens */
   #specialities-title.specialities-title-section,
-  #specialities-title.section-title-block-wrap {
-    display: block !important;
-    visibility: visible !important;
-    height: auto !important;
-    overflow: visible !important;
-  }
-
-  /* Services gallery - vertical stack instead of hidden */
-  #services-gallery.section {
-    display: block !important;
-    visibility: visible !important;
-    height: auto !important;
-    min-height: 0 !important;
-    padding: 0 var(--container-x) clamp(40px, 8vw, 64px) !important;
-    margin: 0 !important;
-    overflow: visible !important;
-  }
-
-  #services-gallery.section *,
-  #services-gallery .services-container,
-  #services-gallery .services-container * {
-    visibility: visible !important;
-  }
-
-  #services-gallery .services-container {
-    display: block !important;
-    height: auto !important;
-    overflow: visible !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  #services-gallery .services-slider {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    transform: none !important;
-    transition: none !important;
-    gap: clamp(12px, 3vw, 18px);
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  #services-gallery .service-slide {
-    display: block !important;
-    width: 100% !important;
-    flex-shrink: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  #services-gallery .service-slide:last-child {
+  #specialities-title.section-title-block-wrap,
+  #services-gallery.section,
+  #statistics-mobile.statistics-mobile.section {
     display: none !important;
-  }
-
-  #services-gallery .service-item,
-  #services-gallery .service-image,
-  #services-gallery .service-image img {
-    display: block !important;
-    width: 100% !important;
-    height: auto !important;
-    padding: 0 !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    min-height: 0 !important;
     margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
   }
 
-  #services-gallery .service-image img {
-    border-radius: var(--ref-radius-lg);
-    object-fit: cover;
+  /* Work that ships - left aligned on mobile like other sections */
+  #work-title.work-title-section,
+  #work-title.section-title-block-wrap {
+    text-align: left !important;
+  }
+
+  #work-title .container.section-title-block,
+  #work-title .section-title-block {
+    text-align: left !important;
+  }
+
+  #work-title .section-title-kicker,
+  #work-title .section-title-heading,
+  #work-title .section-title-lead,
+  #work-title h2.section-title-heading,
+  #work-title.section-title-block-wrap h2.section-title-heading,
+  #work-title.work-title-section h2.section-title-heading,
+  #work-title.work-title-section h2 {
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Unify section title type across mobile (incl. websites intro) */
+  .section-title-block-wrap .section-title-kicker,
+  .projects-webview-intro .section-title-kicker {
+    font-family: "Bebas Neue", Impact, system-ui, sans-serif !important;
+    font-size: clamp(1rem, 1.35vw, 1.2rem) !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    color: var(--muted) !important;
+  }
+
+  .section-title-block-wrap .section-title-heading,
+  .section-title-block-wrap h2.section-title-heading,
+  .projects-webview-intro .section-title-heading,
+  .projects-webview-intro h2.section-title-heading {
+    font-family: Inter, system-ui, sans-serif !important;
+    font-weight: 700 !important;
+    font-size: clamp(2.25rem, 7.5vw, 3rem) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.03em !important;
+  }
+
+  .section-title-block-wrap .section-title-lead,
+  .projects-webview-intro .section-title-lead {
+    font-family: Inter, system-ui, sans-serif !important;
+    font-size: 1.05rem !important;
+    line-height: 1.5 !important;
+    color: var(--muted) !important;
+  }
+
+  .projects-webview-intro.section-title-block {
+    text-align: left !important;
+  }
+
+  .projects-webview-intro .section-title-kicker,
+  .projects-webview-intro .section-title-heading,
+  .projects-webview-intro .section-title-lead {
+    text-align: left !important;
   }
 
   /* Projects mobile - curated grid, not legacy marquee */

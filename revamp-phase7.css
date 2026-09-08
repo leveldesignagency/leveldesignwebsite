@@ -397,29 +397,19 @@ body:not(.dark-mode) .contact-form {
   }
 }
 
-/* Keep specialities visible on mobile (legacy rule hid it) */
-@media (max-width: 900px) {
-  #specialities-title.specialities-title-section,
-  #specialities-title.section-title-block-wrap {
-    display: block !important;
-    visibility: visible !important;
-    height: auto !important;
-    overflow: visible !important;
-  }
-
-  /* Kill legacy centered title bands + borders (work title stays centered) */
+  /* Kill legacy centered title bands + borders */
   #projects-title.projects-title-section,
   #projects-title.section-title-block-wrap,
   #services-title.services-title-section,
   #services-title.section-title-block-wrap,
-  #specialities-title.specialities-title-section,
-  #specialities-title.section-title-block-wrap,
   #process-title.process-title-section,
   #process-title.section-title-block-wrap,
   #reviews-title.reviews-title-section,
   #reviews-title.section-title-block-wrap,
   #contact-title.contact-title-section,
-  #contact-title.section-title-block-wrap {
+  #contact-title.section-title-block-wrap,
+  #work-title.work-title-section,
+  #work-title.section-title-block-wrap {
     display: block !important;
     align-items: flex-start !important;
     justify-content: flex-start !important;
@@ -430,19 +420,19 @@ body:not(.dark-mode) .contact-form {
     background: var(--bg) !important;
   }
 
-  #work-title.work-title-section,
-  #work-title.section-title-block-wrap {
-    display: block !important;
-    text-align: center !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
-    background: var(--bg) !important;
-  }
-
   #projects-mobile.section.mobile-only {
     padding: 0 var(--container-x) clamp(40px, 8vw, 64px) !important;
     margin: 0 !important;
+  }
+}
+
+/* Hide specialities + stats filler on mobile */
+@media (max-width: 900px) {
+  #specialities-title.specialities-title-section,
+  #specialities-title.section-title-block-wrap,
+  #services-gallery.section,
+  #statistics-mobile.statistics-mobile.section {
+    display: none !important;
   }
 }
 
