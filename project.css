@@ -395,7 +395,7 @@
 /* Hero headline - tight Bebas stack + cursor spotlight reveal */
 .hero.hero-single .hero-headline-single.headline {
   display: block !important;
-  max-width: 15ch !important;
+  max-width: min(18ch, 100%) !important;
   line-height: 0.82 !important;
   margin-bottom: 22px !important;
 }
@@ -404,11 +404,6 @@
   position: relative;
   display: block;
   cursor: default;
-  --headline-spot-x: -999px;
-  --headline-spot-y: -999px;
-  --headline-spot-r: 140px;
-  --headline-bg-x: 32%;
-  --headline-bg-y: 42%;
 }
 
 .hero-headline-white,
@@ -440,48 +435,7 @@
 }
 
 .hero-headline-textured {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 2;
-  color: transparent;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.18s ease;
-  background-image:
-    radial-gradient(
-      circle at var(--headline-bg-x) var(--headline-bg-y),
-      #ff6b6b 0%,
-      #ff2d2d 28%,
-      #c41e1e 58%,
-      #8f1010 100%
-    ),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
-  background-size: 160% 160%, 160px 160px;
-  background-position: var(--headline-bg-x) var(--headline-bg-y), center;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-mask-image: radial-gradient(
-    circle var(--headline-spot-r) at var(--headline-spot-x) var(--headline-spot-y),
-    #000 0%,
-    #000 38%,
-    rgba(0, 0, 0, 0.55) 62%,
-    transparent 78%
-  );
-  mask-image: radial-gradient(
-    circle var(--headline-spot-r) at var(--headline-spot-x) var(--headline-spot-y),
-    #000 0%,
-    #000 38%,
-    rgba(0, 0, 0, 0.55) 62%,
-    transparent 78%
-  );
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-}
-
-.hero-headline-stack.is-spotlight-active .hero-headline-textured {
-  opacity: 1;
+  display: none !important;
 }
 
 .hero.hero-single .hero-line-bright,
@@ -2938,8 +2892,8 @@ a.detail-back:active {
 @media (min-width: 901px) {
   .hero.hero-single .hero-inner.hero-shell {
     display: grid !important;
-    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
-    align-items: center !important;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: start !important;
     gap: clamp(20px, 3vw, 40px) !important;
   }
 
@@ -2948,9 +2902,19 @@ a.detail-back:active {
     padding-right: clamp(8px, 2vw, 24px);
   }
 
+  .hero.hero-single .hero-subhead {
+    max-width: 46ch !important;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+  }
+
   .hero-glass-stage {
     min-height: clamp(460px, 58vh, 600px);
-    height: 100%;
+    height: clamp(460px, 58vh, 600px);
+    max-height: 600px;
     align-self: start;
     margin-top: clamp(0px, 1vh, 12px);
   }
@@ -3009,118 +2973,72 @@ a.detail-back:active {
 }
 
 .hero-glass-cards.has-active-card .hero-glass-card:not(:hover):not(.is-pointer-active) .hero-glass-card-frame {
-  box-shadow:
-    0 28px 70px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45) !important;
 }
 
 .hero-glass-card-frame {
   position: relative;
   border-radius: 0;
   padding: 10px;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 42%, rgba(255, 45, 45, 0.06) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(22px) saturate(1.35);
-  -webkit-backdrop-filter: blur(22px) saturate(1.35);
-  box-shadow:
-    0 28px 70px rgba(0, 0, 0, 0.55),
-    0 0 48px rgba(255, 45, 45, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.5);
   overflow: hidden;
   transition:
     box-shadow 0.32s ease,
-    background 0.32s ease,
-    backdrop-filter 0.32s ease;
+    border-color 0.32s ease,
+    background 0.32s ease;
 }
 
 .hero-glass-card:hover .hero-glass-card-frame,
 .hero-glass-card.is-pointer-active .hero-glass-card-frame {
-  background:
-    linear-gradient(145deg, rgba(28, 28, 28, 0.96) 0%, rgba(14, 14, 14, 0.94) 55%, rgba(20, 20, 20, 0.96) 100%);
+  background: #161616;
+  border-color: rgba(255, 255, 255, 0.22);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
 
 .hero-glass-card:nth-child(1) .hero-glass-card-frame {
-  box-shadow:
-    0 28px 70px rgba(0, 0, 0, 0.55),
-    0 0 40px rgba(255, 255, 255, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.5);
 }
 
 .hero-glass-card--lead .hero-glass-card-frame {
   box-shadow:
-    0 32px 78px rgba(0, 0, 0, 0.58),
-    0 0 56px rgba(255, 45, 45, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+    0 26px 56px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 45, 45, 0.18);
 }
 
 .hero-glass-card:nth-child(3) .hero-glass-card-frame {
-  box-shadow:
-    0 28px 70px rgba(0, 0, 0, 0.55),
-    0 0 44px rgba(255, 45, 45, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.5);
 }
 
 .hero-glass-card:nth-child(4) .hero-glass-card-frame {
-  box-shadow:
-    0 28px 70px rgba(0, 0, 0, 0.55),
-    0 0 44px rgba(255, 255, 255, 0.09),
-    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.5);
 }
 
 .hero-glass-card.is-pointer-active .hero-glass-card-frame {
   box-shadow:
-    0 32px 80px rgba(0, 0, 0, 0.62),
-    0 0 52px rgba(255, 45, 45, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    0 28px 60px rgba(0, 0, 0, 0.58),
+    0 0 0 1px rgba(255, 255, 255, 0.16);
 }
 
 .hero-glass-card--lead.is-pointer-active .hero-glass-card-frame {
   box-shadow:
-    0 36px 88px rgba(0, 0, 0, 0.65),
-    0 0 72px rgba(255, 45, 45, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+    0 30px 64px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 45, 45, 0.28);
 }
 
 .hero-glass-card:nth-child(1).is-pointer-active .hero-glass-card-frame,
 .hero-glass-card:nth-child(4).is-pointer-active .hero-glass-card-frame {
   box-shadow:
-    0 32px 80px rgba(0, 0, 0, 0.62),
-    0 0 56px rgba(255, 255, 255, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+    0 28px 60px rgba(0, 0, 0, 0.58),
+    0 0 0 1px rgba(255, 255, 255, 0.16);
 }
 
 .hero-glass-card-shimmer {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.22s ease;
-  background:
-    radial-gradient(
-      circle at var(--shimmer-x, 50%) var(--shimmer-y, 50%),
-      rgba(255, 255, 255, 0.26) 0%,
-      rgba(255, 255, 255, 0.08) 22%,
-      transparent 52%
-    );
-  mix-blend-mode: soft-light;
-}
-
-.hero-glass-card--lead .hero-glass-card-shimmer {
-  background:
-    radial-gradient(
-      circle at var(--shimmer-x, 50%) var(--shimmer-y, 50%),
-      rgba(255, 130, 130, 0.32) 0%,
-      rgba(255, 45, 45, 0.12) 24%,
-      transparent 54%
-    );
-}
-
-.hero-glass-card.is-pointer-active .hero-glass-card-shimmer {
-  opacity: 1;
+  display: none !important;
 }
 
 .hero-glass-card-chrome {

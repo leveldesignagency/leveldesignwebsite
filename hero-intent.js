@@ -258,7 +258,7 @@
       kicker: 'Construction & trades',
       headline: 'Win better jobs<br>with a site that sells trust.',
       subhead:
-        'Project galleries, capability pages, and local SEO for contractors, builders, and trade firms, plus AI search setup so you appear when prospects search and ask AI who to hire.',
+        'Project galleries, capability pages, and local SEO for contractors and builders — plus AI search setup so you show up when prospects ask who to hire.',
       cta: 'Get a construction quote',
       metaTitle: 'Web Design for Construction & Building Firms | LEVEL',
       metaDescription:

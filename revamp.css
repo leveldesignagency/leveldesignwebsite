@@ -227,11 +227,16 @@ h3,
 
 .hero-subhead {
   font-size: 1.05rem !important;
-  line-height: 1.6 !important;
+  line-height: 1.55 !important;
   font-weight: 500 !important;
   color: var(--muted) !important;
-  max-width: 42ch !important;
+  max-width: 46ch !important;
   margin: 0 0 28px !important;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
 }
 
 .hero-actions {
