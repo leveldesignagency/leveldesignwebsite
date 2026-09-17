@@ -593,19 +593,15 @@
 
 .door-list li {
   display: grid;
-  grid-template-columns: 64px 1fr;
-  gap: 20px;
+  grid-template-columns: 1fr;
+  gap: 0;
   padding: 22px 0;
   border-bottom: 1px solid var(--door-border);
   align-items: start;
 }
 
 .door-list-num {
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--door-grey);
-  padding-top: 4px;
+  display: none;
 }
 
 .door-list h3 {
@@ -1241,8 +1237,8 @@
 
 @media (max-width: 720px) {
   .door-list li {
-    grid-template-columns: 40px 1fr;
-    gap: 12px;
+    grid-template-columns: 1fr;
+    gap: 0;
   }
 
   .door-process {
