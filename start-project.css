@@ -93,14 +93,29 @@
   opacity: 0.8;
 }
 
-.field-label {
+.field-currency {
+  position: relative;
   display: block;
-  color: var(--muted);
-  font-size: 13px;
-  margin-bottom: 8px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+}
+
+.field-currency-symbol {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted, #9a9aa3);
+  font-size: 16px;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.field-currency input {
+  padding-left: 2rem;
+}
+
+.start-project-page .field-currency input::placeholder {
+  color: #666666;
 }
 
 .honeypot-field {
