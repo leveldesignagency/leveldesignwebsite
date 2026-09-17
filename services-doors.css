@@ -143,7 +143,14 @@
 .door-hero--branding .door-hero-media img,
 .door-hero--systems .door-hero-media img,
 .door-hero--seo .door-hero-media img,
-.door-hero--construction .door-hero-media img {
+.door-hero--construction .door-hero-media img,
+.door-hero--trades .door-hero-media img,
+.door-hero--fintech .door-hero-media img,
+.door-hero--golf .door-hero-media img,
+.door-hero--property .door-hero-media img,
+.door-hero--professional .door-hero-media img,
+.door-hero--healthcare .door-hero-media img,
+.door-hero--hospitality .door-hero-media img {
   display: block;
   position: absolute;
   inset: 0;
@@ -153,6 +160,11 @@
   object-position: center;
   opacity: 0.45;
   z-index: 0;
+}
+
+.door-hero--construction .door-hero-media img,
+.door-hero--golf .door-hero-media img {
+  transform: scaleX(-1);
 }
 
 /* Systems: green top-left → black bottom-right, soft radial blend */
@@ -181,6 +193,24 @@
     radial-gradient(ellipse 75% 65% at 85% 78%, #6a0a0a 0%, transparent 52%),
     radial-gradient(ellipse 50% 45% at 50% 50%, #3a0808 0%, transparent 50%),
     linear-gradient(160deg, #140404 0%, #000 100%);
+}
+
+/* Trades: utility grey / red accent */
+.door-hero--trades .door-hero-media {
+  background:
+    radial-gradient(ellipse 90% 80% at 24% 16%, #5a5a5a 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 82% 30%, rgba(255, 45, 45, 0.22) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 70% at 70% 88%, #1c1c1c 0%, transparent 55%),
+    linear-gradient(165deg, #141414 0%, #000 100%);
+}
+
+/* Professional services: cool grey / white */
+.door-hero--professional .door-hero-media {
+  background:
+    radial-gradient(ellipse 90% 80% at 20% 14%, #8a8a8a 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 88% 22%, rgba(255, 255, 255, 0.2) 0%, transparent 48%),
+    radial-gradient(ellipse 80% 70% at 70% 88%, #2a2a2a 0%, transparent 55%),
+    linear-gradient(165deg, #121212 0%, #000 100%);
 }
 
 /* Construction: steel grey / amber / black */
