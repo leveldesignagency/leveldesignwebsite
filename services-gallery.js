@@ -85,7 +85,7 @@
     if (!actualSlides) return;
 
     let currentSlide = 0;
-    const interval = 5000;
+    const interval = 2500;
     let timerId = null;
 
     const move = () => {
