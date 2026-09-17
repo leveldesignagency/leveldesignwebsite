@@ -2843,6 +2843,21 @@ a.detail-back:active {
   background: var(--bg) !important;
 }
 
+/* Homepage: same smooth geometric crescent as door heroes */
+.hero.hero-single::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 1;
+  width: 150%;
+  height: clamp(72px, 14vw, 140px);
+  transform: translate(-50%, 58%);
+  background: #0a0a0a;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
 /* Flattened hero cards — no glow, no soft shadow depth */
 .hero-glass-card-frame,
 .hero-glass-card:nth-child(1) .hero-glass-card-frame,
@@ -2894,7 +2909,7 @@ a.detail-back:active {
   position: absolute;
   inset: 0;
   background:
-    url("/public/macro-eye-iris-details.jpg") center 42% / cover no-repeat;
+    url("/public/heroes/eye.jpg") center 42% / cover no-repeat;
   opacity: 0.22;
   filter: grayscale(0.35) contrast(1.05);
   transform: scaleX(-1);

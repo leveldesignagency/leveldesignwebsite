@@ -155,25 +155,23 @@
   font-size: 0.82rem;
 }
 
-/* Hero View work: match contact email underline wipe */
+/* Hero View work: visible outline button (same size box as primary) */
 .hero-actions .hero-cta-secondary.btn,
 .hero-actions a.hero-cta-secondary {
   background-color: transparent !important;
-  border: none !important;
+  background-image: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
   box-shadow: none !important;
-  padding: 12px 4px !important;
+  padding: 14px 22px !important;
+  min-height: 48px;
+  box-sizing: border-box;
   color: #fff !important;
   border-radius: 0 !important;
   text-decoration: none !important;
-  position: relative;
   display: inline-flex !important;
   align-items: center;
-  background-image: linear-gradient(currentColor, currentColor) !important;
-  background-repeat: no-repeat !important;
-  background-position: right bottom !important;
-  background-size: 0% 1.5px !important;
-  transition: color 0.3s ease, background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    background-position 0.35s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  justify-content: center;
+  transition: color 0.25s ease, border-color 0.25s ease, background-color 0.25s ease !important;
 }
 
 .hero-actions .hero-cta-secondary.btn::before,
@@ -185,9 +183,8 @@
 .hero-actions .hero-cta-secondary.btn:hover,
 .hero-actions a.hero-cta-secondary:hover {
   background-color: transparent !important;
-  border: none !important;
-  color: var(--brand, #ff2d2d) !important;
+  background-image: none !important;
+  border-color: var(--brand, #ff2d2d) !important;
+  color: #fff !important;
   text-decoration: none !important;
-  background-position: left bottom !important;
-  background-size: 100% 1.5px !important;
 }
