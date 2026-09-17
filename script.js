@@ -975,13 +975,20 @@ function validateEmail(email) {
 
 /**
  * Rate limiting - check only (does not record). Call recordFormSubmission() after a successful send.
+ * @param {string} [bucket='shared'] - separate buckets so homepage and start-a-project don't block each other
  */
-function checkRateLimit() {
-  const RATE_LIMIT_KEY = 'form_submission_times';
-  const MAX_SUBMISSIONS = 5;
+function checkRateLimit(bucket) {
+  const RATE_LIMIT_KEY = 'form_submission_times_' + (bucket || 'shared');
+  const MAX_SUBMISSIONS = 8;
   const TIME_WINDOW = 60 * 60 * 1000;
   
   try {
+    // Migrate legacy shared key once
+    const legacy = localStorage.getItem('form_submission_times');
+    if (legacy && !localStorage.getItem(RATE_LIMIT_KEY)) {
+      localStorage.setItem(RATE_LIMIT_KEY, legacy);
+    }
+
     const stored = localStorage.getItem(RATE_LIMIT_KEY);
     let submissionTimes = stored ? JSON.parse(stored) : [];
     const now = Date.now();
@@ -1000,8 +1007,8 @@ function checkRateLimit() {
   }
 }
 
-function recordFormSubmission() {
-  const RATE_LIMIT_KEY = 'form_submission_times';
+function recordFormSubmission(bucket) {
+  const RATE_LIMIT_KEY = 'form_submission_times_' + (bucket || 'shared');
   const TIME_WINDOW = 60 * 60 * 1000;
   try {
     const now = Date.now();
@@ -1109,17 +1116,17 @@ function loadExternalScript(src) {
   return new Promise((resolve, reject) => {
     const existing = document.querySelector(`script[src="${src}"]`);
     if (existing) {
+      // Already finished loading
       if (existing.dataset.loaded === 'true') {
         resolve();
         return;
       }
+      // Still loading — wait for real load/error only (no early timeout resolve)
       existing.addEventListener('load', () => {
         existing.dataset.loaded = 'true';
         resolve();
       }, { once: true });
       existing.addEventListener('error', () => reject(new Error(`Failed to load ${src}`)), { once: true });
-      // Script may already be loaded (e.g. cached) without firing load again
-      setTimeout(() => resolve(), 1000);
       return;
     }
     const script = document.createElement('script');
@@ -1161,11 +1168,16 @@ window.executeRecaptcha = executeRecaptcha;
  * Shared EmailJS send — same service + templates as the homepage contact form.
  * Sends enquiry to LEVEL, then customer auto-reply.
  */
-window.sendLevelEnquiry = async function sendLevelEnquiry({ name, email, message, recaptchaToken }) {
+window.sendLevelEnquiry = async function sendLevelEnquiry({ name, email, message, recaptchaToken, bucket }) {
   await ensureFormLibs();
   if (typeof emailjs === 'undefined' || typeof emailjs.send !== 'function') {
     throw new Error('Form service is not configured');
   }
+
+  // EmailJS v4 accepts string or object; re-init is safe
+  try {
+    emailjs.init('YZEUywDpGdF8ypKDn');
+  } catch (_) {}
 
   const fromName = sanitizeInput(name);
   const fromEmail = sanitizeInput(email).toLowerCase().trim();
@@ -1193,7 +1205,7 @@ window.sendLevelEnquiry = async function sendLevelEnquiry({ name, email, message
     // Auto-reply failure should not fail the enquiry
   }
 
-  if (typeof recordFormSubmission === 'function') recordFormSubmission();
+  if (typeof recordFormSubmission === 'function') recordFormSubmission(bucket || 'shared');
   return true;
 };
 
@@ -1218,20 +1230,25 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   contactForm.addEventListener('focusin', preloadForm, { once: true });
 
+  contactForm.addEventListener('focusin', () => {
+    const hp = contactForm.querySelector('input[name="company_fax"]');
+    if (hp) hp.value = '';
+  });
+
   contactForm.addEventListener('submit', async function(e) {
       e.preventDefault();
 
       try {
         await ensureFormLibs();
       } catch (error) {
-        formMessage.textContent = 'Form service failed to load. Please email help@leveldesignagency.com directly.';
+        formMessage.innerHTML = 'Form service failed to load. Please email <a href="mailto:help@leveldesignagency.com">help@leveldesignagency.com</a>.';
         formMessage.className = 'form-message error';
         formMessage.style.display = 'block';
         return;
       }
 
     if (typeof emailjs === 'undefined') {
-        formMessage.textContent = 'Form service is not configured. Please contact us directly at help@leveldesignagency.com';
+        formMessage.innerHTML = 'Form service is not configured. Please email <a href="mailto:help@leveldesignagency.com">help@leveldesignagency.com</a>.';
         formMessage.className = 'form-message error';
         formMessage.style.display = 'block';
       return;
@@ -1278,10 +1295,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       
-      // SECURITY CHECK 4: Rate limiting
-      const rateLimit = checkRateLimit();
+      // SECURITY CHECK 4: Rate limiting (homepage bucket — independent of start-a-project)
+      const rateLimit = checkRateLimit('contact');
       if (!rateLimit.allowed) {
-        formMessage.textContent = `Too many submissions. Please wait ${rateLimit.remainingTime} minutes before trying again.`;
+        formMessage.innerHTML = `Too many submissions. Please wait ${rateLimit.remainingTime} minutes, or email <a href="mailto:help@leveldesignagency.com">help@leveldesignagency.com</a>.`;
         formMessage.className = 'form-message error';
         formMessage.style.display = 'block';
         submitBtn.disabled = false;
@@ -1303,6 +1320,7 @@ document.addEventListener('DOMContentLoaded', function() {
           email: formData.email,
           message: formData.message,
           recaptchaToken: recaptchaToken,
+          bucket: 'contact',
         });
         
         formMessage.textContent = "Sent. We'll get back to you soon.";

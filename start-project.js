@@ -290,8 +290,11 @@
   }
 
   function checkRateLimitOnly() {
-    const KEY = 'form_submission_times';
-    const MAX = 5;
+    if (typeof window.checkRateLimit === 'function') {
+      return window.checkRateLimit('start-project');
+    }
+    const KEY = 'form_submission_times_start-project';
+    const MAX = 8;
     const WINDOW = 60 * 60 * 1000;
     try {
       const now = Date.now();
@@ -309,7 +312,11 @@
   }
 
   function recordSuccessfulSubmit() {
-    const KEY = 'form_submission_times';
+    if (typeof window.recordFormSubmission === 'function') {
+      window.recordFormSubmission('start-project');
+      return;
+    }
+    const KEY = 'form_submission_times_start-project';
     const WINDOW = 60 * 60 * 1000;
     try {
       const now = Date.now();
@@ -430,18 +437,21 @@
     const service = get('service');
     const pkg = get('package');
     const timeline = get('timeline');
-    return [
-      '--- Project brief ---',
-      'Service: ' + (SERVICE_LABELS[service] || service || '—'),
-      'Package: ' + (PACKAGE_LABELS[pkg] || pkg || '—'),
-      'Budget: ' + (get('budget') ? '£' + get('budget').replace(/^£\s*/, '') : '—'),
-      'Timeline: ' + (TIMELINE_LABELS[timeline] || timeline || '—'),
-      'Company: ' + (get('company') || '—'),
-      'Phone: ' + (get('phone') || '—'),
-      'Source key: ' + (get('trail_raw') || '—'),
-      '',
-      get('message'),
-    ].join('\n');
+    const budgetRaw = get('budget').replace(/^£\s*/, '');
+    const company = get('company');
+    const phone = get('phone');
+    const note = get('message');
+
+    const lines = [];
+    if (service) lines.push('Service: ' + (SERVICE_LABELS[service] || service));
+    if (pkg) lines.push('Package: ' + (PACKAGE_LABELS[pkg] || pkg));
+    if (budgetRaw) lines.push('Budget: £' + budgetRaw);
+    if (timeline) lines.push('Timeline: ' + (TIMELINE_LABELS[timeline] || timeline));
+    if (company) lines.push('Company: ' + company);
+    if (phone) lines.push('Phone: ' + phone);
+    if (lines.length && note) lines.push('');
+    if (note) lines.push(note);
+    return lines.join('\n');
   }
 
   function validate(form) {
@@ -591,6 +601,7 @@
           email: result.email,
           message: messageBody,
           recaptchaToken: recaptchaToken,
+          bucket: 'start-project',
         });
 
         showMessage(formMessage, "Sent. We'll get back to you soon.", 'success');
