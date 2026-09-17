@@ -413,7 +413,10 @@
     growth: 'marketing',
     brand: 'branding',
     branding: 'branding',
-    identity: 'branding',
+    healthcare: 'healthcare',
+    hospitality: 'hospitality',
+    professional: 'professional',
+    'professional-services': 'professional',
   };
 
   const KEYWORD_RULES = [
@@ -432,18 +435,45 @@
       patterns: /\b(aeo|geo\b|generative engine|ai search|ai overview|chatgpt|perplexity|ai seo|answer engine)\b/i,
     },
     { intent: 'ai-support', patterns: /\b(ai support|ai assistant|ai automation|ai portal|ai system|llm integration)\b/i },
-    { intent: 'web-design', patterns: /\b(web design|website design|website rebuild|new website|redesign)\b/i },
+    /* Industries before generic "website" so "golf websites" maps to golf */
+    { intent: 'golf', patterns: /\b(golf\s*websites?|golf\s*web\s*design|golf|country club|golf club|leisure club)\b/i },
     { intent: 'construction', patterns: /\b(construction|builder|building firm|contractor|civil engineering|surveyor)\b/i },
     { intent: 'trades', patterns: /\b(trades?|electrician|plumber|hvac|roofing|maintenance company)\b/i },
-    { intent: 'golf', patterns: /\b(golf|country club|golf club|leisure club)\b/i },
     { intent: 'fintech', patterns: /\b(fintech|payments? platform|neobank|wealth tech|regtech)\b/i },
-    { intent: 'property', patterns: /\b(property developer|lettings|estate agency|land development)\b/i },
+    { intent: 'property', patterns: /\b(property developer|lettings|estate agency|land development|property websites?)\b/i },
+    { intent: 'healthcare', patterns: /\b(healthcare|clinic|dental|medical practice|gp surgery)\b/i },
+    { intent: 'hospitality', patterns: /\b(hospitality|hotel|restaurant|venue websites?)\b/i },
+    { intent: 'professional', patterns: /\b(professional services|law firm|accountancy|consultancy website)\b/i },
+    { intent: 'web-design', patterns: /\b(web design|website design|website rebuild|new website|redesign|websites?\b)\b/i },
   ];
+
+  /** Homepage ambient hero image per intent (matches service / funnel page heroes) */
+  const HERO_AMBIENT_IMAGES = {
+    default: { webp: 'public/heroes/eye.webp', jpg: 'public/heroes/eye.jpg', flip: true },
+    'web-design': { webp: 'public/heroes/web-design.webp', jpg: 'public/heroes/web-design.jpg', flip: false },
+    branding: { webp: 'public/heroes/branding.webp', jpg: 'public/heroes/branding.jpg', flip: false },
+    'ai-support': { webp: 'public/heroes/systems.webp', jpg: 'public/heroes/systems.jpg', flip: false },
+    aeo: { webp: 'public/heroes/seo.webp', jpg: 'public/heroes/seo.jpg', flip: false },
+    marketing: { webp: 'public/heroes/marketing.webp', jpg: 'public/heroes/marketing.jpg', flip: false },
+    'social-media': { webp: 'public/heroes/marketing.webp', jpg: 'public/heroes/marketing.jpg', flip: false },
+    construction: { webp: 'public/heroes/construction.webp', jpg: 'public/heroes/construction.jpg', flip: true },
+    trades: { webp: 'public/heroes/trades.webp', jpg: 'public/heroes/trades.jpg', flip: false },
+    golf: { webp: 'public/heroes/golf.webp', jpg: 'public/heroes/golf.jpg', flip: true },
+    fintech: { webp: 'public/heroes/fintech.webp', jpg: 'public/heroes/fintech.jpg', flip: false },
+    property: { webp: 'public/heroes/property.webp', jpg: 'public/heroes/property.jpg', flip: false },
+    professional: { webp: 'public/heroes/professional.webp', jpg: 'public/heroes/professional.jpg', flip: false },
+    healthcare: { webp: 'public/heroes/healthcare.webp', jpg: 'public/heroes/healthcare.jpg', flip: false },
+    hospitality: { webp: 'public/heroes/hospitality.webp', jpg: 'public/heroes/hospitality.jpg', flip: false },
+  };
 
   function normalizeIntent(raw) {
     if (!raw) return null;
     const key = String(raw).toLowerCase().trim().replace(/\s+/g, '-');
-    return INTENT_ALIASES[key] || (HERO_VARIANTS[key] ? key : null);
+    return (
+      INTENT_ALIASES[key] ||
+      (HERO_VARIANTS[key] ? key : null) ||
+      (HERO_AMBIENT_IMAGES[key] ? key : null)
+    );
   }
 
   function normalizeLocation(raw) {
@@ -570,6 +600,22 @@
     setNamed('meta[name="twitter:description"]', 'content', desc);
   }
 
+  function applyAmbientHero(intentKey) {
+    const ambient = document.querySelector('.hero-ambient');
+    if (!ambient) return;
+
+    const asset = HERO_AMBIENT_IMAGES[intentKey] || HERO_AMBIENT_IMAGES.default;
+    ambient.style.setProperty('--hero-ambient-image', `url("/${asset.webp}")`);
+    ambient.style.setProperty('--hero-ambient-image-fallback', `url("/${asset.jpg}")`);
+    ambient.style.setProperty('--hero-ambient-flip', asset.flip ? 'scaleX(-1)' : 'none');
+    ambient.classList.add('is-intent-ready');
+    ambient.dataset.heroAmbient = intentKey;
+
+    // Warm the image so the swap feels instant
+    const preload = new Image();
+    preload.src = asset.webp;
+  }
+
   function applyHero(variant, intentKey, locationId) {
     const hero = document.getElementById('hero-single');
     if (!hero) return;
@@ -614,6 +660,8 @@
     if (offerIntent) {
       offerIntent.value = `${intentKey}${locationId ? '/' + locationId : ''}`;
     }
+
+    applyAmbientHero(intentKey);
 
     hero.dataset.heroIntent = intentKey;
     if (locationId) hero.dataset.heroLocation = locationId;
@@ -775,6 +823,7 @@
     resolveIntent,
     resolveLocation,
     HERO_VARIANTS,
+    HERO_AMBIENT_IMAGES,
     MARKETS,
     LOCATIONS,
     PROJECT_CATALOG,

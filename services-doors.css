@@ -76,21 +76,16 @@
   mask-image: none;
 }
 
-/* Soft bottom fade into page — no hard crescent / mask edge */
+/* Real SVG vector crescent capping the hero bottom */
 .door-hero::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: -1px;
   z-index: 2;
-  height: clamp(96px, 18vw, 180px);
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 10, 10, 0) 0%,
-    rgba(10, 10, 10, 0.55) 45%,
-    #0a0a0a 100%
-  );
+  height: clamp(56px, 9vw, 110px);
+  background: url("/public/hero-bottom-curve.svg") center bottom / 100% 100% no-repeat;
   pointer-events: none;
 }
 
@@ -147,6 +142,7 @@
 .door-hero--branding .door-hero-media img,
 .door-hero--systems .door-hero-media img,
 .door-hero--seo .door-hero-media img,
+.door-hero--marketing .door-hero-media img,
 .door-hero--construction .door-hero-media img,
 .door-hero--trades .door-hero-media img,
 .door-hero--fintech .door-hero-media img,
@@ -170,6 +166,7 @@
 .door-hero--branding .door-hero-media picture,
 .door-hero--systems .door-hero-media picture,
 .door-hero--seo .door-hero-media picture,
+.door-hero--marketing .door-hero-media picture,
 .door-hero--construction .door-hero-media picture,
 .door-hero--trades .door-hero-media picture,
 .door-hero--fintech .door-hero-media picture,
@@ -1160,7 +1157,7 @@
   }
 
   .door-hero::after {
-    height: clamp(80px, 22vw, 140px);
+    height: clamp(48px, 14vw, 88px);
   }
 
   .service-door .door-title,

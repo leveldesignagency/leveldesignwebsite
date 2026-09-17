@@ -18,8 +18,49 @@
     <script>
       (function () {
         var p = new URLSearchParams(location.search);
-        var i = p.get('intent') || p.get('market') || p.get('service');
-        if (i) document.documentElement.setAttribute('data-intent', i.toLowerCase());
+        var i = (p.get('intent') || p.get('market') || p.get('service') || p.get('utm_term') || '').toLowerCase();
+        var map = {
+          golf: 'public/heroes/golf.webp',
+          construction: 'public/heroes/construction.webp',
+          trades: 'public/heroes/trades.webp',
+          fintech: 'public/heroes/fintech.webp',
+          property: 'public/heroes/property.webp',
+          healthcare: 'public/heroes/healthcare.webp',
+          hospitality: 'public/heroes/hospitality.webp',
+          professional: 'public/heroes/professional.webp',
+          'professional-services': 'public/heroes/professional.webp',
+          branding: 'public/heroes/branding.webp',
+          marketing: 'public/heroes/marketing.webp',
+          'social-media': 'public/heroes/marketing.webp',
+          seo: 'public/heroes/seo.webp',
+          aeo: 'public/heroes/seo.webp',
+          systems: 'public/heroes/systems.webp',
+          'ai-support': 'public/heroes/systems.webp',
+          'web-design': 'public/heroes/web-design.webp',
+          web: 'public/heroes/web-design.webp'
+        };
+        // keyword sniff for utm_term like "golf websites"
+        if (!map[i]) {
+          if (/golf/.test(i)) i = 'golf';
+          else if (/construction|builder/.test(i)) i = 'construction';
+          else if (/trade|electr|plumb/.test(i)) i = 'trades';
+          else if (/fintech|finance/.test(i)) i = 'fintech';
+          else if (/property|letting/.test(i)) i = 'property';
+          else if (/health|clinic|dental/.test(i)) i = 'healthcare';
+          else if (/hospital|hotel/.test(i)) i = 'hospitality';
+          else if (/brand/.test(i)) i = 'branding';
+          else if (/market|social/.test(i)) i = 'marketing';
+        }
+        var href = map[i];
+        if (href) {
+          var l = document.createElement('link');
+          l.rel = 'preload'; l.as = 'image'; l.href = href; l.type = 'image/webp';
+          l.setAttribute('data-intent-preload', i);
+          document.head.appendChild(l);
+          document.documentElement.setAttribute('data-intent', i);
+        } else if (i) {
+          document.documentElement.setAttribute('data-intent', i);
+        }
       })();
     </script>
     <meta name="author" content="LEVEL DESIGN AGENCY LTD" />
@@ -115,8 +156,8 @@
     <link rel="stylesheet" href="revamp-phase7.css?v=20260918b" />
     <link rel="stylesheet" href="revamp-phase8.css?v=20260917b" />
     <link rel="stylesheet" href="revamp-phase9.css?v=20260917b" />
-    <link rel="stylesheet" href="project.css?v=20260918e" />
-    <link rel="stylesheet" href="services-doors.css?v=20260918e" />
+    <link rel="stylesheet" href="project.css?v=20260918f" />
+    <link rel="stylesheet" href="services-doors.css?v=20260918f" />
     <link rel="stylesheet" href="legal.css?v=20260918d" />
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="alternate icon" href="favicon.png">
@@ -1707,7 +1748,7 @@
     </script>
     <script src="cookie-banner.js" defer></script>
     <script src="hero-headline-mask.js?v=20260914a" defer></script>
-    <script src="hero-intent.js?v=20260917w" defer></script>
+    <script src="hero-intent.js?v=20260918f" defer></script>
     <script src="hero-scan.js?v=20260917y" defer></script>
     <script src="text-reveal.js" defer></script>
     <script src="" defer></script>
