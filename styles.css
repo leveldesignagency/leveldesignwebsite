@@ -4526,6 +4526,20 @@ textarea {
   color: #ef5350;
 }
 
+.form-message a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+}
+
+.form-message-detail {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.85;
+}
+
 /* Custom Background */
 .custom-bg {
   position: fixed;

@@ -944,38 +944,42 @@ function validateEmail(email) {
 }
 
 /**
- * Rate limiting - prevent spam submissions
- * Returns true if submission is allowed, false if rate limited
+ * Rate limiting - check only (does not record). Call recordFormSubmission() after a successful send.
  */
 function checkRateLimit() {
   const RATE_LIMIT_KEY = 'form_submission_times';
-  const MAX_SUBMISSIONS = 3; // Max 3 submissions
-  const TIME_WINDOW = 60 * 60 * 1000; // 1 hour in milliseconds
+  const MAX_SUBMISSIONS = 5;
+  const TIME_WINDOW = 60 * 60 * 1000;
   
   try {
     const stored = localStorage.getItem(RATE_LIMIT_KEY);
     let submissionTimes = stored ? JSON.parse(stored) : [];
-    
-    // Remove old submissions outside the time window
     const now = Date.now();
     submissionTimes = submissionTimes.filter(time => (now - time) < TIME_WINDOW);
     
-    // Check if limit exceeded
     if (submissionTimes.length >= MAX_SUBMISSIONS) {
       return {
         allowed: false,
-        remainingTime: Math.ceil((TIME_WINDOW - (now - submissionTimes[0])) / 1000 / 60) // minutes
+        remainingTime: Math.ceil((TIME_WINDOW - (now - submissionTimes[0])) / 1000 / 60)
       };
     }
-    
-    // Add current submission time
-    submissionTimes.push(now);
-    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(submissionTimes));
     
     return { allowed: true };
   } catch (error) {
     return { allowed: true };
   }
+}
+
+function recordFormSubmission() {
+  const RATE_LIMIT_KEY = 'form_submission_times';
+  const TIME_WINDOW = 60 * 60 * 1000;
+  try {
+    const now = Date.now();
+    let submissionTimes = JSON.parse(localStorage.getItem(RATE_LIMIT_KEY) || '[]')
+      .filter(time => (now - time) < TIME_WINDOW);
+    submissionTimes.push(now);
+    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(submissionTimes));
+  } catch (_) {}
 }
 
 /**
@@ -1040,14 +1044,27 @@ const RECAPTCHA_SITE_KEY = '6LeCRlIsAAAAAGPZzNsKcCRa_BSgy6ICxaSAh1wm';
  * Returns token if successful, null if reCAPTCHA not configured
  */
 async function executeRecaptcha() {
-  // Check if reCAPTCHA is loaded and configured
   if (typeof grecaptcha === 'undefined' || RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY') {
     return null;
   }
-  
+
+  const withTimeout = (promise, ms) =>
+    Promise.race([
+      promise,
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms)),
+    ]);
+
   try {
-    // Execute reCAPTCHA v3 - returns a token
-    const token = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit' });
+    if (typeof grecaptcha.ready === 'function') {
+      await withTimeout(
+        new Promise((resolve) => grecaptcha.ready(resolve)),
+        2500
+      );
+    }
+    const token = await withTimeout(
+      grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit' }),
+      2500
+    );
     return token;
   } catch (error) {
     return null;
@@ -1060,14 +1077,28 @@ async function executeRecaptcha() {
 
 function loadExternalScript(src) {
   return new Promise((resolve, reject) => {
-    if (document.querySelector(`script[src="${src}"]`)) {
-      resolve();
+    const existing = document.querySelector(`script[src="${src}"]`);
+    if (existing) {
+      if (existing.dataset.loaded === 'true') {
+        resolve();
+        return;
+      }
+      existing.addEventListener('load', () => {
+        existing.dataset.loaded = 'true';
+        resolve();
+      }, { once: true });
+      existing.addEventListener('error', () => reject(new Error(`Failed to load ${src}`)), { once: true });
+      // Script may already be loaded (e.g. cached) without firing load again
+      setTimeout(() => resolve(), 1000);
       return;
     }
     const script = document.createElement('script');
     script.src = src;
     script.async = true;
-    script.onload = () => resolve();
+    script.onload = () => {
+      script.dataset.loaded = 'true';
+      resolve();
+    };
     script.onerror = () => reject(new Error(`Failed to load ${src}`));
     document.head.appendChild(script);
   });
@@ -1093,6 +1124,7 @@ window.ensureFormLibs = ensureFormLibs;
 window.sanitizeInput = sanitizeInput;
 window.validateFormData = validateFormData;
 window.checkRateLimit = checkRateLimit;
+window.recordFormSubmission = recordFormSubmission;
 window.executeRecaptcha = executeRecaptcha;
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -1239,6 +1271,8 @@ document.addEventListener('DOMContentLoaded', function() {
         formMessage.className = 'form-message success';
         formMessage.style.display = 'block';
         
+        if (typeof recordFormSubmission === 'function') recordFormSubmission();
+
         // Reset form
         contactForm.reset();
         
@@ -1253,16 +1287,14 @@ document.addEventListener('DOMContentLoaded', function() {
         
       } catch (error) {
         // More detailed error message
-        let errorMsg = 'Sorry, there was an error sending your message. ';
-        if (error.text) {
-          errorMsg += `Error: ${error.text}`;
-        } else if (error.message) {
-          errorMsg += `Error: ${error.message}`;
-        } else {
-          errorMsg += 'Please try again or email us directly at help@leveldesignagency.com';
+        let errorMsg = 'Sorry, there was an error sending your message. Please try again or email <a href="mailto:help@leveldesignagency.com">help@leveldesignagency.com</a>.';
+        if (error && error.text) {
+          errorMsg += ` (${error.text})`;
+        } else if (error && error.message) {
+          errorMsg += ` (${error.message})`;
         }
         
-        formMessage.textContent = errorMsg;
+        formMessage.innerHTML = errorMsg;
         formMessage.className = 'form-message error';
         formMessage.style.display = 'block';
         

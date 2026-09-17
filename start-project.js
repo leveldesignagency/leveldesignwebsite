@@ -1,8 +1,16 @@
 /**
- * Start a project — silent trail autofill + custom selects + EmailJS (same route as contact)
+ * Start a project — silent trail autofill + custom selects + EmailJS
+ * Same EmailJS service/templates as the homepage contact form.
  */
 (function () {
   'use strict';
+
+  const EMAILJS_SERVICE = 'service_3y4my2r';
+  const EMAILJS_TEMPLATE_TO_LEVEL = 'template_jnkhrvh';
+  const EMAILJS_TEMPLATE_AUTO_REPLY = 'template_brnzty1';
+  const EMAILJS_PUBLIC_KEY = 'YZEUywDpGdF8ypKDn';
+  const RECAPTCHA_SITE_KEY = '6LeCRlIsAAAAAGPZzNsKcCRa_BSgy6ICxaSAh1wm';
+  const HELP_EMAIL = 'help@leveldesignagency.com';
 
   const TRAIL_PRESETS = {
     nav: { service: '', package: '', budget: '', summary: '', message: '' },
@@ -183,6 +191,146 @@
     return (root || document).querySelector(sel);
   }
 
+  function mailtoLink(subject) {
+    return (
+      '<a href="mailto:' +
+      HELP_EMAIL +
+      '?subject=' +
+      encodeURIComponent(subject || 'Project enquiry') +
+      '">' +
+      HELP_EMAIL +
+      '</a>'
+    );
+  }
+
+  function showMessage(el, text, type) {
+    if (!el) return;
+    el.innerHTML = text;
+    el.className = 'form-message ' + (type || '');
+    el.style.display = 'block';
+    el.setAttribute('role', 'alert');
+    try {
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } catch (_) {}
+  }
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector('script[data-form-lib="' + src + '"]') ||
+        document.querySelector('script[src="' + src + '"]');
+      if (existing) {
+        if (existing.dataset.loaded === 'true' || existing.getAttribute('data-loaded') === 'true') {
+          resolve();
+          return;
+        }
+        existing.addEventListener('load', () => resolve(), { once: true });
+        existing.addEventListener('error', () => reject(new Error('Failed to load ' + src)), { once: true });
+        // Already in DOM from a prior page script — give it a moment, then resolve anyway
+        setTimeout(() => resolve(), 800);
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = src;
+      script.async = true;
+      script.dataset.formLib = src;
+      script.onload = () => {
+        script.dataset.loaded = 'true';
+        resolve();
+      };
+      script.onerror = () => reject(new Error('Failed to load ' + src));
+      document.head.appendChild(script);
+    });
+  }
+
+  let libsPromise = null;
+
+  function ensureLibs() {
+    if (typeof window.ensureFormLibs === 'function') {
+      return window.ensureFormLibs();
+    }
+    if (!libsPromise) {
+      libsPromise = Promise.all([
+        loadScript('https://www.google.com/recaptcha/api.js?render=' + RECAPTCHA_SITE_KEY),
+        loadScript('https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js'),
+      ]).then(() => {
+        if (typeof emailjs !== 'undefined' && emailjs.init) {
+          try {
+            emailjs.init(EMAILJS_PUBLIC_KEY);
+          } catch (_) {}
+        }
+      });
+    }
+    return libsPromise;
+  }
+
+  function withTimeout(promise, ms) {
+    return Promise.race([
+      promise,
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms)),
+    ]);
+  }
+
+  async function getRecaptchaToken() {
+    try {
+      if (typeof window.executeRecaptcha === 'function') {
+        return await withTimeout(window.executeRecaptcha(), 2500);
+      }
+      if (typeof grecaptcha === 'undefined') return null;
+      await withTimeout(
+        new Promise((resolve) => {
+          if (grecaptcha.ready) grecaptcha.ready(resolve);
+          else resolve();
+        }),
+        2500
+      );
+      return await withTimeout(
+        grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'start_project' }),
+        2500
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function checkRateLimitOnly() {
+    const KEY = 'form_submission_times';
+    const MAX = 5;
+    const WINDOW = 60 * 60 * 1000;
+    try {
+      const now = Date.now();
+      let times = JSON.parse(localStorage.getItem(KEY) || '[]').filter((t) => now - t < WINDOW);
+      if (times.length >= MAX) {
+        return {
+          allowed: false,
+          remainingTime: Math.max(1, Math.ceil((WINDOW - (now - times[0])) / 60000)),
+        };
+      }
+      return { allowed: true };
+    } catch (_) {
+      return { allowed: true };
+    }
+  }
+
+  function recordSuccessfulSubmit() {
+    const KEY = 'form_submission_times';
+    const WINDOW = 60 * 60 * 1000;
+    try {
+      const now = Date.now();
+      let times = JSON.parse(localStorage.getItem(KEY) || '[]').filter((t) => now - t < WINDOW);
+      times.push(now);
+      localStorage.setItem(KEY, JSON.stringify(times));
+    } catch (_) {}
+  }
+
+  function sanitize(value) {
+    if (typeof window.sanitizeInput === 'function') return window.sanitizeInput(String(value || ''));
+    return String(value || '').replace(/[<>]/g, '').trim();
+  }
+
+  function validEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
+  }
+
   function initCustomSelect(root) {
     const trigger = $('.field-select-trigger', root);
     const menu = $('.field-select-menu', root);
@@ -203,14 +351,13 @@
 
     function setValue(value, label, silent) {
       hidden.value = value;
-      trigger.querySelector('.field-select-value').textContent = label;
+      const labelEl = trigger.querySelector('.field-select-value');
+      if (labelEl) labelEl.textContent = label;
       options.forEach((opt) => {
         opt.setAttribute('aria-selected', opt.getAttribute('data-value') === value ? 'true' : 'false');
       });
       root.classList.toggle('has-value', Boolean(value));
-      if (!silent) {
-        hidden.dispatchEvent(new Event('change', { bubbles: true }));
-      }
+      if (!silent) hidden.dispatchEvent(new Event('change', { bubbles: true }));
     }
 
     trigger.addEventListener('click', (e) => {
@@ -246,25 +393,13 @@
     if (trailRaw) trailRaw.value = trailKey;
 
     if (preset.service && serviceSelect && serviceSelect._setSelectValue) {
-      serviceSelect._setSelectValue(
-        preset.service,
-        SERVICE_LABELS[preset.service] || preset.service,
-        true
-      );
+      serviceSelect._setSelectValue(preset.service, SERVICE_LABELS[preset.service] || preset.service, true);
     }
     if (preset.package && packageSelect && packageSelect._setSelectValue) {
-      packageSelect._setSelectValue(
-        preset.package,
-        PACKAGE_LABELS[preset.package] || preset.package,
-        true
-      );
+      packageSelect._setSelectValue(preset.package, PACKAGE_LABELS[preset.package] || preset.package, true);
     }
-    if (budget && preset.budget && !budget.value.trim()) {
-      budget.value = preset.budget;
-    }
-    if (message && preset.message && !message.value.trim()) {
-      message.value = preset.message;
-    }
+    if (budget && preset.budget && !budget.value.trim()) budget.value = preset.budget;
+    if (message && preset.message && !message.value.trim()) message.value = preset.message;
 
     const params = new URLSearchParams(window.location.search);
     const intent = params.get('intent');
@@ -292,25 +427,38 @@
 
   function buildMessagePayload(form) {
     const get = (name) => {
-      const el = form.querySelector(`[name="${name}"]`);
+      const el = form.querySelector('[name="' + name + '"]');
       return el ? String(el.value || '').trim() : '';
     };
     const service = get('service');
     const pkg = get('package');
     const timeline = get('timeline');
-    const lines = [
+    return [
       '--- Project brief ---',
-      `Service: ${SERVICE_LABELS[service] || service || '—'}`,
-      `Package: ${PACKAGE_LABELS[pkg] || pkg || '—'}`,
-      `Budget: ${get('budget') || '—'}`,
-      `Timeline: ${TIMELINE_LABELS[timeline] || timeline || '—'}`,
-      `Company: ${get('company') || '—'}`,
-      `Phone: ${get('phone') || '—'}`,
-      `Source key: ${get('trail_raw') || '—'}`,
+      'Service: ' + (SERVICE_LABELS[service] || service || '—'),
+      'Package: ' + (PACKAGE_LABELS[pkg] || pkg || '—'),
+      'Budget: ' + (get('budget') || '—'),
+      'Timeline: ' + (TIMELINE_LABELS[timeline] || timeline || '—'),
+      'Company: ' + (get('company') || '—'),
+      'Phone: ' + (get('phone') || '—'),
+      'Source key: ' + (get('trail_raw') || '—'),
       '',
       get('message'),
-    ];
-    return lines.join('\n');
+    ].join('\n');
+  }
+
+  function validate(form) {
+    const errors = [];
+    const name = sanitize((form.querySelector('[name="name"]') || {}).value || '');
+    const email = sanitize((form.querySelector('[name="email"]') || {}).value || '').toLowerCase();
+    const note = String((form.querySelector('[name="message"]') || {}).value || '').trim();
+
+    if (name.length < 2) errors.push('Enter your name (at least 2 characters).');
+    if (!validEmail(email)) errors.push('Enter a valid email address.');
+    if (note.length < 10) errors.push('Add a short project note (at least 10 characters).');
+    if (note.length > 2000) errors.push('Project note is too long (max 2000 characters).');
+
+    return { ok: errors.length === 0, errors, name, email, note };
   }
 
   function initForm() {
@@ -324,7 +472,7 @@
       params.get('trail') ||
       params.get('from') ||
       (params.get('service')
-        ? `services/${params.get('service')}${params.get('tier') ? '/pricing/' + params.get('tier') : '/hero'}`
+        ? 'services/' + params.get('service') + (params.get('tier') ? '/pricing/' + params.get('tier') : '/hero')
         : '');
     if (trail) applyTrail(trail);
 
@@ -364,109 +512,137 @@
     const formMessage = document.getElementById('form-message');
 
     const preload = () => {
-      if (typeof window.ensureFormLibs === 'function') window.ensureFormLibs().catch(() => {});
+      ensureLibs().catch(() => {});
     };
     form.addEventListener('focusin', preload, { once: true });
     if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver((entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          preload();
-          io.disconnect();
-        }
-      }, { rootMargin: '200px 0px' });
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            preload();
+            io.disconnect();
+          }
+        },
+        { rootMargin: '200px 0px' }
+      );
       io.observe(form);
+    } else {
+      preload();
     }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!submitBtn || !submitText || !formMessage) return;
+      e.stopPropagation();
 
-      try {
-        if (typeof window.ensureFormLibs === 'function') await window.ensureFormLibs();
-      } catch (_) {
-        formMessage.textContent = 'Form service failed to load. Please email help@leveldesignagency.com directly.';
-        formMessage.className = 'form-message error';
-        formMessage.style.display = 'block';
-        return;
-      }
-
-      if (typeof emailjs === 'undefined') {
-        formMessage.textContent = 'Form service is not configured. Please email help@leveldesignagency.com.';
-        formMessage.className = 'form-message error';
-        formMessage.style.display = 'block';
+      if (!submitBtn || !submitText || !formMessage) {
+        window.location.href = 'mailto:' + HELP_EMAIL + '?subject=' + encodeURIComponent('Project enquiry');
         return;
       }
 
       const honeypot = form.querySelector('input[name="company_fax"]');
-      if (honeypot && honeypot.value.trim() !== '') return;
-
-      const sanitize = window.sanitizeInput || ((v) => String(v || '').trim());
-      const name = sanitize((form.querySelector('[name="name"]') || {}).value || '');
-      const email = sanitize((form.querySelector('[name="email"]') || {}).value || '').toLowerCase();
-      const messageBody = sanitize(buildMessagePayload(form));
-
-      if (name.length < 2 || !email.includes('@') || (form.querySelector('[name="message"]') || {}).value.trim().length < 10) {
-        formMessage.textContent = 'Please complete name, email, and a short project note.';
-        formMessage.className = 'form-message error';
-        formMessage.style.display = 'block';
+      if (honeypot && honeypot.value.trim() !== '') {
+        showMessage(formMessage, 'Thanks — we will be in touch shortly.', 'success');
         return;
       }
 
-      if (typeof window.checkRateLimit === 'function') {
-        const rateLimit = window.checkRateLimit();
-        if (!rateLimit.allowed) {
-          formMessage.textContent = `Too many submissions. Please wait ${rateLimit.remainingTime} minutes before trying again.`;
-          formMessage.className = 'form-message error';
-          formMessage.style.display = 'block';
-          return;
-        }
+      const result = validate(form);
+      if (!result.ok) {
+        showMessage(
+          formMessage,
+          result.errors.join(' ') + ' Or email us at ' + mailtoLink('Project enquiry') + '.',
+          'error'
+        );
+        return;
+      }
+
+      const rate = checkRateLimitOnly();
+      if (!rate.allowed) {
+        showMessage(
+          formMessage,
+          'Too many submissions. Please wait about ' +
+            rate.remainingTime +
+            ' minutes, or email ' +
+            mailtoLink('Project enquiry') +
+            '.',
+          'error'
+        );
+        return;
       }
 
       submitBtn.disabled = true;
       submitText.textContent = 'Sending...';
       formMessage.style.display = 'none';
 
-      let recaptchaToken = null;
       try {
-        if (typeof window.executeRecaptcha === 'function') {
-          recaptchaToken = await window.executeRecaptcha();
-        }
+        await withTimeout(ensureLibs(), 10000);
       } catch (_) {
-        recaptchaToken = null;
+        showMessage(
+          formMessage,
+          'Could not load the form service. Please email ' + mailtoLink('Project enquiry') + ' instead.',
+          'error'
+        );
+        submitBtn.disabled = false;
+        submitText.textContent = 'Send brief';
+        return;
       }
 
+      if (typeof emailjs === 'undefined' || !emailjs.send) {
+        showMessage(
+          formMessage,
+          'Form service is unavailable. Please email ' + mailtoLink('Project enquiry') + ' directly.',
+          'error'
+        );
+        submitBtn.disabled = false;
+        submitText.textContent = 'Send brief';
+        return;
+      }
+
+      const messageBody = sanitize(buildMessagePayload(form));
+      const recaptchaToken = await getRecaptchaToken();
+
+      const payload = {
+        from_name: result.name,
+        from_email: result.email,
+        message: messageBody,
+        reply_to: result.email,
+      };
+      if (recaptchaToken) payload.recaptcha_token = recaptchaToken;
+
       try {
-        const emailDataToYou = {
-          from_name: name,
-          from_email: email,
-          message: messageBody,
-          reply_to: email,
-        };
-        if (recaptchaToken) emailDataToYou.recaptcha_token = recaptchaToken;
+        await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_TO_LEVEL, payload);
+        try {
+          await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_AUTO_REPLY, {
+            name: result.name,
+            from_email: result.email,
+            email: result.email,
+            message: messageBody,
+            reply_to: result.email,
+          });
+        } catch (_) {
+          // Auto-reply failure should not fail the enquiry
+        }
 
-        await emailjs.send('service_3y4my2r', 'template_jnkhrvh', emailDataToYou);
-        await emailjs.send('service_3y4my2r', 'template_brnzty1', {
-          name: name,
-          from_email: email,
-          email: email,
-          message: messageBody,
-          reply_to: email,
-        });
-
-        formMessage.textContent = "Message sent. We'll get back to you soon.";
-        formMessage.className = 'form-message success';
-        formMessage.style.display = 'block';
+        recordSuccessfulSubmit();
+        showMessage(formMessage, "Message sent. We'll get back to you soon.", 'success');
         form.reset();
         document.querySelectorAll('.field-select').forEach((sel) => {
           if (sel._setSelectValue) sel._setSelectValue('', 'Select…', true);
         });
         const banner = document.getElementById('trail-banner');
         if (banner) banner.hidden = true;
-        setTimeout(() => { formMessage.style.display = 'none'; }, 5000);
+        setTimeout(() => {
+          formMessage.style.display = 'none';
+        }, 6000);
       } catch (err) {
-        formMessage.textContent = 'Sorry, something went wrong. Email help@leveldesignagency.com directly.';
-        formMessage.className = 'form-message error';
-        formMessage.style.display = 'block';
+        const detail = (err && (err.text || err.message)) ? String(err.text || err.message) : '';
+        showMessage(
+          formMessage,
+          'Sorry, we could not send that. Please try again or email ' +
+            mailtoLink('Project enquiry') +
+            '.' +
+            (detail ? ' <span class="form-message-detail">(' + detail.replace(/[<>]/g, '') + ')</span>' : ''),
+          'error'
+        );
       }
 
       submitBtn.disabled = false;
