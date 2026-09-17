@@ -93,6 +93,16 @@
   opacity: 0.8;
 }
 
+.field-label {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .field-currency {
   position: relative;
   display: block;
