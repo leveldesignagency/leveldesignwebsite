@@ -144,8 +144,7 @@
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="image" href="public/hero-spotlight/ontimely.jpg" fetchpriority="high">
-    <link rel="preload" as="image" href="public/heroes/eye.webp" type="image/webp" fetchpriority="high" />
+    <!-- Intentionally no early image preloads here — unused preload warnings + lazy/hero ambient load on demand -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=20260918m" />
     <link rel="stylesheet" href="revamp.css?v=20260918d" />
@@ -784,7 +783,7 @@
                                 <a href="https://www.ontimely.co.uk" class="btn primary hero-spotlight-cta" target="_blank" rel="noopener noreferrer">View live →</a>
                             </div>
                             <div class="hero-spotlight-media">
-                                <img src="public/hero-spotlight/ontimely.jpg" alt="OnTimely event management platform" width="1200" height="675" loading="lazy" decoding="async" />
+                                <img src="public/hero-spotlight/ontimely.jpg" alt="OnTimely event management platform" width="1200" height="675" decoding="async" />
                             </div>
                         </div>
                     </article>
@@ -1756,7 +1755,7 @@
     <script src="site-magnifier.js?v=20260831v" defer></script>
     <script src="services-gallery.js?v=20260918a" defer></script>
     <script src="projects-gallery.js" defer></script>
-    <script src="script.js?v=20260918s" defer></script>
+    <script src="script.js?v=20260918t" defer></script>
 </body>
 </html>
 

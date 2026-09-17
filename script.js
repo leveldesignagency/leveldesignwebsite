@@ -886,16 +886,46 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
-  // Auto-select first tab on page load (desktop only)
+  // Mark first tab active on desktop, but only load the iframe when the section is visible
   if (!isMobile && tabButtons.length > 0) {
     const defaultButton =
       Array.from(tabButtons).find((btn) => btn.getAttribute('data-tab') === 'richtons') ||
       tabButtons[0];
     if (defaultButton) {
-      setTimeout(() => {
-        defaultButton.click();
-        requestAnimationFrame(scaleVisibleWebviews);
-      }, 100);
+      const targetTab = defaultButton.getAttribute('data-tab');
+      const targetPanel = document.getElementById(`tab-${targetTab}`);
+      tabButtons.forEach((btn) => btn.classList.remove('active'));
+      tabPanels.forEach((panel) => {
+        panel.classList.remove('active');
+        panel.style.display = 'none';
+      });
+      defaultButton.classList.add('active');
+      if (targetPanel) {
+        targetPanel.style.display = '';
+        targetPanel.style.height = '';
+        targetPanel.style.opacity = '';
+        targetPanel.classList.add('active');
+      }
+
+      const loadDefault = () => {
+        if (targetPanel) {
+          loadIframe(targetPanel);
+          requestAnimationFrame(scaleVisibleWebviews);
+        }
+      };
+
+      const section = document.querySelector('#projects-webview');
+      if (section && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            loadDefault();
+            io.disconnect();
+          }
+        }, { rootMargin: '100px 0px' });
+        io.observe(section);
+      } else {
+        setTimeout(loadDefault, 500);
+      }
     }
   }
 
@@ -1127,6 +1157,46 @@ window.checkRateLimit = checkRateLimit;
 window.recordFormSubmission = recordFormSubmission;
 window.executeRecaptcha = executeRecaptcha;
 
+/**
+ * Shared EmailJS send — same service + templates as the homepage contact form.
+ * Sends enquiry to LEVEL, then customer auto-reply.
+ */
+window.sendLevelEnquiry = async function sendLevelEnquiry({ name, email, message, recaptchaToken }) {
+  await ensureFormLibs();
+  if (typeof emailjs === 'undefined' || typeof emailjs.send !== 'function') {
+    throw new Error('Form service is not configured');
+  }
+
+  const fromName = sanitizeInput(name);
+  const fromEmail = sanitizeInput(email).toLowerCase().trim();
+  const body = sanitizeInput(message);
+
+  const emailDataToYou = {
+    from_name: fromName,
+    from_email: fromEmail,
+    message: body,
+    reply_to: fromEmail,
+  };
+  if (recaptchaToken) emailDataToYou.recaptcha_token = recaptchaToken;
+
+  await emailjs.send('service_3y4my2r', 'template_jnkhrvh', emailDataToYou);
+
+  try {
+    await emailjs.send('service_3y4my2r', 'template_brnzty1', {
+      name: fromName,
+      from_email: fromEmail,
+      email: fromEmail,
+      message: body,
+      reply_to: fromEmail,
+    });
+  } catch (_) {
+    // Auto-reply failure should not fail the enquiry
+  }
+
+  if (typeof recordFormSubmission === 'function') recordFormSubmission();
+  return true;
+};
+
 document.addEventListener('DOMContentLoaded', function() {
   const contactForm = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submit-btn');
@@ -1228,65 +1298,27 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       try {
-        // Send email using EmailJS
-        const SERVICE_ID = 'service_3y4my2r';
-        const TEMPLATE_ID_TO_YOU = 'template_jnkhrvh'; // Email to you
-        const TEMPLATE_ID_AUTO_REPLY = 'template_brnzty1'; // Auto-reply to customer
-        
-        // Prepare email data with reCAPTCHA token (if available)
-        const emailDataToYou = {
-          from_name: formData.name,
-          from_email: formData.email,
+        await window.sendLevelEnquiry({
+          name: formData.name,
+          email: formData.email,
           message: formData.message,
-          reply_to: formData.email
-        };
+          recaptchaToken: recaptchaToken,
+        });
         
-        // Add reCAPTCHA token if available (for logging/monitoring)
-        if (recaptchaToken) {
-          emailDataToYou.recaptcha_token = recaptchaToken;
-        }
-        
-        // Send email to you (with sanitized data)
-        await emailjs.send(
-          SERVICE_ID,
-          TEMPLATE_ID_TO_YOU,
-          emailDataToYou
-        );
-        
-        // Send auto-reply to customer
-        await emailjs.send(
-          SERVICE_ID,
-          TEMPLATE_ID_AUTO_REPLY,
-          {
-            name: formData.name,
-            from_email: formData.email,
-            email: formData.email,
-            message: formData.message,
-            reply_to: formData.email
-          }
-        );
-        
-        // Success message
-        formMessage.textContent = 'Message sent successfully! We\'ll get back to you soon.';
+        formMessage.textContent = "Sent. We'll get back to you soon.";
         formMessage.className = 'form-message success';
         formMessage.style.display = 'block';
         
-        if (typeof recordFormSubmission === 'function') recordFormSubmission();
-
-        // Reset form
         contactForm.reset();
         
-        // Re-enable submit button
         submitBtn.disabled = false;
         submitText.textContent = 'Send Message';
         
-        // Hide success message after 5 seconds
         setTimeout(() => {
           formMessage.style.display = 'none';
         }, 5000);
         
       } catch (error) {
-        // More detailed error message
         let errorMsg = 'Sorry, there was an error sending your message. Please try again or email <a href="mailto:help@leveldesignagency.com">help@leveldesignagency.com</a>.';
         if (error && error.text) {
           errorMsg += ` (${error.text})`;
@@ -1298,7 +1330,6 @@ document.addEventListener('DOMContentLoaded', function() {
         formMessage.className = 'form-message error';
         formMessage.style.display = 'block';
         
-        // Re-enable submit button
         submitBtn.disabled = false;
         submitText.textContent = 'Send Message';
       }

@@ -5,9 +5,6 @@
 (function () {
   'use strict';
 
-  const EMAILJS_SERVICE = 'service_3y4my2r';
-  const EMAILJS_TEMPLATE_TO_LEVEL = 'template_jnkhrvh';
-  const EMAILJS_TEMPLATE_AUTO_REPLY = 'template_brnzty1';
   const EMAILJS_PUBLIC_KEY = 'YZEUywDpGdF8ypKDn';
   const RECAPTCHA_SITE_KEY = '6LeCRlIsAAAAAGPZzNsKcCRa_BSgy6ICxaSAh1wm';
   const HELP_EMAIL = 'help@leveldesignagency.com';
@@ -512,7 +509,8 @@
     const formMessage = document.getElementById('form-message');
 
     const preload = () => {
-      ensureLibs().catch(() => {});
+      if (typeof window.ensureFormLibs === 'function') window.ensureFormLibs().catch(() => {});
+      else ensureLibs().catch(() => {});
     };
     form.addEventListener('focusin', preload, { once: true });
     if ('IntersectionObserver' in window) {
@@ -531,7 +529,7 @@
     }
 
     form.addEventListener('focusin', () => {
-      const hp = form.querySelector('input[name="website_confirm"]');
+      const hp = form.querySelector('input[name="company_fax"]');
       if (hp) hp.value = '';
     });
 
@@ -544,9 +542,8 @@
         return;
       }
 
-      const honeypot = form.querySelector('input[name="website_confirm"]');
+      const honeypot = form.querySelector('input[name="company_fax"]');
       if (honeypot && honeypot.value.trim() !== '') {
-        // Silent bot trap — do not show a fake success to real users
         return;
       }
 
@@ -578,56 +575,24 @@
       submitText.textContent = 'Sending...';
       formMessage.style.display = 'none';
 
-      try {
-        await withTimeout(ensureLibs(), 10000);
-      } catch (_) {
-        showMessage(
-          formMessage,
-          'Could not load the form service. Please email ' + mailtoLink('Project enquiry') + ' instead.',
-          'error'
-        );
-        submitBtn.disabled = false;
-        submitText.textContent = 'Send brief';
-        return;
-      }
-
-      if (typeof emailjs === 'undefined' || !emailjs.send) {
-        showMessage(
-          formMessage,
-          'Form service is unavailable. Please email ' + mailtoLink('Project enquiry') + ' directly.',
-          'error'
-        );
-        submitBtn.disabled = false;
-        submitText.textContent = 'Send brief';
-        return;
-      }
-
       const messageBody = sanitize(buildMessagePayload(form));
       const recaptchaToken = await getRecaptchaToken();
 
-      const payload = {
-        from_name: result.name,
-        from_email: result.email,
-        message: messageBody,
-        reply_to: result.email,
-      };
-      if (recaptchaToken) payload.recaptcha_token = recaptchaToken;
-
       try {
-        await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_TO_LEVEL, payload);
-        try {
-          await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_AUTO_REPLY, {
-            name: result.name,
-            from_email: result.email,
-            email: result.email,
-            message: messageBody,
-            reply_to: result.email,
-          });
-        } catch (_) {
-          // Auto-reply failure should not fail the enquiry
+        if (typeof window.sendLevelEnquiry !== 'function') {
+          await withTimeout(ensureLibs(), 10000);
+          if (typeof window.sendLevelEnquiry !== 'function') {
+            throw new Error('Form service unavailable');
+          }
         }
 
-        recordSuccessfulSubmit();
+        await window.sendLevelEnquiry({
+          name: result.name,
+          email: result.email,
+          message: messageBody,
+          recaptchaToken: recaptchaToken,
+        });
+
         showMessage(formMessage, "Sent. We'll get back to you soon.", 'success');
         form.reset();
         document.querySelectorAll('.field-select').forEach((sel) => {
