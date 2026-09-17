@@ -530,6 +530,11 @@
       preload();
     }
 
+    form.addEventListener('focusin', () => {
+      const hp = form.querySelector('input[name="website_confirm"]');
+      if (hp) hp.value = '';
+    });
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -539,9 +544,9 @@
         return;
       }
 
-      const honeypot = form.querySelector('input[name="company_fax"]');
+      const honeypot = form.querySelector('input[name="website_confirm"]');
       if (honeypot && honeypot.value.trim() !== '') {
-        showMessage(formMessage, 'Thanks — we will be in touch shortly.', 'success');
+        // Silent bot trap — do not show a fake success to real users
         return;
       }
 
@@ -623,7 +628,7 @@
         }
 
         recordSuccessfulSubmit();
-        showMessage(formMessage, "Message sent. We'll get back to you soon.", 'success');
+        showMessage(formMessage, "Sent. We'll get back to you soon.", 'success');
         form.reset();
         document.querySelectorAll('.field-select').forEach((sel) => {
           if (sel._setSelectValue) sel._setSelectValue('', 'Select…', true);
