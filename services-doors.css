@@ -470,17 +470,39 @@
   font-size: 1.05rem;
   line-height: 1.65;
   color: var(--door-muted);
+  text-align: left;
 }
 
+/* Intro: title left, body underneath but flush to the right edge */
 .door-split {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(28px, 5vw, 64px);
+  grid-template-columns: 1fr;
+  gap: clamp(18px, 2.5vw, 28px);
   align-items: start;
 }
 
 .door-split--wide-right {
-  grid-template-columns: 0.9fr 1.1fr;
+  grid-template-columns: 1fr;
+}
+
+.door-split > .door-section-text,
+.door-split--wide-right > .door-section-text {
+  width: min(54ch, 52%);
+  max-width: min(54ch, 52%);
+  margin-left: auto;
+  margin-right: 0;
+  justify-self: end;
+  text-align: left;
+}
+
+@media (max-width: 980px) {
+  .door-split > .door-section-text,
+  .door-split--wide-right > .door-section-text {
+    width: 100%;
+    max-width: 54ch;
+    margin-left: 0;
+    justify-self: start;
+  }
 }
 
 /* Outcomes / pillars, flat borders, no cards-as-glass */
