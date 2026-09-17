@@ -642,7 +642,10 @@
     if (subhead) subhead.textContent = variant.subhead;
     if (cta) {
       cta.textContent = variant.cta;
-      cta.href = '#contact-title';
+      var qs = 'trail=home/hero';
+      if (intentKey) qs += '&intent=' + encodeURIComponent(String(intentKey));
+      if (locationId) qs += '&location=' + encodeURIComponent(String(locationId));
+      cta.href = '/start-a-project?' + qs;
       const note = encodeURIComponent(
         `Interest: ${intentKey}${locationId ? ' / ' + locationId : ''} - ${variant.kicker}`
       );

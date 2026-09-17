@@ -1089,6 +1089,12 @@ function ensureFormLibs() {
   return formLibsPromise;
 }
 
+window.ensureFormLibs = ensureFormLibs;
+window.sanitizeInput = sanitizeInput;
+window.validateFormData = validateFormData;
+window.checkRateLimit = checkRateLimit;
+window.executeRecaptcha = executeRecaptcha;
+
 document.addEventListener('DOMContentLoaded', function() {
   const contactForm = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submit-btn');

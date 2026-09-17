@@ -1,0 +1,302 @@
+/* Start a project page + thinner form fields */
+
+.start-project-page {
+  background: var(--bg, #0e0e12);
+  color: var(--text, #f4f4f5);
+}
+
+.start-project-main {
+  padding-top: 5.5rem;
+  padding-bottom: 4rem;
+}
+
+.start-project-hero {
+  padding: 2.5rem 0 1.5rem;
+}
+
+.start-project-kicker {
+  margin: 0 0 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted, #9a9aa3);
+}
+
+.start-project-title {
+  margin: 0 0 0.75rem;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(2.75rem, 8vw, 4.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  font-weight: 400;
+}
+
+.start-project-lead {
+  margin: 0;
+  max-width: 36rem;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--muted, #9a9aa3);
+}
+
+.start-project-trail-banner {
+  margin: 1.25rem 0 0;
+  padding: 0.65rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.9rem;
+  color: var(--muted, #9a9aa3);
+}
+
+.start-project-trail-banner strong {
+  color: var(--text, #f4f4f5);
+  font-weight: 600;
+}
+
+.start-project-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.75fr);
+  gap: 3rem;
+  align-items: start;
+  padding-top: 1.5rem;
+}
+
+.start-project-form {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.start-project-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.start-project-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.start-project-form .form-row .form-group {
+  margin-bottom: 0;
+}
+
+.start-project-form .optional {
+  font-style: normal;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--muted, #9a9aa3);
+  opacity: 0.8;
+}
+
+.field-label {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.honeypot-field {
+  position: absolute !important;
+  left: -9999px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  width: 0 !important;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Custom select */
+.field-select {
+  position: relative;
+}
+
+.field-select-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 14px 16px;
+  border-radius: 0;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: var(--bg, #0e0e12);
+  color: var(--text, #f4f4f5);
+  font: inherit;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-select:not(.has-value) .field-select-value {
+  color: #666666;
+}
+
+.field-select-chevron {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.55;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.field-select.is-open .field-select-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.field-select.is-open .field-select-trigger,
+.field-select-trigger:focus {
+  outline: none;
+  border-color: var(--brand, #ff2d2d);
+  box-shadow: 0 0 0 1px rgba(255, 45, 45, 0.35);
+}
+
+.field-select-menu {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0.35rem 0;
+  list-style: none;
+  background: #121218;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  max-height: 16rem;
+  overflow: auto;
+}
+
+.field-select-menu--tall {
+  max-height: 18rem;
+}
+
+.field-select.is-open .field-select-menu {
+  display: block;
+}
+
+.field-select:not(.is-open) .field-select-menu {
+  display: none !important;
+}
+
+.field-select-menu [data-value] {
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--text, #f4f4f5);
+}
+
+.field-select-menu [data-value]:hover,
+.field-select-menu [data-value][aria-selected="true"] {
+  background: rgba(255, 45, 45, 0.12);
+  color: #fff;
+}
+
+.start-project-aside {
+  padding-top: 0.25rem;
+}
+
+.start-project-aside h2 {
+  margin: 0 0 1rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.start-project-steps {
+  margin: 0 0 1.5rem;
+  padding-left: 1.15rem;
+  color: var(--muted, #9a9aa3);
+  line-height: 1.55;
+}
+
+.start-project-steps li + li {
+  margin-top: 0.55rem;
+}
+
+.start-project-aside-note {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted, #9a9aa3);
+}
+
+.start-project-aside-note a {
+  color: var(--text, #f4f4f5);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 860px) {
+  .start-project-layout {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .start-project-form .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .start-project-aside {
+    order: -1;
+  }
+}
+
+/* Thinner form borders — page + sitewide override */
+.start-project-page input:not([type="checkbox"]):not([type="radio"]):not(.honeypot-field),
+.start-project-page textarea,
+.contact-form input:not([type="checkbox"]):not([type="radio"]),
+.contact-form textarea,
+#contact input:not([type="checkbox"]):not([type="radio"]),
+#contact textarea {
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.35);
+  box-shadow: none;
+}
+
+.dark-mode .start-project-page input:not([type="checkbox"]):not([type="radio"]):not(.honeypot-field),
+.dark-mode .start-project-page textarea,
+.dark-mode .contact-form input:not([type="checkbox"]):not([type="radio"]),
+.dark-mode .contact-form textarea,
+.dark-mode #contact input:not([type="checkbox"]):not([type="radio"]),
+.dark-mode #contact textarea,
+html.dark-mode input:not([type="checkbox"]):not([type="radio"]),
+html.dark-mode textarea {
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.start-project-page input:focus,
+.start-project-page textarea:focus,
+.contact-form input:focus,
+.contact-form textarea:focus,
+#contact input:focus,
+#contact textarea:focus,
+html.dark-mode input:focus,
+html.dark-mode textarea:focus {
+  outline: none;
+  border-color: var(--brand, #ff2d2d);
+  box-shadow: 0 0 0 1px rgba(255, 45, 45, 0.35);
+  transform: none;
+  background: rgba(255, 255, 255, 0.03);
+}

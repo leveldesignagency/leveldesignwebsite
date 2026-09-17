@@ -818,7 +818,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   font-family: Inter, system-ui, sans-serif;
   font-size: 1rem;
   line-height: 1.65;
-  color: var(--muted);
+  color: #ffffff;
   margin: 0 0 28px 0;
   max-width: 46ch;
 }
@@ -1282,6 +1282,16 @@ body:not(.dark-mode) .hero-image-wrapper[data-service="videography services"] {
   color: var(--muted);
   margin: 0;
   padding: 0;
+}
+.section-title-block-wrap .section-title-lead a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.2s ease;
+}
+.section-title-block-wrap .section-title-lead a:hover {
+  color: var(--brand);
 }
 .dark-mode .section-title-block-wrap {
   border-top-color: var(--border);
@@ -4362,35 +4372,35 @@ body:not(.dark-mode) .review-tile {
 
 input, textarea { 
   width: 100%; 
-  padding: 16px 18px; 
+  padding: 14px 16px; 
   border-radius: 0; 
-  border: 1px solid #000000; /* Black border in light mode */
+  border: 1px solid rgba(0, 0, 0, 0.35);
   background: var(--bg); 
   color: var(--text); 
   font: inherit; 
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   font-size: 16px;
 }
 
-/* Dark mode form inputs - white border */
+/* Dark mode form inputs — thin soft border */
 .dark-mode input,
 .dark-mode textarea {
-  border: 1px solid #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
 }
 
 input:focus, textarea:focus { 
   outline: none;
   border-color: var(--brand);
   background: rgba(255,255,255,.05);
-  box-shadow: 0 0 0 3px rgba(255, 45, 45, 0.15);
-  transform: translateY(-1px); /* Subtle lift on focus */
+  box-shadow: 0 0 0 1px rgba(255, 45, 45, 0.35);
+  transform: none;
 }
 
 /* Dark mode form focus */
 .dark-mode input:focus,
 .dark-mode textarea:focus {
   background: rgba(0,0,0,.1);
-  box-shadow: 0 0 0 3px rgba(255, 45, 45, 0.2);
+  box-shadow: 0 0 0 1px rgba(255, 45, 45, 0.35);
 }
 
 input::placeholder,
@@ -4403,8 +4413,8 @@ textarea::placeholder {
 input:focus, textarea:focus { 
   outline: none;
   border-color: var(--brand);
-  background: rgba(255,255,255,.1);
-  box-shadow: 0 0 0 2px rgba(255, 45, 45, 0.2);
+  background: rgba(255,255,255,.06);
+  box-shadow: 0 0 0 1px rgba(255, 45, 45, 0.35);
 }
 
 /* Dark mode form inputs */
