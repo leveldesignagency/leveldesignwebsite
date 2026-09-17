@@ -441,8 +441,9 @@ body:not(.dark-mode) .site-footer .footer-logo-link .footer-logo {
 
 /* ── Legal pages ── */
 .legal-page .legal-main {
-  padding: calc(var(--header-h) + 48px) var(--container-x) clamp(64px, 8vw, 96px);
-  max-width: 780px;
+  /* superseded by legal.css */
+  padding: calc(var(--header-h) + 40px) 0 clamp(56px, 8vw, 88px);
+  max-width: none;
 }
 
 .legal-page .site-footer {

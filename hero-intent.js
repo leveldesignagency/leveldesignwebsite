@@ -185,14 +185,14 @@
 
   const HERO_VARIANTS = {
     default: {
-      kicker: 'Web design · marketing · brand',
-      headline: 'WEBSITES,<br>BRANDS & MARKETING',
+      kicker: 'Web design · SEO · brand',
+      headline: 'SITES THAT<br>WIN THE WORK.',
       subhead:
-        'Premium web design and digital marketing for teams that need qualified enquiries, not vanity traffic.',
+        'Premium web design for teams that need qualified enquiries. Branding, SEO, systems, and marketing when you are ready to scale.',
       cta: 'Start a project',
-      metaTitle: 'Web Design & Marketing Agency | Dartford, Kent & London | LEVEL',
+      metaTitle: 'Web Design Agency | Dartford, Kent & London | LEVEL',
       metaDescription:
-        'Web design, branding and digital marketing for Dartford, Kent and London businesses. Premium websites and campaigns that win qualified enquiries.',
+        'Web design, branding, SEO and marketing for Dartford, Kent and London businesses. Premium websites that win qualified enquiries.',
     },
     'social-media': {
       kicker: 'Social media · content · brand',
@@ -258,7 +258,7 @@
       kicker: 'Construction & trades',
       headline: 'Win better jobs<br>with a site that sells trust.',
       subhead:
-        'Project galleries, capability pages, and local SEO for contractors and builders — plus AI search setup so you show up when prospects ask who to hire.',
+        'Project galleries, capability pages, and local SEO for contractors and builders, plus AI search setup so you show up when prospects ask who to hire.',
       cta: 'Get a construction quote',
       metaTitle: 'Web Design for Construction & Building Firms | LEVEL',
       metaDescription:
@@ -313,6 +313,7 @@
       short: 'Builders & contractors',
       detail:
         'Project proof, tender-ready structure, and AI-friendly service pages so you win work that matches your capability.',
+      funnel: '/industries/construction',
     },
     {
       id: 'trades',
@@ -320,6 +321,7 @@
       short: 'Field & maintenance',
       detail:
         'Local visibility, fast quote paths, and service-area SEO for firms that live on the phone and the van.',
+      funnel: '/industries/trades',
     },
     {
       id: 'fintech',
@@ -327,6 +329,7 @@
       short: 'Finance & payments',
       detail:
         'Product narrative and trust signals for regulated categories, discoverable in search and AI answers.',
+      funnel: '/industries/fintech',
     },
     {
       id: 'golf',
@@ -334,6 +337,7 @@
       short: 'Clubs & venues',
       detail:
         'Membership, events, and booking journeys with brand weight that matches your fee structure.',
+      funnel: '/industries/golf',
     },
     {
       id: 'property',
@@ -341,6 +345,7 @@
       short: 'Land & development',
       detail:
         'Premium positioning and enquiry flows for developments, agencies, and land services.',
+      funnel: '/industries/property',
     },
     {
       id: 'professional',
@@ -348,6 +353,7 @@
       short: 'B2B services',
       detail:
         'Outgrown the old site? Align brand, web, and AI presence with how established you already are.',
+      funnel: '/industries/professional-services',
     },
     {
       id: 'healthcare',
@@ -355,6 +361,7 @@
       short: 'Clinics & practices',
       detail:
         'Calm, credible UX that still drives booking and enquiry, accessible and maintainable.',
+      funnel: '/industries/healthcare',
     },
     {
       id: 'hospitality',
@@ -362,6 +369,7 @@
       short: 'Hotels & venues',
       detail:
         'Atmosphere, reputation, and direct booking, with less dependency on third-party platforms.',
+      funnel: '/industries/hospitality',
     },
   ];
 
@@ -662,9 +670,13 @@
       });
 
       const updateDetail = () => {
+        const funnelLink = market.funnel
+          ? `<p class="market-detail-funnel"><a href="${market.funnel}">View ${market.label.toLowerCase()} funnel →</a></p>`
+          : '';
         detailEl.innerHTML = `
         <p class="market-detail-label">${market.label}</p>
         <p class="market-detail-text">${market.detail}</p>
+        ${funnelLink}
       `;
         detailEl.dataset.market = market.id;
         detailEl.classList.remove('is-switching');

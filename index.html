@@ -105,16 +105,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="image" href="public/hero-spotlight/ontimely.jpg" fetchpriority="high">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20260806a" />
-    <link rel="stylesheet" href="revamp.css?v=20260914a" />
-    <link rel="stylesheet" href="revamp-phase3.css?v=20260806a" />
-    <link rel="stylesheet" href="revamp-phase4.css?v=20260806a" />
-    <link rel="stylesheet" href="revamp-phase5.css?v=20260806a" />
-    <link rel="stylesheet" href="revamp-phase6.css?v=20260806a" />
-    <link rel="stylesheet" href="revamp-phase7.css?v=20260908a" />
-    <link rel="stylesheet" href="revamp-phase8.css?v=20260806a" />
-    <link rel="stylesheet" href="revamp-phase9.css?v=20260806a" />
-    <link rel="stylesheet" href="project.css?v=20260914b" />
+    <link rel="stylesheet" href="styles.css?v=20260917b" />
+    <link rel="stylesheet" href="revamp.css?v=20260917n" />
+    <link rel="stylesheet" href="revamp-phase3.css?v=20260917b" />
+    <link rel="stylesheet" href="revamp-phase4.css?v=20260917b" />
+    <link rel="stylesheet" href="revamp-phase5.css?v=20260917b" />
+    <link rel="stylesheet" href="revamp-phase6.css?v=20260917b" />
+    <link rel="stylesheet" href="revamp-phase7.css?v=20260917b" />
+    <link rel="stylesheet" href="revamp-phase8.css?v=20260917b" />
+    <link rel="stylesheet" href="revamp-phase9.css?v=20260917b" />
+    <link rel="stylesheet" href="project.css?v=20260917e" />
+    <link rel="stylesheet" href="services-doors.css?v=20260917g" />
+    <link rel="stylesheet" href="legal.css?v=20260917n" />
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="alternate icon" href="favicon.png">
     
@@ -660,10 +662,12 @@
                     <span class="bar"></span>
                 </button>
                 <ul id="nav-links" class="nav-links">
-                    <li><a href="#services-title">Services</a></li>
+                    <li><a href="/services/web-design">Web</a></li>
+                    <li><a href="/services/branding">Branding</a></li>
+                    <li><a href="/services/systems">Systems</a></li>
+                    <li><a href="/services/seo">SEO</a></li>
+                    <li><a href="/services/marketing">Marketing</a></li>
                     <li><a href="#work-title">Work</a></li>
-                    <li><a href="#process-title">Process</a></li>
-                    <li class="nav-about-link"><a href="#about">About</a></li>
                     <li><a href="#contact-title" class="cta">Start a project</a></li>
                 </ul>
             </nav>
@@ -684,7 +688,7 @@
     </header>
 
     <main id="main">
-        <section class="hero hero-single" data-animate="fade-up" id="hero-single">
+        <section class="hero hero-single hero-no-cards" data-animate="fade-up" id="hero-single">
             <div class="hero-ambient" aria-hidden="true"></div>
             <div class="container hero-inner hero-shell">
                 <div class="hero-content hero-intro">
@@ -692,78 +696,18 @@
                     <h1 class="headline hero-headline-single" id="hero-headline-mask">
                         <span class="hero-headline-stack" data-hero-headline-stack>
                             <span class="hero-headline-white" data-hero-headline-white>
-                                <span class="hero-headline-line">WEBSITES,</span>
-                                <span class="hero-headline-line">BRANDS & MARKETING</span>
+                                <span class="hero-headline-line">SITES THAT</span>
+                                <span class="hero-headline-line">WIN THE WORK.</span>
                             </span>
                         </span>
                     </h1>
-                    <p class="hero-subhead">Premium web design and AI search optimisation for teams that need qualified enquiries, not vanity traffic.</p>
+                    <p class="hero-subhead">Premium web design for teams that need qualified enquiries. Branding, SEO, systems, and marketing when you are ready to scale.</p>
                     <div class="hero-actions">
                         <a href="#contact-title" class="btn primary hero-cta-single">Start a project</a>
-                        <a href="#work-title" class="btn btn-outline-run hero-cta-secondary">View work →</a>
+                        <a href="#work-title" class="btn btn-outline-run hero-cta-secondary">View work</a>
                     </div>
                 </div>
 
-                <div class="hero-glass-stage" id="hero-glass-stage" aria-label="Selected work previews">
-                    <div class="hero-glass-cards" data-hero-glass-cards>
-                        <a class="hero-glass-card" href="https://www.pocdocs.co.uk/" target="_blank" rel="noopener noreferrer" data-tilt-depth="0.55" data-stack-z="1" style="--card-x: 6%; --card-y: -4%; --card-w: 42%; --card-rz: -10deg;">
-                            <div class="hero-glass-card-frame">
-                                <div class="hero-glass-card-chrome" aria-hidden="true">
-                                    <span class="hero-glass-dot"></span>
-                                    <span class="hero-glass-dot"></span>
-                                    <span class="hero-glass-dot"></span>
-                                </div>
-                                <div class="hero-glass-card-media">
-                                    <img src="public/hero-spotlight/pocdocs.jpg" alt="Pocdocs platform preview" width="800" height="500" loading="eager" decoding="async" />
-                                </div>
-                                <p class="hero-glass-card-label">Pocdocs</p>
-                                <span class="hero-glass-card-shimmer" aria-hidden="true"></span>
-                            </div>
-                        </a>
-                        <a class="hero-glass-card hero-glass-card--lead" href="https://www.ontimely.co.uk" target="_blank" rel="noopener noreferrer" data-tilt-depth="1" data-stack-z="4" style="--card-x: 30%; --card-y: 0%; --card-w: 56%; --card-rz: 4deg;">
-                            <div class="hero-glass-card-frame">
-                                <div class="hero-glass-card-chrome" aria-hidden="true">
-                                    <span class="hero-glass-dot"></span>
-                                    <span class="hero-glass-dot"></span>
-                                    <span class="hero-glass-dot"></span>
-                                </div>
-                                <div class="hero-glass-card-media">
-                                    <img src="public/hero-spotlight/ontimely.jpg" alt="OnTimely platform preview" width="1200" height="675" loading="eager" decoding="async" fetchpriority="high" />
-                                </div>
-                                <p class="hero-glass-card-label">OnTimely</p>
-                                <span class="hero-glass-card-shimmer" aria-hidden="true"></span>
-                            </div>
-                        </a>
-                        <a class="hero-glass-card" href="https://kleenapp.co.uk" target="_blank" rel="noopener noreferrer" data-tilt-depth="0.75" data-stack-z="2" style="--card-x: 2%; --card-y: 26%; --card-w: 44%; --card-rz: -6deg;">
-                            <div class="hero-glass-card-frame">
-                                <div class="hero-glass-card-chrome" aria-hidden="true">
-                                    <span class="hero-glass-dot"></span>
-                                    <span class="hero-glass-dot"></span>
-                                    <span class="hero-glass-dot"></span>
-                                </div>
-                                <div class="hero-glass-card-media">
-                                    <img src="public/kleenbanner.png" alt="KLEEN platform preview" width="800" height="500" loading="lazy" decoding="async" />
-                                </div>
-                                <p class="hero-glass-card-label">KLEEN</p>
-                                <span class="hero-glass-card-shimmer" aria-hidden="true"></span>
-                            </div>
-                        </a>
-                        <a class="hero-glass-card" href="https://chromewebstore.google.com/detail/abmihilkdbamlelkmpfegjfimcjpcihh?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" data-tilt-depth="0.65" data-stack-z="3" style="--card-x: 44%; --card-y: 32%; --card-w: 48%; --card-rz: 8deg;">
-                            <div class="hero-glass-card-frame">
-                                <div class="hero-glass-card-chrome" aria-hidden="true">
-                                    <span class="hero-glass-dot"></span>
-                                    <span class="hero-glass-dot"></span>
-                                    <span class="hero-glass-dot"></span>
-                                </div>
-                                <div class="hero-glass-card-media">
-                                    <img src="public/hero-spotlight/nimbus.jpg" alt="Nimbus extension preview" width="800" height="500" loading="lazy" decoding="async" />
-                                </div>
-                                <p class="hero-glass-card-label">Nimbus</p>
-                                <span class="hero-glass-card-shimmer" aria-hidden="true"></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -1007,7 +951,7 @@
                 <header class="audience-header audience-header--compact markets-section-intro">
                     <p class="audience-kicker">Markets we serve</p>
                     <h2 class="audience-title audience-title--compact" id="markets-heading">High-value sectors.</h2>
-                    <p class="audience-lead audience-lead--compact">Construction, trades, fintech, golf, and property. Web, AI search, and AI support where spend drives revenue.</p>
+                    <p class="audience-lead audience-lead--compact">Construction, trades, fintech, golf, and property. Dedicated funnels for the sectors that need a site that sells trust.</p>
                 </header>
                 <div class="markets-compact">
                     <div class="markets-strip" id="markets-strip" role="group" aria-label="Select a market"></div>
@@ -1028,18 +972,6 @@
                 <article class="deliver-row">
                     <div class="container deliver-row-inner">
                         <div class="deliver-row-copy">
-                            <h3 class="deliver-row-name">Brand &amp; Identity.</h3>
-                            <p class="deliver-row-headline">Logos, typography systems, and visual languages that are distinct and enduring.</p>
-                            <a href="/services/brand-identity" class="btn primary deliver-row-cta">View service →</a>
-                        </div>
-                        <div class="deliver-row-media">
-                            <img src="public/Mugs_Mockup.png" alt="Brand and identity work by LEVEL Design" loading="lazy" />
-                        </div>
-                    </div>
-                </article>
-                <article class="deliver-row">
-                    <div class="container deliver-row-inner">
-                        <div class="deliver-row-copy">
                             <h3 class="deliver-row-name">Web Design &amp; Build.</h3>
                             <p class="deliver-row-headline">Fast, accessible sites with modern stacks. SEO-first, conversion-forward.</p>
                             <a href="/services/web-design" class="btn primary deliver-row-cta">View service →</a>
@@ -1052,9 +984,21 @@
                 <article class="deliver-row">
                     <div class="container deliver-row-inner">
                         <div class="deliver-row-copy">
+                            <h3 class="deliver-row-name">Brand &amp; Identity.</h3>
+                            <p class="deliver-row-headline">Logos, typography systems, and visual languages that are distinct and enduring.</p>
+                            <a href="/services/branding" class="btn primary deliver-row-cta">View service →</a>
+                        </div>
+                        <div class="deliver-row-media">
+                            <img src="public/Mugs_Mockup.png" alt="Brand and identity work by LEVEL Design" loading="lazy" />
+                        </div>
+                    </div>
+                </article>
+                <article class="deliver-row">
+                    <div class="container deliver-row-inner">
+                        <div class="deliver-row-copy">
                             <h3 class="deliver-row-name">AI Systems &amp; Portals.</h3>
                             <p class="deliver-row-headline">Internal tools and customer portals powered by AI that augment your team.</p>
-                            <a href="/services/ai-systems-portals" class="btn primary deliver-row-cta">View service →</a>
+                            <a href="/services/systems" class="btn primary deliver-row-cta">View service →</a>
                         </div>
                         <div class="deliver-row-media deliver-row-media--wide">
                             <img src="public/kleenbanner.png" alt="AI systems and portals by LEVEL Design" loading="lazy" />
@@ -1064,12 +1008,24 @@
                 <article class="deliver-row">
                     <div class="container deliver-row-inner">
                         <div class="deliver-row-copy">
-                            <h3 class="deliver-row-name">Consulting &amp; Growth.</h3>
-                            <p class="deliver-row-headline">Roadmaps, experiments, and measurable outcomes. We partner for results.</p>
-                            <a href="/services/consulting-growth" class="btn primary deliver-row-cta">View service →</a>
+                            <h3 class="deliver-row-name">SEO &amp; AI Search.</h3>
+                            <p class="deliver-row-headline">Technical SEO, content structure, and visibility in Google and AI answers.</p>
+                            <a href="/services/seo" class="btn primary deliver-row-cta">View service →</a>
                         </div>
                         <div class="deliver-row-media">
-                            <img src="public/consultingandgrowth.jpg" alt="Consulting and growth by LEVEL Design" loading="lazy" />
+                            <img src="public/web design.png" alt="SEO and AI search by LEVEL Design" loading="lazy" />
+                        </div>
+                    </div>
+                </article>
+                <article class="deliver-row">
+                    <div class="container deliver-row-inner">
+                        <div class="deliver-row-copy">
+                            <h3 class="deliver-row-name">Marketing &amp; Growth.</h3>
+                            <p class="deliver-row-headline">Campaigns, content, and conversion systems that fill the pipeline.</p>
+                            <a href="/services/marketing" class="btn primary deliver-row-cta">View service →</a>
+                        </div>
+                        <div class="deliver-row-media">
+                            <img src="public/consultingandgrowth.jpg" alt="Marketing and growth by LEVEL Design" loading="lazy" />
                         </div>
                     </div>
                 </article>
@@ -1612,8 +1568,8 @@
             <div class="container">
                 <div class="contact-wrapper">
                     <form class="contact-form" id="contact-form" name="contact">
-                        <!-- Honeypot field - hidden from users, bots will fill it -->
-                        <input type="text" name="website" id="website" tabindex="-1" autocomplete="off" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true" />
+                        <!-- Honeypot - obscure name so autofill does not fill it -->
+                        <input type="text" name="company_fax" id="company_fax" tabindex="-1" autocomplete="off" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none; height: 0; width: 0;" aria-hidden="true" />
                         
                         <div class="form-row">
                             <div class="form-group">
@@ -1670,13 +1626,13 @@
     <footer class="site-footer" data-animate="fade-up">
         <div class="container footer-inner">
             <div class="footer-main-row">
-                <nav class="footer-nav" aria-label="Footer">
-                    <a href="#services-title" class="footer-nav-link">Services</a>
+                                <nav class="footer-nav" aria-label="Footer">
+                    <a href="/services/web-design" class="footer-nav-link">Web</a>
+                    <a href="/services/branding" class="footer-nav-link">Branding</a>
+                    <a href="/services/systems" class="footer-nav-link">Systems</a>
+                    <a href="/services/seo" class="footer-nav-link">SEO</a>
+                    <a href="/services/marketing" class="footer-nav-link">Marketing</a>
                     <a href="#work-title" class="footer-nav-link">Work</a>
-                    <a href="#projects-title" class="footer-nav-link">Projects</a>
-                    <a href="#process-title" class="footer-nav-link">Process</a>
-                    <a href="#reviews-title" class="footer-nav-link">Reviews</a>
-                    <a href="#contact-title" class="footer-nav-link">Contact</a>
                 </nav>
                 <div class="footer-social" aria-label="Social links">
                     <a href="https://www.linkedin.com/company/level-design-agency-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="footer-social-link">
@@ -1695,6 +1651,7 @@
                 <nav class="footer-legal" aria-label="Legal">
                     <a href="/privacy" class="footer-legal-link">Privacy policy</a>
                     <a href="/terms" class="footer-legal-link">Terms &amp; conditions</a>
+                    <a href="/cookies" class="footer-legal-link">Cookies</a>
                     <a href="/modern-slavery" class="footer-legal-link">Modern slavery statement</a>
                 </nav>
             </div>
@@ -1712,7 +1669,7 @@
             <div class="cookie-banner-copy">
                 <p class="cookie-banner-kicker">Cookies</p>
                 <h2 id="cookie-banner-title" class="cookie-banner-title">Your privacy, your choice</h2>
-                <p class="cookie-banner-text">We use essential cookies to run this site. With your permission we may also use analytics cookies to improve our services. See our <a href="/privacy">privacy policy</a>.</p>
+                <p class="cookie-banner-text">We use essential cookies to run this site. With your permission we may also use analytics cookies to improve our services. See our <a href="/cookies">cookies</a> page and <a href="/privacy">privacy policy</a>.</p>
             </div>
             <div class="cookie-banner-actions">
                 <button type="button" class="btn btn-outline-run cookie-banner-btn" id="cookie-reject">Essential only</button>
@@ -1730,14 +1687,14 @@
     </script>
     <script src="cookie-banner.js" defer></script>
     <script src="hero-headline-mask.js?v=20260914a" defer></script>
-    <script src="hero-intent.js?v=20260914a" defer></script>
+    <script src="hero-intent.js?v=20260917s" defer></script>
     <script src="text-reveal.js" defer></script>
-    <script src="hero-glass-cards.js?v=20260831o" defer></script>
+    <script src="" defer></script>
     <script src="hero-selected-work.js?v=20260831h" defer></script>
     <script src="site-magnifier.js?v=20260831v" defer></script>
     <script src="services-gallery.js" defer></script>
     <script src="projects-gallery.js" defer></script>
-    <script src="script.js?v=20260815a" defer></script>
+    <script src="script.js?v=20260917n" defer></script>
 </body>
 </html>
 

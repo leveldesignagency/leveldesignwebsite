@@ -354,6 +354,17 @@ document.addEventListener('DOMContentLoaded', function() {
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
+// Transparent header → solid on scroll (homepage + doors)
+document.addEventListener('DOMContentLoaded', function () {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+  const onScroll = function () {
+    header.classList.toggle('is-scrolled', window.scrollY > 40);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+});
+
 // Dark grey UI only
 function initDarkMode() {
   document.body.classList.add('dark-mode');
@@ -396,7 +407,7 @@ document.addEventListener('DOMContentLoaded', function() {
   clientLogos.forEach((logo, index) => {
     logo.style.setProperty('--logo-index', index);
   });
-
+  
   const clientsSection = document.querySelector('.clients');
   if (!clientsSection) return;
 
@@ -404,12 +415,12 @@ document.addEventListener('DOMContentLoaded', function() {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       marqueeRows.forEach((row) => {
-        const track = row.querySelector('.marquee-track');
+          const track = row.querySelector('.marquee-track');
         if (track) track.style.animationPlayState = 'running';
-      });
+        });
     });
   }, { threshold: 0.3 });
-
+  
   observer.observe(clientsSection);
 });
 
@@ -456,7 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
   `;
 
   aboutSection.setAttribute('aria-hidden', 'false');
-
+  
   const wordList = aboutSection.querySelector('.word-list');
   const wordItems = aboutSection.querySelectorAll('.word-item');
   const descriptionList = aboutSection.querySelector('.description-list');
@@ -848,7 +859,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
-
+  
   // Auto-select first tab on page load (desktop only)
   if (!isMobile && tabButtons.length > 0) {
     const defaultButton =
@@ -1057,7 +1068,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const submitBtn = document.getElementById('submit-btn');
   const submitText = document.getElementById('submit-text');
   const formMessage = document.getElementById('form-message');
-
+  
   if (!contactForm) return;
 
   const contactSection = document.getElementById('contact-title') || contactForm;
@@ -1085,12 +1096,12 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
 
-      if (typeof emailjs === 'undefined') {
+    if (typeof emailjs === 'undefined') {
         formMessage.textContent = 'Form service is not configured. Please contact us directly at help@leveldesignagency.com';
         formMessage.className = 'form-message error';
         formMessage.style.display = 'block';
-        return;
-      }
+      return;
+    }
       
       // Disable submit button to prevent double submissions
       submitBtn.disabled = true;
@@ -1100,8 +1111,8 @@ document.addEventListener('DOMContentLoaded', function() {
       formMessage.style.display = 'none';
       formMessage.className = 'form-message';
       
-      // SECURITY CHECK 1: Honeypot field (bots will fill this)
-      const honeypot = contactForm.querySelector('input[name="website"]');
+      // SECURITY CHECK 1: Honeypot (obscure name — do not use "website", autofill fills that)
+      const honeypot = contactForm.querySelector('input[name="company_fax"]');
       if (honeypot && honeypot.value.trim() !== '') {
         submitBtn.disabled = false;
         submitText.textContent = 'Send Message';
@@ -1144,16 +1155,12 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       
-      // SECURITY CHECK 5: reCAPTCHA v3 verification
-      const recaptchaToken = await executeRecaptcha();
-      if (RECAPTCHA_SITE_KEY !== 'YOUR_RECAPTCHA_SITE_KEY' && !recaptchaToken) {
-        // reCAPTCHA is configured but failed - block submission
-        formMessage.textContent = 'Security verification failed. Please refresh the page and try again.';
-        formMessage.className = 'form-message error';
-        formMessage.style.display = 'block';
-        submitBtn.disabled = false;
-        submitText.textContent = 'Send Message';
-        return;
+      // SECURITY CHECK 5: reCAPTCHA v3 (best-effort — do not hard-block real users if token fails)
+      let recaptchaToken = null;
+      try {
+        recaptchaToken = await executeRecaptcha();
+      } catch (error) {
+        recaptchaToken = null;
       }
       
       try {

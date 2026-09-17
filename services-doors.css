@@ -1,0 +1,1167 @@
+/* ==========================================================================
+   Dedicated service doors, flat red / black / white / grey
+   Transparent header + shape-masked hero + pricing + long-form sections
+   ========================================================================== */
+
+.service-door {
+  --door-bg: #0a0a0a;
+  --door-surface: #111;
+  --door-border: rgba(255, 255, 255, 0.12);
+  --door-muted: rgba(255, 255, 255, 0.62);
+  --door-faint: rgba(255, 255, 255, 0.4);
+  --door-red: #ff2d2d;
+  --door-grey: #8a8a8a;
+  background: var(--door-bg);
+  color: #fff;
+}
+
+.service-door .site-header.project-header,
+.service-door .project-header,
+.service-door .site-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 40 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border-bottom: 1px solid transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+.service-door .project-header.is-scrolled,
+.service-door .project-header.header-solid,
+.service-door .site-header.is-scrolled {
+  background: rgba(10, 10, 10, 0.94) !important;
+  background-color: rgba(10, 10, 10, 0.94) !important;
+  border-bottom-color: var(--door-border) !important;
+}
+
+.service-door .nav a {
+  color: #fff;
+}
+
+.service-door .nav a.cta {
+  border-color: #fff;
+  color: #fff;
+}
+
+.service-door .nav a.cta:hover {
+  background: var(--door-red);
+  border-color: var(--door-red);
+  color: #fff;
+}
+
+.service-door .nav-toggle .bar {
+  background: #fff;
+}
+
+/* ---- Hero under header + shape mask ---- */
+.door-hero {
+  position: relative;
+  /* Match homepage .hero.hero-single positioning */
+  min-height: calc(100vh - var(--header-h, 72px)) !important;
+  padding: calc(var(--header-h, 72px) + 48px) 0 72px !important;
+  display: flex !important;
+  align-items: center !important;
+  overflow: hidden;
+  background: #111;
+  margin-top: 0;
+  box-sizing: border-box;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 86%,
+    92% 90%,
+    78% 94%,
+    50% 98%,
+    22% 94%,
+    8% 90%,
+    0 86%
+  );
+  -webkit-clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 86%,
+    92% 90%,
+    78% 94%,
+    50% 98%,
+    22% 94%,
+    8% 90%,
+    0 86%
+  );
+}
+
+.door-hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #0a0a0a;
+}
+
+.door-hero-media img {
+  display: none;
+}
+
+.door-hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 10, 0.15) 0%,
+    rgba(10, 10, 10, 0.05) 40%,
+    rgba(10, 10, 10, 0.55) 78%,
+    #0a0a0a 100%
+  );
+  pointer-events: none;
+}
+
+/* Web: gray / dark gray / black */
+.door-hero--web .door-hero-media {
+  background:
+    radial-gradient(ellipse 95% 80% at 28% 18%, #5a5a5a 0%, transparent 58%),
+    radial-gradient(ellipse 80% 70% at 78% 72%, #1c1c1c 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 55% 45%, #2e2e2e 0%, transparent 50%),
+    linear-gradient(165deg, #2a2a2a 0%, #111 45%, #000 100%);
+}
+
+/* Branding: red / black / white (majority black + red) */
+.door-hero--branding .door-hero-media {
+  background:
+    radial-gradient(ellipse 95% 85% at 18% 12%, #ff2d2d 0%, transparent 55%),
+    radial-gradient(ellipse 55% 50% at 88% 18%, rgba(255, 255, 255, 0.22) 0%, transparent 48%),
+    radial-gradient(ellipse 80% 70% at 78% 88%, #6a0a0a 0%, transparent 55%),
+    radial-gradient(ellipse 50% 45% at 42% 55%, #3a0808 0%, transparent 50%),
+    linear-gradient(160deg, #140404 0%, #000 100%);
+}
+
+.door-hero--web .door-hero-media img,
+.door-hero--branding .door-hero-media img,
+.door-hero--systems .door-hero-media img,
+.door-hero--seo .door-hero-media img,
+.door-hero--construction .door-hero-media img {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.45;
+  z-index: 0;
+}
+
+/* Systems: green top-left → black bottom-right, soft radial blend */
+.door-hero--systems .door-hero-media {
+  background:
+    radial-gradient(ellipse 120% 100% at 0% 0%, #2dd46f 0%, transparent 58%),
+    radial-gradient(ellipse 100% 90% at 8% 12%, #0f8f45 0%, transparent 50%),
+    radial-gradient(ellipse 110% 100% at 100% 100%, #000 0%, transparent 55%),
+    linear-gradient(145deg, #07140c 0%, #000 68%);
+}
+
+/* SEO: quiet Google colour nod */
+.door-hero--seo .door-hero-media {
+  background:
+    radial-gradient(ellipse 55% 50% at 18% 22%, rgba(66, 133, 244, 0.4) 0%, transparent 58%),
+    radial-gradient(ellipse 48% 42% at 78% 18%, rgba(234, 67, 53, 0.28) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 40% at 62% 78%, rgba(251, 188, 5, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 45% at 22% 82%, rgba(52, 168, 83, 0.28) 0%, transparent 55%),
+    linear-gradient(165deg, #0b0b0b 0%, #000 100%);
+}
+
+/* Marketing: red */
+.door-hero--marketing .door-hero-media {
+  background:
+    radial-gradient(ellipse 95% 85% at 22% 15%, #ff2d2d 0%, transparent 55%),
+    radial-gradient(ellipse 75% 65% at 85% 78%, #6a0a0a 0%, transparent 52%),
+    radial-gradient(ellipse 50% 45% at 50% 50%, #3a0808 0%, transparent 50%),
+    linear-gradient(160deg, #140404 0%, #000 100%);
+}
+
+/* Construction: steel grey / amber / black */
+.door-hero--construction .door-hero-media {
+  background:
+    radial-gradient(ellipse 90% 80% at 22% 18%, #6a6a6a 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 82% 28%, rgba(200, 140, 40, 0.28) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 70% at 70% 85%, #2a2a2a 0%, transparent 55%),
+    linear-gradient(165deg, #1a1a1a 0%, #000 100%);
+}
+
+/* Fintech: cool steel / teal */
+.door-hero--fintech .door-hero-media {
+  background:
+    radial-gradient(ellipse 90% 80% at 20% 15%, rgba(56, 189, 200, 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 85% 25%, rgba(255, 255, 255, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 70% at 70% 88%, #0a2a32 0%, transparent 55%),
+    linear-gradient(160deg, #061018 0%, #000 100%);
+}
+
+/* Golf & leisure: deep green */
+.door-hero--golf .door-hero-media {
+  background:
+    radial-gradient(ellipse 95% 85% at 18% 14%, #2dd46f 0%, transparent 52%),
+    radial-gradient(ellipse 70% 60% at 88% 30%, rgba(180, 220, 120, 0.18) 0%, transparent 48%),
+    radial-gradient(ellipse 80% 70% at 72% 88%, #0a3d22 0%, transparent 55%),
+    linear-gradient(155deg, #07140c 0%, #000 100%);
+}
+
+/* Property: warm stone / charcoal */
+.door-hero--property .door-hero-media {
+  background:
+    radial-gradient(ellipse 90% 80% at 22% 16%, #a89070 0%, transparent 55%),
+    radial-gradient(ellipse 65% 55% at 85% 22%, rgba(255, 255, 255, 0.14) 0%, transparent 48%),
+    radial-gradient(ellipse 80% 70% at 68% 88%, #3a3028 0%, transparent 55%),
+    linear-gradient(165deg, #14110e 0%, #000 100%);
+}
+
+/* Healthcare: soft blue / white / black */
+.door-hero--healthcare .door-hero-media {
+  background:
+    radial-gradient(ellipse 90% 85% at 18% 14%, #6eb6ff 0%, transparent 52%),
+    radial-gradient(ellipse 60% 50% at 88% 20%, rgba(255, 255, 255, 0.28) 0%, transparent 48%),
+    radial-gradient(ellipse 80% 70% at 70% 88%, #1a3a5c 0%, transparent 55%),
+    linear-gradient(160deg, #061018 0%, #000 100%);
+}
+
+/* Hospitality: warm red / amber */
+.door-hero--hospitality .door-hero-media {
+  background:
+    radial-gradient(ellipse 95% 85% at 20% 14%, #ff2d2d 0%, transparent 52%),
+    radial-gradient(ellipse 65% 55% at 85% 28%, rgba(255, 180, 80, 0.22) 0%, transparent 48%),
+    radial-gradient(ellipse 80% 70% at 72% 88%, #4a1808 0%, transparent 55%),
+    linear-gradient(160deg, #140404 0%, #000 100%);
+}
+
+.door-hero-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 var(--hero-x, var(--container-x)) !important;
+  box-sizing: border-box;
+}
+
+.door-kicker {
+  margin: 0 0 18px;
+  padding: 0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--door-red);
+}
+
+/* Exact match to homepage .hero-headline-white */
+.service-door .door-title,
+.service-door h1.door-title {
+  display: block !important;
+  margin: 0 0 22px !important;
+  padding: 0 !important;
+  max-width: min(18ch, 100%) !important;
+  font-family: "Bebas Neue", Impact, system-ui, sans-serif !important;
+  font-size: clamp(3.35rem, 7.4vw, 5.65rem) !important;
+  font-weight: 400 !important;
+  font-synthesis: none !important;
+  line-height: 0.82 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  text-align: left !important;
+  color: #fff !important;
+}
+
+.door-title-line {
+  display: block;
+  line-height: 0.82;
+}
+
+.door-title-line + .door-title-line {
+  margin-top: -0.06em;
+}
+
+.door-lead {
+  margin: 0 0 28px;
+  max-width: 46ch;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  font-weight: 400;
+  color: var(--muted, rgba(255, 255, 255, 0.62));
+}
+
+.door-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 0;
+}
+
+.door-hero-actions .btn {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.door-hero-actions .btn.primary {
+  background: var(--door-red);
+  border-color: var(--door-red);
+  color: #fff;
+}
+
+.door-hero-actions .btn.primary:hover {
+  background: #fff;
+  border-color: #fff;
+  color: #0a0a0a;
+}
+
+/* Second CTA: no border, underline on hover (match homepage View work) */
+.door-hero-actions .btn:not(.primary) {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #fff !important;
+  padding: 12px 4px !important;
+  text-decoration: none !important;
+}
+
+.door-hero-actions .btn:not(.primary)::before,
+.door-hero-actions .btn:not(.primary)::after {
+  display: none !important;
+  content: none !important;
+}
+
+.door-hero-actions .btn:not(.primary):hover {
+  background: transparent !important;
+  border: none !important;
+  color: #fff !important;
+  text-decoration: underline !important;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 1.5px;
+}
+
+/* ---- Sections ---- */
+.door-main {
+  padding: 0 0 clamp(80px, 12vw, 140px);
+}
+
+.door-section {
+  padding: clamp(56px, 9vw, 100px) var(--container-x) 0;
+  max-width: none;
+}
+
+.door-section-label {
+  margin: 0 0 12px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--door-red);
+}
+
+.door-section-title {
+  margin: 0 0 16px;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(1.85rem, 4vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  color: #fff;
+  max-width: 18ch;
+}
+
+.door-section-text {
+  margin: 0;
+  max-width: 54ch;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--door-muted);
+}
+
+.door-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(28px, 5vw, 64px);
+  align-items: start;
+}
+
+.door-split--wide-right {
+  grid-template-columns: 0.9fr 1.1fr;
+}
+
+/* Outcomes / pillars, flat borders, no cards-as-glass */
+.door-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: clamp(48px, 6vw, 68px);
+  border: 1px solid var(--door-border);
+  overflow: visible;
+}
+
+.door-pillar {
+  position: relative;
+  padding: clamp(40px, 4.5vw, 52px) clamp(24px, 3vw, 36px) clamp(24px, 3vw, 36px);
+  border-right: 1px solid var(--door-border);
+  background: var(--door-surface);
+  overflow: visible;
+}
+
+.door-pillar:last-child {
+  border-right: none;
+}
+
+.door-pillar-num {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  margin: 0;
+  padding: 0 0.15em;
+  font-family: "Bebas Neue", Impact, system-ui, sans-serif;
+  font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: var(--door-red);
+  background: var(--door-surface);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.door-pillar h3 {
+  margin: 0 0 10px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.door-pillar p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--door-muted);
+}
+
+/* Deliverables list */
+.door-list {
+  list-style: none;
+  margin: clamp(32px, 4vw, 48px) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--door-border);
+}
+
+.door-list li {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 20px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--door-border);
+  align-items: start;
+}
+
+.door-list-num {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--door-grey);
+  padding-top: 4px;
+}
+
+.door-list h3 {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.door-list p {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--door-muted);
+  max-width: 58ch;
+}
+
+/* Process strip */
+.door-process {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: clamp(48px, 6vw, 68px);
+  border: 1px solid var(--door-border);
+  overflow: visible;
+}
+
+.door-step {
+  position: relative;
+  padding: clamp(40px, 4.5vw, 52px) clamp(22px, 3vw, 32px) clamp(22px, 3vw, 32px);
+  border-right: 1px solid var(--door-border);
+  background: var(--door-bg);
+  overflow: visible;
+}
+
+.door-step:last-child {
+  border-right: none;
+}
+
+.door-step-num {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  margin: 0;
+  padding: 0 0.15em;
+  font-family: "Bebas Neue", Impact, system-ui, sans-serif;
+  font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: var(--door-red);
+  background: var(--door-bg);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.door-step h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.door-step p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--door-muted);
+}
+
+/* Pricing, flat tiers */
+@property --door-wipe {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.door-pricing {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: clamp(36px, 5vw, 52px);
+  border: 1px solid var(--door-border);
+}
+
+/* Single-tier funnel pricing: full width */
+.door-pricing:has(> .door-price:only-child) {
+  grid-template-columns: 1fr;
+}
+
+.door-pricing:has(> .door-price:only-child) .door-price {
+  border-right: none;
+}
+
+.door-price {
+  position: relative;
+  padding: clamp(28px, 3.5vw, 40px);
+  border-right: 1px solid var(--door-border);
+  background: var(--door-surface);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  transition: background 0.35s ease;
+}
+
+.door-price::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 1.5px;
+  box-sizing: border-box;
+  pointer-events: none;
+  background: conic-gradient(
+    from 315deg,
+    var(--door-red) 0deg,
+    var(--door-red) var(--door-wipe),
+    transparent var(--door-wipe)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: --door-wipe 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+}
+
+.door-price:hover {
+  background: #161616;
+}
+
+.door-price:hover::before {
+  --door-wipe: 360deg;
+  opacity: 1;
+}
+
+.door-price:last-child {
+  border-right: none;
+}
+
+.door-price--featured {
+  background: #161616;
+  z-index: 1;
+}
+
+.door-price-tier {
+  margin: 0 0 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--door-grey);
+}
+
+.door-price--featured .door-price-tier {
+  color: var(--door-red);
+}
+
+.door-price-name {
+  margin: 0 0 16px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.door-price-amount {
+  margin: 0 0 6px;
+  font-size: clamp(1.8rem, 3vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.door-price-amount span {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--door-grey);
+  letter-spacing: 0;
+}
+
+.door-price-note {
+  margin: 0 0 24px;
+  font-size: 0.88rem;
+  color: var(--door-muted);
+}
+
+.door-price ul {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  flex: 1;
+}
+
+.door-price li {
+  position: relative;
+  margin: 0 -10px;
+  padding: 8px 10px 8px 28px;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--door-muted);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition:
+    transform 0.28s ease,
+    color 0.28s ease,
+    background-color 0.28s ease;
+}
+
+.door-price li::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  width: 6px;
+  height: 6px;
+  background: var(--door-red);
+  transition: transform 0.28s ease;
+}
+
+.door-price li:hover {
+  transform: translateX(6px);
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.door-price li:hover::before {
+  transform: scale(1.15);
+}
+
+.door-price .btn {
+  position: relative;
+  align-self: stretch;
+  text-align: center;
+  border-radius: 0;
+  box-shadow: none;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    color 0.35s ease,
+    border-color 0.35s ease,
+    background-color 0.35s ease,
+    letter-spacing 0.35s ease,
+    transform 0.35s ease;
+}
+
+.door-price .btn::before {
+  display: none !important;
+}
+
+.door-price .btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--door-red);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.door-price .btn.primary {
+  background: var(--door-red) !important;
+  border-color: var(--door-red) !important;
+  color: #fff !important;
+}
+
+.door-price .btn.primary::after {
+  display: none !important;
+}
+
+.door-price .btn:not(.primary) {
+  background: transparent !important;
+  border: 1px solid var(--door-border) !important;
+  color: #fff !important;
+}
+
+.door-price .btn:hover {
+  border-color: var(--door-red) !important;
+  letter-spacing: 0.04em;
+  transform: translateY(-1px);
+}
+
+.door-price .btn:not(.primary):hover {
+  color: #fff !important;
+  border-color: var(--door-red) !important;
+}
+
+.door-price .btn:not(.primary):hover::after {
+  transform: scaleX(1);
+}
+
+.door-price .btn.primary:hover,
+.door-price .btn.primary:focus-visible {
+  background: #fff !important;
+  color: #0a0a0a !important;
+  border-color: #fff !important;
+}
+
+.door-price .btn.primary:focus:not(:hover),
+.door-price .btn.primary:focus-visible:not(:hover) {
+  background: var(--door-red) !important;
+  color: #fff !important;
+  border-color: var(--door-red) !important;
+}
+
+.door-price-disclaimer {
+  margin: 20px 0 0;
+  font-size: 0.82rem;
+  color: var(--door-faint);
+  max-width: 62ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .door-price::before,
+  .door-price li,
+  .door-price li::before,
+  .door-price .btn,
+  .door-price .btn::after {
+    transition: none;
+  }
+
+  .door-price:hover::before {
+    --door-wipe: 360deg;
+  }
+
+  .door-price .btn:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Industry funnels */
+.door-industries {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: clamp(32px, 4vw, 44px);
+  border: 1px solid var(--door-border);
+}
+
+@media (max-width: 1100px) and (min-width: 981px) {
+  .door-industries {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .door-industry:nth-child(4n) {
+    border-right: 1px solid var(--door-border);
+  }
+
+  .door-industry:nth-child(2n) {
+    border-right: none;
+  }
+
+  .door-industry:nth-last-child(-n + 4) {
+    border-bottom: 1px solid var(--door-border);
+  }
+
+  .door-industry:nth-last-child(-n + 2) {
+    border-bottom: none;
+  }
+}
+
+.door-industry {
+  display: block;
+  padding: clamp(24px, 3vw, 32px);
+  border-right: 1px solid var(--door-border);
+  border-bottom: 1px solid var(--door-border);
+  text-decoration: none;
+  color: inherit;
+  background: transparent;
+  transition: background 0.2s ease;
+}
+
+.door-industry:nth-child(4n) {
+  border-right: none;
+}
+
+.door-industry:nth-last-child(-n + 4) {
+  border-bottom: none;
+}
+
+.door-industry:last-child {
+  border-right: none;
+}
+
+.door-industry:hover {
+  background: var(--door-surface);
+}
+
+.door-industry h3 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+  color: #fff;
+}
+
+.door-industry p {
+  margin: 0 0 14px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--door-muted);
+}
+
+.door-industry-link {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--door-red);
+}
+
+/* FAQ */
+.door-faq {
+  margin-top: clamp(32px, 4vw, 44px);
+  border-top: 1px solid var(--door-border);
+}
+
+.door-faq details {
+  border-bottom: 1px solid var(--door-border);
+  padding: 18px 0;
+}
+
+.door-faq summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.door-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.door-faq summary::after {
+  content: "+";
+  color: var(--door-red);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.door-faq details[open] summary::after {
+  content: "-";
+}
+
+.door-faq p {
+  margin: 12px 0 0;
+  max-width: 58ch;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--door-muted);
+}
+
+/* CTA band */
+.door-cta {
+  margin: clamp(56px, 9vw, 96px) var(--container-x) 0;
+  padding: clamp(36px, 5vw, 56px);
+  border: 1px solid var(--door-border);
+  background: var(--door-surface);
+  display: grid;
+  grid-template-columns: 1.4fr auto;
+  gap: 24px;
+  align-items: center;
+}
+
+.door-cta h2 {
+  margin: 0 0 10px;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.door-cta p {
+  margin: 0;
+  color: var(--door-muted);
+  max-width: 42ch;
+  line-height: 1.55;
+}
+
+.door-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.door-cta .btn {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.door-cta .btn.primary {
+  background: var(--door-red);
+  border-color: var(--door-red);
+  color: #fff;
+}
+
+.door-cta .btn:not(.primary) {
+  border: 1px solid var(--door-border);
+  color: #fff;
+  background: transparent;
+}
+
+/* Related services */
+.door-related {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.door-related a {
+  padding: 10px 14px;
+  border: 1px solid var(--door-border);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.door-related a:hover {
+  border-color: var(--door-red);
+  color: var(--door-red);
+}
+
+/* Footer strip on door pages */
+.door-footer {
+  margin-top: clamp(48px, 8vw, 80px);
+  padding: 28px var(--container-x);
+  border-top: 1px solid var(--door-border);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 0.85rem;
+  color: var(--door-faint);
+}
+
+.door-footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.door-footer a:hover {
+  color: var(--door-red);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 980px) {
+  .door-split,
+  .door-split--wide-right,
+  .door-pillars,
+  .door-process,
+  .door-pricing,
+  .door-industries,
+  .door-cta {
+    grid-template-columns: 1fr;
+  }
+
+  .door-pillar,
+  .door-step,
+  .door-price,
+  .door-industry {
+    border-right: none;
+    border-bottom: 1px solid var(--door-border);
+  }
+
+  .door-industry:nth-child(4n),
+  .door-industry:nth-last-child(-n + 4),
+  .door-industry:last-child {
+    border-right: none;
+  }
+
+  .door-industry:last-child {
+    border-bottom: none;
+  }
+
+  .door-cta-actions {
+    justify-content: flex-start;
+  }
+
+  .door-hero {
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
+    min-height: calc(100vh - var(--header-h, 72px)) !important;
+    padding: calc(var(--header-h, 72px) + 32px) 0 56px !important;
+    align-items: center !important;
+  }
+
+  .service-door .door-title,
+  .service-door h1.door-title {
+    font-size: clamp(2.5rem, 11.5vw, 3.35rem) !important;
+    max-width: 14ch !important;
+  }
+
+  .service-door .nav-links {
+    gap: 10px;
+  }
+
+  .service-door .nav a {
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .door-list li {
+    grid-template-columns: 40px 1fr;
+    gap: 12px;
+  }
+
+  .door-process {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .door-step:nth-child(odd) {
+    border-right: 1px solid var(--door-border);
+  }
+
+  .door-step:nth-child(1),
+  .door-step:nth-child(2) {
+    border-bottom: 1px solid var(--door-border);
+  }
+}
+
+/* Market funnel link on homepage strip */
+.market-detail-funnel {
+  margin: 12px 0 0;
+}
+
+.market-detail-funnel a {
+  color: var(--brand, #ff2d2d);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.market-detail-funnel a:hover {
+  color: #fff;
+}
+
+/* Denser primary nav for service doors */
+.nav-links {
+  gap: 12px;
+}
+
+@media (min-width: 901px) {
+  .nav a {
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+  }
+}
+
+/* Flatten: kill soft glows sitewide on key surfaces */
+.btn.primary,
+.nav a.cta,
+.process-step,
+.work-card,
+.article-card,
+.deliver-row-media img {
+  box-shadow: none !important;
+  filter: none;
+}
+
+.btn.primary {
+  border-radius: 0;
+}
+
+/* Kill process / work glow overlays */
+.work-card > .glow,
+.steps li > .glow,
+.process-step .glow,
+.glow {
+  display: none !important;
+  opacity: 0 !important;
+  box-shadow: none !important;
+}
+
+.site-header {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}

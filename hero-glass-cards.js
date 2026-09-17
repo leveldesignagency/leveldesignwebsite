@@ -35,6 +35,9 @@
     const cards = Array.from(stack.querySelectorAll('.hero-glass-card'));
     if (!cards.length) return;
 
+    // Flattened hero: no pointer tilt on desktop
+    const FLAT_HERO = true;
+
     const desktopCleanup = { run: null };
     const mobileCleanup = { run: null };
 
@@ -61,8 +64,8 @@
     }
 
     function initDesktop() {
-      if (prefersReducedMotion()) {
-        window.requestAnimationFrame(() => stage.classList.add('is-ready'));
+      window.requestAnimationFrame(() => stage.classList.add('is-ready'));
+      if (FLAT_HERO || prefersReducedMotion()) {
         return;
       }
 
