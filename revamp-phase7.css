@@ -1,6 +1,6 @@
 /* Phase 7 - mobile spacing, scroll reveals, contact polish */
 
-/* ── Hero - restore side margins; equal CTAs side by side ── */
+/* ── Hero - restore side margins; CTAs stacked on mobile ── */
 @media (max-width: 900px) {
   :root {
     --container-x: clamp(28px, 7vw, 44px);
@@ -15,7 +15,7 @@
 
   .hero-actions {
     display: flex !important;
-    flex-direction: row !important;
+    flex-direction: column !important;
     flex-wrap: nowrap !important;
     align-items: stretch !important;
     gap: 10px !important;
@@ -24,16 +24,16 @@
   }
 
   .hero-actions .btn {
-    flex: 1 1 0 !important;
-    width: auto !important;
+    flex: none !important;
+    width: 100% !important;
     min-width: 0 !important;
     max-width: none !important;
     justify-content: center !important;
     text-align: center !important;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-    font-size: 0.72rem !important;
-    white-space: nowrap;
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+    font-size: 0.78rem !important;
+    white-space: normal !important;
   }
 
   /* Glass work cards — stacked deck on mobile */

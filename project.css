@@ -3145,11 +3145,65 @@ a.detail-back:active {
 @media (max-width: 900px) {
   .hero-headline-white,
   .hero-headline-textured {
-    font-size: clamp(2.5rem, 11.5vw, 3.35rem);
+    font-size: clamp(2.35rem, 10vw, 3.1rem);
   }
 
-  .hero.hero-single .hero-headline-single.headline {
-    max-width: 14ch !important;
+  /* Let intent headlines breathe — avoid one-word-per-line wrapping */
+  .hero.hero-single .hero-headline-single.headline,
+  .hero.hero-single .hero-headline-single {
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  .hero-headline-line {
+    display: block;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .hero-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .hero-actions .btn,
+  .hero-actions .btn.primary,
+  .hero-actions .btn.btn-outline-run,
+  .hero-actions .hero-cta-secondary {
+    flex: none !important;
+    width: 100% !important;
+    white-space: normal !important;
+  }
+
+  /* Mobile header: logo left, hamburger right, no socials */
+  .site-header .header-social,
+  .header-social.mobile-only {
+    display: none !important;
+  }
+
+  .site-header .header-inner,
+  .header-inner {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  .site-header .logo,
+  .logo {
+    position: relative !important;
+    left: auto !important;
+    transform: none !important;
+  }
+
+  .site-header .logo-img,
+  .logo-img {
+    height: 44px !important;
+  }
+
+  .site-header .nav,
+  .nav {
+    margin-left: auto !important;
   }
 }
 
