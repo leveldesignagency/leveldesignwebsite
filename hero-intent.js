@@ -578,6 +578,9 @@
     const headline = hero.querySelector('.hero-headline-single');
     const subhead = hero.querySelector('.hero-subhead');
     const cta = hero.querySelector('.hero-cta-single');
+    const offerTitle = hero.querySelector('[data-hero-callback-title]');
+    const offerBlurb = hero.querySelector('[data-hero-callback-blurb]');
+    const offerIntent = document.getElementById('hero-callback-intent');
 
     if (kicker) {
       kicker.hidden = false;
@@ -598,6 +601,18 @@
         `Interest: ${intentKey}${locationId ? ' / ' + locationId : ''} - ${variant.kicker}`
       );
       cta.dataset.intentNote = note;
+    }
+
+    if (offerTitle) {
+      offerTitle.textContent = variant.cta || 'Talk through your project';
+    }
+    if (offerBlurb) {
+      offerBlurb.textContent =
+        variant.offerBlurb ||
+        `Quick call about ${String(variant.kicker || 'your project').toLowerCase()}. Clear next step, no pitch deck.`;
+    }
+    if (offerIntent) {
+      offerIntent.value = `${intentKey}${locationId ? '/' + locationId : ''}`;
     }
 
     hero.dataset.heroIntent = intentKey;

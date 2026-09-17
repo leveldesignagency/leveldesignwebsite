@@ -1240,3 +1240,118 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 });
+
+// Hero intent-aware callback mini-form
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('hero-callback-form');
+  if (!form) return;
+
+  const submitBtn = document.getElementById('hero-callback-submit');
+  const submitText = document.getElementById('hero-callback-submit-text');
+  const msg = document.getElementById('hero-callback-msg');
+
+  const showMsg = (text, ok) => {
+    if (!msg) return;
+    msg.hidden = false;
+    msg.textContent = text;
+    msg.className = 'hero-callback-msg ' + (ok ? 'is-ok' : 'is-err');
+  };
+
+  form.addEventListener('focusin', () => {
+    if (typeof ensureFormLibs === 'function') ensureFormLibs().catch(() => {});
+  }, { once: true });
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const honeypot = form.querySelector('input[name="company_fax"]');
+    if (honeypot && honeypot.value.trim() !== '') return;
+
+    const name = sanitizeInput(form.querySelector('input[name="name"]').value);
+    const phone = sanitizeInput(form.querySelector('input[name="phone"]').value);
+    const emailRaw = sanitizeInput(form.querySelector('input[name="email"]').value).toLowerCase().trim();
+    const intent = sanitizeInput((document.getElementById('hero-callback-intent') || {}).value || 'default');
+
+    if (!name || name.length < 2) {
+      showMsg('Please enter your name.', false);
+      return;
+    }
+    if (!phone || phone.length < 7) {
+      showMsg('Please enter a phone number we can call.', false);
+      return;
+    }
+    if (emailRaw && !validateEmail(emailRaw)) {
+      showMsg('Please enter a valid email, or leave it blank.', false);
+      return;
+    }
+
+    const rateLimit = checkRateLimit();
+    if (!rateLimit.allowed) {
+      showMsg(`Too many submissions. Please wait ${rateLimit.remainingTime} minutes.`, false);
+      return;
+    }
+
+    try {
+      await ensureFormLibs();
+    } catch (err) {
+      showMsg('Form service failed to load. Email help@leveldesignagency.com.', false);
+      return;
+    }
+
+    if (typeof emailjs === 'undefined') {
+      showMsg('Form service is not configured. Email help@leveldesignagency.com.', false);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitText.textContent = 'Sending...';
+    if (msg) msg.hidden = true;
+
+    const replyEmail = emailRaw || 'help@leveldesignagency.com';
+    const message = [
+      'Callback request from homepage hero.',
+      `Intent: ${intent}`,
+      `Phone: ${phone}`,
+      emailRaw ? `Email: ${emailRaw}` : 'Email: not provided',
+      'Please call back.'
+    ].join('\n');
+
+    try {
+      let recaptchaToken = null;
+      try {
+        recaptchaToken = await executeRecaptcha();
+      } catch (err) {
+        recaptchaToken = null;
+      }
+
+      const emailData = {
+        from_name: name,
+        from_email: replyEmail,
+        message: message,
+        reply_to: replyEmail
+      };
+      if (recaptchaToken) emailData.recaptcha_token = recaptchaToken;
+
+      await emailjs.send('service_3y4my2r', 'template_jnkhrvh', emailData);
+      if (emailRaw) {
+        await emailjs.send('service_3y4my2r', 'template_brnzty1', {
+          from_name: name,
+          from_email: emailRaw,
+          message: 'Thanks — we will call you back shortly about your enquiry.',
+          reply_to: 'help@leveldesignagency.com'
+        });
+      }
+
+      form.reset();
+      const intentField = document.getElementById('hero-callback-intent');
+      if (intentField) intentField.value = intent;
+      showMsg('Thanks. We will call you back shortly.', true);
+      submitBtn.disabled = false;
+      submitText.textContent = 'Request a callback';
+    } catch (error) {
+      showMsg('Could not send. Please email help@leveldesignagency.com or try again.', false);
+      submitBtn.disabled = false;
+      submitText.textContent = 'Request a callback';
+    }
+  });
+});

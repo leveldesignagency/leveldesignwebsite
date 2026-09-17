@@ -1574,7 +1574,7 @@ a.detail-back:active {
 .service-pillar-title {
   margin: 0 0 12px;
   padding-top: 16px;
-  border-top: 2px solid var(--brand);
+  border-top: 1px solid var(--brand);
   font-family: Inter, system-ui, sans-serif;
   font-size: clamp(1.2rem, 2vw, 1.45rem);
   font-weight: 700;
@@ -2346,7 +2346,7 @@ a.detail-back:active {
 .article-pullquote {
   margin: 2em 0;
   padding: 1.4em 0 1.4em 1.4em;
-  border-left: 3px solid rgba(255, 255, 255, 0.2);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
   font-size: clamp(1.15rem, 2vw, 1.45rem);
   font-weight: 600;
   line-height: 1.45;
@@ -2924,15 +2924,27 @@ a.detail-back:active {
 @media (min-width: 901px) {
   .hero.hero-single .hero-inner.hero-shell {
     display: grid !important;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    align-items: start !important;
-    gap: clamp(20px, 3vw, 40px) !important;
+    grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.85fr);
+    align-items: center !important;
+    gap: clamp(28px, 4vw, 56px) !important;
   }
 
   .hero.hero-single.hero-no-cards .hero-inner.hero-shell {
     display: block !important;
     max-width: 720px;
     grid-template-columns: none;
+  }
+
+  .hero.hero-single.hero-has-scan .hero-inner.hero-shell {
+    display: grid !important;
+    max-width: none !important;
+    grid-template-columns: minmax(0, 0.95fr) minmax(260px, 0.85fr);
+  }
+
+  .hero.hero-single.hero-has-callback .hero-inner.hero-shell {
+    display: grid !important;
+    max-width: none !important;
+    grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.85fr);
   }
 
   .hero.hero-single .hero-content {
@@ -2945,17 +2957,24 @@ a.detail-back:active {
     max-width: 36ch;
   }
 
+  .hero.hero-single.hero-has-scan .hero-content,
+  .hero.hero-single.hero-has-callback .hero-content {
+    max-width: none;
+    padding-right: 0;
+  }
+
   .hero.hero-single.hero-no-cards .hero-subhead {
     max-width: 42ch !important;
   }
 
+  .hero.hero-single.hero-has-scan .hero-subhead,
+  .hero.hero-single.hero-has-callback .hero-subhead {
+    max-width: 46ch !important;
+  }
+
   .hero.hero-single .hero-subhead {
     max-width: 46ch !important;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .hero-glass-stage {
@@ -3174,3 +3193,126 @@ a.detail-back:active {
 }
 
 
+
+
+/* Hero capability scanner (feathered vertical list) */
+.hero-scan {
+  width: 100%;
+  max-width: none;
+  justify-self: stretch;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero-scan-viewport {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  height: clamp(300px, 46vh, 460px);
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 18%,
+    #000 82%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 18%,
+    #000 82%,
+    transparent 100%
+  );
+}
+
+.hero-scan-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  will-change: transform;
+  transition: transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-scan-list.is-instant {
+  transition: none !important;
+}
+
+.hero-scan-list.is-ready {
+  opacity: 1;
+}
+
+.hero-scan-item {
+  --scan-dist: 3;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 52px;
+  padding: 10px 4px;
+  cursor: default;
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.22);
+  opacity: calc(1 - min(var(--scan-dist), 4) * 0.18);
+  transition: color 0.35s ease, opacity 0.35s ease;
+  user-select: none;
+}
+
+.hero-scan-item.is-active {
+  color: #fff;
+  opacity: 1;
+}
+
+.hero-scan-marker {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 0 6px 9px;
+  border-color: transparent transparent transparent transparent;
+  flex-shrink: 0;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.hero-scan-item.is-active .hero-scan-marker {
+  border-left-color: var(--brand, #ff2d2d);
+  transform: translateX(1px);
+}
+
+.hero-scan-label {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(1.35rem, 2.6vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+@media (max-width: 900px) {
+  .hero.hero-single.hero-has-scan .hero-inner.hero-shell,
+  .hero.hero-single.hero-has-callback .hero-inner.hero-shell {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .hero-scan {
+    max-width: none;
+    justify-self: stretch;
+    margin-top: 8px;
+  }
+
+  .hero-scan-viewport {
+    height: 260px;
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scan-list {
+    transition: none;
+  }
+}

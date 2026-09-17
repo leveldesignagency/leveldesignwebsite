@@ -561,11 +561,15 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 .nav a:hover::after {
   width: 100%;
 }
+
+.nav a[aria-current="page"]::after {
+  width: 100%;
+}
 .nav a.cta { 
   padding: 10px 14px; 
   border-radius: 0; 
   background: var(--brand); 
-  border: 1.5px solid var(--brand); 
+  border: 1px solid var(--brand); 
   color: #ffffff; 
   font-weight: 700; 
   transition: color 0.35s ease, border-color 0.35s ease;
@@ -617,7 +621,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
   gap: 8px;
   padding: 14px 22px;
   border-radius: var(--radius);
-  border: 1.5px solid var(--border-strong);
+  border: 1px solid var(--border-strong);
   text-decoration: none;
   color: var(--text);
   font-weight: 600;
@@ -647,7 +651,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 .btn.primary {
   background: var(--brand);
   color: #ffffff;
-  border: 1.5px solid var(--brand);
+  border: 1px solid var(--brand);
   box-shadow: none;
 }
 
@@ -671,7 +675,7 @@ p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); }
 .btn.btn-outline-run {
   background: transparent;
   color: var(--text);
-  border: 1.5px solid rgba(255, 45, 45, 0.35);
+  border: 1px solid rgba(255, 45, 45, 0.35);
   box-shadow: none;
 }
 
@@ -1635,7 +1639,7 @@ body:not(.dark-mode) .market-chip {
 
 .market-detail {
   padding: 16px 18px;
-  border-left: 2px solid var(--brand);
+  border-left: 1px solid var(--brand);
   background: rgba(255, 255, 255, 0.02);
   min-height: 3.5rem;
 }
@@ -1683,7 +1687,7 @@ body:not(.dark-mode) .market-detail {
   background: var(--bg-alt);
   color: var(--text-alt);
   padding: 0;
-  border-top: 2px solid var(--text-alt);
+  border-top: 1px solid var(--text-alt);
 }
 .capability-section-inner {
   padding-top: 88px;
@@ -1918,7 +1922,7 @@ body:not(.dark-mode) .deliver-lead {
   display: inline-block;
   margin-bottom: 2em;
   transition: color 0.2s ease, border-color 0.2s ease;
-  border-bottom: 2px solid transparent;
+  border-bottom: 1px solid transparent;
   padding-bottom: 2px;
 }
 .deliver-cta:hover {
@@ -1945,7 +1949,7 @@ body:not(.dark-mode) .deliver-cta:hover {
   line-height: 1.45;
   letter-spacing: 0.015em;
   color: rgba(255, 255, 255, 0.95);
-  border-left: 3px solid var(--brand);
+  border-left: 1px solid var(--brand);
   background: linear-gradient(90deg, rgba(255, 45, 45, 0.08) 0%, transparent 100%);
 }
 body:not(.dark-mode) .deliver-items li {
@@ -2086,7 +2090,7 @@ body:not(.dark-mode) .capability-split-left .capability-lead {
   font-weight: 500;
   color: var(--text-alt);
   padding: 14px 24px;
-  border: 2px solid currentColor;
+  border: 1px solid currentColor;
   border-radius: 999px;
   background: transparent;
   transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
@@ -2219,7 +2223,7 @@ body:not(.dark-mode) .capability-cards li span:hover {
   padding: 16px 28px;
   margin-right: 12px;
   margin-bottom: 12px;
-  border: 2px solid currentColor;
+  border: 1px solid currentColor;
   border-radius: 0;
   background: transparent;
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
@@ -3415,7 +3419,7 @@ section#services .container .grid.services-grid {
   height: 120px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 0;
   display: flex;
   align-items: center;
@@ -4360,7 +4364,7 @@ input, textarea {
   width: 100%; 
   padding: 16px 18px; 
   border-radius: 0; 
-  border: 2px solid #000000; /* Black border in light mode */
+  border: 1px solid #000000; /* Black border in light mode */
   background: var(--bg); 
   color: var(--text); 
   font: inherit; 
@@ -4371,7 +4375,7 @@ input, textarea {
 /* Dark mode form inputs - white border */
 .dark-mode input,
 .dark-mode textarea {
-  border: 2px solid #ffffff;
+  border: 1px solid #ffffff;
 }
 
 input:focus, textarea:focus { 
@@ -4427,7 +4431,7 @@ textarea {
   padding: 16px 28px;
   background: var(--brand);
   color: #ffffff;
-  border: 1.5px solid var(--brand);
+  border: 1px solid var(--brand);
   font-weight: 700;
   font-size: 0.8rem;
   text-transform: uppercase;
@@ -4490,13 +4494,13 @@ textarea {
 
 .form-message.success {
   background: rgba(76, 175, 80, 0.1);
-  border: 2px solid #4caf50;
+  border: 1px solid #4caf50;
   color: #4caf50;
 }
 
 .form-message.error {
   background: rgba(244, 67, 54, 0.1);
-  border: 2px solid #f44336;
+  border: 1px solid #f44336;
   color: #f44336;
 }
 
@@ -5908,7 +5912,7 @@ body:not(.dark-mode) .footer-social-link {
   }
   
   .nav-links a.cta {
-    border: 2px solid var(--brand) !important;
+    border: 1px solid var(--brand) !important;
     padding: 16px 32px !important;
     margin-top: 24px;
     text-align: center !important;
@@ -7701,7 +7705,7 @@ body:not(.dark-mode) .footer-social-link {
 .nav a.cta {
   background: var(--brand);
   color: #ffffff;
-  border: 1.5px solid var(--brand);
+  border: 1px solid var(--brand);
   box-shadow: none;
   opacity: 1;
 }

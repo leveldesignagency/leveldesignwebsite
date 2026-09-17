@@ -128,7 +128,7 @@
   align-items: center;
   justify-content: center;
   padding: 12px 20px;
-  border: 1.5px solid var(--brand, #ff2d2d);
+  border: 1px solid var(--brand, #ff2d2d);
   background: transparent;
   color: #fff;
   font-size: 0.78rem;
@@ -155,10 +155,10 @@
   font-size: 0.82rem;
 }
 
-/* Hero View work: text only, underline on hover */
+/* Hero View work: match contact email underline wipe */
 .hero-actions .hero-cta-secondary.btn,
 .hero-actions a.hero-cta-secondary {
-  background: transparent !important;
+  background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 12px 4px !important;
@@ -166,6 +166,14 @@
   border-radius: 0 !important;
   text-decoration: none !important;
   position: relative;
+  display: inline-flex !important;
+  align-items: center;
+  background-image: linear-gradient(currentColor, currentColor) !important;
+  background-repeat: no-repeat !important;
+  background-position: right bottom !important;
+  background-size: 0% 1.5px !important;
+  transition: color 0.3s ease, background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-position 0.35s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 .hero-actions .hero-cta-secondary.btn::before,
@@ -176,10 +184,10 @@
 
 .hero-actions .hero-cta-secondary.btn:hover,
 .hero-actions a.hero-cta-secondary:hover {
-  background: transparent !important;
+  background-color: transparent !important;
   border: none !important;
-  color: #fff !important;
-  text-decoration: underline !important;
-  text-underline-offset: 6px;
-  text-decoration-thickness: 1.5px;
+  color: var(--brand, #ff2d2d) !important;
+  text-decoration: none !important;
+  background-position: left bottom !important;
+  background-size: 100% 1.5px !important;
 }

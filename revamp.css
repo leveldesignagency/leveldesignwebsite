@@ -130,7 +130,7 @@ h3,
   font-weight: 700 !important;
   background: var(--brand) !important;
   color: #fff !important;
-  border: 1.5px solid var(--brand) !important;
+  border: 1px solid var(--brand) !important;
   box-shadow: none !important;
 }
 
@@ -170,7 +170,7 @@ h3,
 .btn.primary {
   background: var(--brand) !important;
   color: #fff !important;
-  border: 1.5px solid var(--brand) !important;
+  border: 1px solid var(--brand) !important;
   box-shadow: none !important;
 }
 
@@ -187,7 +187,7 @@ h3,
 
 .btn.btn-outline-run {
   background: transparent !important;
-  border: 1.5px solid rgba(255, 45, 45, 0.35) !important;
+  border: 1px solid rgba(255, 45, 45, 0.35) !important;
   box-shadow: none !important;
 }
 
@@ -228,6 +228,17 @@ h3,
   gap: 40px !important;
 }
 
+@media (min-width: 901px) {
+  .hero.hero-single.hero-has-scan .hero-inner.hero-shell,
+  .hero.hero-single.hero-has-callback .hero-inner.hero-shell {
+    display: grid !important;
+    grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.85fr) !important;
+    align-items: center !important;
+    gap: clamp(28px, 4vw, 56px) !important;
+  }
+}
+
+
 .hero-intent-kicker {
   display: none !important;
 }
@@ -247,11 +258,7 @@ h3,
   color: var(--muted) !important;
   max-width: 46ch !important;
   margin: 0 0 28px !important;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .hero-actions {
