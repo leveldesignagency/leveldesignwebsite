@@ -54,6 +54,25 @@ const REVEAL_ITEM_SELECTORS = [
   '.project-curated-card',
   '#articles .article-card',
   '[data-reveal]',
+  /* Service + funnel door pages */
+  '.service-door .door-kicker',
+  '.service-door .door-title',
+  '.service-door .door-lead',
+  '.service-door .door-hero-actions .btn',
+  '.service-door .door-section-label',
+  '.service-door .door-section-title',
+  '.service-door .door-section-text',
+  '.service-door .door-pillar',
+  '.service-door .door-list > li',
+  '.service-door .door-step',
+  '.service-door .door-price',
+  '.service-door .door-faq details',
+  '.service-door .door-industry',
+  '.service-door .door-cta h2',
+  '.service-door .door-cta p',
+  '.service-door .door-cta-actions .btn',
+  '.service-door .door-price .btn',
+  '.service-door .site-footer',
 ].join(', ');
 
 const REVEAL_SECTION_SELECTORS = '[data-animate]';
@@ -98,6 +117,13 @@ function assignRevealIndex(elements) {
     else if (el.matches('#services-gallery .service-slide')) group = 'gallery';
     else if (el.matches('#articles .article-card')) group = 'articles';
     else if (el.matches('.project-curated-card')) group = 'curated';
+    else if (el.matches('.service-door .door-pillar')) group = 'door-pillars';
+    else if (el.matches('.service-door .door-step')) group = 'door-steps';
+    else if (el.matches('.service-door .door-price')) group = 'door-prices';
+    else if (el.matches('.service-door .door-list > li')) group = 'door-list';
+    else if (el.matches('.service-door .door-industry')) group = 'door-industries';
+    else if (el.matches('.service-door .door-faq details')) group = 'door-faq';
+    else if (el.matches('.service-door .door-hero-actions .btn, .service-door .door-cta-actions .btn, .service-door .door-price .btn')) group = 'door-btns';
 
     const i = groupCounts[group] || 0;
     groupCounts[group] = i + 1;
