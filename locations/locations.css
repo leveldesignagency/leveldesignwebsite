@@ -1,0 +1,87 @@
+/* Shared location landing pages */
+.loc-page {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+}
+.loc-page h1 {
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(42px, 8vw, 72px);
+  line-height: 0.95;
+  margin: 0 0 16px;
+  color: var(--text, #fff);
+}
+.loc-page h2 {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 40px 0 12px;
+  color: var(--text, #fff);
+}
+.loc-page .lead,
+.loc-page p {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--muted, #aaa);
+  margin: 0 0 16px;
+}
+.loc-page .lead {
+  font-size: 1.15rem;
+  color: #d4d4d8;
+}
+.loc-page ul.loc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+  display: grid;
+  gap: 10px;
+}
+.loc-page ul.loc-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--muted, #aaa);
+  line-height: 1.5;
+}
+.loc-page ul.loc-list strong {
+  color: var(--text, #fff);
+  font-weight: 600;
+}
+.loc-page ul.loc-list a {
+  color: var(--text, #fff);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.loc-page .cta-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+.loc-page a.back {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: var(--muted);
+  text-decoration: none;
+}
+.loc-page a.back:hover {
+  color: var(--text, #fff);
+}
+.loc-faq details {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 14px 0;
+}
+.loc-faq details:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.loc-faq summary {
+  cursor: pointer;
+  color: var(--text, #fff);
+  font-weight: 600;
+  list-style: none;
+}
+.loc-faq summary::-webkit-details-marker {
+  display: none;
+}
+.loc-faq details p {
+  margin: 10px 0 0;
+}
