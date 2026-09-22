@@ -478,6 +478,7 @@
     const trail =
       params.get('trail') ||
       params.get('from') ||
+      (params.get('industry') ? 'industries/' + params.get('industry') : '') ||
       (params.get('service')
         ? 'services/' + params.get('service') + (params.get('tier') ? '/pricing/' + params.get('tier') : '/hero')
         : '');
@@ -512,6 +513,11 @@
           if (label) label.textContent = SERVICE_LABELS[svc];
         }
       }
+    }
+
+    // Keep the address bar clean after reading autofill params
+    if (window.history && window.history.replaceState && window.location.search) {
+      window.history.replaceState(null, '', window.location.pathname);
     }
 
     const submitBtn = document.getElementById('submit-btn');
