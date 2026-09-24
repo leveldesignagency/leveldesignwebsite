@@ -701,6 +701,7 @@ h3,
 
 .deliver-row-media > img {
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 10;
   object-fit: cover;
   display: block;
@@ -856,6 +857,15 @@ html.has-site-cursor select {
 
   .deliver-row-media {
     cursor: auto;
+  }
+
+  /* Same frame as desktop — don't let intrinsic img sizes change mobile height */
+  .deliver-row-media > img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    aspect-ratio: 16 / 10 !important;
+    object-fit: cover !important;
   }
 
   .hero-picks {
