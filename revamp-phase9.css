@@ -57,7 +57,7 @@
     z-index: 1002 !important;
   }
 
-  /* True full-screen overlay menu */
+  /* True full-screen overlay menu — top-aligned so CTA clears iOS home bar */
   .nav-links,
   .nav-links.open,
   .project-header .nav-links,
@@ -74,12 +74,12 @@
     height: 100dvh !important;
     height: 100vh !important;
     margin: 0 !important;
-    padding: clamp(88px, 16vh, 120px) var(--container-x) clamp(40px, 8vh, 64px) !important;
+    padding: calc(var(--header-h, 56px) + 28px) var(--container-x) calc(28px + env(safe-area-inset-bottom, 0px)) !important;
     display: none !important;
     flex-direction: column !important;
     align-items: flex-start !important;
-    justify-content: center !important;
-    gap: clamp(8px, 2vh, 16px) !important;
+    justify-content: flex-start !important;
+    gap: clamp(4px, 1.2vh, 12px) !important;
     background: var(--bg) !important;
     border: none !important;
     border-radius: 0 !important;
@@ -128,7 +128,8 @@
 
   .nav-links a.cta,
   .nav a.cta {
-    margin-top: clamp(16px, 3vh, 28px) !important;
+    margin-top: clamp(12px, 2.5vh, 20px) !important;
+    margin-bottom: env(safe-area-inset-bottom, 0px) !important;
     text-align: center !important;
     display: inline-flex !important;
     align-items: center;
