@@ -29,7 +29,7 @@
       type: 'Web app service',
       desc: 'Web app connecting clients with specialist cleaners.',
       workDesc: 'Platform connecting domestic and commercial clients with specialist cleaners - end-to-end design and build.',
-      image: 'public/kleenbanner.png',
+      image: 'public/kleenbanner.jpg',
       thumb: 'public/hero-thumbs/kleen.jpg?v=3',
       imageAlt: 'KLEEN cleaning platform',
       url: 'https://kleenapp.co.uk',
@@ -726,12 +726,14 @@
     const showMarket = (id, options) => {
       const opts = options || {};
       const market = MARKETS.find((m) => m.id === id) || MARKETS[0];
+      const isMobile = window.matchMedia('(max-width: 900px)').matches;
       strip.querySelectorAll('.market-chip').forEach((chip) => {
         const on = chip.dataset.market === market.id;
         chip.classList.toggle('is-active', on);
         chip.setAttribute('aria-pressed', on ? 'true' : 'false');
-        if (on && opts.scrollChip && window.matchMedia('(max-width: 900px)').matches) {
-          chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        if (on && opts.scrollChip && isMobile) {
+          const left = chip.offsetLeft - (strip.clientWidth - chip.offsetWidth) / 2;
+          strip.scrollTo({ left: Math.max(0, left), behavior: 'auto' });
         }
       });
 
@@ -748,12 +750,7 @@
         detailEl.classList.remove('is-switching');
       };
 
-      if (opts.scrollChip && window.matchMedia('(max-width: 900px)').matches) {
-        detailEl.classList.add('is-switching');
-        window.setTimeout(updateDetail, 140);
-      } else {
-        updateDetail();
-      }
+      updateDetail();
     };
 
     strip.innerHTML = MARKETS.map(
@@ -776,8 +773,13 @@
     const initial = MARKETS.some((m) => m.id === marketId) ? marketId : 'construction';
     showMarket(initial);
 
-    if (typeof window.LEVEL_observeRevealTargets === 'function') {
+    if (
+      typeof window.LEVEL_observeRevealTargets === 'function' &&
+      !window.matchMedia('(max-width: 900px)').matches
+    ) {
       window.LEVEL_observeRevealTargets(strip.querySelectorAll('.market-chip'));
+    } else {
+      strip.querySelectorAll('.market-chip').forEach((chip) => chip.classList.add('in'));
     }
   }
 

@@ -73,15 +73,19 @@
   transition-delay: 0.58s;
 }
 
-/* ── Client logos - more vertical breathing room ── */
+/* ── Client logos - tighter between Selected work and Markets ── */
 @media (max-width: 900px) {
+  .selected-work-section {
+    padding-bottom: 16px !important;
+  }
+
   #clients.clients.section {
-    padding: clamp(40px, 8vw, 64px) 0 !important;
+    padding: 12px 0 8px !important;
     margin: 0 !important;
   }
 
   #clients .marquee-row {
-    margin: clamp(12px, 3vw, 20px) 0 !important;
+    margin: 8px 0 !important;
   }
 
   #clients .marquee-track {
@@ -92,7 +96,7 @@
 /* ── Markets - mobile: horizontal pills + detail card below ── */
 @media (max-width: 900px) {
   #who-we-work-with.markets-section-wrap.section {
-    padding: clamp(48px, 8vw, 72px) 0 !important;
+    padding: 28px 0 40px !important;
   }
 
   #who-we-work-with.markets-section-wrap.section > .container {
@@ -216,6 +220,25 @@
   transform: translateY(0);
 }
 
+/* Mobile: chips ready immediately — no staggered opacity lag */
+@media (max-width: 900px) {
+  #markets-strip .market-chip,
+  #markets-strip .market-chip.js-reveal:not(.in) {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: border-color 0.2s ease, background 0.2s ease !important;
+    transition-delay: 0s !important;
+  }
+
+  #who-we-work-with .market-detail {
+    transition: none !important;
+  }
+
+  #who-we-work-with .market-detail.is-switching {
+    opacity: 1 !important;
+  }
+}
+
 /* ── Where we go deep - scroll reveals ── */
 #services-gallery[data-animate] {
   opacity: 1 !important;
@@ -234,19 +257,19 @@
   transform: translateY(0);
 }
 
-/* ── Specialities → Work that ships - more separation ── */
+/* ── Specialities → Work that ships ── */
 @media (max-width: 900px) {
   #services-gallery.section {
-    padding-bottom: clamp(48px, 9vw, 80px) !important;
+    padding-bottom: clamp(28px, 5vw, 48px) !important;
   }
 
   #work-title.section-title-block-wrap,
   #work-title.work-title-section {
-    margin-top: clamp(24px, 5vw, 48px) !important;
+    margin-top: 8px !important;
   }
 
   #work-title .section-title-block {
-    padding-top: clamp(48px, 8vw, 72px) !important;
+    padding-top: clamp(28px, 5vw, 44px) !important;
   }
 }
 

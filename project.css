@@ -3143,16 +3143,39 @@ a.detail-back:active {
 }
 
 @media (max-width: 900px) {
-  .hero-headline-white,
-  .hero-headline-textured {
-    font-size: clamp(2.35rem, 10vw, 3.1rem);
+  /* Push intro + CTAs down from the header; leave .hero-scan sizing alone */
+  .hero.hero-single {
+    min-height: auto !important;
+    align-items: flex-start !important;
+    padding: calc(var(--header-h) + 56px) 0 36px !important;
   }
 
-  /* Let intent headlines breathe — avoid one-word-per-line wrapping */
+  .hero.hero-single .hero-content.hero-intro {
+    padding-top: clamp(28px, 7vw, 48px) !important;
+  }
+
+  .hero-headline-white,
+  .hero-headline-textured {
+    font-size: clamp(2.85rem, 12.5vw, 3.85rem);
+  }
+
   .hero.hero-single .hero-headline-single.headline,
   .hero.hero-single .hero-headline-single {
     max-width: none !important;
     width: 100% !important;
+    margin-bottom: 18px !important;
+  }
+
+  .hero.hero-single .hero-subhead {
+    font-size: 1.02rem !important;
+    margin-bottom: 22px !important;
+  }
+
+  /* Secondary CTA visible immediately on mobile */
+  .hero-cta-secondary {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 
   .hero-headline-line {

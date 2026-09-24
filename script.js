@@ -652,9 +652,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Keep passive: false because we need preventDefault
-  window.addEventListener('wheel', throttledWheel, { passive: false });
-  window.addEventListener('scroll', throttledScroll, { passive: true });
+  // Keep passive: false because we need preventDefault — desktop only (touch scroll lock janks mobile)
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (finePointer) {
+    window.addEventListener('wheel', throttledWheel, { passive: false });
+    window.addEventListener('scroll', throttledScroll, { passive: true });
+  }
 });
 
 // Email copy to clipboard functionality
