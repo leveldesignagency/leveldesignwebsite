@@ -1195,15 +1195,17 @@
 
   .door-cta-actions {
     display: flex;
+    flex-direction: column;
     flex-wrap: nowrap;
     width: 100%;
     gap: 10px;
     justify-content: stretch;
+    align-items: stretch;
   }
 
   .door-cta-actions .btn {
-    flex: 1 1 0;
-    width: auto;
+    flex: none;
+    width: 100%;
     min-width: 0;
     justify-content: center;
     text-align: center;
