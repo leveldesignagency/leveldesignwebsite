@@ -1,6 +1,6 @@
 # EmailJS Setup Guide
 
-Your contact form is now configured to use EmailJS to send emails directly to **help@leveldesignagency.com**.
+Your contact form is now configured to use EmailJS to send emails directly to **team@leveldesignagency.com**.
 
 ## Quick Setup Steps
 
@@ -13,7 +13,7 @@ Your contact form is now configured to use EmailJS to send emails directly to **
    - Click "Add New Service"
    - Choose your email provider (Gmail, Outlook, etc.)
    - Follow the setup instructions to connect your email account
-   - **Note:** You'll need to use the email account that will receive the form submissions (help@leveldesignagency.com)
+   - **Note:** You'll need to use the email account that will receive the form submissions (team@leveldesignagency.com)
 
 3. **Create an Email Template**
    - Go to "Email Templates" in the dashboard
@@ -52,7 +52,7 @@ Your contact form is now configured to use EmailJS to send emails directly to **
 
 6. **Test the Form**
    - Submit a test message through your contact form
-   - Check your email inbox (help@leveldesignagency.com) for the message
+   - Check your email inbox (team@leveldesignagency.com) for the message
 
 ## Important Notes
 

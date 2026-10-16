@@ -7,7 +7,7 @@
 
   const EMAILJS_PUBLIC_KEY = 'YZEUywDpGdF8ypKDn';
   const RECAPTCHA_SITE_KEY = '6LeCRlIsAAAAAGPZzNsKcCRa_BSgy6ICxaSAh1wm';
-  const HELP_EMAIL = 'help@leveldesignagency.com';
+  const TEAM_EMAIL = 'team@leveldesignagency.com';
 
   const TRAIL_PRESETS = {
     nav: { service: '', package: '', budget: '', summary: '', message: '' },
@@ -191,11 +191,11 @@
   function mailtoLink(subject) {
     return (
       '<a href="mailto:' +
-      HELP_EMAIL +
+      TEAM_EMAIL +
       '?subject=' +
       encodeURIComponent(subject || 'Project enquiry') +
       '">' +
-      HELP_EMAIL +
+      TEAM_EMAIL +
       '</a>'
     );
   }
@@ -554,7 +554,7 @@
       e.stopPropagation();
 
       if (!submitBtn || !submitText || !formMessage) {
-        window.location.href = 'mailto:' + HELP_EMAIL + '?subject=' + encodeURIComponent('Project enquiry');
+        window.location.href = 'mailto:' + TEAM_EMAIL + '?subject=' + encodeURIComponent('Project enquiry');
         return;
       }
 

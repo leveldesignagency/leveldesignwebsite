@@ -1244,14 +1244,14 @@ document.addEventListener('DOMContentLoaded', function() {
       try {
         await ensureFormLibs();
       } catch (error) {
-        formMessage.innerHTML = 'Form service failed to load. Please email <a href="mailto:help@leveldesignagency.com">help@leveldesignagency.com</a>.';
+        formMessage.innerHTML = 'Form service failed to load. Please email <a href="mailto:team@leveldesignagency.com">team@leveldesignagency.com</a>.';
         formMessage.className = 'form-message error';
         formMessage.style.display = 'block';
         return;
       }
 
     if (typeof emailjs === 'undefined') {
-        formMessage.innerHTML = 'Form service is not configured. Please email <a href="mailto:help@leveldesignagency.com">help@leveldesignagency.com</a>.';
+        formMessage.innerHTML = 'Form service is not configured. Please email <a href="mailto:team@leveldesignagency.com">team@leveldesignagency.com</a>.';
         formMessage.className = 'form-message error';
         formMessage.style.display = 'block';
       return;
@@ -1301,7 +1301,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // SECURITY CHECK 4: Rate limiting (homepage bucket — independent of start-a-project)
       const rateLimit = checkRateLimit('contact');
       if (!rateLimit.allowed) {
-        formMessage.innerHTML = `Too many submissions. Please wait ${rateLimit.remainingTime} minutes, or email <a href="mailto:help@leveldesignagency.com">help@leveldesignagency.com</a>.`;
+        formMessage.innerHTML = `Too many submissions. Please wait ${rateLimit.remainingTime} minutes, or email <a href="mailto:team@leveldesignagency.com">team@leveldesignagency.com</a>.`;
         formMessage.className = 'form-message error';
         formMessage.style.display = 'block';
         submitBtn.disabled = false;
@@ -1340,7 +1340,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
         
       } catch (error) {
-        let errorMsg = 'Sorry, there was an error sending your message. Please try again or email <a href="mailto:help@leveldesignagency.com">help@leveldesignagency.com</a>.';
+        let errorMsg = 'Sorry, there was an error sending your message. Please try again or email <a href="mailto:team@leveldesignagency.com">team@leveldesignagency.com</a>.';
         if (error && error.text) {
           errorMsg += ` (${error.text})`;
         } else if (error && error.message) {
@@ -1410,12 +1410,12 @@ document.addEventListener('DOMContentLoaded', function () {
     try {
       await ensureFormLibs();
     } catch (err) {
-      showMsg('Form service failed to load. Email help@leveldesignagency.com.', false);
+      showMsg('Form service failed to load. Email team@leveldesignagency.com.', false);
       return;
     }
 
     if (typeof emailjs === 'undefined') {
-      showMsg('Form service is not configured. Email help@leveldesignagency.com.', false);
+      showMsg('Form service is not configured. Email team@leveldesignagency.com.', false);
       return;
     }
 
@@ -1423,7 +1423,7 @@ document.addEventListener('DOMContentLoaded', function () {
     submitText.textContent = 'Sending...';
     if (msg) msg.hidden = true;
 
-    const replyEmail = emailRaw || 'help@leveldesignagency.com';
+    const replyEmail = emailRaw || 'team@leveldesignagency.com';
     const message = [
       'Callback request from homepage hero.',
       `Intent: ${intent}`,
@@ -1454,7 +1454,7 @@ document.addEventListener('DOMContentLoaded', function () {
           from_name: name,
           from_email: emailRaw,
           message: 'Thanks — we will call you back shortly about your enquiry.',
-          reply_to: 'help@leveldesignagency.com'
+          reply_to: 'team@leveldesignagency.com'
         });
       }
 
@@ -1465,7 +1465,7 @@ document.addEventListener('DOMContentLoaded', function () {
       submitBtn.disabled = false;
       submitText.textContent = 'Request a callback';
     } catch (error) {
-      showMsg('Could not send. Please email help@leveldesignagency.com or try again.', false);
+      showMsg('Could not send. Please email team@leveldesignagency.com or try again.', false);
       submitBtn.disabled = false;
       submitText.textContent = 'Request a callback';
     }
