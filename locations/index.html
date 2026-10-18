@@ -7,46 +7,107 @@
   <meta name="description" content="LEVEL is based in Dartford. Web design and marketing for Kent, South East London, Kensington, Notting Hill and selected London areas. Premium sites that convert." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://www.leveldesignagency.com/locations" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css?v=20260918u" />
-  <link rel="stylesheet" href="/project.css?v=20260918g" />
-  <link rel="stylesheet" href="/locations/locations.css?v=20260922a" />
+  <link rel="stylesheet" href="/revamp.css?v=20260924d" />
+  <link rel="stylesheet" href="/revamp-phase8.css?v=20260917n" />
+  <link rel="stylesheet" href="/revamp-phase9.css?v=20260924c" />
+  <link rel="stylesheet" href="/project.css?v=20260924a" />
+  <link rel="stylesheet" href="/locations/locations.css?v=20261018a" />
   <link rel="icon" type="image/png" href="/favicon.png">
 </head>
-<body>
+<body id="top" class="dark-mode loc-body project-page">
   <header class="site-header project-header">
     <div class="header-inner">
       <a href="/" class="logo" aria-label="LEVEL - home">
         <img src="/LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" class="logo-img" />
       </a>
+      <nav class="nav" aria-label="Primary">
+        <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <ul id="nav-links" class="nav-links">
+          <li><a href="/services/web-design">Web</a></li>
+          <li><a href="/services/branding">Branding</a></li>
+          <li><a href="/services/systems">Systems</a></li>
+          <li><a href="/services/seo">SEO</a></li>
+          <li><a href="/services/marketing">Marketing</a></li>
+          <li><a href="/#work-title">Work</a></li>
+          <li><a href="/start-a-project" class="cta">Start a project</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
-  <main class="loc-page">
-    <p class="section-title-kicker" style="margin-bottom:8px">Service areas</p>
-    <h1>Based in Dartford. Working across Kent &amp; London.</h1>
-    <p class="lead">LEVEL Design Agency is based in Dartford, Kent. Web design, branding and digital marketing for ambitious businesses across South East London, West London, and selected premium areas.</p>
-    <ul class="loc-list">
-      <li><strong><a href="/locations/dartford">Dartford</a></strong> — Our base · Kent &amp; South East London</li>
-      <li><strong><a href="/locations/kensington">Kensington</a></strong> — West London</li>
-      <li><strong><a href="/locations/notting-hill">Notting Hill</a></strong> — West London</li>
-      <li><strong><a href="/locations/chelsea">Chelsea</a></strong> — West London</li>
-      <li><strong><a href="/locations/knightsbridge">Knightsbridge</a></strong> — Central London</li>
-      <li><strong><a href="/locations/mayfair">Mayfair</a></strong> — Central London</li>
-      <li><strong><a href="/locations/belgravia">Belgravia</a></strong> — Central London</li>
-      <li><strong><a href="/locations/richmond">Richmond</a></strong> — South West London</li>
-      <li><strong><a href="/locations/hampstead">Hampstead</a></strong> — North London</li>
-      <li><strong><a href="/locations/surrey">Surrey</a></strong> — South East England</li>
-      <li><strong><a href="/locations/ascot">Ascot</a></strong> — Berkshire</li>
-    </ul>
-    <div class="cta-row">
-      <a class="btn primary" href="/start-a-project?location=dartford&intent=web-design">Start a Dartford project</a>
-      <a class="btn btn-outline-run" href="/services/web-design">View web design</a>
-    </div>
+
+  <main id="main" class="loc-main">
+    <section class="loc-hero">
+      <div class="loc-hero-inner">
+        <p class="loc-kicker">Service areas</p>
+        <h1 class="loc-title">Based in Dartford.<br />Working across Kent &amp; London.</h1>
+        <p class="loc-lead">Web design, branding and digital marketing for ambitious businesses across South East London, West London, and selected premium areas.</p>
+        <div class="loc-hero-actions">
+          <a class="btn primary" href="/start-a-project?location=dartford&amp;intent=web-design">Start a project</a>
+          <a class="btn btn-outline-run" href="/services/web-design">View web design</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="loc-section">
+      <p class="loc-section-label">Locations</p>
+      <h2 class="loc-section-title">Where we work.</h2>
+      <div class="loc-index-grid">
+        <a class="loc-index-card" href="/locations/dartford"><strong>Dartford</strong><span>Our base · Kent & South East London</span></a>
+        <a class="loc-index-card" href="/locations/kensington"><strong>Kensington</strong><span>West London</span></a>
+        <a class="loc-index-card" href="/locations/notting-hill"><strong>Notting Hill</strong><span>West London</span></a>
+        <a class="loc-index-card" href="/locations/chelsea"><strong>Chelsea</strong><span>West London</span></a>
+        <a class="loc-index-card" href="/locations/knightsbridge"><strong>Knightsbridge</strong><span>Central London</span></a>
+        <a class="loc-index-card" href="/locations/mayfair"><strong>Mayfair</strong><span>Central London</span></a>
+        <a class="loc-index-card" href="/locations/belgravia"><strong>Belgravia</strong><span>Central London</span></a>
+        <a class="loc-index-card" href="/locations/richmond"><strong>Richmond</strong><span>South West London</span></a>
+        <a class="loc-index-card" href="/locations/hampstead"><strong>Hampstead</strong><span>North London</span></a>
+        <a class="loc-index-card" href="/locations/surrey"><strong>Surrey</strong><span>South East England</span></a>
+        <a class="loc-index-card" href="/locations/ascot"><strong>Ascot</strong><span>Berkshire</span></a>
+      </div>
+    </section>
+
+    <section class="loc-cta" aria-label="Start a project">
+      <div>
+        <h2>Ready for a site that sells?</h2>
+        <p>Send the brief. We&rsquo;ll come back with a clear scope and price band.</p>
+      </div>
+      <div class="loc-cta-actions">
+        <a class="btn primary" href="/start-a-project">Start a project</a>
+        <a class="btn" href="/">Back to homepage</a>
+      </div>
+    </section>
   </main>
 
-    <!-- Vercel Speed Insights -->
-    <script>
-      window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/speed-insights/script.js"></script>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-main-row">
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="/services/web-design" class="footer-nav-link">Web</a>
+          <a href="/services/branding" class="footer-nav-link">Branding</a>
+          <a href="/services/systems" class="footer-nav-link">Systems</a>
+          <a href="/services/seo" class="footer-nav-link">SEO</a>
+          <a href="/services/marketing" class="footer-nav-link">Marketing</a>
+          <a href="/#work-title" class="footer-nav-link">Work</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© <span id="year"></span> LEVEL DESIGN AGENCY LTD</p>
+        <a href="/#top" class="footer-logo-link" aria-label="LEVEL Design Agency - home">
+          <img src="/LEVEL LOGO MAIN.svg" alt="LEVEL DESIGN AGENCY LTD" class="footer-logo" />
+        </a>
+      </div>
+    </div>
+  </footer>
+  <script src="/script.js?v=20260924a" defer></script>
+  <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>
