@@ -17,7 +17,9 @@
   padding-right: var(--container-x, clamp(28px, 8vw, 128px)) !important;
 }
 
-/* ── Full-bleed hero with image ── */
+/* ── Full-bleed hero with image ──
+   Background lives on .loc-hero itself — avoids #main > section > *
+   (styles.css) forcing children to position:relative and collapsing media. */
 .loc-hero {
   position: relative;
   min-height: calc(100vh - var(--header-h, 72px));
@@ -26,41 +28,19 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: #0a0a0a;
-  box-sizing: border-box;
-}
-
-.loc-hero-media {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  /* CSS background is the reliable hero image (img is backup) */
   background-color: #0a0a0a;
   background-image: url("/public/heroes/web-design.jpg");
   background-size: cover;
   background-position: center right;
   background-repeat: no-repeat;
+  box-sizing: border-box;
 }
 
-.loc-hero-media picture,
-.loc-hero-media img {
-  display: block;
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center right;
-  /* Prefer CSS background; keep img for SEO/alt but don't fight it */
-  opacity: 0;
-  pointer-events: none;
-}
-
-.loc-hero-media::after {
+.loc-hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 0;
   /* Dark on the left for text; keep the right image readable */
   background: linear-gradient(
     100deg,
@@ -70,6 +50,12 @@
     rgba(10, 10, 10, 0.12) 100%
   );
   pointer-events: none;
+}
+
+/* Hide leftover media node (kept in HTML for preload / future use) */
+#main > section.loc-hero > .loc-hero-media,
+.loc-hero > .loc-hero-media {
+  display: none !important;
 }
 
 .loc-hero-inner {
