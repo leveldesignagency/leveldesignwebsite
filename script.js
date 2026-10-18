@@ -652,7 +652,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Keep passive: false because we need preventDefault — desktop only (touch scroll lock janks mobile)
+  // Keep passive: false because we need preventDefault - desktop only (touch scroll lock janks mobile)
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (finePointer) {
     window.addEventListener('wheel', throttledWheel, { passive: false });
@@ -1124,7 +1124,7 @@ function loadExternalScript(src) {
         resolve();
         return;
       }
-      // Still loading — wait for real load/error only (no early timeout resolve)
+      // Still loading - wait for real load/error only (no early timeout resolve)
       existing.addEventListener('load', () => {
         existing.dataset.loaded = 'true';
         resolve();
@@ -1168,7 +1168,7 @@ window.recordFormSubmission = recordFormSubmission;
 window.executeRecaptcha = executeRecaptcha;
 
 /**
- * Shared EmailJS send — same service + templates as the homepage contact form.
+ * Shared EmailJS send - same service + templates as the homepage contact form.
  * Sends enquiry to LEVEL, then customer auto-reply.
  */
 window.sendLevelEnquiry = async function sendLevelEnquiry({ name, email, message, recaptchaToken, bucket }) {
@@ -1265,7 +1265,7 @@ document.addEventListener('DOMContentLoaded', function() {
       formMessage.style.display = 'none';
       formMessage.className = 'form-message';
       
-      // SECURITY CHECK 1: Honeypot (obscure name — do not use "website", autofill fills that)
+      // SECURITY CHECK 1: Honeypot (obscure name - do not use "website", autofill fills that)
       const honeypot = contactForm.querySelector('input[name="company_fax"]');
       if (honeypot && honeypot.value.trim() !== '') {
         submitBtn.disabled = false;
@@ -1298,7 +1298,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       
-      // SECURITY CHECK 4: Rate limiting (homepage bucket — independent of start-a-project)
+      // SECURITY CHECK 4: Rate limiting (homepage bucket - independent of start-a-project)
       const rateLimit = checkRateLimit('contact');
       if (!rateLimit.allowed) {
         formMessage.innerHTML = `Too many submissions. Please wait ${rateLimit.remainingTime} minutes, or email <a href="mailto:team@leveldesignagency.com">team@leveldesignagency.com</a>.`;
@@ -1309,7 +1309,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       
-      // SECURITY CHECK 5: reCAPTCHA v3 (best-effort — do not hard-block real users if token fails)
+      // SECURITY CHECK 5: reCAPTCHA v3 (best-effort - do not hard-block real users if token fails)
       let recaptchaToken = null;
       try {
         recaptchaToken = await executeRecaptcha();
@@ -1453,7 +1453,7 @@ document.addEventListener('DOMContentLoaded', function () {
         await emailjs.send('service_3y4my2r', 'template_brnzty1', {
           from_name: name,
           from_email: emailRaw,
-          message: 'Thanks — we will call you back shortly about your enquiry.',
+          message: 'Thanks - we will call you back shortly about your enquiry.',
           reply_to: 'team@leveldesignagency.com'
         });
       }

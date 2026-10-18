@@ -1451,7 +1451,7 @@
   transition-delay: calc(var(--reveal-i, 0) * 70ms);
 }
 
-/* Buttons — same float-up as homepage CTAs */
+/* Buttons - same float-up as homepage CTAs */
 .service-door .door-hero-actions .btn.js-reveal:not(.in),
 .service-door .door-cta-actions .btn.js-reveal:not(.in),
 .service-door .door-price .btn.js-reveal:not(.in) {
@@ -1471,7 +1471,7 @@
   transition-delay: calc(var(--reveal-i, 0) * 90ms);
 }
 
-/* Cards — fall down into place */
+/* Cards - fall down into place */
 .service-door .door-pillar.js-reveal:not(.in),
 .service-door .door-step.js-reveal:not(.in),
 .service-door .door-price.js-reveal:not(.in),

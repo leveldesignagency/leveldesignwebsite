@@ -1122,12 +1122,12 @@ a.article-card:hover {
   border: 1px solid var(--border);
 }
 
-/* Pocdocs hero — phone sits lower in the artwork; raise it in the crop */
+/* Pocdocs hero - phone sits lower in the artwork; raise it in the crop */
 .detail-page--pocdocs .detail-hero img {
   object-position: center 42%;
 }
 
-/* KLEEN hero — raise artwork in the crop */
+/* KLEEN hero - raise artwork in the crop */
 .detail-page--kleen .detail-hero img {
   object-position: center 38%;
 }
@@ -2409,7 +2409,7 @@ a.detail-back:active {
     opacity: 1 !important;
   }
 
-  /* Hide specialities + mobile stats — no real cards on small screens */
+  /* Hide specialities + mobile stats - no real cards on small screens */
   #specialities-title.specialities-title-section,
   #specialities-title.section-title-block-wrap,
   #services-gallery.section,
@@ -2835,7 +2835,7 @@ a.detail-back:active {
 }
 
 /* ==========================================================================
-   Hero — ambient lighting + glass work cards (cursor tilt)
+   Hero - ambient lighting + glass work cards (cursor tilt)
    ========================================================================== */
 .hero.hero-single {
   position: relative;
@@ -2843,7 +2843,7 @@ a.detail-back:active {
   background: var(--bg) !important;
 }
 
-/* Soft bottom fade — no hard crescent edge */
+/* Soft bottom fade - no hard crescent edge */
 .hero.hero-single::after {
   content: "";
   position: absolute;
@@ -2856,7 +2856,7 @@ a.detail-back:active {
   pointer-events: none;
 }
 
-/* Flattened hero cards — no glow, no soft shadow depth */
+/* Flattened hero cards - no glow, no soft shadow depth */
 .hero-glass-card-frame,
 .hero-glass-card:nth-child(1) .hero-glass-card-frame,
 .hero-glass-card:nth-child(3) .hero-glass-card-frame,

@@ -1,5 +1,5 @@
 /**
- * Start a project — silent trail autofill + custom selects + EmailJS
+ * Start a project - silent trail autofill + custom selects + EmailJS
  * Same EmailJS service/templates as the homepage contact form.
  */
 (function () {
@@ -179,7 +179,7 @@
   const TIMELINE_LABELS = {
     asap: 'ASAP',
     '1-month': 'Within a month',
-    '1-3-months': '1–3 months',
+    '1-3-months': '1-3 months',
     'no-rush': 'No rush',
     exploring: 'Just exploring',
   };
@@ -222,7 +222,7 @@
         }
         existing.addEventListener('load', () => resolve(), { once: true });
         existing.addEventListener('error', () => reject(new Error('Failed to load ' + src)), { once: true });
-        // Already in DOM from a prior page script — give it a moment, then resolve anyway
+        // Already in DOM from a prior page script - give it a moment, then resolve anyway
         setTimeout(() => resolve(), 800);
         return;
       }

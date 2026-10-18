@@ -57,7 +57,7 @@
     z-index: 1002 !important;
   }
 
-  /* True full-screen overlay menu — top-aligned so CTA clears iOS home bar */
+  /* True full-screen overlay menu - top-aligned so CTA clears iOS home bar */
   .nav-links,
   .nav-links.open,
   .project-header .nav-links,

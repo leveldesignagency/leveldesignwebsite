@@ -36,7 +36,7 @@
     white-space: normal !important;
   }
 
-  /* Glass work cards — stacked deck on mobile */
+  /* Glass work cards - stacked deck on mobile */
   .hero-glass-stage {
     width: 100% !important;
     margin-top: clamp(20px, 4vw, 32px) !important;
@@ -220,7 +220,7 @@
   transform: translateY(0);
 }
 
-/* Mobile: chips ready immediately — no staggered opacity lag */
+/* Mobile: chips ready immediately - no staggered opacity lag */
 @media (max-width: 900px) {
   #markets-strip .market-chip,
   #markets-strip .market-chip.js-reveal:not(.in) {

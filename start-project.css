@@ -287,7 +287,7 @@
   }
 }
 
-/* Thinner form borders — page + sitewide override */
+/* Thinner form borders - page + sitewide override */
 .start-project-page input:not([type="checkbox"]):not([type="radio"]):not(.honeypot-field),
 .start-project-page textarea,
 .contact-form input:not([type="checkbox"]):not([type="radio"]),

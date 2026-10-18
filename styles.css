@@ -4382,7 +4382,7 @@ input, textarea {
   font-size: 16px;
 }
 
-/* Dark mode form inputs — thin soft border */
+/* Dark mode form inputs - thin soft border */
 .dark-mode input,
 .dark-mode textarea {
   border: 1px solid rgba(255, 255, 255, 0.28);
@@ -4492,7 +4492,7 @@ textarea {
   color: var(--text);
 }
 
-/* Form Message Styles — plain text, no alert boxes */
+/* Form Message Styles - plain text, no alert boxes */
 .form-message {
   margin-top: 14px;
   padding: 0;

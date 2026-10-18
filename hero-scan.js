@@ -1,5 +1,5 @@
 /**
- * Homepage hero capability scanner — feathered vertical list that
+ * Homepage hero capability scanner - feathered vertical list that
  * pauses on each option, then advances forever (no cursor control).
  */
 (function () {

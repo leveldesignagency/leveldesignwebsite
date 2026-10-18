@@ -1,5 +1,5 @@
 /**
- * Hero headline helper — keeps line markup in sync for intent variants.
+ * Hero headline helper - keeps line markup in sync for intent variants.
  */
 (function () {
   'use strict';

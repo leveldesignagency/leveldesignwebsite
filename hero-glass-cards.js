@@ -1,5 +1,5 @@
 /**
- * Hero glass cards — desktop pointer tilt + mobile stacked flick-through.
+ * Hero glass cards - desktop pointer tilt + mobile stacked flick-through.
  */
 (function () {
   'use strict';
@@ -93,7 +93,7 @@
         const x = (event.clientX - rect.left) / rect.width;
         const y = (event.clientY - rect.top) / rect.height;
         const depth = Number(card.dataset.tiltDepth || 1);
-        // Flat rotate only — no skew (skew reads as stretch, not 3D)
+        // Flat rotate only - no skew (skew reads as stretch, not 3D)
         const tiltRz = (x - 0.5) * 6 * depth;
 
         card.style.setProperty('--tilt-rz', `${tiltRz}deg`);

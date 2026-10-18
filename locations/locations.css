@@ -1,4 +1,4 @@
-/* Location landing pages — match main site / service-door quality */
+/* Location landing pages - match main site / service-door quality */
 
 .loc-body {
   background: var(--bg, #0a0a0a);
@@ -18,7 +18,7 @@
 }
 
 /* ── Full-bleed hero with image ──
-   Background lives on .loc-hero itself — avoids #main > section > *
+   Background lives on .loc-hero itself - avoids #main > section > *
    (styles.css) forcing children to position:relative and collapsing media. */
 .loc-hero {
   position: relative;
