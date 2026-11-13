@@ -19,7 +19,7 @@
       image: 'public/hero-spotlight/apx.jpg',
       thumb: 'public/hero-thumbs/apx.jpg',
       imageAlt: 'APX Fire and Security brand and website',
-      url: '',
+      url: 'https://apx-fs.co.uk',
       media: { type: 'image', src: 'public/hero-spotlight/apx.jpg' },
     },
     kleen: {
@@ -693,18 +693,15 @@
           p.media.type === 'video'
             ? `<video autoplay muted loop playsinline><source src="${p.media.src}" type="video/mp4">Your browser does not support the video tag.</video>`
             : `<img src="${p.media.src}" alt="${p.imageAlt}" />`;
-        const label = `${p.name} - ${p.type}`;
-        const body = `<span class="glow"></span>
+        return `<a class="work-card" href="${p.url}" target="_blank" rel="noopener noreferrer" aria-label="${p.name} - ${p.type}">
+          <span class="glow"></span>
           <div class="work-media">${media}</div>
           <div class="work-meta">
             <strong class="work-name">${p.name}</strong>
             <span class="work-type">${p.type}</span>
             <p class="work-desc">${p.workDesc || p.desc}</p>
-          </div>`;
-        if (!p.url) {
-          return `<div class="work-card" role="group" aria-label="${label}">${body}</div>`;
-        }
-        return `<a class="work-card" href="${p.url}" target="_blank" rel="noopener noreferrer" aria-label="${label}">${body}</a>`;
+          </div>
+        </a>`;
       })
       .join('');
 
