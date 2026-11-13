@@ -200,7 +200,7 @@
             card.style.setProperty('--deck-r', '0deg');
             card.style.setProperty('--deck-s', '1');
             card.style.setProperty('--deck-o', '1');
-            // Resting order: OnTimely on top, others behind (original stack)
+            // Resting order: first card on top, others behind
             card.style.zIndex = String(count - i);
           }
 

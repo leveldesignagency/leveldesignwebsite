@@ -6,16 +6,16 @@
   'use strict';
 
   const FALLBACK_PROJECTS = {
-    ontimely: {
-      id: 'ontimely',
-      title: 'OnTimely.',
-      desc: 'Event management platform and mobile app.',
-      image: 'public/hero-spotlight/ontimely.jpg',
-      thumb: 'public/hero-thumbs/ontimely.jpg',
-      imageAlt: 'OnTimely event management platform',
-      url: 'https://www.ontimely.co.uk',
-      pickLabel: 'OnTimely',
-      pickSub: 'Event management',
+    apx: {
+      id: 'apx',
+      title: 'APX Fire & Security.',
+      desc: 'Brand and website for an NSI Gold fire and security installer.',
+      image: 'public/hero-spotlight/apx.jpg',
+      thumb: 'public/hero-thumbs/apx.jpg',
+      imageAlt: 'APX Fire and Security brand and website',
+      url: 'https://apx-fs.co.uk',
+      pickLabel: 'APX',
+      pickSub: 'Fire & Security',
     },
     kleen: {
       id: 'kleen',

@@ -9,18 +9,18 @@
   'use strict';
 
   const PROJECT_CATALOG = {
-    ontimely: {
-      id: 'ontimely',
-      title: 'OnTimely.',
-      name: 'OnTimely',
-      type: 'Event management',
-      desc: 'Event management platform and mobile app.',
-      workDesc: 'Front-to-back design of a complete event management platform and mobile app.',
-      image: 'public/hero-spotlight/ontimely.jpg',
-      thumb: 'public/hero-thumbs/ontimely.jpg',
-      imageAlt: 'OnTimely event management platform',
-      url: 'https://www.ontimely.co.uk',
-      media: { type: 'video', src: 'public/OnTimelyLoadingScreen.mp4' },
+    apx: {
+      id: 'apx',
+      title: 'APX Fire & Security.',
+      name: 'APX',
+      type: 'Fire & Security',
+      desc: 'Brand and website for an NSI Gold fire and security installer.',
+      workDesc: 'Identity and digital presence for an NSI Gold fire and security installer across London and the Home Counties.',
+      image: 'public/hero-spotlight/apx.jpg',
+      thumb: 'public/hero-thumbs/apx.jpg',
+      imageAlt: 'APX Fire and Security brand and website',
+      url: 'https://apx-fs.co.uk',
+      media: { type: 'image', src: 'public/hero-spotlight/apx.jpg' },
     },
     kleen: {
       id: 'kleen',
@@ -65,16 +65,16 @@
 
   /** Per-intent work order + optional copy overrides for selected work */
   const WORK_SILOS = {
-    // Work that ships grid shows first 3; keep OnTimely / KLEEN / Nimbus as the default trio.
+    // Work that ships grid shows first 3; keep APX / KLEEN / Nimbus as the default trio.
     // Pocdocs stays available in the hero spotlight (4th pick) where relevant.
     default: {
-      projects: ['ontimely', 'kleen', 'nimbus', 'pocdocs'],
+      projects: ['apx', 'kleen', 'nimbus', 'pocdocs'],
       workLead: 'From brand to product to platform.',
       workHeading: 'Work that ships.',
       spotlightKicker: 'Selected work',
     },
     'social-media': {
-      projects: ['kleen', 'ontimely', 'nimbus', 'pocdocs'],
+      projects: ['kleen', 'apx', 'nimbus', 'pocdocs'],
       workLead: 'Brand systems, content-ready design, and channels that actually convert.',
       workHeading: 'Work built for attention.',
       spotlightKicker: 'Selected marketing work',
@@ -84,15 +84,15 @@
           desc: 'Marketplace brand and web presence built to win trust and bookings.',
           workDesc: 'Brand-led product design and acquisition paths for a service marketplace.',
         },
-        ontimely: {
-          type: 'Events & content',
-          desc: 'Event platform with marketing-ready visuals and clear conversion paths.',
-          workDesc: 'Event product design with campaign-ready surfaces and booking clarity.',
+        apx: {
+          type: 'Trade brand',
+          desc: 'NSI Gold fire and security brand with enquiry-led web presence.',
+          workDesc: 'Brand and website built for trust, capability proof, and qualified surveys.',
         },
       },
     },
     marketing: {
-      projects: ['kleen', 'ontimely', 'nimbus', 'pocdocs'],
+      projects: ['kleen', 'apx', 'nimbus', 'pocdocs'],
       workLead: 'Sites and systems that turn spend into qualified enquiries.',
       workHeading: 'Work that converts.',
       spotlightKicker: 'Selected growth work',
@@ -104,55 +104,55 @@
       },
     },
     branding: {
-      projects: ['kleen', 'ontimely', 'nimbus', 'pocdocs'],
+      projects: ['kleen', 'apx', 'nimbus', 'pocdocs'],
       workLead: 'Identity systems that hold up across product, web, and campaigns.',
       workHeading: 'Brand that ships.',
       spotlightKicker: 'Selected brand work',
     },
     aeo: {
-      projects: ['nimbus', 'ontimely', 'kleen', 'pocdocs'],
+      projects: ['nimbus', 'apx', 'kleen', 'pocdocs'],
       workLead: 'Structured for search, AI answers, and real enquiries.',
       workHeading: 'Discoverable work.',
       spotlightKicker: 'Selected AI-search work',
     },
     'web-design': {
-      projects: ['ontimely', 'kleen', 'nimbus', 'pocdocs'],
+      projects: ['apx', 'kleen', 'nimbus', 'pocdocs'],
       workLead: 'Premium sites and products built to look expensive and convert.',
       workHeading: 'Web that ships.',
       spotlightKicker: 'Selected web work',
     },
     'ai-support': {
-      projects: ['nimbus', 'ontimely', 'kleen', 'pocdocs'],
+      projects: ['nimbus', 'apx', 'kleen', 'pocdocs'],
       workLead: 'AI products and portals that support the team, not replace judgement.',
       workHeading: 'AI work that ships.',
       spotlightKicker: 'Selected AI work',
     },
     construction: {
-      projects: ['kleen', 'ontimely', 'nimbus', 'pocdocs'],
+      projects: ['apx', 'kleen', 'nimbus', 'pocdocs'],
       workLead: 'Proof-led sites for firms that win on trust and capability.',
       workHeading: 'Work that wins jobs.',
       spotlightKicker: 'Selected trade work',
     },
     trades: {
-      projects: ['kleen', 'ontimely', 'nimbus', 'pocdocs'],
+      projects: ['apx', 'kleen', 'nimbus', 'pocdocs'],
       workLead: 'Enquiry-first design for firms that live on the phone.',
       workHeading: 'Work that books jobs.',
       spotlightKicker: 'Selected trades work',
     },
     golf: {
-      projects: ['ontimely', 'kleen', 'nimbus', 'pocdocs'],
+      projects: ['apx', 'kleen', 'nimbus', 'pocdocs'],
       workLead: 'Membership, events, and leisure experiences with premium weight.',
       workHeading: 'Work for premium venues.',
       spotlightKicker: 'Selected leisure work',
     },
     fintech: {
-      projects: ['nimbus', 'ontimely', 'kleen', 'pocdocs'],
+      projects: ['nimbus', 'apx', 'kleen', 'pocdocs'],
       workLead: 'Clarity and credibility for complex, high-trust products.',
       workHeading: 'Work that builds trust.',
       spotlightKicker: 'Selected fintech work',
     },
     property: {
-      projects: ['ontimely', 'kleen', 'nimbus', 'pocdocs'],
+      projects: ['apx', 'kleen', 'nimbus', 'pocdocs'],
       workLead: 'Premium positioning for developments, land, and property brands.',
       workHeading: 'Work for high-value deals.',
       spotlightKicker: 'Selected property work',
