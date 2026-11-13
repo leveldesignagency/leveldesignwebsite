@@ -13,7 +13,7 @@
       image: 'public/hero-spotlight/apx.jpg',
       thumb: 'public/hero-thumbs/apx.jpg',
       imageAlt: 'APX Fire and Security brand and website',
-      url: 'https://apx-fs.co.uk',
+      url: '',
       pickLabel: 'APX',
       pickSub: 'Fire & Security',
     },
@@ -121,10 +121,18 @@
       titleEl.textContent = project.title;
       plainDesc(descEl, project.desc);
       mediaImg.alt = project.imageAlt;
-      cta.href = project.url;
-      cta.setAttribute('target', '_blank');
-      cta.setAttribute('rel', 'noopener noreferrer');
-      cta.textContent = 'View live →';
+      if (project.url) {
+        cta.hidden = false;
+        cta.href = project.url;
+        cta.setAttribute('target', '_blank');
+        cta.setAttribute('rel', 'noopener noreferrer');
+        cta.textContent = 'View live →';
+      } else {
+        cta.hidden = true;
+        cta.removeAttribute('href');
+        cta.removeAttribute('target');
+        cta.removeAttribute('rel');
+      }
       panel.dataset.activeProject = id;
 
       picksWrap.querySelectorAll('.hero-pick').forEach((tab) => {
