@@ -3021,7 +3021,7 @@ section#services .container .grid.services-grid {
   align-items: center;
   height: 100%;
   white-space: nowrap;
-  animation: marqueeRight 80s linear infinite;
+  animation: marqueeRight 40s linear infinite;
   width: max-content;
   gap: 60px !important; /* Consistent gap between all logos */
 }

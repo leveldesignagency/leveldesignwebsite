@@ -20,7 +20,7 @@
       thumb: 'public/hero-thumbs/apx.jpg',
       imageAlt: 'APX Fire and Security brand and website',
       url: 'https://apx-fs.co.uk',
-      media: { type: 'image', src: 'public/hero-spotlight/apx.jpg' },
+      media: { type: 'video', src: 'public/APX/apx-intro.mp4' },
     },
     kleen: {
       id: 'kleen',

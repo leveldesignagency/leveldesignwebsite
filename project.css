@@ -177,12 +177,14 @@
   opacity: 1;
 }
 
-.hero-spotlight-panel.is-switching .hero-spotlight-media img {
+.hero-spotlight-panel.is-switching .hero-spotlight-media img,
+.hero-spotlight-panel.is-switching .hero-spotlight-media video {
   opacity: 0.72;
   transition: opacity 0.2s ease;
 }
 
-.hero-spotlight-media img {
+.hero-spotlight-media img,
+.hero-spotlight-media video {
   transition: opacity 0.25s ease;
 }
 
