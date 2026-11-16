@@ -28,6 +28,48 @@ if (navToggle && navLinks) {
 // Header fade out on scroll
 // Header removed - no fade, just scrolls with page
 
+// MASK1 layers: static under-label (.btn-mas) + masked face (.btn-face)
+function initPrimaryButtonMask() {
+  document.querySelectorAll('.btn.primary, .nav a.cta, .hero-cta-secondary').forEach((el) => {
+    if (el.dataset.maskReady === '1' && el.querySelector(':scope > .btn-face') && el.querySelector(':scope > .btn-mas')) {
+      return;
+    }
+
+    el.querySelectorAll(':scope > .btn-glitch, :scope > .btn-label, :scope > .btn-mas, :scope > .btn-face').forEach((n) => n.remove());
+
+    const sourceNodes = Array.from(el.childNodes).filter((n) => {
+      return n.nodeType === Node.TEXT_NODE || n.nodeType === Node.ELEMENT_NODE;
+    });
+
+    const face = document.createElement('span');
+    face.className = 'btn-face';
+    face.setAttribute('aria-hidden', 'true');
+
+    const mas = document.createElement('span');
+    mas.className = 'btn-mas';
+    mas.setAttribute('aria-hidden', 'true');
+
+    sourceNodes.forEach((n) => {
+      mas.appendChild(n.cloneNode(true));
+      face.appendChild(n);
+    });
+
+    const labelText = (mas.textContent || '').replace(/\s+/g, ' ').trim();
+    if (labelText && !el.getAttribute('aria-label')) {
+      el.setAttribute('aria-label', labelText);
+    }
+
+    el.appendChild(mas);
+    el.appendChild(face);
+    el.dataset.maskReady = '1';
+
+    const markPlayed = () => el.classList.add('is-mask-played');
+    el.addEventListener('mouseenter', markPlayed);
+    el.addEventListener('focusin', markPlayed);
+  });
+}
+document.addEventListener('DOMContentLoaded', initPrimaryButtonMask);
+
 // Logo click to refresh page
 document.addEventListener('DOMContentLoaded', function() {
   const logo = document.querySelector('.logo');

@@ -82,6 +82,8 @@
       image.alt = `${project.title} - ${project.type}`;
       image.loading = 'lazy';
       image.decoding = 'async';
+      image.fetchPriority = 'low';
+      image.setAttribute('fetchpriority', 'low');
       if (project.slug) card.dataset.project = project.slug;
       if (project.imagePosition) image.style.objectPosition = project.imagePosition;
       if (project.imageScale) image.style.setProperty('--img-scale', String(project.imageScale));

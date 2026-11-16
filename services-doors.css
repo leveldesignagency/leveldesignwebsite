@@ -44,14 +44,13 @@
 }
 
 .service-door .nav a.cta {
-  border-color: #fff;
   color: #fff;
+  --cybr-primary: var(--door-red);
 }
 
-.service-door .nav a.cta:hover {
-  background: var(--door-red);
-  border-color: var(--door-red);
-  color: #fff;
+.service-door .nav a.cta:hover,
+.service-door .nav a.cta:focus-visible {
+  color: #fff !important;
 }
 
 .service-door .nav-toggle .bar {
@@ -76,7 +75,7 @@
   mask-image: none;
 }
 
-/* Real SVG vector crescent capping the hero bottom */
+/* Soft-feathered crescent capping the hero bottom */
 .door-hero::after {
   content: "";
   position: absolute;
@@ -84,8 +83,26 @@
   right: 0;
   bottom: -1px;
   z-index: 2;
-  height: clamp(56px, 9vw, 110px);
-  background: url("/public/hero-bottom-curve.svg") center bottom / 100% 100% no-repeat;
+  height: clamp(110px, 18vw, 210px);
+  background: #0a0a0a;
+  -webkit-mask-image: radial-gradient(
+    145% 115% at 50% -8%,
+    transparent 0%,
+    transparent 48%,
+    rgba(0, 0, 0, 0.18) 58%,
+    rgba(0, 0, 0, 0.45) 68%,
+    rgba(0, 0, 0, 0.78) 80%,
+    #000 92%
+  );
+  mask-image: radial-gradient(
+    145% 115% at 50% -8%,
+    transparent 0%,
+    transparent 48%,
+    rgba(0, 0, 0, 0.18) 58%,
+    rgba(0, 0, 0, 0.45) 68%,
+    rgba(0, 0, 0, 0.78) 80%,
+    #000 92%
+  );
   pointer-events: none;
 }
 
@@ -364,19 +381,17 @@
 }
 
 .door-hero-actions .btn.primary {
-  background: var(--door-red);
-  border-color: var(--door-red);
+  --cybr-primary: var(--door-red);
   color: #fff;
 }
 
-.door-hero-actions .btn.primary:hover {
-  background: #fff;
-  border-color: #fff;
-  color: #0a0a0a;
+.door-hero-actions .btn.primary:hover,
+.door-hero-actions .btn.primary:focus-visible {
+  color: #fff !important;
 }
 
-/* Second CTA: same size box as primary, email-style underline wipe on hover */
-.door-hero-actions .btn:not(.primary) {
+/* Legacy underline wipe — skip MASK1 secondary CTAs (See pricing / View work) */
+.door-hero-actions .btn:not(.primary):not(.hero-cta-secondary) {
   background-color: transparent !important;
   border: 1px solid transparent !important;
   box-shadow: none !important;
@@ -393,19 +408,29 @@
     background-position 0.35s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
-.door-hero-actions .btn:not(.primary)::before,
-.door-hero-actions .btn:not(.primary)::after {
+.door-hero-actions .btn:not(.primary):not(.hero-cta-secondary)::before,
+.door-hero-actions .btn:not(.primary):not(.hero-cta-secondary)::after {
   display: none !important;
   content: none !important;
 }
 
-.door-hero-actions .btn:not(.primary):hover {
+.door-hero-actions .btn:not(.primary):not(.hero-cta-secondary):hover {
   background-color: transparent !important;
   border-color: transparent !important;
   color: var(--door-red, #ff2d2d) !important;
   text-decoration: none !important;
   background-position: left bottom !important;
   background-size: 100% 1.5px !important;
+}
+
+.door-hero-actions .btn.hero-cta-secondary,
+.door-cta-actions .btn.hero-cta-secondary {
+  padding: 14px 22px !important;
+  min-height: 48px;
+  box-sizing: border-box;
+  background-color: #ff2d2d !important;
+  background-image: none !important;
+  border: none !important;
 }
 
 @media (max-width: 900px) {
@@ -849,19 +874,14 @@
   justify-content: center;
   overflow: hidden;
   isolation: isolate;
-  transition:
-    color 0.35s ease,
-    border-color 0.35s ease,
-    background-color 0.35s ease,
-    letter-spacing 0.35s ease,
-    transform 0.35s ease;
 }
 
 .door-price .btn::before {
   display: none !important;
 }
 
-.door-price .btn::after {
+/* Legacy wipe — skip MASK1 buttons */
+.door-price .btn:not(.primary):not(.hero-cta-secondary)::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -872,49 +892,45 @@
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.door-price .btn.primary {
-  background: var(--door-red) !important;
-  border-color: var(--door-red) !important;
+.door-price .btn.primary,
+.door-price .btn.hero-cta-secondary {
+  --cybr-primary: var(--door-red);
   color: #fff !important;
+  border: none !important;
+  transform: none !important;
+  letter-spacing: inherit;
 }
 
-.door-price .btn.primary::after {
+.door-price .btn.primary::after,
+.door-price .btn.hero-cta-secondary::after {
   display: none !important;
+  content: none !important;
 }
 
-.door-price .btn:not(.primary) {
+.door-price .btn:not(.primary):not(.hero-cta-secondary) {
   background: transparent !important;
   border: 1px solid var(--door-border) !important;
   color: #fff !important;
 }
 
-.door-price .btn:hover {
+.door-price .btn:not(.primary):not(.hero-cta-secondary):hover {
+  color: #fff !important;
   border-color: var(--door-red) !important;
   letter-spacing: 0.04em;
   transform: translateY(-1px);
 }
 
-.door-price .btn:not(.primary):hover {
-  color: #fff !important;
-  border-color: var(--door-red) !important;
-}
-
-.door-price .btn:not(.primary):hover::after {
+.door-price .btn:not(.primary):not(.hero-cta-secondary):hover::after {
   transform: scaleX(1);
 }
 
 .door-price .btn.primary:hover,
-.door-price .btn.primary:focus-visible {
-  background: #fff !important;
-  color: #0a0a0a !important;
-  border-color: #fff !important;
-}
-
-.door-price .btn.primary:focus:not(:hover),
-.door-price .btn.primary:focus-visible:not(:hover) {
-  background: var(--door-red) !important;
+.door-price .btn.primary:focus-visible,
+.door-price .btn.hero-cta-secondary:hover,
+.door-price .btn.hero-cta-secondary:focus-visible {
   color: #fff !important;
-  border-color: var(--door-red) !important;
+  border: none !important;
+  transform: none !important;
 }
 
 .door-price-disclaimer {
@@ -1106,12 +1122,11 @@
 }
 
 .door-cta .btn.primary {
-  background: var(--door-red);
-  border-color: var(--door-red);
+  --cybr-primary: var(--door-red);
   color: #fff;
 }
 
-.door-cta .btn:not(.primary) {
+.door-cta .btn:not(.primary):not(.hero-cta-secondary) {
   border: 1px solid var(--door-border);
   color: #fff;
   background: transparent;
@@ -1218,7 +1233,7 @@
   }
 
   .door-hero::after {
-    height: clamp(48px, 14vw, 88px);
+    height: clamp(96px, 22vw, 170px);
   }
 
   .service-door .door-title,

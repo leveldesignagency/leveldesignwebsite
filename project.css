@@ -185,7 +185,14 @@
 
 .hero-spotlight-media img,
 .hero-spotlight-media video {
-  transition: opacity 0.25s ease;
+  transform: scale(1);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+  will-change: transform;
+}
+
+.hero-selected-work .hero-spotlight:hover .hero-spotlight-media img,
+.hero-selected-work .hero-spotlight:hover .hero-spotlight-media video {
+  transform: scale(1.06);
 }
 
 .hero-spotlight-copy {
@@ -2288,7 +2295,7 @@ a.detail-back:active {
   background: var(--bg) !important;
 }
 
-/* Soft bottom fade - no hard crescent edge */
+/* Soft-feathered crescent at hero bottom */
 .hero.hero-single::after {
   content: "";
   position: absolute;
@@ -2296,8 +2303,26 @@ a.detail-back:active {
   right: 0;
   bottom: -1px;
   z-index: 1;
-  height: clamp(56px, 9vw, 110px);
-  background: url("/public/hero-bottom-curve.svg") center bottom / 100% 100% no-repeat;
+  height: clamp(110px, 18vw, 210px);
+  background: #0a0a0a;
+  -webkit-mask-image: radial-gradient(
+    145% 115% at 50% -8%,
+    transparent 0%,
+    transparent 48%,
+    rgba(0, 0, 0, 0.18) 58%,
+    rgba(0, 0, 0, 0.45) 68%,
+    rgba(0, 0, 0, 0.78) 80%,
+    #000 92%
+  );
+  mask-image: radial-gradient(
+    145% 115% at 50% -8%,
+    transparent 0%,
+    transparent 48%,
+    rgba(0, 0, 0, 0.18) 58%,
+    rgba(0, 0, 0, 0.45) 68%,
+    rgba(0, 0, 0, 0.78) 80%,
+    #000 92%
+  );
   pointer-events: none;
 }
 

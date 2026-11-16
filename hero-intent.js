@@ -504,6 +504,18 @@
     return null;
   }
 
+  /** Only use external referrers for personalisation — internal logo/nav must not change the homepage hero */
+  function getExternalReferrer() {
+    try {
+      if (!document.referrer) return '';
+      const ref = new URL(document.referrer);
+      if (ref.origin === window.location.origin) return '';
+      return document.referrer;
+    } catch (err) {
+      return '';
+    }
+  }
+
   function resolveIntent() {
     const params = new URLSearchParams(window.location.search);
     const explicit =
@@ -517,7 +529,7 @@
       window.location.href,
       params.get('utm_term') || '',
       params.get('q') || '',
-      document.referrer || '',
+      getExternalReferrer(),
     ].join(' ');
 
     for (const rule of KEYWORD_RULES) {
@@ -537,7 +549,7 @@
       params.get('utm_term') || '',
       params.get('utm_campaign') || '',
       params.get('q') || '',
-      document.referrer || '',
+      getExternalReferrer(),
     ].join(' ');
 
     return detectLocation(haystack);
@@ -682,7 +694,18 @@
     const lead = document.querySelector('#work-title .section-title-lead');
     const heading = document.querySelector('#work-title .section-title-heading');
     if (lead) lead.textContent = silo.workLead;
-    if (heading) heading.textContent = silo.workHeading;
+    if (heading) {
+      const staticEl = heading.querySelector('.tech-text-static');
+      const host = heading.querySelector('[data-tech-text]');
+      if (staticEl) staticEl.textContent = silo.workHeading;
+      else heading.textContent = silo.workHeading;
+      if (host) {
+        host.dataset.text = silo.workHeading;
+        if (typeof window.LEVEL_remountTechText === 'function') {
+          window.LEVEL_remountTechText(host);
+        }
+      }
+    }
 
     const grid = document.querySelector('#work .work-grid');
     if (!grid || !projects.length) return;
@@ -713,73 +736,66 @@
     }
   }
 
+  const MARKET_IMAGES = {
+    construction: 'public/markets/construction.jpg',
+    trades: 'public/markets/trades.jpg',
+    fintech: 'public/markets/fintech.jpg',
+    golf: 'public/markets/golf.jpg',
+    property: 'public/markets/property.jpg',
+    professional: 'public/markets/professional.jpg',
+    healthcare: 'public/markets/healthcare.jpg',
+    hospitality: 'public/markets/hospitality.jpg'
+  };
+
   function renderMarkets(activeMarketId) {
-    const strip = document.getElementById('markets-strip');
-    const detailEl = document.getElementById('market-detail');
-    if (!strip || !detailEl) return;
+    const gallery = document.getElementById('markets-accordion');
+    if (!gallery) return;
 
     const marketId =
       activeMarketId && MARKETS.some((m) => m.id === activeMarketId)
         ? activeMarketId
         : INTENT_ALIASES[activeMarketId] || activeMarketId;
+    const initial = MARKETS.some((m) => m.id === marketId) ? marketId : 'construction';
+    const defaultIndex = Math.max(
+      0,
+      MARKETS.findIndex((m) => m.id === initial)
+    );
 
-    const showMarket = (id, options) => {
-      const opts = options || {};
-      const market = MARKETS.find((m) => m.id === id) || MARKETS[0];
-      const isMobile = window.matchMedia('(max-width: 900px)').matches;
-      strip.querySelectorAll('.market-chip').forEach((chip) => {
-        const on = chip.dataset.market === market.id;
-        chip.classList.toggle('is-active', on);
-        chip.setAttribute('aria-pressed', on ? 'true' : 'false');
-        if (on && opts.scrollChip && isMobile) {
-          const left = chip.offsetLeft - (strip.clientWidth - chip.offsetWidth) / 2;
-          strip.scrollTo({ left: Math.max(0, left), behavior: 'auto' });
+    const items = MARKETS.map((m) => ({
+      id: m.id,
+      label: m.label,
+      detail: m.detail,
+      image: MARKET_IMAGES[m.id] || MARKET_IMAGES.construction,
+      link: m.funnel || '#',
+      cta: `View ${m.label.toLowerCase()} funnel →`
+    }));
+
+    if (typeof window.LEVEL_mountAccordionGallery === 'function') {
+      if (gallery._levelAccordionCleanup) gallery._levelAccordionCleanup();
+      gallery._levelAccordionCleanup = window.LEVEL_mountAccordionGallery(gallery, {
+        items,
+        defaultIndex: defaultIndex >= 0 ? defaultIndex : 0,
+        expandRatio: 0.52,
+        trigger: 'hover',
+        accentColor: '#ffffff',
+        overlayColor: '#060010',
+        textColor: '#ffffff',
+        grayscale: true,
+        showLabels: true,
+        duration: 0.6,
+        parallax: 0.5,
+        tilt: 8,
+        height: 460,
+        gap: 10,
+        radius: 16,
+        orientation: 'horizontal',
+        ariaLabel: 'High-value sectors',
+        onChange: (item) => {
+          const url = new URL(window.location.href);
+          url.searchParams.set('market', item.id);
+          window.history.replaceState({}, '', url);
         }
       });
-
-      const updateDetail = () => {
-        const funnelLink = market.funnel
-          ? `<p class="market-detail-funnel"><a href="${market.funnel}">View ${market.label.toLowerCase()} funnel →</a></p>`
-          : '';
-        detailEl.innerHTML = `
-        <p class="market-detail-label">${market.label}</p>
-        <p class="market-detail-text">${market.detail}</p>
-        ${funnelLink}
-      `;
-        detailEl.dataset.market = market.id;
-        detailEl.classList.remove('is-switching');
-      };
-
-      updateDetail();
-    };
-
-    strip.innerHTML = MARKETS.map(
-      (m) =>
-        `<button type="button" class="market-chip" data-market="${m.id}" aria-pressed="false">
-          <span class="market-chip-label">${m.label}</span>
-          <span class="market-chip-short">${m.short}</span>
-        </button>`
-    ).join('');
-
-    strip.addEventListener('click', (e) => {
-      const chip = e.target.closest('.market-chip');
-      if (!chip) return;
-      showMarket(chip.dataset.market, { scrollChip: true });
-      const url = new URL(window.location.href);
-      url.searchParams.set('market', chip.dataset.market);
-      window.history.replaceState({}, '', url);
-    });
-
-    const initial = MARKETS.some((m) => m.id === marketId) ? marketId : 'construction';
-    showMarket(initial);
-
-    if (
-      typeof window.LEVEL_observeRevealTargets === 'function' &&
-      !window.matchMedia('(max-width: 900px)').matches
-    ) {
-      window.LEVEL_observeRevealTargets(strip.querySelectorAll('.market-chip'));
-    } else {
-      strip.querySelectorAll('.market-chip').forEach((chip) => chip.classList.add('in'));
     }
   }
 

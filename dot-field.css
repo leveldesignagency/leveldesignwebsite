@@ -1,0 +1,27 @@
+/* Dot Field overlay — sits on hero image layers */
+.hero-dot-field {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-dot-field__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Keep vignette gradients above the dots */
+.hero-ambient::after {
+  z-index: 2;
+}
+
+.door-hero-media::after {
+  z-index: 2;
+}

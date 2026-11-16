@@ -9,8 +9,8 @@
   const originals = Array.from(list.querySelectorAll('.hero-scan-item'));
   if (originals.length < 2) return;
 
-  const HOLD_MS = 2200;
-  const STEP_MS = 520;
+  const HOLD_MS = 1100;
+  const STEP_MS = 320;
   const COPIES = 3;
   let index = 0;
   let timer = null;

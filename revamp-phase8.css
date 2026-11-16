@@ -137,13 +137,21 @@ body:not(.dark-mode) .site-footer .footer-logo-link .footer-logo {
   border-color: var(--brand);
   background: var(--brand);
   color: #fff;
-  transform: translateY(-2px);
+  transform: none;
 }
 
 .footer-social-link svg {
+  display: block;
   width: 18px;
   height: 18px;
   fill: currentColor;
+  transform: scale(1);
+  transform-origin: 50% 50%;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.footer-social-link:hover svg {
+  transform: scale(1.28);
 }
 
 /* Legal links - full-width rule, same left edge as logo + nav */

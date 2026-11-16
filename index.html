@@ -144,20 +144,40 @@
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Intentionally no early image preloads here - unused preload warnings + lazy/hero ambient load on demand -->
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20260918m" />
-    <link rel="stylesheet" href="revamp.css?v=20261115c" />
-    <link rel="stylesheet" href="revamp-phase3.css?v=20260918b" />
+    <link rel="preload" as="image" href="public/hero-spotlight/apx.jpg" fetchpriority="high" />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=20261115u" />
+    <link rel="stylesheet" href="revamp.css?v=20261116a" />
+    <link rel="stylesheet" href="revamp-phase3.css?v=20261115d" />
     <link rel="stylesheet" href="revamp-phase4.css?v=20260918b" />
     <link rel="stylesheet" href="revamp-phase5.css?v=20260917b" />
     <link rel="stylesheet" href="revamp-phase6.css?v=20260917b" />
     <link rel="stylesheet" href="revamp-phase7.css?v=20260924a" />
-    <link rel="stylesheet" href="revamp-phase8.css?v=20260917b" />
+    <link rel="stylesheet" href="revamp-phase8.css?v=20261115b" />
     <link rel="stylesheet" href="revamp-phase9.css?v=20261115b" />
-    <link rel="stylesheet" href="project.css?v=20261115a" />
-    <link rel="stylesheet" href="services-doors.css?v=20260924b" />
-    <link rel="stylesheet" href="legal.css?v=20260918d" />
+    <link rel="stylesheet" href="project.css?v=20261116e" />
+    <link rel="stylesheet" href="services-doors.css?v=20261116e" />
+    <link rel="stylesheet" href="legal.css?v=20261115b" />
+    <link rel="stylesheet" href="tech-text.css?v=20261116e" />
+    <link rel="stylesheet" href="accordion-gallery.css?v=20261116b" />
+    <link rel="stylesheet" href="dot-field.css?v=20261116a" />
+    <link rel="stylesheet" href="drift-wall.css?v=20261116h" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-01.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-02.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-03.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-04.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-05.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-06.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-07.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-08.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-09.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-10.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-11.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-12.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-13.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-14.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-15.jpg" />
+    <link rel="preload" as="image" href="public/carousel/website-carousel-16.jpg" />
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="alternate icon" href="favicon.png">
     
@@ -735,12 +755,21 @@
                 <div class="hero-content hero-intro">
                     <p class="hero-intent-kicker" hidden>Web design · AI search · AI systems</p>
                     <h1 class="headline hero-headline-single" id="hero-headline-mask">
+                        <span class="hero-tech-fallback">SITES THAT WIN THE WORK.</span>
                         <span class="hero-headline-stack" data-hero-headline-stack>
                             <span class="hero-headline-white" data-hero-headline-white>
                                 <span class="hero-headline-line">SITES THAT</span>
                                 <span class="hero-headline-line">WIN THE WORK.</span>
                             </span>
                         </span>
+                        <div
+                            id="hero-tech-text"
+                            class="hero-tech-text"
+                            data-tech-text
+                            data-text="SITES THAT|WIN THE WORK."
+                            data-line-height="0.76"
+                            aria-hidden="true"
+                        ></div>
                     </h1>
                     <p class="hero-subhead">Premium web design for teams that need qualified enquiries. Branding, SEO, systems, and marketing when you are ready to scale.</p>
                     <div class="hero-actions">
@@ -783,7 +812,7 @@
                                 <a href="https://apx-fs.co.uk" class="btn primary hero-spotlight-cta" target="_blank" rel="noopener noreferrer">View live →</a>
                             </div>
                             <div class="hero-spotlight-media">
-                                <img src="public/hero-spotlight/apx.jpg" alt="APX Fire and Security brand and website" width="1200" height="675" decoding="async" />
+                                <img src="public/hero-spotlight/apx.jpg" alt="APX Fire and Security brand and website" width="1200" height="675" decoding="async" fetchpriority="high" />
                             </div>
                         </div>
                     </article>
@@ -998,12 +1027,16 @@
             <div class="container audience-section-inner audience-section-inner--compact">
                 <header class="audience-header audience-header--compact markets-section-intro">
                     <p class="audience-kicker">Markets we serve</p>
-                    <h2 class="audience-title audience-title--compact" id="markets-heading">High-value sectors.</h2>
+                    <h2 class="audience-title audience-title--compact tech-text-heading" id="markets-heading">
+                        <span class="tech-text-wrap">
+                        <span class="tech-text-static">High-value sectors.</span>
+                        <span class="tech-text-host" data-tech-text data-text="High-value sectors." aria-hidden="true"></span>
+                    </span>
+                    </h2>
                     <p class="audience-lead audience-lead--compact">Construction, trades, fintech, golf, and property. Dedicated funnels for the sectors that need a site that sells trust.</p>
                 </header>
-                <div class="markets-compact">
-                    <div class="markets-strip" id="markets-strip" role="group" aria-label="Select a market"></div>
-                    <div class="market-detail" id="market-detail" aria-live="polite"></div>
+                <div class="markets-compact markets-accordion-wrap">
+                    <div class="accordion-gallery" id="markets-accordion" role="list" aria-label="High-value sectors"></div>
                 </div>
             </div>
         </section>
@@ -1011,7 +1044,12 @@
         <section id="services-title" class="services-title-section section-title-block-wrap" data-animate="fade-up">
             <div class="container section-title-block">
                 <p class="section-title-kicker">Services</p>
-                <h2 class="section-title-heading">What we deliver.</h2>
+                <h2 class="section-title-heading tech-text-heading">
+                    <span class="tech-text-wrap">
+                        <span class="tech-text-static">What we deliver.</span>
+                    <span class="tech-text-host" data-tech-text data-text="What we deliver." aria-hidden="true"></span>
+                    </span>
+                </h2>
             </div>
         </section>
         
@@ -1022,10 +1060,10 @@
                         <div class="deliver-row-copy">
                             <h3 class="deliver-row-name">Web Design &amp; Build.</h3>
                             <p class="deliver-row-headline">Fast, accessible sites with modern stacks. SEO-first, conversion-forward.</p>
-                            <a href="/services/web-design" class="btn primary deliver-row-cta">View service →</a>
+                            <a href="/services/web-design" class="btn primary deliver-row-cta">View service</a>
                         </div>
                         <div class="deliver-row-media">
-                            <img src="public/web-design-construction.jpg" alt="Web design and build by LEVEL Design" loading="lazy" decoding="async" />
+                            <img src="public/web-design-construction.jpg" alt="Web design and build by LEVEL Design" width="1200" height="800" loading="lazy" decoding="async" />
                         </div>
                     </div>
                 </article>
@@ -1034,10 +1072,10 @@
                         <div class="deliver-row-copy">
                             <h3 class="deliver-row-name">Brand &amp; Identity.</h3>
                             <p class="deliver-row-headline">Logos, typography systems, and visual languages that are distinct and enduring.</p>
-                            <a href="/services/branding" class="btn primary deliver-row-cta">View service →</a>
+                            <a href="/services/branding" class="btn primary deliver-row-cta">View service</a>
                         </div>
                         <div class="deliver-row-media">
-                            <img src="public/mugs-mockup.jpg" alt="Brand and identity work by LEVEL Design" loading="lazy" decoding="async" />
+                            <img src="public/mugs-mockup.jpg" alt="Brand and identity work by LEVEL Design" width="1200" height="900" loading="lazy" decoding="async" />
                         </div>
                     </div>
                 </article>
@@ -1046,10 +1084,10 @@
                         <div class="deliver-row-copy">
                             <h3 class="deliver-row-name">AI Systems &amp; Portals.</h3>
                             <p class="deliver-row-headline">Internal tools and customer portals powered by AI that augment your team.</p>
-                            <a href="/services/systems" class="btn primary deliver-row-cta">View service →</a>
+                            <a href="/services/systems" class="btn primary deliver-row-cta">View service</a>
                         </div>
                         <div class="deliver-row-media deliver-row-media--wide">
-                            <img src="public/kleenbanner.jpg" alt="AI systems and portals by LEVEL Design" loading="lazy" decoding="async" />
+                            <img src="public/kleenbanner.jpg" alt="AI systems and portals by LEVEL Design" width="1200" height="675" loading="lazy" decoding="async" />
                         </div>
                     </div>
                 </article>
@@ -1058,10 +1096,10 @@
                         <div class="deliver-row-copy">
                             <h3 class="deliver-row-name">SEO &amp; AI Search.</h3>
                             <p class="deliver-row-headline">Technical SEO, content structure, and visibility in Google and AI answers.</p>
-                            <a href="/services/seo" class="btn primary deliver-row-cta">View service →</a>
+                            <a href="/services/seo" class="btn primary deliver-row-cta">View service</a>
                         </div>
                         <div class="deliver-row-media deliver-row-media--subject-center">
-                            <img src="public/heroes/marketing.jpg" alt="SEO and AI search by LEVEL Design" loading="lazy" />
+                            <img src="public/heroes/marketing.jpg" alt="SEO and AI search by LEVEL Design" width="1600" height="1000" loading="lazy" decoding="async" />
                         </div>
                     </div>
                 </article>
@@ -1070,10 +1108,10 @@
                         <div class="deliver-row-copy">
                             <h3 class="deliver-row-name">Marketing &amp; Growth.</h3>
                             <p class="deliver-row-headline">Campaigns, content, and conversion systems that fill the pipeline.</p>
-                            <a href="/services/marketing" class="btn primary deliver-row-cta">View service →</a>
+                            <a href="/services/marketing" class="btn primary deliver-row-cta">View service</a>
                         </div>
                         <div class="deliver-row-media">
-                            <img src="public/consultingandgrowth.jpg" alt="Marketing and growth by LEVEL Design" loading="lazy" />
+                            <img src="public/consultingandgrowth.jpg" alt="Marketing and growth by LEVEL Design" width="1200" height="800" loading="lazy" decoding="async" />
                         </div>
                     </div>
                 </article>
@@ -1132,7 +1170,12 @@
                     <div class="deliver-block-inner">
                         <div class="deliver-left">
                             <p class="deliver-kicker">Beyond the screen</p>
-                            <h2 class="deliver-title">Packaging & Merchandise.</h2>
+                            <h2 class="deliver-title tech-text-heading">
+                                <span class="tech-text-wrap">
+                        <span class="tech-text-static">Packaging &amp; Merchandise.</span>
+                                <span class="tech-text-host" data-tech-text data-text="Packaging & Merchandise." aria-hidden="true"></span>
+                    </span>
+                            </h2>
                         </div>
                         <div class="deliver-right">
                             <div class="deliver-image-wrap" aria-hidden="true"><!-- image --></div>
@@ -1152,7 +1195,12 @@
         <section id="specialities-title" class="specialities-title-section section-title-block-wrap" data-animate="fade-up">
             <div class="container section-title-block">
                 <p class="section-title-kicker">Specialities</p>
-                <h2 class="section-title-heading">Where we go deep.</h2>
+                <h2 class="section-title-heading tech-text-heading">
+                    <span class="tech-text-wrap">
+                        <span class="tech-text-static">Where we go deep.</span>
+                    <span class="tech-text-host" data-tech-text data-text="Where we go deep." aria-hidden="true"></span>
+                    </span>
+                </h2>
                 <p class="section-title-lead">Focused capability across design and build.</p>
             </div>
         </section>
@@ -1184,7 +1232,12 @@
         <section id="work-title" class="work-title-section section-title-block-wrap" data-animate="fade-up">
             <div class="container section-title-block">
                 <p class="section-title-kicker">Selected work</p>
-                <h2 class="section-title-heading">Work that ships.</h2>
+                <h2 class="section-title-heading tech-text-heading">
+                    <span class="tech-text-wrap">
+                        <span class="tech-text-static">Work that ships.</span>
+                        <span class="tech-text-host" data-tech-text data-text="Work that ships." aria-hidden="true"></span>
+                    </span>
+                </h2>
                 <p class="section-title-lead">From brand to product to platform.</p>
             </div>
         </section>
@@ -1195,7 +1248,7 @@
                     <a class="work-card" href="https://apx-fs.co.uk" target="_blank" rel="noopener noreferrer" aria-label="APX Fire and Security - Brand and website">
                         <span class="glow"></span>
                         <div class="work-media">
-                            <video autoplay muted loop playsinline preload="none" poster="public/hero-spotlight/apx.jpg">
+                            <video autoplay muted loop playsinline preload="none" poster="public/hero-spotlight/apx.jpg" width="1200" height="675">
                                 <source src="public/APX/apx-intro.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
@@ -1209,7 +1262,7 @@
                     <a class="work-card" href="https://kleenapp.co.uk" target="_blank" rel="noopener noreferrer" aria-label="KLEEN - Web app service">
                         <span class="glow"></span>
                         <div class="work-media">
-                            <img src="public/Kleen Promo.png" alt="KLEEN: web app connecting clients with specialist cleaners" />
+                            <img src="public/kleenbanner.jpg" alt="KLEEN: web app connecting clients with specialist cleaners" width="1200" height="675" loading="lazy" decoding="async" />
                         </div>
                         <div class="work-meta">
                             <strong class="work-name">KLEEN</strong>
@@ -1220,7 +1273,7 @@
                     <a class="work-card" href="https://chromewebstore.google.com/detail/abmihilkdbamlelkmpfegjfimcjpcihh?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" aria-label="Nimbus - Chrome extension">
                         <span class="glow"></span>
                         <div class="work-media">
-                            <video autoplay muted loop playsinline>
+                            <video autoplay muted loop playsinline preload="none" poster="public/hero-spotlight/nimbus.jpg" width="1200" height="675">
                                 <source src="public/Nimbus Pre.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
@@ -1239,7 +1292,12 @@
         <section id="projects-title" class="projects-title-section section-title-block-wrap" data-animate="fade-up">
             <div class="container section-title-block">
                 <p class="section-title-kicker">Projects</p>
-                <h2 class="section-title-heading">In the wild.</h2>
+                <h2 class="section-title-heading tech-text-heading">
+                    <span class="tech-text-wrap">
+                        <span class="tech-text-static">In the wild.</span>
+                    <span class="tech-text-host" data-tech-text data-text="In the wild." aria-hidden="true"></span>
+                    </span>
+                </h2>
                 <p class="section-title-lead">Live work across sectors and scales.</p>
             </div>
         </section>
@@ -1262,7 +1320,12 @@
         <section id="articles-title" class="section-title-block-wrap" data-animate="fade-up">
             <div class="container section-title-block">
                 <p class="section-title-kicker">Journal</p>
-                <h2 class="section-title-heading">Articles.</h2>
+                <h2 class="section-title-heading tech-text-heading">
+                    <span class="tech-text-wrap">
+                        <span class="tech-text-static">Articles.</span>
+                    <span class="tech-text-host" data-tech-text data-text="Articles." aria-hidden="true"></span>
+                    </span>
+                </h2>
                 <p class="section-title-lead">Ideas, observations, and practical notes from the studio.</p>
             </div>
         </section>
@@ -1321,7 +1384,12 @@
         <section id="projects-webview" class="projects-webview section" data-animate="fade-up">
             <div class="container section-title-block projects-webview-intro mobile-only">
                 <p class="section-title-kicker">Websites</p>
-                <h2 class="section-title-heading">Some of our websites.</h2>
+                <h2 class="section-title-heading tech-text-heading">
+                    <span class="tech-text-wrap">
+                        <span class="tech-text-static">Some of our websites.</span>
+                    <span class="tech-text-host" data-tech-text data-text="Some of our websites." aria-hidden="true"></span>
+                    </span>
+                </h2>
                 <p class="section-title-lead">Live client sites we've designed and built.</p>
             </div>
             <div class="projects-tabs-wrapper">
@@ -1444,7 +1512,12 @@
         <section id="process-title" class="process-title-section section-title-block-wrap" data-animate="fade-up">
             <div class="container section-title-block">
                 <p class="section-title-kicker">Process</p>
-                <h2 class="section-title-heading">How we work.</h2>
+                <h2 class="section-title-heading tech-text-heading">
+                    <span class="tech-text-wrap">
+                        <span class="tech-text-static">How we work.</span>
+                    <span class="tech-text-host" data-tech-text data-text="How we work." aria-hidden="true"></span>
+                    </span>
+                </h2>
                 <p class="section-title-lead">From discovery to launch and beyond.</p>
             </div>
         </section>
@@ -1504,6 +1577,34 @@
             </div>
         </section>
 
+        <section id="process-carousel" class="drift-wall-section section" aria-label="Project imagery">
+            <div
+                class="drift-wall-section__frame"
+                data-drift-wall
+                data-columns="11"
+                data-tile-width="160"
+                data-tile-height="224"
+                data-gap="12"
+                data-radius="10"
+                data-tilt="16"
+                data-turn="-12"
+                data-perspective="1200"
+                data-depth="120"
+                data-speed="42"
+                data-direction="up"
+                data-variance="0.45"
+                data-parallax="0.6"
+                data-lift="64"
+                data-fade="0.6"
+                data-dim="0.9"
+                data-scale="2.45"
+                data-overlay-color="#0a0a0a"
+                data-pause-on-hover="false"
+                data-grayscale="false"
+                data-items='[{"image":"public/carousel/website-carousel-01.jpg","title":"Website 01"},{"image":"public/carousel/website-carousel-02.jpg","title":"Website 02"},{"image":"public/carousel/website-carousel-03.jpg","title":"Website 03"},{"image":"public/carousel/website-carousel-04.jpg","title":"Website 04"},{"image":"public/carousel/website-carousel-05.jpg","title":"Website 05"},{"image":"public/carousel/website-carousel-06.jpg","title":"Website 06"},{"image":"public/carousel/website-carousel-07.jpg","title":"Website 07"},{"image":"public/carousel/website-carousel-08.jpg","title":"Website 08"},{"image":"public/carousel/website-carousel-09.jpg","title":"Website 09"},{"image":"public/carousel/website-carousel-10.jpg","title":"Website 10"},{"image":"public/carousel/website-carousel-11.jpg","title":"Website 11"},{"image":"public/carousel/website-carousel-12.jpg","title":"Website 12"},{"image":"public/carousel/website-carousel-13.jpg","title":"Website 13"},{"image":"public/carousel/website-carousel-14.jpg","title":"Website 14"},{"image":"public/carousel/website-carousel-15.jpg","title":"Website 15"},{"image":"public/carousel/website-carousel-16.jpg","title":"Website 16"}]'
+            ></div>
+        </section>
+
         <section id="about" class="about section desktop-only" aria-label="About LEVEL"></section>
 
         <section id="reviews-title" class="reviews-title-section section-title-block-wrap" data-animate="fade-up">
@@ -1511,7 +1612,12 @@
                 <div class="reviews-title-head">
                     <div class="reviews-title-copy">
                         <p class="section-title-kicker">Testimonials</p>
-                        <h2 class="section-title-heading">What our clients say.</h2>
+                        <h2 class="section-title-heading tech-text-heading">
+                            <span class="tech-text-wrap">
+                        <span class="tech-text-static">What our clients say.</span>
+                            <span class="tech-text-host" data-tech-text data-text="What our clients say." aria-hidden="true"></span>
+                    </span>
+                        </h2>
                         <p class="section-title-lead">Voices from the field.</p>
                     </div>
                 </div>
@@ -1607,7 +1713,12 @@
         <section id="contact-title" class="contact-title-section section-title-block-wrap" data-animate="fade-up">
             <div class="container section-title-block">
                 <p class="section-title-kicker">Get in touch</p>
-                <h2 class="section-title-heading">Start a project.</h2>
+                <h2 class="section-title-heading tech-text-heading">
+                    <span class="tech-text-wrap">
+                        <span class="tech-text-static">Start a project.</span>
+                    <span class="tech-text-host" data-tech-text data-text="Start a project." aria-hidden="true"></span>
+                    </span>
+                </h2>
                 <p class="section-title-lead">New sites, rebuilds, apps, and SaaS. Tell us what you're building. Or use the <a href="/start-a-project">full project brief</a>.</p>
             </div>
         </section>
@@ -1735,14 +1846,19 @@
     </script>
     <script src="cookie-banner.js" defer></script>
     <script src="hero-headline-mask.js?v=20260914a" defer></script>
-    <script src="hero-intent.js?v=20261115a" defer></script>
-    <script src="hero-scan.js?v=20260917y" defer></script>
+    <script src="accordion-gallery.js?v=20261116b" defer></script>
+    <script src="hero-intent.js?v=20261116c" defer></script>
+    <script src="hero-scan.js?v=20261115a" defer></script>
     <script src="text-reveal.js" defer></script>
-    <script src="hero-selected-work.js?v=20261115a" defer></script>
+    <script src="hero-selected-work.js?v=20261115c" defer></script>
+    <script src="media-perf.js?v=20261115a" defer></script>
+    <script src="dot-field.js?v=20261116a" defer></script>
+    <script src="drift-wall.js?v=20261116i" defer></script>
+    <script src="tech-text.js?v=20261116e" defer></script>
     <script src="site-magnifier.js?v=20260831v" defer></script>
     <script src="services-gallery.js?v=20260918a" defer></script>
     <script src="projects-gallery.js" defer></script>
-    <script src="script.js?v=20260924a" defer></script>
+    <script src="script.js?v=20261116a" defer></script>
 
     <!-- Vercel Speed Insights -->
     <script>

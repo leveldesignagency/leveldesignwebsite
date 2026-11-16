@@ -125,13 +125,17 @@
           video.muted = true;
           video.loop = true;
           video.playsInline = true;
+          video.preload = 'metadata';
           video.setAttribute('playsinline', '');
+          video.setAttribute('preload', 'metadata');
           mediaWrap.appendChild(video);
         }
         video.setAttribute('aria-label', project.imageAlt || '');
         video.setAttribute('poster', project.image || '');
         const currentSource = video.querySelector('source');
-        const currentSrc = currentSource ? currentSource.getAttribute('src') || '' : '';
+        const currentSrc = currentSource
+          ? currentSource.getAttribute('src') || currentSource.dataset.src || ''
+          : '';
         if (currentSrc !== videoSrc) {
           video.innerHTML = '';
           const source = document.createElement('source');
@@ -182,7 +186,17 @@
       cta.href = project.url;
       cta.setAttribute('target', '_blank');
       cta.setAttribute('rel', 'noopener noreferrer');
-      cta.textContent = 'View live →';
+      // Keep MASK1 layers (.btn-face / .btn-mas) — never wipe with textContent
+      const ctaLabel = 'View live →';
+      const face = cta.querySelector(':scope > .btn-face');
+      const mas = cta.querySelector(':scope > .btn-mas');
+      if (face && mas) {
+        face.textContent = ctaLabel;
+        mas.textContent = ctaLabel;
+      } else {
+        cta.textContent = ctaLabel;
+      }
+      cta.setAttribute('aria-label', ctaLabel);
       panel.dataset.activeProject = id;
 
       picksWrap.querySelectorAll('.hero-pick').forEach((tab) => {
